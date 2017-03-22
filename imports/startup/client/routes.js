@@ -7,11 +7,24 @@ import '../../ui/pages/login-page.js';
 import '../../ui/pages/error-page.js';
 import '../../ui/pages/dashboard-page.js';
 
-FlowRouter.route('/', {
+/*FlowRouter.route('/', {
   name: 'App.home',
   action() {
     BlazeLayout.render('App_body', { main: 'login_page' });
   },
+});
+*/
+FlowRouter.route('/', {
+  name: 'App.home',
+  action: function(params) {
+        Tracker.autorun(function() {
+            if (!Meteor.userId()) {
+                BlazeLayout.render('App_body', { main: 'login_page' });
+            } else {
+                FlowRouter.go('/dashboard');
+            }
+        });
+      }
 });
 
 FlowRouter.route('/dashboard', {
