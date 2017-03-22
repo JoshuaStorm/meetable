@@ -27,3 +27,5 @@ kadira:blaze-layout
 twbs:bootstrap
 service-configuration
 useraccounts:bootstrap
+email
+check
