@@ -1,0 +1,4651 @@
+{
+ "kind": "calendar#events",
+ "etag": "\"p33oelcl0v3cd40g\"",
+ "summary": "Courses",
+ "description": "Course meetings and associated events",
+ "updated": "2017-03-15T16:34:17.926Z",
+ "timeZone": "America/New_York",
+ "accessRole": "writer",
+ "defaultReminders": [],
+ "nextSyncToken": "CPDqsqD42NICEPDqsqD42NICGAQ=",
+ "items": [
+  {
+   "kind": "calendar#event",
+   "etag": "\"2885103976870000\"",
+   "id": "35uni1j5c7vl96cafuad49fr9o",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=MzV1bmkxajVjN3ZsOTZjYWZ1YWQ0OWZyOW8gcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-09-18T04:52:53.000Z",
+   "updated": "2015-09-18T04:53:08.435Z",
+   "summary": "MAT103 Assignment One due",
+   "location": "314 Fine Hall",
+   "creator": {
+    "email": "timewarptrio11@gmail.com",
+    "displayName": "David Melvin"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-09-23T10:00:00-04:00"
+   },
+   "end": {
+    "dateTime": "2015-09-23T10:00:00-04:00"
+   },
+   "iCalUID": "35uni1j5c7vl96cafuad49fr9o@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2887501127930000\"",
+   "id": "7sgbblrucm912v80gfj19re078",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=N3NnYmJscnVjbTkxMnY4MGdmajE5cmUwNzggcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-10-02T01:49:23.000Z",
+   "updated": "2015-10-02T01:49:23.965Z",
+   "summary": "Programming Exam 2",
+   "location": "McCosh Hall, Princeton, NJ 08544, USA",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-12-10T10:00:00-05:00"
+   },
+   "end": {
+    "dateTime": "2015-12-10T10:50:00-05:00"
+   },
+   "iCalUID": "7sgbblrucm912v80gfj19re078@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.7sgbblrucm912v80gfj19re078",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2887501181114000\"",
+   "id": "if1jke9mee34uv34rnml7nlt84",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=aWYxamtlOW1lZTM0dXYzNHJubWw3bmx0ODQgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-10-02T01:49:43.000Z",
+   "updated": "2015-10-02T01:49:50.557Z",
+   "summary": "Written Exam 2",
+   "location": "McCosh Hall, Princeton, NJ 08544, USA",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-12-17T10:00:00-05:00"
+   },
+   "end": {
+    "dateTime": "2015-12-17T10:50:00-05:00"
+   },
+   "iCalUID": "if1jke9mee34uv34rnml7nlt84@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/dmelvin?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.if1jke9mee34uv34rnml7nlt84",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2887657383574000\"",
+   "id": "a7f4shsa3fta4gmf031ofsvgbc",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YTdmNHNoc2EzZnRhNGdtZjAzMW9mc3ZnYmMgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-10-02T23:31:31.000Z",
+   "updated": "2015-10-02T23:31:31.787Z",
+   "summary": "Conferencing for D1 Paper",
+   "location": "E016 Baker Hall",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-10-06T16:00:00-04:00"
+   },
+   "end": {
+    "dateTime": "2015-10-06T16:45:00-04:00"
+   },
+   "iCalUID": "a7f4shsa3fta4gmf031ofsvgbc@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.a7f4shsa3fta4gmf031ofsvgbc",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2888311300496000\"",
+   "id": "njq7ukvbsst2r3ppgq0i3d0ga0",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=bmpxN3VrdmJzc3QycjNwcGdxMGkzZDBnYTAgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-10-02T01:46:15.000Z",
+   "updated": "2015-10-06T18:20:50.248Z",
+   "summary": "Programming Exam 1",
+   "location": "McCosh 28",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-10-08T10:00:00-04:00"
+   },
+   "end": {
+    "dateTime": "2015-10-08T10:50:00-04:00"
+   },
+   "iCalUID": "njq7ukvbsst2r3ppgq0i3d0ga0@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/dmelvin?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.njq7ukvbsst2r3ppgq0i3d0ga0",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2889364919782000\"",
+   "id": "96kormrd1ub2a5ilpetf34n6is",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=OTZrb3JtcmQxdWIyYTVpbHBldGYzNG42aXMgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-10-12T20:40:59.000Z",
+   "updated": "2015-10-12T20:40:59.891Z",
+   "summary": " Writing Center appointment",
+   "location": "Whitman College",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-10-17T14:00:00-04:00"
+   },
+   "end": {
+    "dateTime": "2015-10-17T15:00:00-04:00"
+   },
+   "iCalUID": "96kormrd1ub2a5ilpetf34n6is@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.96kormrd1ub2a5ilpetf34n6is",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2889520114544000\"",
+   "id": "tq6sdcnlb2kn19u6bh217c7iic",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=dHE2c2RjbmxiMmtuMTl1NmJoMjE3YzdpaWMgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-10-13T18:14:17.000Z",
+   "updated": "2015-10-13T18:14:17.272Z",
+   "summary": "MAT Quiz Review",
+   "location": "Fine 224 and 214",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-10-15T19:30:00-04:00"
+   },
+   "end": {
+    "dateTime": "2015-10-15T21:30:00-04:00"
+   },
+   "iCalUID": "tq6sdcnlb2kn19u6bh217c7iic@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.tq6sdcnlb2kn19u6bh217c7iic",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2893205808378000\"",
+   "id": "7pfje52d9nbmgiu92ih6pklvi0",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=N3BmamU1MmQ5bmJtZ2l1OTJpaDZwa2x2aTAgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-11-04T02:08:24.000Z",
+   "updated": "2015-11-04T02:08:24.189Z",
+   "summary": "Unbreakable Screening",
+   "location": "Rocky Theater",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-11-20T18:30:00-05:00"
+   },
+   "end": {
+    "dateTime": "2015-11-20T21:00:00-05:00"
+   },
+   "iCalUID": "7pfje52d9nbmgiu92ih6pklvi0@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.7pfje52d9nbmgiu92ih6pklvi0",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2893302809606000\"",
+   "id": "icihv7c65puplg4ckofn637p54",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=aWNpaHY3YzY1cHVwbGc0Y2tvZm42MzdwNTRfMjAxNTA5MTZUMTYzMDAwWiBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2015-09-16T05:38:18.000Z",
+   "updated": "2015-11-04T15:36:44.803Z",
+   "summary": "SPA 103",
+   "description": "C03A",
+   "location": "112 Friend Center, Princeton, NJ, US",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-09-16T12:30:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2015-09-16T13:20:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=MO;UNTIL=20151104T172959Z;BYDAY=MO,TU,WE,TH,FR"
+   ],
+   "iCalUID": "icihv7c65puplg4ckofn637p54@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/dmelvin?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.icihv7c65puplg4ckofn637p54",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2894037022088000\"",
+   "id": "gnfakfgosipkmt23136mhfa1us",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Z25mYWtmZ29zaXBrbXQyMzEzNm1oZmExdXMgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-11-08T21:35:10.000Z",
+   "updated": "2015-11-08T21:35:11.044Z",
+   "summary": "MAT103 Final Exam",
+   "location": "McDonnell Hall A01 & A02",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-01-13T13:30:00-05:00"
+   },
+   "end": {
+    "dateTime": "2016-01-13T16:30:00-05:00"
+   },
+   "iCalUID": "gnfakfgosipkmt23136mhfa1us@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.gnfakfgosipkmt23136mhfa1us",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2895637180392000\"",
+   "id": "tfrmokjcis61lpn6oimqffggs8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=dGZybW9ramNpczYxbHBuNm9pbXFmZmdnczggcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-11-17T08:27:26.000Z",
+   "updated": "2015-11-18T03:49:50.196Z",
+   "summary": "Spanish Oral Exam",
+   "location": "Friend Center 3rd Floor",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-11-19T15:00:00-05:00"
+   },
+   "end": {
+    "dateTime": "2015-11-19T15:30:00-05:00"
+   },
+   "iCalUID": "tfrmokjcis61lpn6oimqffggs8@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2895637586946000\"",
+   "id": "cdj32pj16oo64b9ncdi6ab9kcopj4b9o64qm8b9mc5h62p1mckojicpkco",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2RqMzJwajE2b282NGI5bmNkaTZhYjlrY29wajRiOW82NHFtOGI5bWM1aDYycDFtY2tvamljcGtjbyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2015-11-18T03:53:13.000Z",
+   "updated": "2015-11-18T03:53:13.473Z",
+   "summary": "Startup Job Search Info",
+   "location": "Lewis Library 120",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-11-18T16:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2015-11-18T18:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "cdj32pj16oo64b9ncdi6ab9kcopj4b9o64qm8b9mc5h62p1mckojicpkco@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2895651674762000\"",
+   "id": "nmdp3ume70qmk890lkerdbf1c8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=bm1kcDN1bWU3MHFtazg5MGxrZXJkYmYxYzggcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-11-18T05:50:37.000Z",
+   "updated": "2015-11-18T05:50:37.381Z",
+   "summary": "PD3.1 Due",
+   "description": "Due at midnight",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-11-24T20:00:00-05:00"
+   },
+   "end": {
+    "dateTime": "2015-11-24T21:00:00-05:00"
+   },
+   "iCalUID": "nmdp3ume70qmk890lkerdbf1c8@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.nmdp3ume70qmk890lkerdbf1c8",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2895651732494000\"",
+   "id": "ajk7iitciclc9qg1snn7fi7c9g",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YWprN2lpdGNpY2xjOXFnMXNubjdmaTdjOWcgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-11-18T05:51:06.000Z",
+   "updated": "2015-11-18T05:51:06.247Z",
+   "summary": "PD3.2 Due",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-11-18T01:00:00-05:00"
+   },
+   "end": {
+    "dateTime": "2015-11-18T02:00:00-05:00"
+   },
+   "iCalUID": "ajk7iitciclc9qg1snn7fi7c9g@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.ajk7iitciclc9qg1snn7fi7c9g",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2895651782730000\"",
+   "id": "vvkeumbr9gpr221080ug2hj038",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=dnZrZXVtYnI5Z3ByMjIxMDgwdWcyaGowMzggcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-11-18T05:51:31.000Z",
+   "updated": "2015-11-18T05:51:31.365Z",
+   "summary": "D3 Due",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-12-04T22:00:00-05:00"
+   },
+   "end": {
+    "dateTime": "2015-12-04T23:00:00-05:00"
+   },
+   "iCalUID": "vvkeumbr9gpr221080ug2hj038@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.vvkeumbr9gpr221080ug2hj038",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2895651881336000\"",
+   "id": "k0v2uup789obu6a25i3ddpieok",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=azB2MnV1cDc4OW9idTZhMjVpM2RkcGllb2sgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-11-18T05:52:20.000Z",
+   "updated": "2015-11-18T05:52:20.668Z",
+   "summary": "R4",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-01-11T20:00:00-05:00"
+   },
+   "end": {
+    "dateTime": "2016-01-11T21:00:00-05:00"
+   },
+   "iCalUID": "k0v2uup789obu6a25i3ddpieok@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.k0v2uup789obu6a25i3ddpieok",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2897640309154000\"",
+   "id": "61jfj2o0430bjmcoarj2g7h9mo",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjFqZmoybzA0MzBiam1jb2FyajJnN2g5bW8gcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-11-29T18:02:34.000Z",
+   "updated": "2015-11-29T18:02:34.577Z",
+   "summary": "PD3 Conferencing",
+   "location": "E016 Baker Hall",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-12-01T15:20:00-05:00"
+   },
+   "end": {
+    "dateTime": "2015-12-01T15:40:00-05:00"
+   },
+   "iCalUID": "61jfj2o0430bjmcoarj2g7h9mo@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.61jfj2o0430bjmcoarj2g7h9mo",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2898180170564000\"",
+   "id": "km3er5lu4fmglgfper83ee4r5o",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=a20zZXI1bHU0Zm1nbGdmcGVyODNlZTRyNW8gcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-12-02T21:01:25.000Z",
+   "updated": "2015-12-02T21:01:25.282Z",
+   "summary": "Course Advising",
+   "location": "207 Computer Science Building",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-12-11T13:30:00-05:00"
+   },
+   "end": {
+    "dateTime": "2015-12-11T13:45:00-05:00"
+   },
+   "iCalUID": "km3er5lu4fmglgfper83ee4r5o@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.km3er5lu4fmglgfper83ee4r5o",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2898200596632000\"",
+   "id": "cgp6ap1i6ks6ab9l61h62b9k61gjgbb2cgsmcbb16soj2chjcor62o9kcg",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2dwNmFwMWk2a3M2YWI5bDYxaDYyYjlrNjFnamdiYjJjZ3NtY2JiMTZzb2oyY2hqY29yNjJvOWtjZyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2015-12-02T15:09:22.000Z",
+   "updated": "2015-12-02T23:51:38.316Z",
+   "summary": "Quiz Review",
+   "location": "Jadwin A10, Jadwin A10",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-12-03T19:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2015-12-03T21:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "cgp6ap1i6ks6ab9l61h62b9k61gjgbb2cgsmcbb16soj2chjcor62o9kcg@google.com",
+   "sequence": 1,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2899429703632000\"",
+   "id": "22dr3a85rq4tignrd66p661qjg",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=MjJkcjNhODVycTR0aWducmQ2NnA2NjFxamcgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-12-10T02:34:11.000Z",
+   "updated": "2015-12-10T02:34:11.816Z",
+   "summary": "D3 Conferencing",
+   "location": "E016 Baker Hall",
+   "creator": {
+    "email": "timewarptrio11@gmail.com",
+    "displayName": "David Melvin"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-12-11T14:30:00-05:00"
+   },
+   "end": {
+    "dateTime": "2015-12-11T16:00:00-05:00"
+   },
+   "iCalUID": "22dr3a85rq4tignrd66p661qjg@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2900261910036000\"",
+   "id": "0ids8r8mupsuov21g53j3r9pt4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=MGlkczhyOG11cHN1b3YyMWc1M2ozcjlwdDQgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2015-12-14T22:09:15.000Z",
+   "updated": "2015-12-14T22:09:15.018Z",
+   "summary": "COS Precept",
+   "description": "Donna Gabai",
+   "location": "Friend 006",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-12-18T13:30:00-05:00"
+   },
+   "end": {
+    "dateTime": "2015-12-18T14:50:00-05:00"
+   },
+   "iCalUID": "0ids8r8mupsuov21g53j3r9pt4@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.0ids8r8mupsuov21g53j3r9pt4",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2901076426528000\"",
+   "id": "47ud1l3dg5fvcjq53nl09u66t4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NDd1ZDFsM2RnNWZ2Y2pxNTNubDA5dTY2dDRfMjAxNTA5MTZUMTQwMDAwWiBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2015-09-16T05:36:33.000Z",
+   "updated": "2015-12-19T15:16:53.264Z",
+   "summary": "MAT 103",
+   "description": "C02",
+   "location": "314 Fine Hall, Princeton, NJ, United States",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-09-16T10:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2015-09-16T10:50:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=MO;UNTIL=20151221T145959Z;BYDAY=MO,WE,FR"
+   ],
+   "iCalUID": "47ud1l3dg5fvcjq53nl09u66t4@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/dmelvin?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.47ud1l3dg5fvcjq53nl09u66t4",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2901076426528000\"",
+   "id": "47ud1l3dg5fvcjq53nl09u66t4_20151019T140000Z",
+   "status": "cancelled",
+   "recurringEventId": "47ud1l3dg5fvcjq53nl09u66t4",
+   "originalStartTime": {
+    "dateTime": "2015-10-19T10:00:00-04:00"
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2901076454528000\"",
+   "id": "68p30d1g65gj6bb271i6cb9kcgp6cbb2c5gm2b9m65i32dhj6di38c1oco",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjhwMzBkMWc2NWdqNmJiMjcxaTZjYjlrY2dwNmNiYjJjNWdtMmI5bTY1aTMyZGhqNmRpMzhjMW9jb18yMDE1MTEwNFQxNzMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2015-11-04T15:36:46.000Z",
+   "updated": "2015-12-19T15:17:07.264Z",
+   "summary": "SPA 103",
+   "description": "C03A",
+   "location": "112 Friend Center",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-11-04T12:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2015-11-04T13:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=MO;UNTIL=20160104T172959Z;BYDAY=MO,TU,WE,TH,FR"
+   ],
+   "iCalUID": "68p30d1g65gj6bb271i6cb9kcgp6cbb2c5gm2b9m65i32dhj6di38c1oco@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2901076468460000\"",
+   "id": "0li99fhu27vfc8gqdhl7v2p9t0",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=MGxpOTlmaHUyN3ZmYzhncWRobDd2MnA5dDBfMjAxNTA5MjFUMTczMDAwWiBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2015-09-18T04:26:25.000Z",
+   "updated": "2015-12-19T15:17:14.230Z",
+   "summary": "WRI 171: Superhero Trials",
+   "location": "Hargadon H G002",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-09-21T13:30:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2015-09-21T14:50:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=MO;UNTIL=20160104T182959Z;BYDAY=MO,WE"
+   ],
+   "iCalUID": "0li99fhu27vfc8gqdhl7v2p9t0@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/dmelvin?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.0li99fhu27vfc8gqdhl7v2p9t0",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2901843654000000\"",
+   "id": "136a06osolsn5sjbbupf2ooelk",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=MTM2YTA2b3NvbHNuNXNqYmJ1cGYyb29lbGtfMjAxNTA5MTdUMTczMDAwWiBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2015-09-16T05:39:16.000Z",
+   "updated": "2015-12-24T01:50:27.000Z",
+   "summary": "COS 126 - P02A",
+   "location": "110 Friend Center, Princeton, NJ, US",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-09-17T13:30:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2015-09-17T14:20:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;UNTIL=20151222T183000Z;BYDAY=TU,TH"
+   ],
+   "iCalUID": "136a06osolsn5sjbbupf2ooelk@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/dmelvin?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.136a06osolsn5sjbbupf2ooelk",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2901843654000000\"",
+   "id": "136a06osolsn5sjbbupf2ooelk_20150922T173000Z",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=MTM2YTA2b3NvbHNuNXNqYmJ1cGYyb29lbGtfMjAxNTA5MjJUMTczMDAwWiBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2015-09-16T05:39:16.000Z",
+   "updated": "2015-12-24T01:50:27.000Z",
+   "summary": "COS 126 - P02A",
+   "description": "Bring Textbook",
+   "location": "110 Friend Center, Princeton, NJ, US",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-09-22T13:30:00-04:00"
+   },
+   "end": {
+    "dateTime": "2015-09-22T14:20:00-04:00"
+   },
+   "recurringEventId": "136a06osolsn5sjbbupf2ooelk",
+   "originalStartTime": {
+    "dateTime": "2015-09-22T13:30:00-04:00"
+   },
+   "iCalUID": "136a06osolsn5sjbbupf2ooelk@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/dmelvin?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.136a06osolsn5sjbbupf2ooelk",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2903505286204000\"",
+   "id": "3ek6pj6dc62h8q49l2sf3oekl8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=M2VrNnBqNmRjNjJoOHE0OWwyc2Yzb2VrbDggcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2016-01-02T16:37:23.000Z",
+   "updated": "2016-01-02T16:37:23.102Z",
+   "summary": "WRI171 Epilogue",
+   "location": "Hargadon Hall, Princeton, NJ 08540, USA",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-01-05T13:30:00-05:00"
+   },
+   "end": {
+    "dateTime": "2016-01-05T14:50:00-05:00"
+   },
+   "iCalUID": "3ek6pj6dc62h8q49l2sf3oekl8@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.3ek6pj6dc62h8q49l2sf3oekl8",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2904448359728000\"",
+   "id": "9mr1i4tajji5i83p23elfc3hd4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=OW1yMWk0dGFqamk1aTgzcDIzZWxmYzNoZDQgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2016-01-02T16:37:49.000Z",
+   "updated": "2016-01-08T03:36:19.864Z",
+   "summary": "WRI171 Poster Session",
+   "location": "Butler 027 entry 13",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-01-08T12:30:00-05:00"
+   },
+   "end": {
+    "dateTime": "2016-01-08T13:50:00-05:00"
+   },
+   "iCalUID": "9mr1i4tajji5i83p23elfc3hd4@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2904537462802000\"",
+   "id": "c4s30o9m74q6ab9l6lij0b9kclh3ebb2ccrmcb9n70r32phg70rj4c9l6c",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YzRzMzBvOW03NHE2YWI5bDZsaWowYjlrY2xoM2ViYjJjY3JtY2I5bjcwcjMycGhnNzByajRjOWw2YyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-01-08T15:58:51.000Z",
+   "updated": "2016-01-08T15:58:51.401Z",
+   "summary": "Meeting with ISS",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-01-11T11:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-01-11T12:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "c4s30o9m74q6ab9l6lij0b9kclh3ebb2ccrmcb9n70r32phg70rj4c9l6c@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2904954050104000\"",
+   "id": "p9eo9iccjua5f4kvuqjdhcvec8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=cDllbzlpY2NqdWE1ZjRrdnVxamRoY3ZlYzhfMjAxNTEwMDdUMTQwMDAwWiBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2015-09-30T20:45:48.000Z",
+   "updated": "2016-01-11T01:50:25.052Z",
+   "summary": "MAT 103 Assignment Due",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2015-10-07T10:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2015-10-07T10:05:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=MO;UNTIL=20160113T145959Z;BYDAY=WE"
+   ],
+   "iCalUID": "p9eo9iccjua5f4kvuqjdhcvec8@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.p9eo9iccjua5f4kvuqjdhcvec8",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2905272066392000\"",
+   "id": "6go62eb6c9h3eb9jc5hjeb9k6tj6abb174q64b9gcgs68cpk60qm6dj474",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmdvNjJlYjZjOWgzZWI5amM1aGplYjlrNnRqNmFiYjE3NHE2NGI5Z2NnczY4Y3BrNjBxbTZkajQ3NCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-01-12T22:00:33.000Z",
+   "updated": "2016-01-12T22:00:33.196Z",
+   "summary": "Call Ms Brennan",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-01-15T15:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-01-15T16:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "6go62eb6c9h3eb9jc5hjeb9k6tj6abb174q64b9gcgs68cpk60qm6dj474@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2905646739982000\"",
+   "id": "c9h38dhk6osjcb9m6hj30b9k68o66b9p70oj4b9m71gj2p1ncpi62p1gck",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YzloMzhkaGs2b3NqY2I5bTZoajMwYjlrNjhvNjZiOXA3MG9qNGI5bTcxZ2oycDFuY3BpNjJwMWdjayBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-01-15T02:02:49.000Z",
+   "updated": "2016-01-15T02:02:49.991Z",
+   "summary": "Get Math Final",
+   "location": "Fine 1104",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-01-15T14:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-01-15T16:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "c9h38dhk6osjcb9m6hj30b9k68o66b9p70oj4b9m71gj2p1ncpi62p1gck@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2905753009150000\"",
+   "id": "60o3gp9p6kr3gbb46thjgb9kcopj4bb264smcbb665gj8dj2c4qmce1l6c",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjBvM2dwOXA2a3IzZ2JiNDZ0aGpnYjlrY29wajRiYjI2NHNtY2JiNjY1Z2o4ZGoyYzRxbWNlMWw2YyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-01-15T16:46:55.000Z",
+   "updated": "2016-01-15T16:48:24.575Z",
+   "summary": "Powerlifting Club Meeting",
+   "location": "Princeton University, Princeton, NJ 08544, United States",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-01-16T15:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-01-16T17:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "60o3gp9p6kr3gbb46thjgb9kcopj4bb264smcbb665gj8dj2c4qmce1l6c@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2905753011616000\"",
+   "id": "chh62pj3coq3cbb46kq32b9k71h6abb1cor3ibb270o36dho64s3gdhjc8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2hoNjJwajNjb3EzY2JiNDZrcTMyYjlrNzFoNmFiYjFjb3IzaWJiMjcwbzM2ZGhvNjRzM2dkaGpjOCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-01-15T16:48:25.000Z",
+   "updated": "2016-01-15T16:48:25.808Z",
+   "summary": "Powerlifting Dinner",
+   "location": "Wu Dining Hall",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-01-16T17:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-01-16T19:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "chh62pj3coq3cbb46kq32b9k71h6abb1cor3ibb270o36dho64s3gdhjc8@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2909620359646000\"",
+   "id": "6cpjee1h61h64b9n6csj4b9k74r32b9p60pjab9mccrm6d9h6cs66o9n60",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmNwamVlMWg2MWg2NGI5bjZjc2o0YjlrNzRyMzJiOXA2MHBqYWI5bWNjcm02ZDloNmNzNjZvOW42MF8yMDE2MDIwMVQxNzMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-01-28T03:40:35.000Z",
+   "updated": "2016-02-07T01:56:19.823Z",
+   "summary": "SPA107",
+   "location": "East Pyne 239",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-01T12:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-01T13:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160211T173000Z;BYDAY=MO,TU,WE,TH,FR"
+   ],
+   "iCalUID": "6cpjee1h61h64b9n6csj4b9k74r32b9p60pjab9mccrm6d9h6cs66o9n60@google.com",
+   "sequence": 1,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2911025682870000\"",
+   "id": "c9i68p32coq3ebb66cqjgb9kchhm4bb16os34b9k75h3gdj175h3ed3670",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YzlpNjhwMzJjb3EzZWJiNjZjcWpnYjlrY2hobTRiYjE2b3MzNGI5azc1aDNnZGoxNzVoM2VkMzY3MCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-02-15T05:07:21.000Z",
+   "updated": "2016-02-15T05:07:21.435Z",
+   "summary": "COS Assignment",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-15T22:45:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-15T23:45:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "c9i68p32coq3ebb66cqjgb9kchhm4bb16os34b9k75h3gdj175h3ed3670@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2911087774028000\"",
+   "id": "60p66phoc8rm8b9o65gj4b9k71i3gb9o64sj2b9n61hmco9h6kq34ob468",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjBwNjZwaG9jOHJtOGI5bzY1Z2o0YjlrNzFpM2diOW82NHNqMmI5bjYxaG1jbzloNmtxMzRvYjQ2OCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-02-15T13:44:47.000Z",
+   "updated": "2016-02-15T13:44:47.014Z",
+   "summary": "Pick Up Assignment",
+   "location": "221 Nassau St. Room 103, 221 Nassau St. Room 103",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-15T14:15:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-15T15:15:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "60p66phoc8rm8b9o65gj4b9k71i3gb9o64sj2b9n61hmco9h6kq34ob468@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2911152430312000\"",
+   "id": "c9gm6d31cor3cb9ocks34b9k60p6cb9p6oo34b9h6cojacr56dhm8cj2ck",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YzlnbTZkMzFjb3IzY2I5b2NrczM0YjlrNjBwNmNiOXA2b28zNGI5aDZjb2phY3I1NmRobThjajJjayBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-02-15T22:43:35.000Z",
+   "updated": "2016-02-15T22:43:35.156Z",
+   "summary": "COS Assignment",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-16T20:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-16T22:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "c9gm6d31cor3cb9ocks34b9k60p6cb9p6oo34b9h6cojacr56dhm8cj2ck@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2911688316822000\"",
+   "id": "coo3gphickp3eb9oc9h3gb9k6cqmcb9pcpgjcbb16somacpo68oj0c3664",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y29vM2dwaGlja3AzZWI5b2M5aDNnYjlrNmNxbWNiOXBjcGdqY2JiMTZzb21hY3BvNjhvajBjMzY2NCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-02-19T01:09:18.000Z",
+   "updated": "2016-02-19T01:09:18.411Z",
+   "summary": "COS Assignment",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-19T17:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-19T19:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "coo3gphickp3eb9oc9h3gb9k6cqmcb9pcpgjcbb16somacpo68oj0c3664@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2911804474214000\"",
+   "id": "c5i62chl6hijab9o68s3eb9kclj3ib9ockqm2b9ic8pjidpjchgj6cr16c",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YzVpNjJjaGw2aGlqYWI5bzY4czNlYjlrY2xqM2liOW9ja3FtMmI5aWM4cGppZHBqY2hnajZjcjE2YyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-02-19T17:17:16.000Z",
+   "updated": "2016-02-19T17:17:17.107Z",
+   "summary": "COS Help",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-19T16:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-19T17:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "c5i62chl6hijab9o68s3eb9kclj3ib9ockqm2b9ic8pjidpjchgj6cr16c@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2911842033702000\"",
+   "id": "65ij2d9g70q64b9iclgj8b9k65gm8b9p6ph3abb2cosjge9p6cq38dho70",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjVpajJkOWc3MHE2NGI5aWNsZ2o4YjlrNjVnbThiOXA2cGgzYWJiMmNvc2pnZTlwNmNxMzhkaG83MCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-02-19T22:30:16.000Z",
+   "updated": "2016-02-19T22:30:16.851Z",
+   "summary": "COS Assignment",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-20T11:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-20T14:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "65ij2d9g70q64b9iclgj8b9k65gm8b9p6ph3abb2cosjge9p6cq38dho70@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2912246439758000\"",
+   "id": "chgjep1hccqm4bb6cgrm4b9kcli64b9pc4pj4bb5cop30c9pccq3ap1o6g",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2hnamVwMWhjY3FtNGJiNmNncm00YjlrY2xpNjRiOXBjNHBqNGJiNWNvcDMwYzlwY2NxM2FwMW82ZyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-02-22T06:40:19.000Z",
+   "updated": "2016-02-22T06:40:19.879Z",
+   "summary": "COS Assignment",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-22T20:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-22T22:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "chgjep1hccqm4bb6cgrm4b9kcli64b9pc4pj4bb5cop30c9pccq3ap1o6g@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2912541057938000\"",
+   "id": "68p38d1j74q3ib9g68r3ab9kc4o32bb2cks34b9l75h3cpb274rjccpn68",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjhwMzhkMWo3NHEzaWI5ZzY4cjNhYjlrYzRvMzJiYjJja3MzNGI5bDc1aDNjcGIyNzRyamNjcG42OCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-02-23T23:35:28.000Z",
+   "updated": "2016-02-23T23:35:28.969Z",
+   "summary": "COS Assignment",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-23T22:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-23T23:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "68p38d1j74q3ib9g68r3ab9kc4o32bb2cks34b9l75h3cpb274rjccpn68@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2912738556492000\"",
+   "id": "l4lugqsoh24evcul0l9bsglpd4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=bDRsdWdxc29oMjRldmN1bDBsOWJzZ2xwZDQgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2016-02-25T03:01:18.000Z",
+   "updated": "2016-02-25T03:01:18.246Z",
+   "summary": "COS 226 Midterm",
+   "creator": {
+    "email": "timewarptrio11@gmail.com",
+    "displayName": "David Melvin"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-03-09T11:00:00-05:00"
+   },
+   "end": {
+    "dateTime": "2016-03-09T12:20:00-05:00"
+   },
+   "iCalUID": "l4lugqsoh24evcul0l9bsglpd4@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2913527143802000\"",
+   "id": "ckoj6dpn75gj8bb46li3ab9k61gm4bb26cqj4b9k6cpm6p366cr3eor3c4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2tvajZkcG43NWdqOGJiNDZsaTNhYjlrNjFnbTRiYjI2Y3FqNGI5azZjcG02cDM2NmNyM2VvcjNjNCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-02-22T07:01:27.000Z",
+   "updated": "2016-02-29T16:32:51.901Z",
+   "summary": "Y Combinator",
+   "location": "Dodd's Auditorim, Woody Woo Building",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-29T19:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-29T20:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "ckoj6dpn75gj8bb46li3ab9k61gm4bb26cqj4b9k6cpm6p366cr3eor3c4@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2914077874568000\"",
+   "id": "6gojgcj6coq64b9oclgj8b9k6spjib9ochh30b9mcor3ioj4c4omac36c8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmdvamdjajZjb3E2NGI5b2NsZ2o4YjlrNnNwamliOW9jaGgzMGI5bWNvcjNpb2o0YzRvbWFjMzZjOCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-03-03T21:02:17.000Z",
+   "updated": "2016-03-03T21:02:17.284Z",
+   "summary": "ECO 100 Appointment",
+   "location": "Frist 3rd Floor Reading Room",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-03-06T21:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-03-06T22:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "6gojgcj6coq64b9oclgj8b9k6spjib9ochh30b9mcor3ioj4c4omac36c8@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2914608879978000\"",
+   "id": "ccsm2c9n75j66bb361hjib9k65i3gbb160p66bb368sjaphh70qj6c1m68",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2NzbTJjOW43NWo2NmJiMzYxaGppYjlrNjVpM2diYjE2MHA2NmJiMzY4c2phcGhoNzBxajZjMW02OCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-03-06T22:47:19.000Z",
+   "updated": "2016-03-06T22:47:19.989Z",
+   "summary": "COS 226",
+   "location": "Friend 101",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-03-07T18:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-03-07T20:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "ccsm2c9n75j66bb361hjib9k65i3gbb160p66bb368sjaphh70qj6c1m68@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2914918433728000\"",
+   "id": "64r66p1l6sq66b9h60q66b9kccqmcbb1cpim6bb4c4smcd9m71j30c9gcg",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjRyNjZwMWw2c3E2NmI5aDYwcTY2YjlrY2NxbWNiYjFjcGltNmJiNGM0c21jZDltNzFqMzBjOWdjZyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-03-08T17:46:56.000Z",
+   "updated": "2016-03-08T17:46:56.864Z",
+   "summary": "Spanish Talk",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-03-11T12:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-03-11T12:29:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "64r66p1l6sq66b9h60q66b9kccqmcbb1cpim6bb4c4smcd9m71j30c9gcg@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2914937350234000\"",
+   "id": "chij4c1k6dh64b9i6lij8b9k6ph3ib9pchj6ab9hc5i6acb46comaob26o",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2hpajRjMWs2ZGg2NGI5aTZsaWo4YjlrNnBoM2liOXBjaGo2YWI5aGM1aTZhY2I0NmNvbWFvYjI2byBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-03-08T20:24:29.000Z",
+   "updated": "2016-03-08T20:24:35.117Z",
+   "summary": "Math Review",
+   "location": "Fine 314",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-03-08T18:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-03-08T20:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "chij4c1k6dh64b9i6lij8b9k6ph3ib9pchj6ab9hc5i6acb46comaob26o@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2915103924518000\"",
+   "id": "fc0so1o7e0ufenk2n353u3phrs",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=ZmMwc28xbzdlMHVmZW5rMm4zNTN1M3BocnMgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2016-02-25T03:04:24.000Z",
+   "updated": "2016-03-09T19:32:42.259Z",
+   "summary": "MAT 104 Midterm",
+   "location": "Frick B02",
+   "creator": {
+    "email": "timewarptrio11@gmail.com",
+    "displayName": "David Melvin"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-03-09T19:30:00-05:00"
+   },
+   "end": {
+    "dateTime": "2016-03-09T21:00:00-05:00"
+   },
+   "iCalUID": "fc0so1o7e0ufenk2n353u3phrs@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2917723985014000\"",
+   "id": "6cp3gp1i71h68b9pcgq30b9k69h3ibb165h3abb2cos36dpoc8oj4e1nc4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmNwM2dwMWk3MWg2OGI5cGNncTMwYjlrNjloM2liYjE2NWgzYWJiMmNvczM2ZHBvYzhvajRlMW5jNCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-03-24T23:26:32.000Z",
+   "updated": "2016-03-24T23:26:32.507Z",
+   "summary": "Math Midterm",
+   "location": "Fine 807, Fine 807",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-03-25T14:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-03-25T16:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "6cp3gp1i71h68b9pcgq30b9k69h3ibb165h3abb2cos36dpoc8oj4e1nc4@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2917873088088000\"",
+   "id": "coqjad9p6ks68bb66cpmab9k75h3abb16gr3eb9j6phjcdpl6pi6achkck",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y29xamFkOXA2a3M2OGJiNjZjcG1hYjlrNzVoM2FiYjE2Z3IzZWI5ajZwaGpjZHBsNnBpNmFjaGtjayBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-03-25T20:09:03.000Z",
+   "updated": "2016-03-25T20:09:04.044Z",
+   "summary": "Course Selection",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "date": "2016-04-25"
+   },
+   "end": {
+    "date": "2016-04-26"
+   },
+   "transparency": "transparent",
+   "iCalUID": "coqjad9p6ks68bb66cpmab9k75h3abb16gr3eb9j6phjcdpl6pi6achkck@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2918437243804000\"",
+   "id": "6cr38phk74p34b9kchj6ab9k6gq3eb9pcli3ebb4ckrm2dhg6hh66pj564",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmNyMzhwaGs3NHAzNGI5a2NoajZhYjlrNmdxM2ViOXBjbGkzZWJiNGNrcm0yZGhnNmhoNjZwajU2NCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-03-29T02:30:21.000Z",
+   "updated": "2016-03-29T02:30:21.902Z",
+   "summary": "Linda Manifesto",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-03-30T20:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-03-30T21:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "6cr38phk74p34b9kchj6ab9k6gq3eb9pcli3ebb4ckrm2dhg6hh66pj564@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2919486201710000\"",
+   "id": "6ph36cj56hijgb9p60rjgb9k70q3ebb2ccq66bb674p3cor46csjgdpg70",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NnBoMzZjajU2aGlqZ2I5cDYwcmpnYjlrNzBxM2ViYjJjY3E2NmJiNjc0cDNjb3I0NmNzamdkcGc3MCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-04-04T04:11:40.000Z",
+   "updated": "2016-04-04T04:11:40.855Z",
+   "summary": "COS Assignment",
+   "location": "Frist",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-04-04T16:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-04-04T17:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "6ph36cj56hijgb9p60rjgb9k70q3ebb2ccq66bb674p3cor46csjgdpg70@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2920245392736000\"",
+   "id": "cgsm2d9k70sj6b9m6tj3ab9k69hm2b9p65h3ibb2cgq64dr6c8q62phhcg",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2dzbTJkOWs3MHNqNmI5bTZ0ajNhYjlrNjlobTJiOXA2NWgzaWJiMmNncTY0ZHI2YzhxNjJwaGhjZyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-04-08T13:32:13.000Z",
+   "updated": "2016-04-08T13:38:16.368Z",
+   "summary": "Course Advising",
+   "location": "207 Computer Science Building, 207 Computer Science Building",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-04-13T14:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-04-13T14:45:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "cgsm2d9k70sj6b9m6tj3ab9k69hm2b9p65h3ibb2cgq64dr6c8q62phhcg@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2920450565778000\"",
+   "id": "cgo68cpp6gpm6b9pcoom6b9k68p62bb16srjgb9o6kp66eb470rm4e9h6c",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2dvNjhjcHA2Z3BtNmI5cGNvb202YjlrNjhwNjJiYjE2c3JqZ2I5bzZrcDY2ZWI0NzBybTRlOWg2YyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-04-09T18:08:02.000Z",
+   "updated": "2016-04-09T18:08:02.889Z",
+   "summary": "Summer Courses Meeting",
+   "location": "Mathey College Office",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-04-11T16:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-04-11T16:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "cgo68cpp6gpm6b9pcoom6b9k68p62bb16srjgb9o6kp66eb470rm4e9h6c@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2920971692306000\"",
+   "id": "6ss64ob4c5gjcb9m75ijcb9k64r36b9o64p30b9g6gpj2e3171ij4e9h6k",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NnNzNjRvYjRjNWdqY2I5bTc1aWpjYjlrNjRyMzZiOW82NHAzMGI5ZzZncGoyZTMxNzFpajRlOWg2ayBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-04-12T18:30:46.000Z",
+   "updated": "2016-04-12T18:30:46.153Z",
+   "summary": "Math Review",
+   "location": "Fine 314",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-04-12T18:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-04-12T20:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "6ss64ob4c5gjcb9m75ijcb9k64r36b9o64p30b9g6gpj2e3171ij4e9h6k@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2922248799380000\"",
+   "id": "6hgj2d1l6tijab9h6co3gb9kc8pjebb2c8pmabb66osj2p9i69j64or5co",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmhnajJkMWw2dGlqYWI5aDZjbzNnYjlrYzhwamViYjJjOHBtYWJiNjZvc2oycDlpNjlqNjRvcjVjbyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-04-20T03:53:19.000Z",
+   "updated": "2016-04-20T03:53:19.690Z",
+   "summary": "Coding",
+   "location": "Lewis",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-04-20T19:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-04-21T00:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "6hgj2d1l6tijab9h6co3gb9kc8pjebb2c8pmabb66osj2p9i69j64or5co@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2922519058496000\"",
+   "id": "70qjip1o74o64b9icosmcb9k6gpj8b9p6gs66b9m6grm4opjchh32eb66k",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NzBxamlwMW83NG82NGI5aWNvc21jYjlrNmdwajhiOXA2Z3M2NmI5bTZncm00b3BqY2hoMzJlYjY2ayBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-04-21T17:25:29.000Z",
+   "updated": "2016-04-21T17:25:29.248Z",
+   "summary": "Video",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-04-21T22:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-04-22T00:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "70qjip1o74o64b9icosmcb9k6gpj8b9p6gs66b9m6grm4opjchh32eb66k@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2922520797130000\"",
+   "id": "75gm8opg6lij0b9pc9h3cb9kchgmab9p6gr3cb9lcgom2dpgccq62e32c4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NzVnbThvcGc2bGlqMGI5cGM5aDNjYjlrY2hnbWFiOXA2Z3IzY2I5bGNnb20yZHBnY2NxNjJlMzJjNCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-04-21T17:39:58.000Z",
+   "updated": "2016-04-21T17:39:58.565Z",
+   "summary": "Linda Video",
+   "location": "Whitman",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-04-22T22:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-04-23T00:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "75gm8opg6lij0b9pc9h3cb9kchgmab9p6gr3cb9lcgom2dpgccq62e32c4@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2922898250884000\"",
+   "id": "corjcp1l6gr34b9ncgqj8b9kc9h64b9o60s66b9j60sm6e1hcpj66p32c8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y29yamNwMWw2Z3IzNGI5bmNncWo4YjlrYzloNjRiOW82MHM2NmI5ajYwc202ZTFoY3BqNjZwMzJjOCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-04-23T22:05:25.000Z",
+   "updated": "2016-04-23T22:05:25.442Z",
+   "summary": "ECO 100 Midterm",
+   "location": "McCosh 10",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-05-16T13:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-05-16T16:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "corjcp1l6gr34b9ncgqj8b9kc9h64b9o60s66b9j60sm6e1hcpj66p32c8@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2923556171644000\"",
+   "id": "c4q3eoj4c8qmcb9n6gojab9kclij6b9o6dj64bb3cgsj2o9i69ij0e9jck",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YzRxM2VvajRjOHFtY2I5bjZnb2phYjlrY2xpajZiOW82ZGo2NGJiM2Nnc2oybzlpNjlpajBlOWpjayBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-04-27T17:28:05.000Z",
+   "updated": "2016-04-27T17:28:05.822Z",
+   "summary": "Spanish interview",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-04-29T12:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-04-29T12:20:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "c4q3eoj4c8qmcb9n6gojab9kclij6b9o6dj64bb3cgsj2o9i69ij0e9jck@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2923989623622000\"",
+   "id": "cor3cc1k61ijibb16kr3cb9k75gj0b9o6thj4bb360smcp9gcgsmcd1m74",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y29yM2NjMWs2MWlqaWJiMTZrcjNjYjlrNzVnajBiOW82dGhqNGJiMzYwc21jcDlnY2dzbWNkMW03NF8yMDE2MDIwMVQxNTAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-01-28T03:34:57.000Z",
+   "updated": "2016-04-30T05:40:11.811Z",
+   "summary": "MAT 104",
+   "location": "Fine 224",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-01T10:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-01T10:50:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160502T135959Z;BYDAY=MO,WE,FR"
+   ],
+   "iCalUID": "cor3cc1k61ijibb16kr3cb9k75gj0b9o6thj4bb360smcp9gcgsmcd1m74@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2923989623622000\"",
+   "id": "cor3cc1k61ijibb16kr3cb9k75gj0b9o6thj4bb360smcp9gcgsmcd1m74_20160429T140000Z",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y29yM2NjMWs2MWlqaWJiMTZrcjNjYjlrNzVnajBiOW82dGhqNGJiMzYwc21jcDlnY2dzbWNkMW03NF8yMDE2MDQyOVQxNDAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-01-28T03:34:57.000Z",
+   "updated": "2016-04-30T05:40:11.811Z",
+   "summary": "MAT 104",
+   "description": "no class ?",
+   "location": "Fine 224",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-04-29T10:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-04-29T10:50:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurringEventId": "cor3cc1k61ijibb16kr3cb9k75gj0b9o6thj4bb360smcp9gcgsmcd1m74",
+   "originalStartTime": {
+    "dateTime": "2016-04-29T10:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "cor3cc1k61ijibb16kr3cb9k75gj0b9o6thj4bb360smcp9gcgsmcd1m74@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2923989625734000\"",
+   "id": "c4sm6dhm6gr32bb170o32b9kclh3ab9o6gpjcbb46phj0dpj6opj8p1g6k",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YzRzbTZkaG02Z3IzMmJiMTcwbzMyYjlrY2xoM2FiOW82Z3BqY2JiNDZwaGowZHBqNm9wajhwMWc2a18yMDE2MDIwMVQxNjAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-01-28T03:36:11.000Z",
+   "updated": "2016-04-30T05:40:12.867Z",
+   "summary": "COS 226: Lecture",
+   "location": "McCosh 10",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-01T11:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-01T12:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160502T145959Z;BYDAY=MO,WE"
+   ],
+   "iCalUID": "c4sm6dhm6gr32bb170o32b9kclh3ab9o6gpjcbb46phj0dpj6opj8p1g6k@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2923989625734000\"",
+   "id": "c4sm6dhm6gr32bb170o32b9kclh3ab9o6gpjcbb46phj0dpj6opj8p1g6k_20160323T150000Z",
+   "status": "cancelled",
+   "recurringEventId": "c4sm6dhm6gr32bb170o32b9kclh3ab9o6gpjcbb46phj0dpj6opj8p1g6k",
+   "originalStartTime": {
+    "dateTime": "2016-03-23T11:00:00-04:00"
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2923989762482000\"",
+   "id": "6pij8d1p6hi36b9jcpj66b9k6gqj0bb1cgoj4b9lc8q6cd9i70r38dr560",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NnBpajhkMXA2aGkzNmI5amNwajY2YjlrNmdxajBiYjFjZ29qNGI5bGM4cTZjZDlpNzByMzhkcjU2MF8yMDE2MDIwNVQxNjAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-01-28T03:36:12.000Z",
+   "updated": "2016-04-30T05:41:21.241Z",
+   "summary": "COS 226: Precept",
+   "location": "Friend Center 108",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-05T11:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-05T11:50:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160506T145959Z"
+   ],
+   "iCalUID": "6pij8d1p6hi36b9jcpj66b9k6gqj0bb1cgoj4b9lc8q6cd9i70r38dr560@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2923989764080000\"",
+   "id": "6kqmapb26krj6b9i6op66b9kc8rm8b9o6hj64bb664r32or26hj30cj4ck",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmtxbWFwYjI2a3JqNmI5aTZvcDY2YjlrYzhybThiOW82aGo2NGJiNjY0cjMyb3IyNmhqMzBjajRja18yMDE2MDIwMlQxOTMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-01-28T03:38:36.000Z",
+   "updated": "2016-04-30T05:41:22.040Z",
+   "summary": "ECO100: Lecture",
+   "location": "McCosh Hall 50",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-02T14:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-02T15:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160503T182959Z;BYDAY=TU,TH"
+   ],
+   "iCalUID": "6kqmapb26krj6b9i6op66b9kc8rm8b9o6hj64bb664r32or26hj30cj4ck@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2923989764080000\"",
+   "id": "6kqmapb26krj6b9i6op66b9kc8rm8b9o6hj64bb664r32or26hj30cj4ck_20160310T193000Z",
+   "status": "cancelled",
+   "recurringEventId": "6kqmapb26krj6b9i6op66b9kc8rm8b9o6hj64bb664r32or26hj30cj4ck",
+   "originalStartTime": {
+    "dateTime": "2016-03-10T14:30:00-05:00"
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2923989765828000\"",
+   "id": "6hh3ip1nc5gj0b9hcpijab9kc4qm8bb2c4rjibb374q6ccpj61h3eeb46g",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmhoM2lwMW5jNWdqMGI5aGNwaWphYjlrYzRxbThiYjJjNHJqaWJiMzc0cTZjY3BqNjFoM2VlYjQ2Z18yMDE2MDIwM1QyMDMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-01-28T03:38:37.000Z",
+   "updated": "2016-04-30T05:41:22.914Z",
+   "summary": "ECO100: Class",
+   "location": "Fisher Hall B01",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-03T15:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-03T16:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160504T192959Z"
+   ],
+   "iCalUID": "6hh3ip1nc5gj0b9hcpijab9kc4qm8bb2c4rjibb374q6ccpj61h3eeb46g@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2923989765828000\"",
+   "id": "6hh3ip1nc5gj0b9hcpijab9kc4qm8bb2c4rjibb374q6ccpj61h3eeb46g_20160203T203000Z",
+   "status": "cancelled",
+   "recurringEventId": "6hh3ip1nc5gj0b9hcpijab9kc4qm8bb2c4rjibb374q6ccpj61h3eeb46g",
+   "originalStartTime": {
+    "dateTime": "2016-02-03T15:30:00-05:00"
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2923989767652000\"",
+   "id": "75ij6p9hc4pj6b9i70p34b9k64o3ebb264s34b9i6opjie9l6gp3gob6cg",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NzVpajZwOWhjNHBqNmI5aTcwcDM0YjlrNjRvM2ViYjI2NHMzNGI5aTZvcGppZTlsNmdwM2dvYjZjZ18yMDE2MDIwMlQxNjAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-01-27T05:55:04.000Z",
+   "updated": "2016-04-30T05:41:23.826Z",
+   "summary": "FRS 142: Freud",
+   "location": "Madison 202",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-02T11:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-02T12:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160503T145959Z;BYDAY=TU,TH"
+   ],
+   "iCalUID": "75ij6p9hc4pj6b9i70p34b9k64o3ebb264s34b9i6opjie9l6gp3gob6cg@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2925613770352000\"",
+   "id": "clijcc9kc8oj6bb2cli38b9k6pijgbb170o3eb9h6ksj8phg6kp34c9k68",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2xpamNjOWtjOG9qNmJiMmNsaTM4YjlrNnBpamdiYjE3MG8zZWI5aDZrc2o4cGhnNmtwMzRjOWs2OF8yMDE2MDIxMVQxNzMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-02-01T06:16:28.000Z",
+   "updated": "2016-05-09T15:14:45.176Z",
+   "summary": "SPA107",
+   "location": "East Pyne 239",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-11T12:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-11T13:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160509T162959Z;BYDAY=MO,TU,WE,TH,FR"
+   ],
+   "iCalUID": "clijcc9kc8oj6bb2cli38b9k6pijgbb170o3eb9h6ksj8phg6kp34c9k68@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2925613770352000\"",
+   "id": "clijcc9kc8oj6bb2cli38b9k6pijgbb170o3eb9h6ksj8phg6kp34c9k68_20160212T173000Z",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2xpamNjOWtjOG9qNmJiMmNsaTM4YjlrNnBpamdiYjE3MG8zZWI5aDZrc2o4cGhnNmtwMzRjOWs2OF8yMDE2MDIxMlQxNzMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-02-01T06:16:28.000Z",
+   "updated": "2016-05-09T15:14:45.176Z",
+   "summary": "SPA107 and presentation",
+   "location": "East Pyne 239",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-02-12T12:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-02-12T13:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurringEventId": "clijcc9kc8oj6bb2cli38b9k6pijgbb170o3eb9h6ksj8phg6kp34c9k68",
+   "originalStartTime": {
+    "dateTime": "2016-02-12T12:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "clijcc9kc8oj6bb2cli38b9k6pijgbb170o3eb9h6ksj8phg6kp34c9k68@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2925613772636000\"",
+   "id": "6goj4php6cr34b9o6grjcb9kchi34bb174o3cbb674qm6eb6cgpmae9k6s",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmdvajRwaHA2Y3IzNGI5bzZncmpjYjlrY2hpMzRiYjE3NG8zY2JiNjc0cW02ZWI2Y2dwbWFlOWs2cyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-05-09T15:14:46.000Z",
+   "updated": "2016-05-09T15:14:46.318Z",
+   "summary": "SPA107",
+   "location": "East Pyne 239",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-05-09T12:30:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-05-09T13:20:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "6goj4php6cr34b9o6grjcb9kchi34bb174o3cbb674qm6eb6cgpmae9k6s@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2926151897790000\"",
+   "id": "6srjidpn68s3gb9h74qm2b9kcopm4b9p68smab9h61hjaeb374sm6eb4cc",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NnNyamlkcG42OHMzZ2I5aDc0cW0yYjlrY29wbTRiOXA2OHNtYWI5aDYxaGphZWIzNzRzbTZlYjRjYyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-05-12T17:59:08.000Z",
+   "updated": "2016-05-12T17:59:08.895Z",
+   "summary": "Econ Review Sharon Traiberman",
+   "location": "McCosh 28",
+   "creator": {
+    "email": "davidmelvinjr@gmail.com",
+    "displayName": "David Melvin"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-05-14T10:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-05-14T12:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "6srjidpn68s3gb9h74qm2b9kcopm4b9p68smab9h61hjaeb374sm6eb4cc@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2926151899176000\"",
+   "id": "cdhj6pj16sr62b9h6os3ab9k60qj8b9o74s64b9p64p6ccj56li68d1p68",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2RoajZwajE2c3I2MmI5aDZvczNhYjlrNjBxajhiOW83NHM2NGI5cDY0cDZjY2o1NmxpNjhkMXA2OCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-05-12T17:59:09.000Z",
+   "updated": "2016-05-12T17:59:09.588Z",
+   "summary": "Econ Review Molly Schnell",
+   "location": "McCosh 28",
+   "creator": {
+    "email": "davidmelvinjr@gmail.com",
+    "displayName": "David Melvin"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-05-14T16:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-05-14T18:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "cdhj6pj16sr62b9h6os3ab9k60qj8b9o74s64b9p64p6ccj56li68d1p68@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2927067145106000\"",
+   "id": "70s30p1pc4p66b9p6osjeb9k6oq34b9o74sj4b9kc4s36or365gm4cb164",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NzBzMzBwMXBjNHA2NmI5cDZvc2plYjlrNm9xMzRiOW83NHNqNGI5a2M0czM2b3IzNjVnbTRjYjE2NCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-04-22T15:52:47.000Z",
+   "updated": "2016-05-18T01:06:12.553Z",
+   "summary": "COS 226 Final",
+   "location": "McCosh 46",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-05-19T09:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-05-19T12:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "70s30p1pc4p66b9p6osjeb9k6oq34b9o74sj4b9kc4s36or365gm4cb164@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2947656264820000\"",
+   "id": "6hi32p9h60rm2b9k6ks64b9k68om8b9pcgpjebb368o3eo9iccp3ichn6g",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmhpMzJwOWg2MHJtMmI5azZrczY0YjlrNjhvbThiOXBjZ3BqZWJiMzY4bzNlbzlpY2NwM2ljaG42ZyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-09-14T04:42:11.000Z",
+   "updated": "2016-09-14T04:42:12.410Z",
+   "summary": "LIN 201 Precept",
+   "location": "Chancellor Green 105",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-14T14:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-14T15:20:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "6hi32p9h60rm2b9k6ks64b9k68om8b9pcgpjebb368o3eo9iccp3ichn6g@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2947809566636000\"",
+   "id": "64rm2d9l6grj2bb2c5h3ab9kcoo3ebb2copjcb9jc4rjadb161i36eb56k",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjRybTJkOWw2Z3JqMmJiMmM1aDNhYjlrY29vM2ViYjJjb3BqY2I5amM0cmphZGIxNjFpMzZlYjU2ayBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-09-15T01:59:43.000Z",
+   "updated": "2016-09-15T01:59:43.318Z",
+   "summary": "MAT 202 Culler",
+   "location": "Fine Hall 224, Fine Hall 224",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-16T10:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-16T10:50:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "64rm2d9l6grj2bb2c5h3ab9kcoo3ebb2copjcb9jc4rjadb161i36eb56k@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2947829318216000\"",
+   "id": "70p66e1oc8r64bb5cpj3gb9kccr38b9p6hhjabb16com4cpoc5i3co9h70",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NzBwNjZlMW9jOHI2NGJiNWNwajNnYjlrY2NyMzhiOXA2aGhqYWJiMTZjb200Y3BvYzVpM2NvOWg3MF8yMDE2MDkxNVQxNDAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-08-27T02:10:05.000Z",
+   "updated": "2016-09-15T04:44:19.108Z",
+   "summary": "COS 217 Lecture",
+   "location": "McCosh 10, McCosh 10",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-15T10:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-09-15T10:50:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20161220T140000Z;BYDAY=TU,TH"
+   ],
+   "iCalUID": "70p66e1oc8r64bb5cpj3gb9kccr38b9p6hhjabb16com4cpoc5i3co9h70@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2947889130810000\"",
+   "id": "70rmco9l64sm6b9j6lgm6b9k6cq30b9p70qmab9h70qm4pj671h3ce9i68",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NzBybWNvOWw2NHNtNmI5ajZsZ202YjlrNmNxMzBiOXA3MHFtYWI5aDcwcW00cGo2NzFoM2NlOWk2OCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-09-15T13:02:45.000Z",
+   "updated": "2016-09-15T13:02:45.405Z",
+   "summary": "LIN 201 Precept missed",
+   "location": "Green Hall 0N2",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-15T15:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-15T16:20:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "70rmco9l64sm6b9j6lgm6b9k6cq30b9p70qmab9h70qm4pj671h3ce9i68@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2948489035592000\"",
+   "id": "6li6ap1gcos68b9pccr68b9k6kpjcb9oc9j3ib9h6ko36c1n60rm8phn74",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmxpNmFwMWdjb3M2OGI5cGNjcjY4YjlrNmtwamNiOW9jOWozaWI5aDZrbzM2YzFuNjBybThwaG43NF8yMDE2MDkxNVQxNTAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-14T05:10:53.000Z",
+   "updated": "2016-09-19T00:21:57.796Z",
+   "summary": "HUM 346",
+   "location": "Center for Digital Humanities, Firestone Floor B",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-15T11:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-15T12:20:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160920T145959Z;BYDAY=TU,TH"
+   ],
+   "iCalUID": "6li6ap1gcos68b9pccr68b9k6kpjcb9oc9j3ib9h6ko36c1n60rm8phn74@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2948489037144000\"",
+   "id": "65ij0c1o68pm8bb36kq6ab9k70s3ib9p74p3ab9i60qm6d9h6cs62p9oc8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjVpajBjMW82OHBtOGJiMzZrcTZhYjlrNzBzM2liOXA3NHAzYWI5aTYwcW02ZDloNmNzNjJwOW9jOF8yMDE2MDkxNVQxNzMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-14T05:13:47.000Z",
+   "updated": "2016-09-19T00:21:58.572Z",
+   "summary": "SPA 209",
+   "location": "East Pyne 023",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-15T13:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-15T14:50:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160920T172959Z;BYDAY=TU,TH"
+   ],
+   "iCalUID": "65ij0c1o68pm8bb36kq6ab9k70s3ib9p74p3ab9i60qm6d9h6cs62p9oc8@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2948489236532000\"",
+   "id": "cphm4cb5c5hm6b9ocli34b9k61h32bb26gpm4b9jcopmccr46csj6c9jck",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y3BobTRjYjVjNWhtNmI5b2NsaTM0YjlrNjFoMzJiYjI2Z3BtNGI5amNvcG1jY3I0NmNzajZjOWpja18yMDE2MDkxNFQxNTAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-14T04:39:55.000Z",
+   "updated": "2016-09-19T00:23:38.266Z",
+   "summary": "SOC 320 Seminar",
+   "location": "Wallace Hall 002",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-14T11:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-14T12:20:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160919T145959Z;BYDAY=MO,WE"
+   ],
+   "iCalUID": "cphm4cb5c5hm6b9ocli34b9k61h32bb26gpm4b9jcopmccr46csj6c9jck@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2948490434826000\"",
+   "id": "6co64cr2cko3cbb4c8o64b9k71h38bb268r62bb564p62dpk75j30p1m74",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmNvNjRjcjJja28zY2JiNGM4bzY0YjlrNzFoMzhiYjI2OHI2MmJiNTY0cDYyZHBrNzVqMzBwMW03NF8yMDE2MDkxNFQxNjMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-14T04:42:11.000Z",
+   "updated": "2016-09-19T00:33:37.413Z",
+   "summary": "MAT 202",
+   "location": "Fine Hall 224",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-14T12:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-14T13:20:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160919T162959Z;BYDAY=MO,WE,FR"
+   ],
+   "iCalUID": "6co64cr2cko3cbb4c8o64b9k71h38bb268r62bb564p62dpk75j30p1m74@google.com",
+   "sequence": 1,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2948863603938000\"",
+   "id": "65hmaohk64o38b9k64rm6b9kc8p32bb170qjcb9m69i38p1p68q36d31c4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjVobWFvaGs2NG8zOGI5azY0cm02YjlrYzhwMzJiYjE3MHFqY2I5bTY5aTM4cDFwNjhxMzZkMzFjNF8yMDE2MDkxNFQyMzMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-14T05:06:12.000Z",
+   "updated": "2016-09-21T04:23:21.969Z",
+   "summary": "COS 217 Precept",
+   "location": "Friend Center 108",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-14T19:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-14T20:20:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160921T232959Z;BYDAY=MO,WE"
+   ],
+   "iCalUID": "65hmaohk64o38b9k64rm6b9kc8p32bb170qjcb9m69i38p1p68q36d31c4@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2950006173098000\"",
+   "id": "6oo32d9l70p30b9k6kp36b9k64o3cbb16hh3ab9k6crm4d9k6lgm4o9h6o",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Nm9vMzJkOWw3MHAzMGI5azZrcDM2YjlrNjRvM2NiYjE2aGgzYWI5azZjcm00ZDlrNmxnbTRvOWg2b18yMDE2MDkxNFQxNDAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-14T04:37:08.000Z",
+   "updated": "2016-09-27T19:04:46.549Z",
+   "summary": "LIN 201 Lecture",
+   "location": "McCosh Hall 50, McCosh Hall 50",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-14T10:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-14T10:50:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160928T135959Z;BYDAY=MO,WE"
+   ],
+   "iCalUID": "6oo32d9l70p30b9k6kp36b9k64o3cbb16hh3ab9k6crm4d9k6lgm4o9h6o@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2950006175528000\"",
+   "id": "6dh66c9p6hgjcbb664r3cb9k68r36b9pc4qmcb9jckrjeeb4c8q3ic9n6s",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmRoNjZjOXA2aGdqY2JiNjY0cjNjYjlrNjhyMzZiOXBjNHFtY2I5amNrcmplZWI0YzhxM2ljOW42c18yMDE2MDkyMVQxODMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-15T13:00:37.000Z",
+   "updated": "2016-09-27T19:04:47.764Z",
+   "summary": "LIN 201 Precept",
+   "location": "Chancellor Green 105",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-21T14:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-21T15:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20160928T182959Z"
+   ],
+   "iCalUID": "6dh66c9p6hgjcbb664r3cb9k68r36b9pc4qmcb9jckrjeeb4c8q3ic9n6s@google.com",
+   "sequence": 1,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2950948442406000\"",
+   "id": "p1eou4538jsr91vt2r47rgvao8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=cDFlb3U0NTM4anNyOTF2dDJyNDdyZ3ZhbzggcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2016-10-03T05:57:01.000Z",
+   "updated": "2016-10-03T05:57:01.203Z",
+   "summary": "COS 217 - Midterm",
+   "creator": {
+    "email": "timewarptrio11@gmail.com",
+    "displayName": "David Melvin"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-10-27T10:00:00-04:00"
+   },
+   "end": {
+    "dateTime": "2016-10-27T11:00:00-04:00"
+   },
+   "iCalUID": "p1eou4538jsr91vt2r47rgvao8@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2951913696498000\"",
+   "id": "cgs6ccj56pgj4b9p6pi66b9k69i66b9p6oo30b9n70qj2p1g6hh66oj36g",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2dzNmNjajU2cGdqNGI5cDZwaTY2YjlrNjlpNjZiOXA2b28zMGI5bjcwcWoycDFnNmhoNjZvajM2ZyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-10-08T20:00:48.000Z",
+   "updated": "2016-10-08T20:00:48.249Z",
+   "summary": "Meet Tosin",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-10-09T14:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-10-09T14:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "cgs6ccj56pgj4b9p6pi66b9k69i66b9p6oo30b9n70qj2p1g6hh66oj36g@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2953290027246000\"",
+   "id": "cdgmcdb5c8q3eb9m69h66b9kcli30bb26spjcbb2c9hmae1g6kpjcd9i6g",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2RnbWNkYjVjOHEzZWI5bTY5aDY2YjlrY2xpMzBiYjI2c3BqY2JiMmM5aG1hZTFnNmtwamNkOWk2ZyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-10-16T19:10:13.000Z",
+   "updated": "2016-10-16T19:10:13.623Z",
+   "summary": "MAT 202 Midterm",
+   "location": "McCosh 10, McCosh 10",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-10-26T19:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-10-26T21:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "cdgmcdb5c8q3eb9m69h66b9kcli30bb26spjcbb2c9hmae1g6kpjcd9i6g@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2953290262098000\"",
+   "id": "ckpjce1i6srmab9p74sj8b9kccr30b9o74s34bb560rm6c1n64q66d1lc4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2twamNlMWk2c3JtYWI5cDc0c2o4YjlrY2NyMzBiOW83NHMzNGJiNTYwcm02YzFuNjRxNjZkMWxjNCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-10-16T19:12:11.000Z",
+   "updated": "2016-10-16T19:12:11.049Z",
+   "summary": "MAT 202 Final ",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-01-24T19:30:00-05:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2017-01-24T22:30:00-05:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "ckpjce1i6srmab9p74sj8b9kccr30b9o74s34bb560rm6c1n64q66d1lc4@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2953354840058000\"",
+   "id": "c9i6ac1pccqj6b9m68om4b9kcgq34bb1coqj0bb4ccpm8oho6ksm2eb46g",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YzlpNmFjMXBjY3FqNmI5bTY4b200YjlrY2dxMzRiYjFjb3FqMGJiNGNjcG04b2hvNmtzbTJlYjQ2ZyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-10-17T04:10:20.000Z",
+   "updated": "2016-10-17T04:10:20.029Z",
+   "summary": "Casey ELE",
+   "location": "East Asisn Library",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-10-17T12:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-10-17T12:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "c9i6ac1pccqj6b9m68om4b9kcgq34bb1coqj0bb4ccpm8oho6ksm2eb46g@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2953529522440000\"",
+   "id": "61h3iob26kqj8b9j6dhm6b9k6kqj8bb1coo64b9n6lhj8c1h6th3iopk74",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjFoM2lvYjI2a3FqOGI5ajZkaG02YjlrNmtxajhiYjFjb282NGI5bjZsaGo4YzFoNnRoM2lvcGs3NCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-10-18T04:26:01.000Z",
+   "updated": "2016-10-18T04:26:01.220Z",
+   "summary": "ELE lab",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-10-18T11:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-10-18T12:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "61h3iob26kqj8b9j6dhm6b9k6kqj8bb1coo64b9n6lhj8c1h6th3iopk74@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2953958890984000\"",
+   "id": "9p9hl1vbu8kef1pb539qdm26hs",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=OXA5aGwxdmJ1OGtlZjFwYjUzOXFkbTI2aHMgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2016-10-20T16:04:05.000Z",
+   "updated": "2016-10-20T16:04:05.492Z",
+   "summary": "Math Midterm Review",
+   "location": "Fine Common Room",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-10-24T11:55:00-04:00"
+   },
+   "end": {
+    "dateTime": "2016-10-24T12:25:00-04:00"
+   },
+   "iCalUID": "9p9hl1vbu8kef1pb539qdm26hs@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.9p9hl1vbu8kef1pb539qdm26hs",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2953959095856000\"",
+   "id": "ck8qsaohomhcolo0csh7o11d1c",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2s4cXNhb2hvbWhjb2xvMGNzaDdvMTFkMWMgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2016-10-20T16:05:47.000Z",
+   "updated": "2016-10-20T16:05:47.928Z",
+   "summary": "Math Midterm Review",
+   "location": "Fine Common Room",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-10-21T11:35:00-04:00"
+   },
+   "end": {
+    "dateTime": "2016-10-21T12:25:00-04:00"
+   },
+   "iCalUID": "ck8qsaohomhcolo0csh7o11d1c@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.ck8qsaohomhcolo0csh7o11d1c",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2953959135202000\"",
+   "id": "tld4pfl9aq7vlrvm6gm5sbcrc0",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=dGxkNHBmbDlhcTd2bHJ2bTZnbTVzYmNyYzAgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2016-10-20T16:06:07.000Z",
+   "updated": "2016-10-20T16:06:07.601Z",
+   "summary": "Math Midterm Review",
+   "location": "Fine 1107",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-10-21T14:30:00-04:00"
+   },
+   "end": {
+    "dateTime": "2016-10-21T15:30:00-04:00"
+   },
+   "iCalUID": "tld4pfl9aq7vlrvm6gm5sbcrc0@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.tld4pfl9aq7vlrvm6gm5sbcrc0",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2953959191172000\"",
+   "id": "45upt4pjusviep42ba0v6cn13k",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NDV1cHQ0cGp1c3ZpZXA0MmJhMHY2Y24xM2sgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2016-10-20T16:06:35.000Z",
+   "updated": "2016-10-20T16:06:35.586Z",
+   "summary": "Math Midterm Review",
+   "location": "Fine Common Room",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-10-21T15:30:00-04:00"
+   },
+   "end": {
+    "dateTime": "2016-10-21T16:10:00-04:00"
+   },
+   "iCalUID": "45upt4pjusviep42ba0v6cn13k@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.45upt4pjusviep42ba0v6cn13k",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2957273328062000\"",
+   "id": "6sq64p1i71ijgbb674o34b9kckr64b9ockr6ab9h6cr32pb26gpmcchpc4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NnNxNjRwMWk3MWlqZ2JiNjc0bzM0YjlrY2tyNjRiOW9ja3I2YWI5aDZjcjMycGIyNmdwbWNjaHBjNCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-11-08T20:24:23.000Z",
+   "updated": "2016-11-08T20:24:24.031Z",
+   "summary": "Lab",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-11-08T19:45:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-11-08T20:45:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "6sq64p1i71ijgbb674o34b9kckr64b9ockr6ab9h6cr32pb26gpmcchpc4@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2957423536562000\"",
+   "id": "65j3id1m6ko68b9j6csm6b9kc9i3eb9pcli3ib9pcgo62d9g6hgj4p1pcg",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjVqM2lkMW02a282OGI5ajZjc202YjlrYzlpM2ViOXBjbGkzaWI5cGNnbzYyZDlnNmhnajRwMXBjZyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-11-09T06:39:03.000Z",
+   "updated": "2016-11-09T17:16:08.281Z",
+   "summary": "ELE Review",
+   "location": "Friend 006",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-11-09T19:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-11-09T22:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "65j3id1m6ko68b9j6csm6b9kc9i3eb9pcli3ib9pcgo62d9g6hgj4p1pcg@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2958553092360000\"",
+   "id": "6li36o9k70o38b9l6dh32b9k68oj4b9o6lhjeb9pcli68opnc9gm8or6c8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmxpMzZvOWs3MG8zOGI5bDZkaDMyYjlrNjhvajRiOW82bGhqZWI5cGNsaTY4b3BuYzlnbThvcjZjOCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-11-16T06:09:06.000Z",
+   "updated": "2016-11-16T06:09:06.180Z",
+   "summary": "Writing Center Drop In",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-11-20T19:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-11-20T23:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "6li36o9k70o38b9l6dh32b9k68oj4b9o6lhjeb9pcli68opnc9gm8or6c8@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2960455493270000\"",
+   "id": "6gr30c34c8o30b9p60o68b9k6tgjcbb26li3gb9jchi34dhnc4smcdhm64",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmdyMzBjMzRjOG8zMGI5cDYwbzY4YjlrNnRnamNiYjI2bGkzZ2I5amNoaTM0ZGhuYzRzbWNkaG02NCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-11-27T06:22:26.000Z",
+   "updated": "2016-11-27T06:22:26.635Z",
+   "summary": "COS",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-11-27T17:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-11-27T18:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "6gr30c34c8o30b9p60o68b9k6tgjcbb26li3gb9jchi34dhnc4smcdhm64@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2960456517474000\"",
+   "id": "c8rj2p36cko3eb9hcgs36b9kccr62bb274s3abb16gsj4d9h6ph3ce1l74",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YzhyajJwMzZja28zZWI5aGNnczM2YjlrY2NyNjJiYjI3NHMzYWJiMTZnc2o0ZDloNnBoM2NlMWw3NCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-11-27T06:30:58.000Z",
+   "updated": "2016-11-27T06:30:58.737Z",
+   "summary": "Cos",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-11-27T22:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-11-28T00:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "c8rj2p36cko3eb9hcgs36b9kccr62bb274s3abb16gsj4d9h6ph3ce1l74@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2960685870084000\"",
+   "id": "cphjipj6c8q3gb9pc9gm6b9k75i38bb174qjib9lccqm6e9mclij2p9mck",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y3BoamlwajZjOHEzZ2I5cGM5Z202YjlrNzVpMzhiYjE3NHFqaWI5bGNjcW02ZTltY2xpajJwOW1ja18yMDE2MTEyOFQyMzAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-11-28T14:22:14.000Z",
+   "updated": "2016-11-28T14:22:15.042Z",
+   "summary": "Ele Assignment",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-11-28T18:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-11-28T19:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;COUNT=1;BYDAY=MO,TU"
+   ],
+   "iCalUID": "cphjipj6c8q3gb9pc9gm6b9k75i38bb174qjib9lccqm6e9mclij2p9mck@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2960702687916000\"",
+   "id": "cpij0pb664p38b9kckp6ab9k6gr3cbb2ccrj8b9o6ss3ie9n69hj4pj6cc",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y3BpajBwYjY2NHAzOGI5a2NrcDZhYjlrNmdyM2NiYjJjY3JqOGI5bzZzczNpZTluNjloajRwajZjYyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-11-28T16:42:23.000Z",
+   "updated": "2016-11-28T16:42:23.958Z",
+   "summary": "ELE with Casey",
+   "location": "EAL",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-11-28T20:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-11-28T21:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "cpij0pb664p38b9kckp6ab9k6gr3cbb2ccrj8b9o6ss3ie9n69hj4pj6cc@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2960702757394000\"",
+   "id": "ccs3gdr46sq6cb9m6gs32b9k68s34b9pcks3ab9h68o68d1n71hmce1ocg",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2NzM2dkcjQ2c3E2Y2I5bTZnczMyYjlrNjhzMzRiOXBja3MzYWI5aDY4bzY4ZDFuNzFobWNlMW9jZyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-11-28T16:42:58.000Z",
+   "updated": "2016-11-28T16:42:58.697Z",
+   "summary": "ELE hw",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-11-28T17:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-11-28T18:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "ccs3gdr46sq6cb9m6gs32b9k68s34b9pcks3ab9h68o68d1n71hmce1ocg@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2960907041040000\"",
+   "id": "chj3adr26hgmcbb269gm4b9kcoq6ab9o70o32b9n61j3ephi71i68ohocc",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2hqM2FkcjI2aGdtY2JiMjY5Z200YjlrY29xNmFiOW83MG8zMmI5bjYxajNlcGhpNzFpNjhvaG9jYyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-11-28T04:01:22.000Z",
+   "updated": "2016-11-29T21:05:20.520Z",
+   "summary": "Course Advising",
+   "location": "207 Computer Science Building, 207 Computer Science Building",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-12-07T15:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-12-07T15:45:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "chj3adr26hgmcbb269gm4b9kcoq6ab9o70o32b9n61j3ephi71i68ohocc@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2961825721522000\"",
+   "id": "chhjaopm6co66b9mcdh3cb9k70p6abb26ks3eb9n6ks3ioph70s66opl70",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2hoamFvcG02Y282NmI5bWNkaDNjYjlrNzBwNmFiYjI2a3MzZWI5bjZrczNpb3BoNzBzNjZvcGw3MCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-12-05T04:41:00.000Z",
+   "updated": "2016-12-05T04:41:00.761Z",
+   "summary": "ELE with Casey",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-12-05T16:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-12-05T18:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "chhjaopm6co66b9mcdh3cb9k70p6abb26ks3eb9n6ks3ioph70s66opl70@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2961974652550000\"",
+   "id": "6pgm8p1hcgrjab9k75gm2b9k6hgmabb264p38bb5cphm2dhj60ojgoj3c8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NnBnbThwMWhjZ3JqYWI5azc1Z20yYjlrNmhnbWFiYjI2NHAzOGJiNWNwaG0yZGhqNjBvamdvajNjOCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-12-05T04:41:21.000Z",
+   "updated": "2016-12-06T01:22:06.275Z",
+   "summary": "Ele With Casey",
+   "description": " ",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-12-05T20:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-12-05T21:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "6pgm8p1hcgrjab9k75gm2b9k6hgmabb264p38bb5cphm2dhj60ojgoj3c8@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2962166410754000\"",
+   "id": "lv6g7j8cam6e1cd9u9r28c7cu4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=bHY2ZzdqOGNhbTZlMWNkOXU5cjI4YzdjdTQgcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2016-12-07T04:00:05.000Z",
+   "updated": "2016-12-07T04:00:05.377Z",
+   "summary": "ELE with Casey",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-12-07T14:15:00-05:00"
+   },
+   "end": {
+    "dateTime": "2016-12-07T15:15:00-05:00"
+   },
+   "iCalUID": "lv6g7j8cam6e1cd9u9r28c7cu4@google.com",
+   "sequence": 0,
+   "hangoutLink": "https://plus.google.com/hangouts/_/princeton.edu/princeton-edu-g?hceid=cHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t.lv6g7j8cam6e1cd9u9r28c7cu4",
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2962281911632000\"",
+   "id": "053u8mfn41ckclgsa3n1kors78",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=MDUzdThtZm40MWNrY2xnc2EzbjFrb3JzNzggcHJpbmNldG9uLmVkdV9nbnJrbDk1bGdrMXBhNThkbWpwOTU1ZmtmY0Bn",
+   "created": "2016-12-07T04:00:21.000Z",
+   "updated": "2016-12-07T20:02:35.816Z",
+   "summary": "ELE with Casey",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-12-07T19:15:00-05:00"
+   },
+   "end": {
+    "dateTime": "2016-12-07T20:15:00-05:00"
+   },
+   "iCalUID": "053u8mfn41ckclgsa3n1kors78@google.com",
+   "sequence": 1,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968027352020000\"",
+   "id": "6hgjeor16cpm4bb66gs68b9k71j62bb26opm8bb3c4s64d9l69j6ce9gc4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmhnamVvcjE2Y3BtNGJiNjZnczY4YjlrNzFqNjJiYjI2b3BtOGJiM2M0czY0ZDlsNjlqNmNlOWdjNF8yMDE2MDkxM1QxNzMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-14T04:30:39.000Z",
+   "updated": "2017-01-10T02:01:16.010Z",
+   "summary": "ELE 206 Lecture",
+   "location": "Friend Center 101",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-13T13:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-13T14:50:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170110T182959Z;BYDAY=TU,TH"
+   ],
+   "iCalUID": "6hgjeor16cpm4bb66gs68b9k71j62bb26opm8bb3c4s64d9l69j6ce9gc4@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968027352020000\"",
+   "id": "6hgjeor16cpm4bb66gs68b9k71j62bb26opm8bb3c4s64d9l69j6ce9gc4_20161110T183000Z",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmhnamVvcjE2Y3BtNGJiNjZnczY4YjlrNzFqNjJiYjI2b3BtOGJiM2M0czY0ZDlsNjlqNmNlOWdjNF8yMDE2MTExMFQxODMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-14T04:30:39.000Z",
+   "updated": "2017-01-10T02:01:16.010Z",
+   "summary": "ELE 206 - Midterm!",
+   "location": "Friend Center 101",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-11-10T13:30:00-05:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-11-10T14:50:00-05:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurringEventId": "6hgjeor16cpm4bb66gs68b9k71j62bb26opm8bb3c4s64d9l69j6ce9gc4",
+   "originalStartTime": {
+    "dateTime": "2016-11-10T13:30:00-05:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "6hgjeor16cpm4bb66gs68b9k71j62bb26opm8bb3c4s64d9l69j6ce9gc4@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968027352020000\"",
+   "id": "6hgjeor16cpm4bb66gs68b9k71j62bb26opm8bb3c4s64d9l69j6ce9gc4_20161206T183000Z",
+   "status": "cancelled",
+   "recurringEventId": "6hgjeor16cpm4bb66gs68b9k71j62bb26opm8bb3c4s64d9l69j6ce9gc4",
+   "originalStartTime": {
+    "dateTime": "2016-12-06T13:30:00-05:00",
+    "timeZone": "America/Detroit"
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968027353488000\"",
+   "id": "ckr6cd9ic8s36b9p74q66b9k6gp6ab9o6crj2b9o6gr3gpj5ccr3apb16g",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2tyNmNkOWljOHMzNmI5cDc0cTY2YjlrNmdwNmFiOW82Y3JqMmI5bzZncjNncGo1Y2NyM2FwYjE2Z18yMDE2MDkyMlQxOTMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-21T04:23:23.000Z",
+   "updated": "2017-01-10T02:01:16.744Z",
+   "summary": "COS 217 Precept",
+   "location": "Friend Center 003",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-22T15:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-22T16:20:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170110T202959Z;BYDAY=TU,TH"
+   ],
+   "iCalUID": "ckr6cd9ic8s36b9p74q66b9k6gp6ab9o6crj2b9o6gr3gpj5ccr3apb16g@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968034649474000\"",
+   "id": "ccqm6dhn6oojgbb46gpmcb9k6dijcb9p68sj8bb260q3gpj5coq3idhhcc",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2NxbTZkaG42b29qZ2JiNDZncG1jYjlrNmRpamNiOXA2OHNqOGJiMjYwcTNncGo1Y29xM2lkaGhjY18yMDE2MDkxOVQxNTAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-19T00:33:38.000Z",
+   "updated": "2017-01-10T03:02:04.737Z",
+   "summary": "MAT 202 C03",
+   "location": "Fine Hall 224",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-19T11:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-19T11:50:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170111T155959Z;BYDAY=MO,WE,FR"
+   ],
+   "iCalUID": "ccqm6dhn6oojgbb46gpmcb9k6dijcb9p68sj8bb260q3gpj5coq3idhhcc@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968034649474000\"",
+   "id": "ccqm6dhn6oojgbb46gpmcb9k6dijcb9p68sj8bb260q3gpj5coq3idhhcc_20161010T150000Z",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2NxbTZkaG42b29qZ2JiNDZncG1jYjlrNmRpamNiOXA2OHNqOGJiMjYwcTNncGo1Y29xM2lkaGhjY18yMDE2MTAxMFQxNTAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-19T00:33:38.000Z",
+   "updated": "2017-01-10T03:02:04.737Z",
+   "summary": "MAT 202 - Quiz!",
+   "location": "Fine Hall 224",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-10-10T11:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-10-10T11:50:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurringEventId": "ccqm6dhn6oojgbb46gpmcb9k6dijcb9p68sj8bb260q3gpj5coq3idhhcc",
+   "originalStartTime": {
+    "dateTime": "2016-10-10T11:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "ccqm6dhn6oojgbb46gpmcb9k6dijcb9p68sj8bb260q3gpj5coq3idhhcc@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968034649474000\"",
+   "id": "ccqm6dhn6oojgbb46gpmcb9k6dijcb9p68sj8bb260q3gpj5coq3idhhcc_20161205T160000Z",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2NxbTZkaG42b29qZ2JiNDZncG1jYjlrNmRpamNiOXA2OHNqOGJiMjYwcTNncGo1Y29xM2lkaGhjY18yMDE2MTIwNVQxNjAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-19T00:33:38.000Z",
+   "updated": "2017-01-10T03:02:04.737Z",
+   "summary": "MAT 202 - Quiz!",
+   "location": "Fine Hall 224",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-12-05T11:00:00-05:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-12-05T11:50:00-05:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurringEventId": "ccqm6dhn6oojgbb46gpmcb9k6dijcb9p68sj8bb260q3gpj5coq3idhhcc",
+   "originalStartTime": {
+    "dateTime": "2016-12-05T11:00:00-05:00",
+    "timeZone": "America/Detroit"
+   },
+   "iCalUID": "ccqm6dhn6oojgbb46gpmcb9k6dijcb9p68sj8bb260q3gpj5coq3idhhcc@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968034663842000\"",
+   "id": "6pi6adpp75ij2b9i60ojib9kcgq3ebb16cpj0b9jc9i34p1gc9i3ce1i6g",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NnBpNmFkcHA3NWlqMmI5aTYwb2ppYjlrY2dxM2ViYjE2Y3BqMGI5amM5aTM0cDFnYzlpM2NlMWk2ZyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2017-01-10T03:02:11.000Z",
+   "updated": "2017-01-10T03:02:11.921Z",
+   "summary": "Math Tutor",
+   "location": "McGraw",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-01-10T21:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-01-10T22:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "6pi6adpp75ij2b9i60ojib9kcgq3ebb16cpj0b9jc9i34p1gc9i3ce1i6g@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968034665164000\"",
+   "id": "60s3ce1pc5hjabb16gp32b9k6li66bb268s68bb674rm8p32c8r32o9k68",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjBzM2NlMXBjNWhqYWJiMTZncDMyYjlrNmxpNjZiYjI2OHM2OGJiNjc0cm04cDMyYzhyMzJvOWs2OCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2017-01-10T03:02:12.000Z",
+   "updated": "2017-01-10T03:02:12.582Z",
+   "summary": "Writing Center Appointment",
+   "location": "Whitman",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-01-12T12:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-01-12T13:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "60s3ce1pc5hjabb16gp32b9k6li66bb268s68bb674rm8p32c8r32o9k68@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968180856926000\"",
+   "id": "chhm4cr5c8qjib9n6ss36b9k6gr34b9occq3abb275gjecpgcosj8dr56c",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2hobTRjcjVjOHFqaWI5bjZzczM2YjlrNmdyMzRiOW9jY3EzYWJiMjc1Z2plY3BnY29zajhkcjU2YyBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2017-01-10T23:20:28.000Z",
+   "updated": "2017-01-10T23:20:28.463Z",
+   "summary": "Eating info session",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-01-11T18:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-01-11T19:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "chhm4cr5c8qjib9n6ss36b9k6gr34b9occq3abb275gjecpgcosj8dr56c@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968214496632000\"",
+   "id": "ccpjgdb16dhjib9mc5gj2b9k6tij0bb1cco3gbb364q62chm60r3edb368",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2NwamdkYjE2ZGhqaWI5bWM1Z2oyYjlrNnRpajBiYjFjY28zZ2JiMzY0cTYyY2htNjByM2VkYjM2OCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2017-01-11T02:02:35.000Z",
+   "updated": "2017-01-11T04:00:48.316Z",
+   "summary": "Lab",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-01-11T14:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-01-11T15:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "ccpjgdb16dhjib9mc5gj2b9k6tij0bb1cco3gbb364q62chm60r3edb368@google.com",
+   "sequence": 1,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968392880798000\"",
+   "id": "69i68phmcop3ebb174o32b9k61j66b9o6os66bb5clhjed9k65h6adb164",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjlpNjhwaG1jb3AzZWJiMTc0bzMyYjlrNjFqNjZiOW82b3M2NmJiNWNsaGplZDlrNjVoNmFkYjE2NF8yMDE2MDkyMlQyMzMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-19T00:23:38.000Z",
+   "updated": "2017-01-12T04:47:20.399Z",
+   "summary": "ELE 206 B05 Lab",
+   "location": "E Quad F-Wing F114",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-22T19:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-22T20:30:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170113T002959Z"
+   ],
+   "iCalUID": "69i68phmcop3ebb174o32b9k61j66b9o6os66bb5clhjed9k65h6adb164@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2968488898922000\"",
+   "id": "v66ttnmd0q843vnsjldd1qj0ms",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=djY2dHRubWQwcTg0M3Zuc2psZGQxcWowbXNfMjAxNjEwMDZUMjIwMDAwWiBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-10-03T06:00:09.000Z",
+   "updated": "2017-01-12T18:07:29.461Z",
+   "summary": "ELE 206 - Assignment Precept",
+   "location": "B-205 Equad",
+   "creator": {
+    "email": "timewarptrio11@gmail.com",
+    "displayName": "David Melvin"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-10-06T18:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-10-06T19:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=MO;UNTIL=20170112T225959Z;BYDAY=TH"
+   ],
+   "iCalUID": "v66ttnmd0q843vnsjldd1qj0ms@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2972513121262000\"",
+   "id": "61h32p1p64sj0bb66lij0b9k6cqmabb2clijgbb1ckq3gdpm6ks32cb5cc",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjFoMzJwMXA2NHNqMGJiNjZsaWowYjlrNmNxbWFiYjJjbGlqZ2JiMWNrcTNnZHBtNmtzMzJjYjVjY18yMDE3MDIwNlQyMDAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2017-02-05T01:02:40.000Z",
+   "updated": "2017-02-05T01:02:40.631Z",
+   "summary": "COS 340 Lecture",
+   "location": "CS Building 104",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-06T15:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-06T16:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170510T200000Z;BYDAY=MO,WE"
+   ],
+   "iCalUID": "61h32p1p64sj0bb66lij0b9k6cqmabb2clijgbb1ckq3gdpm6ks32cb5cc@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2972513174354000\"",
+   "id": "6go38d9g6hhjcb9jcos3gb9k68o62bb270pjib9g6gsjie1k65i6cp33c4",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmdvMzhkOWc2aGhqY2I5amNvczNnYjlrNjhvNjJiYjI3MHBqaWI5ZzZnc2ppZTFrNjVpNmNwMzNjNF8yMDE2MDkxOVQxNzMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-06T15:07:28.000Z",
+   "updated": "2017-02-05T01:03:07.177Z",
+   "summary": "AMS 385",
+   "location": "Friend Center 306",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-19T13:30:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-09-19T16:20:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170206T182959Z"
+   ],
+   "iCalUID": "6go38d9g6hhjcb9jcos3gb9k68o62bb270pjib9g6gsjie1k65i6cp33c4@google.com",
+   "sequence": 1,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2972513521418000\"",
+   "id": "6krm6or36sq68bb4ckom6b9kc8p34bb268p32bb3cgo6cp9j6ooj2c9oco",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmtybTZvcjM2c3E2OGJiNGNrb202YjlrYzhwMzRiYjI2OHAzMmJiM2NnbzZjcDlqNm9vajJjOW9jb18yMDE3MDIwN1QxNzMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2017-02-05T01:06:00.000Z",
+   "updated": "2017-02-05T01:06:00.709Z",
+   "summary": "DAN 210 ",
+   "location": "New South 108",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-07T12:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-07T14:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170511T173000Z;BYDAY=TU,TH"
+   ],
+   "iCalUID": "6krm6or36sq68bb4ckom6b9kc8p34bb268p32bb3cgo6cp9j6ooj2c9oco@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2972514367946000\"",
+   "id": "74r3eoho64rm8b9l6som8b9k64pj8bb168s3eb9n6oo34d1nchi3cchn6c",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NzRyM2VvaG82NHJtOGI5bDZzb204YjlrNjRwajhiYjE2OHMzZWI5bjZvbzM0ZDFuY2hpM2NjaG42Y18yMDE3MDIwNlQxNTAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2017-02-05T01:07:45.000Z",
+   "updated": "2017-02-05T01:13:03.973Z",
+   "summary": "SOC 204 Lecture",
+   "location": "McDonnel A02",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-06T10:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-06T10:50:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170208T145959Z;BYDAY=MO,WE"
+   ],
+   "iCalUID": "74r3eoho64rm8b9l6som8b9k64pj8bb168s3eb9n6oo34d1nchi3cchn6c@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2972514489108000\"",
+   "id": "cor6cd9l65i30bb6ckpmab9k6kr64b9pc5hjab9icgpjcd1m75hm6cr160",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y29yNmNkOWw2NWkzMGJiNmNrcG1hYjlrNmtyNjRiOXBjNWhqYWI5aWNncGpjZDFtNzVobTZjcjE2MF8yMDE3MDIwN1QxNjAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2017-02-05T01:00:29.000Z",
+   "updated": "2017-02-05T01:14:04.554Z",
+   "summary": "COS 333 Lecture",
+   "location": "Friend Center 101",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-07T11:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-07T12:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170511T160000Z;BYDAY=TU,TH"
+   ],
+   "iCalUID": "cor6cd9l65i30bb6ckpmab9k6kr64b9pc5hjab9icgpjcd1m75hm6cr160@google.com",
+   "sequence": 1,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2972514825398000\"",
+   "id": "coq30c9icphjeb9oc5hm2b9k75gjgbb1c4sm8b9n6hi6cphlcoo3acpg68",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y29xMzBjOWljcGhqZWI5b2M1aG0yYjlrNzVnamdiYjFjNHNtOGI5bjZoaTZjcGhsY29vM2FjcGc2OF8yMDE2MDkyNVQyMzAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2016-09-19T05:10:18.000Z",
+   "updated": "2017-02-05T01:16:52.699Z",
+   "summary": "MAT 202 Review Session",
+   "location": "Fine 314",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-09-25T19:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "end": {
+    "dateTime": "2016-09-25T21:00:00-04:00",
+    "timeZone": "America/Detroit"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170205T235959Z"
+   ],
+   "iCalUID": "coq30c9icphjeb9oc5hm2b9k75gjgbb1c4sm8b9n6hi6cphlcoo3acpg68@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2972514825398000\"",
+   "id": "coq30c9icphjeb9oc5hm2b9k75gjgbb1c4sm8b9n6hi6cphlcoo3acpg68_20161107T000000Z",
+   "status": "cancelled",
+   "recurringEventId": "coq30c9icphjeb9oc5hm2b9k75gjgbb1c4sm8b9n6hi6cphlcoo3acpg68",
+   "originalStartTime": {
+    "dateTime": "2016-11-06T19:00:00-05:00",
+    "timeZone": "America/Detroit"
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2972514826860000\"",
+   "id": "5fp2aq929vaoll0qmnm950p1uo",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NWZwMmFxOTI5dmFvbGwwcW1ubTk1MHAxdW9fMjAxNjEwMDlUMjMwMDAwWiBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2016-10-03T06:02:00.000Z",
+   "updated": "2017-02-05T01:16:53.430Z",
+   "summary": "ELE 206 - Assignment Precept",
+   "location": "B-205 Equad",
+   "creator": {
+    "email": "timewarptrio11@gmail.com",
+    "displayName": "David Melvin"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2016-10-09T19:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2016-10-09T20:00:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=MO;UNTIL=20170205T235959Z;BYDAY=SU"
+   ],
+   "iCalUID": "5fp2aq929vaoll0qmnm950p1uo@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2972514826860000\"",
+   "id": "5fp2aq929vaoll0qmnm950p1uo_20161107T000000Z",
+   "status": "cancelled",
+   "recurringEventId": "5fp2aq929vaoll0qmnm950p1uo",
+   "originalStartTime": {
+    "dateTime": "2016-11-06T19:00:00-05:00",
+    "timeZone": "America/New_York"
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2973322087714000\"",
+   "id": "6krm6or36sq68bb4ckom6b9kc8p34bb268p32bb3cgo6cp9j6ooj2c9oco_20170209T173000Z",
+   "status": "cancelled",
+   "recurringEventId": "6krm6or36sq68bb4ckom6b9kc8p34bb268p32bb3cgo6cp9j6ooj2c9oco",
+   "originalStartTime": {
+    "dateTime": "2017-02-09T12:30:00-05:00",
+    "timeZone": "America/New_York"
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2975042443548000\"",
+   "id": "cko62d1hc9i32b9l6gr30b9k74sj8bb16cpjab9i6ph66o9g6srmcchico",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y2tvNjJkMWhjOWkzMmI5bDZncjMwYjlrNzRzajhiYjE2Y3BqYWI5aTZwaDY2bzlnNnNybWNjaGljb18yMDE3MDIyMFQxODMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2017-02-19T16:20:21.000Z",
+   "updated": "2017-02-19T16:20:21.774Z",
+   "summary": "HIS 361 Precept",
+   "location": "McCosh 34",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-20T13:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-20T14:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170515T183000Z;BYDAY=MO"
+   ],
+   "iCalUID": "cko62d1hc9i32b9l6gr30b9k74sj8bb16cpjab9i6ph66o9g6srmcchico@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2975042509008000\"",
+   "id": "68q3ephi6lgj6b9o6cq3ib9k6cpjibb265gj0b9p60oj6opj74qjiphn64",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjhxM2VwaGk2bGdqNmI5bzZjcTNpYjlrNmNwamliYjI2NWdqMGI5cDYwb2o2b3BqNzRxamlwaG42NF8yMDE3MDIwNlQxNjAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2017-02-05T01:10:37.000Z",
+   "updated": "2017-02-19T16:20:54.504Z",
+   "summary": "REL 251 Lecture",
+   "location": "McCosh 60",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-06T11:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-06T11:50:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170220T155959Z;BYDAY=MO,WE"
+   ],
+   "iCalUID": "68q3ephi6lgj6b9o6cq3ib9k6cpjibb265gj0b9p60oj6opj74qjiphn64@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2975042510156000\"",
+   "id": "coo34d9pc4o30bb2cos3ib9kc9j34b9occsjab9o6komcdr6chhj8chk6c",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y29vMzRkOXBjNG8zMGJiMmNvczNpYjlrYzlqMzRiOW9jY3NqYWI5bzZrb21jZHI2Y2hoajhjaGs2Y18yMDE3MDIyMFQxNjAwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2017-02-19T16:20:54.000Z",
+   "updated": "2017-02-19T16:20:55.078Z",
+   "summary": "HIS 361 Lecture",
+   "location": "McCosh 50",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-20T11:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-20T11:50:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170510T160000Z;BYDAY=MO,WE"
+   ],
+   "iCalUID": "coo34d9pc4o30bb2cos3ib9kc9j34b9occsjab9o6komcdr6chhj8chk6c@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2975089817700000\"",
+   "id": "cpgjccpi61i34b9k6ss3cb9k68p38bb168qm6b9i6pj68c9occrm4dppck",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y3BnamNjcGk2MWkzNGI5azZzczNjYjlrNjhwMzhiYjE2OHFtNmI5aTZwajY4YzlvY2NybTRkcHBja18yMDE3MDIwOFQxODMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2017-02-05T01:11:55.000Z",
+   "updated": "2017-02-19T22:55:08.850Z",
+   "summary": "REL 251 Precept",
+   "location": "1879 Hall 137",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-08T13:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-08T14:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170222T182959Z;BYDAY=WE"
+   ],
+   "iCalUID": "cpgjccpi61i34b9k6ss3cb9k68p38bb168qm6b9i6pj68c9occrm4dppck@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2975790909620000\"",
+   "id": "6krm6or36sq68bb4ckom6b9kc8p34bb268p32bb3cgo6cp9j6ooj2c9oco_20170228T173000Z",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmtybTZvcjM2c3E2OGJiNGNrb202YjlrYzhwMzRiYjI2OHAzMmJiM2NnbzZjcDlqNm9vajJjOW9jb18yMDE3MDIyOFQxNzMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2017-02-05T01:06:00.000Z",
+   "updated": "2017-02-24T00:17:34.810Z",
+   "summary": "DAN 210 ",
+   "location": "185 Nassau St, Haglan Studio",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-28T12:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-28T14:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurringEventId": "6krm6or36sq68bb4ckom6b9kc8p34bb268p32bb3cgo6cp9j6ooj2c9oco",
+   "originalStartTime": {
+    "dateTime": "2017-02-28T12:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "6krm6or36sq68bb4ckom6b9kc8p34bb268p32bb3cgo6cp9j6ooj2c9oco@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2975969990288000\"",
+   "id": "6gqjgpj66osj8b9o74r3cb9kcopjeb9p6kqj6b9n6lhj2opnccq62dj46o",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NmdxamdwajY2b3NqOGI5bzc0cjNjYjlrY29wamViOXA2a3FqNmI5bjZsaGoyb3BuY2NxNjJkajQ2byBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2017-02-25T01:09:54.000Z",
+   "updated": "2017-02-25T01:09:55.144Z",
+   "summary": "333 Group Meeting",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-26T19:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-26T20:00:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "6gqjgpj66osj8b9o74r3cb9kcopjeb9p6kqj6b9n6lhj2opnccq62dj46o@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2976334893806000\"",
+   "id": "64p3ecb469h68bb2ckq62b9kclgj2b9o74ojgbb16dgm8ob574rjid1k68",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NjRwM2VjYjQ2OWg2OGJiMmNrcTYyYjlrY2xnajJiOW83NG9qZ2JiMTZkZ204b2I1NzRyamlkMWs2OCBwcmluY2V0b24uZWR1X2ducmtsOTVsZ2sxcGE1OGRtanA5NTVma2ZjQGc",
+   "created": "2017-02-27T03:50:46.000Z",
+   "updated": "2017-02-27T03:50:46.903Z",
+   "summary": "340 HW",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-27T20:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-27T21:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "iCalUID": "64p3ecb469h68bb2ckq62b9kclgj2b9o74ojgbb16dgm8ob574rjid1k68@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2978496205678000\"",
+   "id": "6krm6or36sq68bb4ckom6b9kc8p34bb268p32bb3cgo6cp9j6ooj2c9oco_20170316T163000Z",
+   "status": "cancelled",
+   "recurringEventId": "6krm6or36sq68bb4ckom6b9kc8p34bb268p32bb3cgo6cp9j6ooj2c9oco",
+   "originalStartTime": {
+    "dateTime": "2017-03-16T12:30:00-04:00",
+    "timeZone": "America/New_York"
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2978496206774000\"",
+   "id": "cko62d1hc9i32b9l6gr30b9k74sj8bb16cpjab9i6ph66o9g6srmcchico_20170313T173000Z",
+   "status": "cancelled",
+   "recurringEventId": "cko62d1hc9i32b9l6gr30b9k74sj8bb16cpjab9i6ph66o9g6srmcchico",
+   "originalStartTime": {
+    "dateTime": "2017-03-13T13:30:00-04:00",
+    "timeZone": "America/New_York"
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2979191176570000\"",
+   "id": "74s3cc9gc8q66b9lcco38b9k75hj6bb260rmcb9nc4o3cp1m6op66e1l6o",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=NzRzM2NjOWdjOHE2NmI5bGNjbzM4YjlrNzVoajZiYjI2MHJtY2I5bmM0bzNjcDFtNm9wNjZlMWw2b18yMDE3MDIxMFQxODMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2017-02-05T01:04:56.000Z",
+   "updated": "2017-03-15T16:33:08.285Z",
+   "summary": "COS 340 Precept",
+   "location": "CS Building 102",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-10T13:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-10T14:20:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170317T172959Z;BYDAY=FR"
+   ],
+   "iCalUID": "74s3cc9gc8q66b9lcco38b9k75hj6bb260rmcb9nc4o3cp1m6op66e1l6o@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2979191176570000\"",
+   "id": "74s3cc9gc8q66b9lcco38b9k75hj6bb260rmcb9nc4o3cp1m6op66e1l6o_20170224T183000Z",
+   "status": "cancelled",
+   "recurringEventId": "74s3cc9gc8q66b9lcco38b9k75hj6bb260rmcb9nc4o3cp1m6op66e1l6o",
+   "originalStartTime": {
+    "dateTime": "2017-02-24T13:30:00-05:00",
+    "timeZone": "America/New_York"
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2979191178402000\"",
+   "id": "c5h3eohgcorm8b9n65hmcb9k6soj2b9pchijgb9jcoojadb368rjcohk6c",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=YzVoM2VvaGdjb3JtOGI5bjY1aG1jYjlrNnNvajJiOXBjaGlqZ2I5amNvb2phZGIzNjhyamNvaGs2Y18yMDE3MDIyNFQxODMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2017-02-23T22:42:55.000Z",
+   "updated": "2017-03-15T16:33:09.201Z",
+   "summary": "COS 340 Precept",
+   "location": "CS 102",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-02-24T13:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-02-24T14:30:00-05:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170317T172959Z;BYDAY=FR"
+   ],
+   "iCalUID": "c5h3eohgcorm8b9n65hmcb9k6soj2b9pchijgb9jcoojadb368rjcohk6c@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  },
+  {
+   "kind": "calendar#event",
+   "etag": "\"2979191180344000\"",
+   "id": "cpi68cpn6oqjgbb6cpgm2b9k6osjab9p6hj3ab9kc5h3gcph6lij8d1hc8",
+   "status": "confirmed",
+   "htmlLink": "https://www.google.com/calendar/event?eid=Y3BpNjhjcG42b3FqZ2JiNmNwZ20yYjlrNm9zamFiOXA2aGozYWI5a2M1aDNnY3BoNmxpajhkMWhjOF8yMDE3MDMxN1QxNzMwMDBaIHByaW5jZXRvbi5lZHVfZ25ya2w5NWxnazFwYTU4ZG1qcDk1NWZrZmNAZw",
+   "created": "2017-03-15T16:33:10.000Z",
+   "updated": "2017-03-15T16:33:10.172Z",
+   "summary": "COS 340 Precept P06",
+   "location": "CS Building 102",
+   "creator": {
+    "email": "dmelvin@princeton.edu"
+   },
+   "organizer": {
+    "email": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+    "displayName": "Courses",
+    "self": true
+   },
+   "start": {
+    "dateTime": "2017-03-17T13:30:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "end": {
+    "dateTime": "2017-03-17T14:20:00-04:00",
+    "timeZone": "America/New_York"
+   },
+   "recurrence": [
+    "RRULE:FREQ=WEEKLY;WKST=SU;UNTIL=20170513T013000Z;BYDAY=FR"
+   ],
+   "iCalUID": "cpi68cpn6oqjgbb6cpgm2b9k6osjab9p6hj3ab9kc5h3gcph6lij8d1hc8@google.com",
+   "sequence": 0,
+   "reminders": {
+    "useDefault": true
+   }
+  }
+ ]
+}
