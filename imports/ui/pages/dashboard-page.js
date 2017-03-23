@@ -14,3 +14,10 @@ Template.dashboard_page.helpers({
     	return Meteor.userId();
   	}
 });
+
+// I think we have to initiate the call to get the OAuth info from the client
+Meteor.call("getAuthInfo", function(error){});
+
+// Not sure if this needs to be called on client or server -- depends how we
+// will parse the calendar data
+Meteor.call("getCalendarInfo", function(error){});
