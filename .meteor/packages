@@ -29,5 +29,6 @@ service-configuration
 useraccounts:bootstrap
 email
 check
+useraccounts:flow-routing
 fullcalendar:fullcalendar
 momentjs:moment

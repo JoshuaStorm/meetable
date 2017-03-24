@@ -1,0 +1,20 @@
+
+
+<template name="dashboard_page">
+	<body>
+		<div class="page-header">
+	     	<h1 class="text-center">Meetable</h1>
+        </div>
+
+        <div class="container">
+         	<div class="row">
+            {{#if currentUser}}
+              <h2 class = "text-center"> Welcome {{firstName}}, this is your dashboard.</h2>
+            {{/if}}
+      		</div>
+          <ul class="nav navbar-nav navbar-right">
+              {{> atNavButton}}
+            </ul>
+      	</div>
+	 </body>
+</template>

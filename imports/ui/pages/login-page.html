@@ -1,22 +1,26 @@
-<template name="login-page">
-	<body>
-		<div class="page-header">
-     <h1 class="text-center">Meetable</h1>
-   </div>
+<template name="login_page">
+  <body>
+    <div class="page-header">
+        <h1 class="text-center">Meetable</h1>
+        </div>
 
-   <div class="container">
-    <div class="row">
-     <div class="col-md-6 col-md-offset-3">
-       {{> atForm}}
-     </div>
-     <ul class="nav navbar-nav navbar-right">
-       {{> atNavButton}}
-     </ul>
-     <div>
-     <a href='/cal'>View Calendar</a>
-     </div>
-    </div>
-  </div>
-
-</body>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+              <div class="at-title">
+                <h3>Sign In</h3>
+              </div>
+              <button name="google" class="btn at-social-btn" id="at-google" > 
+                Sign In With Google
+              </button>
+            </div>
+            <ul class="nav navbar-nav navbar-right">
+              {{> atNavButton}}
+            </ul>
+            <div>
+              <a href='/cal'>View Calendar</a>
+            </div>
+          </div>
+        </div>
+   </body>
 </template>

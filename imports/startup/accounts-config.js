@@ -12,10 +12,12 @@ AccountsTemplates.configure({
   defaultContentRegion: 'main',
   defaultLayoutRegions: {},
 });
-/*
+
+/* **********************************************************************************************/
+/* haven't quite figured this functionality out yet - this section of code is useless as of now */
 AccountsTemplates.configureRoute('signIn', {
   name: 'signin',
-  path: '/signin',
+  path: '/dashboard',
 });
 
 AccountsTemplates.configureRoute('signUp', {
@@ -28,4 +30,6 @@ AccountsTemplates.configureRoute('forgotPwd');
 AccountsTemplates.configureRoute('resetPwd', {
   name: 'resetPwd',
   path: '/reset-password',
-});*/
+});
+/* **********************************************************************************************/
+
