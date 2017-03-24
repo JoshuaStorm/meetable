@@ -14,6 +14,11 @@ import '../../ui/pages/dashboard-page.js';
   },
 });
 */
+
+// View calendar template
+import '../../ui/pages/calViewPage.js';
+
+
 FlowRouter.route('/', {
   name: 'App.home',
   action: function(params) {
@@ -39,6 +44,13 @@ FlowRouter.route('/error', {
   action() {
     BlazeLayout.render('App_body', { main: 'error_page' });
   },
+});
+
+FlowRouter.route('/cal', {
+	name: 'App.calendar',
+	action() {
+		BlazeLayout.render('App_body', {main: 'calViewPage'});
+	},
 });
 
 // the App_notFound template is used for unknown routes and missing lists

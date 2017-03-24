@@ -1,0 +1,190 @@
+{
+ "kind": "calendar#calendarList",
+ "etag": "\"p33gej8m5gbed40g\"",
+ "nextSyncToken": "CODposWC3NICEhh0aW1ld2FycHRyaW8xMUBnbWFpbC5jb20=",
+ "items": [
+  {
+   "kind": "calendar#calendarListEntry",
+   "etag": "\"1474984136123000\"",
+   "id": "rpb16ulctant3e39s3c529doso@group.calendar.google.com",
+   "summary": "Princeton Powerlifting",
+   "location": "USA",
+   "timeZone": "America/New_York",
+   "colorId": "19",
+   "backgroundColor": "#c2c2c2",
+   "foregroundColor": "#000000",
+   "selected": true,
+   "accessRole": "owner",
+   "defaultReminders": []
+  },
+  {
+   "kind": "calendar#calendarListEntry",
+   "etag": "\"1439526488922000\"",
+   "id": "davidmelvinjr@gmail.com",
+   "summary": "Davidmelvinjr",
+   "timeZone": "America/New_York",
+   "colorId": "24",
+   "backgroundColor": "#a47ae2",
+   "foregroundColor": "#000000",
+   "selected": true,
+   "accessRole": "owner",
+   "defaultReminders": []
+  },
+  {
+   "kind": "calendar#calendarListEntry",
+   "etag": "\"1489701495242000\"",
+   "id": "1pnggofdr7h75263k7nr8u7e90@group.calendar.google.com",
+   "summary": "Victoria",
+   "timeZone": "America/New_York",
+   "colorId": "18",
+   "backgroundColor": "#b99aff",
+   "foregroundColor": "#000000",
+   "accessRole": "owner",
+   "defaultReminders": []
+  },
+  {
+   "kind": "calendar#calendarListEntry",
+   "etag": "\"1486956123139000\"",
+   "id": "princeton.edu_bgfeme37735asl19gtdd2g048c@group.calendar.google.com",
+   "summary": "Activities",
+   "timeZone": "America/New_York",
+   "colorId": "10",
+   "backgroundColor": "#b3dc6c",
+   "foregroundColor": "#000000",
+   "selected": true,
+   "accessRole": "writer",
+   "defaultReminders": []
+  },
+  {
+   "kind": "calendar#calendarListEntry",
+   "etag": "\"1473913896392000\"",
+   "id": "princeton.edu_u8mvr04immp7l7v1r3jd234h8o@group.calendar.google.com",
+   "summary": "Work",
+   "timeZone": "America/New_York",
+   "colorId": "4",
+   "backgroundColor": "#fa573c",
+   "foregroundColor": "#000000",
+   "selected": true,
+   "accessRole": "writer",
+   "defaultReminders": []
+  },
+  {
+   "kind": "calendar#calendarListEntry",
+   "etag": "\"1474855016795000\"",
+   "id": "dmelvin@princeton.edu",
+   "summary": "Princeton",
+   "timeZone": "America/New_York",
+   "colorId": "6",
+   "backgroundColor": "#ffad46",
+   "foregroundColor": "#000000",
+   "selected": true,
+   "accessRole": "writer",
+   "defaultReminders": []
+  },
+  {
+   "kind": "calendar#calendarListEntry",
+   "etag": "\"1460397965066000\"",
+   "id": "princeton.edu_veg6gbs5t1s4ung59j55doq1tk@group.calendar.google.com",
+   "summary": "ECs",
+   "timeZone": "America/New_York",
+   "colorId": "24",
+   "backgroundColor": "#a47ae2",
+   "foregroundColor": "#000000",
+   "selected": true,
+   "accessRole": "writer",
+   "defaultReminders": []
+  },
+  {
+   "kind": "calendar#calendarListEntry",
+   "etag": "\"1489701498664000\"",
+   "id": "princeton.edu_rrfq1j9k0dncto185tldeg88ho@group.calendar.google.com",
+   "summary": "Office Hours",
+   "timeZone": "America/New_York",
+   "colorId": "18",
+   "backgroundColor": "#b99aff",
+   "foregroundColor": "#000000",
+   "accessRole": "writer",
+   "defaultReminders": []
+  },
+  {
+   "kind": "calendar#calendarListEntry",
+   "etag": "\"1454481228528000\"",
+   "id": "timewarptrio11@gmail.com",
+   "summary": "Timewarptrio11",
+   "timeZone": "America/New_York",
+   "colorId": "15",
+   "backgroundColor": "#9fc6e7",
+   "foregroundColor": "#000000",
+   "selected": true,
+   "accessRole": "owner",
+   "defaultReminders": [
+    {
+     "method": "popup",
+     "minutes": 10
+    }
+   ],
+   "notificationSettings": {
+    "notifications": [
+     {
+      "type": "eventCreation",
+      "method": "email"
+     },
+     {
+      "type": "eventChange",
+      "method": "email"
+     },
+     {
+      "type": "eventCancellation",
+      "method": "email"
+     },
+     {
+      "type": "eventResponse",
+      "method": "email"
+     }
+    ]
+   },
+   "primary": true
+  },
+  {
+   "kind": "calendar#calendarListEntry",
+   "etag": "\"1442513846964000\"",
+   "id": "princeton.edu_gnrkl95lgk1pa58dmjp955fkfc@group.calendar.google.com",
+   "summary": "Courses",
+   "description": "Course meetings and associated events",
+   "location": "Princeton, NJ",
+   "timeZone": "America/New_York",
+   "colorId": "1",
+   "backgroundColor": "#ac725e",
+   "foregroundColor": "#000000",
+   "selected": true,
+   "accessRole": "writer",
+   "defaultReminders": []
+  },
+  {
+   "kind": "calendar#calendarListEntry",
+   "etag": "\"1454481228989000\"",
+   "id": "#contacts@group.v.calendar.google.com",
+   "summary": "Contacts",
+   "timeZone": "America/New_York",
+   "colorId": "12",
+   "backgroundColor": "#fad165",
+   "foregroundColor": "#000000",
+   "selected": true,
+   "accessRole": "reader",
+   "defaultReminders": []
+  },
+  {
+   "kind": "calendar#calendarListEntry",
+   "etag": "\"1477426685604000\"",
+   "id": "en.usa#holiday@group.v.calendar.google.com",
+   "summary": "Holidays in United States",
+   "timeZone": "America/New_York",
+   "colorId": "7",
+   "backgroundColor": "#42d692",
+   "foregroundColor": "#000000",
+   "selected": true,
+   "accessRole": "reader",
+   "defaultReminders": []
+  }
+ ]
+}
