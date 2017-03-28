@@ -15,8 +15,8 @@ TODO at next meeting:
      - Casey: re-organize Flow Router to have Flow Group Routes  
      - David and Shayan: pulling and displaying Google calendar information
 - David - started pulling Google Calendar data
-     - Current just prints next 10 events from one of the logged in user’s calendars to the meteor terminal
-     - Main issue now is figuring out how to print all events from all calendars, because when I try it, there are weird asynchronous data errors
+     - Currently just prints next 10 events from one of the logged in user’s calendars to the meteor terminal
+     - Next step: allow user to choose which calendars to print the events of, and fix errors for certain calendars
      
 ## March 21, 2017 - Email SMTP Setup (Josh)
 - Decided to use MailGun due to convenience of Sandbox URL and fairly competitive free package.
