@@ -10,13 +10,13 @@ TODO at next meeting:
 
 ## March 22, 2017 - Video call meeting  
 - To do for rest of spring break:  
-     - Everyone: test Casey's and Shayan's pull requests  
-     - Josh: manage merge conflicts  
-     - Casey: re-organize Flow Router to have Flow Group Routes  
-     - David and Shayan: pulling and displaying Google calendar information
+  - Everyone: test Casey's and Shayan's pull requests  
+  - Josh: manage merge conflicts  
+  - Casey: re-organize Flow Router to have Flow Group Routes  
+  - David and Shayan: pulling and displaying Google calendar information
 - David - started pulling Google Calendar data
-     - Currently just prints next 10 events from one of the logged in user’s calendars to the meteor terminal
-     - Next step: allow user to choose which calendars to print the events of, and fix errors for certain calendars
+  - Currently just prints next 10 events from one of the logged in user’s calendars to the meteor terminal
+  - Next step: allow user to choose which calendars to print the events of, and fix errors for certain calendars
      
 ## March 21, 2017 - Email SMTP Setup (Josh)
 - Decided to use MailGun due to convenience of Sandbox URL and fairly competitive free package.
@@ -27,20 +27,20 @@ TODO at next meeting:
 ## March 21, 2017 - User accounts updates (Casey)
 - added an error page for any url that isn't properly routed to (helpful for checking to see if my routes are working) 
 - added a dashboard page which pulls the first name of user from Google profile to display a welcome message. ~~Still haven't linked it so that the site automatically goes to this page after signing in.~~ Implemented automatic redirection on sign-in in second commit.
-     - one issue with the name feature is that it requires people to have put a first name in their Google profile, which not everyone has (i.e. I never personalized my Princeton account)
+  - one issue with the name feature is that it requires people to have put a first name in their Google profile, which not everyone has (i.e. I never personalized my Princeton account)
 - request Cal permissions by doing away with {{> atForm}} and instead rolling out our own Google authentication with Meteor.signinWithGoogle()
 
 ## March 21, 2017 - Video call meeting
 Merging initial commits with master
 Meeting resulting in distributed jobs for Spring Break
-* Casey: configure database for user accounts;
-* David: Gcal permissions
-* Shayan: calendar display
-* Josh: configure emails
+- Casey: configure database for user accounts;
+- David: Gcal permissions
+- Shayan: calendar display
+- Josh: configure emails
 
 ## March 20, 2017 - Initial website setup (Casey)
 
 Initial commits.
-* Basic page with Meteor setup, MongoDB database pre-included
-* Google Login and basic use of `useraccounts` package
-* No database information saved yet
+- Basic page with Meteor setup, MongoDB database pre-included
+- Google Login and basic use of `useraccounts` package
+- No database information saved yet
