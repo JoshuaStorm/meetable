@@ -2,8 +2,11 @@
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
 ## March 27, 2017
+All PRs merged.
 
-
+TODO at next meeting:
+- Plot out the next 2-3 PR goals for each of us so we can all work on our own time.
+- Hopefully have time to code!
 
 ## March 22, 2017 - Video call meeting  
 - To do for rest of spring break:  
