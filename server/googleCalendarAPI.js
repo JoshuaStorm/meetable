@@ -44,11 +44,14 @@ Meteor.methods({
 // call 'callback' function after the data is retrieved
 // return data: https://developers.google.com/google-apps/calendar/v3/reference/calendarList#resource
 // TODO: what if a user doesn't have calendars, permissions issues, other edge cases
+//  TODO: on first run, it has no access oken and didn't work until refresh
+// TODO: what if someone only has FreeBusy info, but can't see event titles?
 function getCalendars(callback) {
     // Get a list of the current user's Google Calendars
     gCalendar.calendarList.list(
         {
             auth: oauth2Client,
+            minAccessRole: "freeBusyReader"
         },
         // Callback, wait until the data is received 
         function(err, response) {
@@ -66,41 +69,59 @@ function getCalendars(callback) {
                 
                 // TODO: loop through all calendars and print their events
                 // currently results in weird problems with responses not returning on time
-                    
-                callback(calendars[0].id);
+                // for (var i = 0; i < calendars.length; i++)
+                // {
+                //     console.log("calendars["+ i + "]: " + calendars[i].id);
+                //     console.log("calendars["+ i + "]: " + calendars[i].summary);
+                // }
+                callback(calendars);
             }
         });
 }
-
+//TODO: just use the free busy info for now to get a working thing up.
 // Print a list of the next 10 events in the calendar specified by id
-function printList(id){
-    gCalendar.events.list
-    ({
-        auth: oauth2Client,
-        // The specified calendar
-        calendarId: id,
-        timeMin: (new Date()).toISOString(),
-        maxResults: 10,
-        singleEvents: true,
-        orderBy: 'startTime'
-    }, function(err, response)
+// !! Print all events from all calendars in calendars array
+function printList(calendars){
+    console.log("calendars length: " + calendars.length)
+    var i = 0, len = calendars.length;
+    for (; i < calendars.length; i++)
     {
-        if (err) {
-            console.log('The API returned an error: ' + err);
-            return;
-        }
-        var events = response.items;
-        if (events.length == 0) {
-            console.log('No upcoming events found.');
-        } else
+        // console.log("calendars["+ i + "]: " + calendars[i].id);
+        // console.log("calendars["+ i + "]: " + calendars[i].summary);
+        var z = i;
+        console.log("z: " + z);
+        gCalendar.events.list
+        ({
+            auth: oauth2Client,
+            // The specified calendar
+            // not working for en.usa#holiday@group.v.calendar.google.com
+            calendarId: "en.usa#holiday@group.v.calendar.google.com",
+            // Assumes we are only reading events from now onwards
+            timeMin: (new Date()).toISOString(),
+            maxResults: 10,
+            singleEvents: true,
+            orderBy: 'startTime'
+        }, function(err, response)
         {
-            console.log('Upcoming 10 events:');
-            for (var i = 0; i < events.length; i++)
-            {
-                var event = events[i];
-                var start = event.start.dateTime || event.start.date;
-                console.log('%s - %s', start, event.summary);
+            if (err) {
+                console.log('The API returned an error: ' + err);
+                return;
             }
-       }
-    });
+            console.log("i: " + i );
+            console.log("response[ " + i + "]: " + response.items[0].summary);
+            var events = response.items;
+            if (events.length == 0) {
+                console.log('No upcoming events found.');
+            } else
+            {
+                console.log('Upcoming 10 events:');
+                for (var i = 0; i < events.length; i++)
+                {
+                    var event = events[i];
+                    var start = event.start.dateTime || event.start.date;
+                    console.log('%s - %s', start, event.summary);
+                }
+           }
+        });
+    }
 }
