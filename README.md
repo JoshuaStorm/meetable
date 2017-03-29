@@ -18,6 +18,11 @@ TODO at next meeting:
   - Currently just prints next 10 events from one of the logged in user’s calendars to the meteor terminal
   - Next step: allow user to choose which calendars to print the events of, and fix errors for certain calendars
      
+## March 21, 2017 - Calendar Display (Shayan)
+- Did some research on best way to display a calendar. For now the easiest way seems to be to use fullcalendar API
+- Downloaded and installed full calendar, added a page that displays a calendar w/ no events and a link on the log in page leading to the calendar.
+- Figured out how to add events to said calendar, however was not able to fully integrate w/ David to push the events from the pulled calendar. This is the priority right now.
+     
 ## March 21, 2017 - Email SMTP Setup (Josh)
 - Decided to use MailGun due to convenience of Sandbox URL and fairly competitive free package.
 - Added a convenient email client-side hook to server-side email delivery (asynchronous)
