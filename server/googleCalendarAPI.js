@@ -10,7 +10,7 @@ var auth = new googleAuth();
 var oauth2Client = new auth.OAuth2(
   "411203275095-a0a2bbdtm407ue9km22es9jkn28674nq.apps.googleusercontent.com",
   "2VDBkNk8dLg18OL1o3XM7Ev4",
-  "localhost:3000/"
+  "http://localhost:3000/"
 );
 
 
@@ -36,7 +36,7 @@ Meteor.methods({
   },
   getCalendarInfo: function() {
     // get all calendars and then print the next 10 events from one of them
-        getCalendars(printList);  
+        getCalendars(printEventList);  
   }
 });
 
@@ -56,7 +56,7 @@ function getCalendars(callback) {
         // Callback, wait until the data is received 
         function(err, response) {
             if (err) {
-                console.log('The API returned an error: ' + err);
+                console.log('getCalendars: The API returned an error: ' + err);
                 return;
             }
             var calendars = response.items;
@@ -69,33 +69,33 @@ function getCalendars(callback) {
                 
                 // TODO: loop through all calendars and print their events
                 // currently results in weird problems with responses not returning on time
-                // for (var i = 0; i < calendars.length; i++)
-                // {
-                //     console.log("calendars["+ i + "]: " + calendars[i].id);
-                //     console.log("calendars["+ i + "]: " + calendars[i].summary);
-                // }
+                for (var i = 0; i < calendars.length; i++)
+                {
+                    console.log("calendars["+ i + "]: " + calendars[i].id);
+                    console.log("calendars["+ i + "]: " + calendars[i].summary);
+                }
                 callback(calendars);
             }
         });
 }
+
+
 //TODO: just use the free busy info for now to get a working thing up.
 // Print a list of the next 10 events in the calendar specified by id
 // !! Print all events from all calendars in calendars array
-function printList(calendars){
-    console.log("calendars length: " + calendars.length)
-    var i = 0, len = calendars.length;
-    for (; i < calendars.length; i++)
-    {
+function printEventList(calendars){
+    //console.log("calendars length: " + calendars.length)
+    //var i = 0, 
+    
         // console.log("calendars["+ i + "]: " + calendars[i].id);
         // console.log("calendars["+ i + "]: " + calendars[i].summary);
-        var z = i;
-        console.log("z: " + z);
+
         gCalendar.events.list
         ({
             auth: oauth2Client,
             // The specified calendar
             // not working for en.usa#holiday@group.v.calendar.google.com
-            calendarId: "en.usa#holiday@group.v.calendar.google.com",
+            calendarId: calendars[0].id,
             // Assumes we are only reading events from now onwards
             timeMin: (new Date()).toISOString(),
             maxResults: 10,
@@ -104,11 +104,10 @@ function printList(calendars){
         }, function(err, response)
         {
             if (err) {
-                console.log('The API returned an error: ' + err);
+                console.log('printEventList: The API returned an error: ' + err);
                 return;
             }
-            console.log("i: " + i );
-            console.log("response[ " + i + "]: " + response.items[0].summary);
+            
             var events = response.items;
             if (events.length == 0) {
                 console.log('No upcoming events found.');
@@ -123,5 +122,5 @@ function printList(calendars){
                 }
            }
         });
-    }
+    
 }
