@@ -24,4 +24,4 @@ Meteor.call("getCalendarInfo", function(error){});
 
 var startDate = new Date("2017-04-1");
 var endDate = new Date("2017-04-4");
-var result = Meteor.call("getFreeBusy", startDate, endDate, "est", function(error, result){});
+Meteor.call("getFreeBusy", startDate, endDate, "est", function(error, result){});
