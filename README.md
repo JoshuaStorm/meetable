@@ -6,7 +6,7 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Also having trouble pushing the data to the database.
 - I'm going to watch some tutorials to try and figure out how Meteor's "subscription based data persistence" works.
 
-## April 2, 2017 (David)
+## April 1, 2017 (David)
 - Print the id and calendar title to Meteor console for all calendars of the logged in with Google.
 - Next steps: save this data to the database, associated with a user account in MongoDB
 
