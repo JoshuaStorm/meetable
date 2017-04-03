@@ -1,6 +1,11 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 2, 2017 (Josh)
+- Pulling FreeBusy data from GoogleAPIs. Currently just printing it on the server side. This was way more of a hassle than I anticipated...
+- Also having trouble pushing the data to the database.
+- I'm going to watch some tutorials to try and figure out how Meteor's "subscription based data persistence" works.
+
 ## March 27, 2017
 All PRs merged.
 
