@@ -1,6 +1,10 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 3, 2017 (Josh)
+- Done some research on Meteor async behavior. Realized we were doing some stuff very wrong. I posted a wiki article on it.
+- The basic concept is server-side async is all about 'fibers' and client-side async is still callbacks
+
 ## April 2, 2017 (Josh)
 - Pulling FreeBusy data from GoogleAPIs. Currently just printing it on the server side. This was way more of a hassle than I anticipated...
 - Also having trouble pushing the data to the database.
