@@ -30,7 +30,7 @@ Meteor.methods({
         var accessToken = googleService.accessToken;
         var refreshToken = googleService.refreshToken;
         var expiryDate =  googleService.expiresAt;
-        
+
         // TODO add a way to manuarlly refresh the token if it expires
         oauth2Client.setCredentials({
           access_token: accessToken,
@@ -46,7 +46,18 @@ Meteor.methods({
   // gets a list of the users calendars and then immediately prints
   // the first event from that list
   getCalendarInfo: function() {
-        getCalendars(printEventList);  
+        getCalendars(printEventList, {});
+  },
+
+  // Add a method to get Google FreeBusy info
+  // minTime (Date): Minimum time to consider
+  // maxtime (Date): Maximum time to consider
+  // zone (string): Timezone to return response in
+  // NOTE: Something seems wonky about using future dates...
+  getFreeBusy: function (minTime, maxTime, zone) {
+    check([minTime, maxTime], [Date])
+    check(zone, String)
+    getCalendars(printFreeBusy, { "minTime": minTime,  "maxTime": maxTime, "zone": zone });
   }
 });
 
@@ -58,16 +69,17 @@ Meteor.methods({
 // call 'callback' function after the data is retrieved
 // return data format: https://developers.google.com/google-apps/calendar/v3/reference/calendarList#resource
 
-function getCalendars(callback) {
+function getCalendars(callback, callbackArgs) {
     // Get a list of the current user's Google Calendars
     gCalendar.calendarList.list(
         {
             minAccessRole: "freeBusyReader"
         },
-        // Callback, wait until the data is received 
+        // Callback, wait until the data is received
         function(err, response) {
             if (err) {
                 console.log('getCalendars: The API returned an error: ' + err);
+                console.log(err);
                 return;
             }
             var calendars = response.items;
@@ -77,7 +89,7 @@ function getCalendars(callback) {
             else {
                 // TODO: may need to check for read permissions for each calendar?
                 // I assume all of these calendars can be read..
-                
+
                 // TODO: loop through all calendars and print their events
                 // currently results in weird problems with responses not returning on time
                 for (var i = 0; i < calendars.length; i++)
@@ -85,15 +97,41 @@ function getCalendars(callback) {
                     console.log("calendars["+ i + "]: " + calendars[i].id);
                     console.log("calendars["+ i + "]: " + calendars[i].summary);
                 }
-                callback(calendars[0].id);
+                callback(calendars[0].id, callbackArgs);
             }
         });
 }
 
-//TODO?: just use the free busy info for now to get a working thing up.
+// Just print the free busy data. TODO: Save this stuff to the database?
+function printFreeBusy(calendarId, args) {
+  var minTime = args.minTime.toISOString();
+  var maxTime = args.maxTime.toISOString();
+  var zone = args.zone;
+
+  gCalendar.freebusy.query({
+    headers: { "content-type" : "application/json" },
+    // needed to include resource instead of sending the params directly.
+    resource: {
+      items: [{"id" : calendarId}],
+      timeMin: minTime,
+      timeMax: maxTime,
+      timeZone: zone
+    }
+  }, function(err, response) {
+    if (err) {
+      console.log('getfreebusy: The API returned an error: ' + err);
+      return;
+    }
+    var calendars = response.calendars;
+    for (var calId in calendars) {
+      // This will just print the ARRAY of objects { start: "ISO time", end: "ISO time" }
+      console.log(calendars[calId].busy);
+    }
+  });
+}
 
 // Print a list of the next 10 events in the calendar specified by calendarI
-function printEventList(calendarId){
+function printEventList(calendarId) {
         gCalendar.events.list
         ({
             // The specified calendar
@@ -111,7 +149,7 @@ function printEventList(calendarId){
                 console.log('printEventList: The API returned an error: ' + err);
                 return;
             }
-            
+
             var events = response.items;
             if (events.length == 0) {
                 console.log('No upcoming events found.');

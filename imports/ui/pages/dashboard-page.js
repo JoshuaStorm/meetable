@@ -5,10 +5,10 @@ import './dashboard-page.html';
 
 Template.dashboard_page.helpers({
    firstName: function(){
-    var user = Meteor.user(); 
+    var user = Meteor.user();
 	    if (user) {
-	      return user.services.google.given_name;    
-	   	} 
+	      return user.services.google.given_name;
+	   	}
 	},
    currentUser: function() {
     	return Meteor.userId();
@@ -21,3 +21,7 @@ Meteor.call("getAuthInfo", function(error){});
 // Not sure if this needs to be called on client or server -- depends how we
 // will parse the calendar data
 Meteor.call("getCalendarInfo", function(error){});
+
+var startDate = new Date("2017-04-1");
+var endDate = new Date("2017-04-4");
+var result = Meteor.call("getFreeBusy", startDate, endDate, "est", function(error, result){});
