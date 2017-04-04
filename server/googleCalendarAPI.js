@@ -45,21 +45,45 @@ Meteor.methods({
 
   // gets a list of the users calendars and then immediately prints
   // the first event from that list
+  // TODO: wrapAsync these guys if we actually want to use them
   getCalendarInfo: function() {
         getCalendars(printEventList, {});
   },
 
+  getCalendarList: function() {
+    return wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
+  },
+
   // Add a method to get Google FreeBusy info
-  // minTime (Date): Minimum time to consider
-  // maxtime (Date): Maximum time to consider
+  // startTime (Date): Minimum time to consider
+  // endTime (Date): Maximum time to consider
   // zone (string): Timezone to return response in
   // NOTE: Something seems wonky about using future dates...
-  getFreeBusy: function (minTime, maxTime, zone) {
-    check([minTime, maxTime], [Date])
+  getFreeBusy: function (startTime, endTime, zone) {
+    check([startTime, endTime], [Date])
     check(zone, String)
-    getCalendars(printFreeBusy, { "minTime": minTime,  "maxTime": maxTime, "zone": zone });
+    var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
+
+    return wrappedGetFreeBusy({
+      headers: { "content-type" : "application/json" },
+      // needed to include resource instead of sending the params directly.
+      resource: {
+        // TODO: Use something other than the first ID
+        items: [{"id" : calendarList.items[0].id}],
+        timeMin: startTime.toISOString(),
+        timeMax: endTime.toISOString(),
+        timeZone: zone
+      }
+    });
   }
 });
+
+// Wrapping up async function for Meteor fibers. Confused? See:
+// https://github.com/JoshuaStorm/meetable/wiki/Meteor-Async
+var wrappedGetCalendarsList = Meteor.wrapAsync(gCalendar.calendarList.list);
+var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendar.freebusy.query);
+
+// Below here is legacy stuff that isn't Fiber wrapped. Do we still need these?
 
 // TODO: what if a user doesn't have calendars, permissions issues, other edge cases
 // TODO: on first run, it has no access oken and didn't work until refresh
@@ -100,34 +124,6 @@ function getCalendars(callback, callbackArgs) {
                 callback(calendars[0].id, callbackArgs);
             }
         });
-}
-
-// Just print the free busy data. TODO: Save this stuff to the database?
-function printFreeBusy(calendarId, args) {
-  var minTime = args.minTime.toISOString();
-  var maxTime = args.maxTime.toISOString();
-  var zone = args.zone;
-
-  gCalendar.freebusy.query({
-    headers: { "content-type" : "application/json" },
-    // needed to include resource instead of sending the params directly.
-    resource: {
-      items: [{"id" : calendarId}],
-      timeMin: minTime,
-      timeMax: maxTime,
-      timeZone: zone
-    }
-  }, function(err, response) {
-    if (err) {
-      console.log('getfreebusy: The API returned an error: ' + err);
-      return;
-    }
-    var calendars = response.calendars;
-    for (var calId in calendars) {
-      // This will just print the ARRAY of objects { start: "ISO time", end: "ISO time" }
-      console.log(calendars[calId].busy);
-    }
-  });
 }
 
 // Print a list of the next 10 events in the calendar specified by calendarI
