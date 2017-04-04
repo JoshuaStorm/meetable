@@ -10,7 +10,7 @@ Template.login_page.events({
         var googleLoginOptions = {
             requestOfflineToken: true,
             requestPermissions: ['https://www.googleapis.com/auth/calendar']
-            
+
         };
 
         Meteor.loginWithGoogle(googleLoginOptions,
