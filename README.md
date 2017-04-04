@@ -3,7 +3,10 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 
 ## April 3, 2017 (Josh)
 - Done some research on Meteor async behavior. Realized we were doing some stuff very wrong. I posted a wiki article on it.
-- The basic concept is server-side async is all about 'fibers' and client-side async is still callbacks
+    - The basic concept is server-side async is all about 'fibers' and client-side async is still callbacks
+- Implemented a little bit of the above async stuff. Pulling FreeBusy and CalendarList with fibers and returning that info via callbacks to the client.
+- Fixed our SMTP issues where MailGun wouldn't confirm our DNS record even though `dig` would. SendGrid is working like a charm with a better free package.
+
 
 ## April 2, 2017 (Josh)
 - Pulling FreeBusy data from GoogleAPIs. Currently just printing it on the server side. This was way more of a hassle than I anticipated...
