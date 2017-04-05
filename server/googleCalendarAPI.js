@@ -50,6 +50,8 @@ Meteor.methods({
         getCalendars(printEventList, {});
   },
 
+  // Get an array of all calendars for the current user
+  // return data format: https://developers.google.com/google-apps/calendar/v3/reference/calendarList#resource
   getCalendarList: function() {
     return wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
   },
@@ -88,43 +90,6 @@ var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendar.freebusy.query);
 // TODO: what if a user doesn't have calendars, permissions issues, other edge cases
 // TODO: on first run, it has no access oken and didn't work until refresh
 // TODO: what if someone only has FreeBusy info, but can't see event titles?
-
-// Get an array of all calendars for the given user then
-// call 'callback' function after the data is retrieved
-// return data format: https://developers.google.com/google-apps/calendar/v3/reference/calendarList#resource
-
-function getCalendars(callback, callbackArgs) {
-    // Get a list of the current user's Google Calendars
-    gCalendar.calendarList.list(
-        {
-            minAccessRole: "freeBusyReader"
-        },
-        // Callback, wait until the data is received
-        function(err, response) {
-            if (err) {
-                console.log('getCalendars: The API returned an error: ' + err);
-                console.log(err);
-                return;
-            }
-            var calendars = response.items;
-
-            if (calendars.length == 0)
-                console.log("No calendars found!");
-            else {
-                // TODO: may need to check for read permissions for each calendar?
-                // I assume all of these calendars can be read..
-
-                // TODO: loop through all calendars and print their events
-                // currently results in weird problems with responses not returning on time
-                for (var i = 0; i < calendars.length; i++)
-                {
-                    console.log("calendars["+ i + "]: " + calendars[i].id);
-                    console.log("calendars["+ i + "]: " + calendars[i].summary);
-                }
-                callback(calendars[0].id, callbackArgs);
-            }
-        });
-}
 
 // Print a list of the next 10 events in the calendar specified by calendarI
 function printEventList(calendarId) {
