@@ -50,8 +50,9 @@ Meteor.methods({
   },
 
   // Return an array of event dates in the FullCalendar format
-  // TODO: Accept a parameter to anonymize events
-  getFullCalendarEvents: function() {
+  // SIDE EFFECT: Update database entry for this users events
+  // anonymize (boolean): Whether to return the data anonymized or not
+  getFullCalendarEvents: function(anonymize) {
     var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
     var gcalEvents = wrappedGetEventList({
         // The specified calendar
@@ -66,19 +67,41 @@ Meteor.methods({
         orderBy: 'startTime'
     });
 
+    anonCalEvents = [];
     fullCalEvents = [];
     for (var i = 0; i < gcalEvents.items.length; i++) {
       var thisGCalEvent = gcalEvents.items[i];
+
+      var thisAnonCalEvent = {
+        title: "Unknown",
+        start: thisGCalEvent.start.dateTime,
+        end: thisGCalEvent.end.dateTime,
+        timeZone: thisGCalEvent.start.timeZone
+      };
       var thisFullCalEvent = {
         title: thisGCalEvent.summary,
         start: thisGCalEvent.start.dateTime,
         end: thisGCalEvent.end.dateTime,
         timeZone: thisGCalEvent.start.timeZone
       };
+      anonCalEvents.push(thisAnonCalEvent);
       fullCalEvents.push(thisFullCalEvent);
     }
+    // Update this users events in the database with anonymized events
+    Meteor.users.update(this.userId, {
+      $set: {
+        calendarEvents: anonCalEvents
+      }
+    });
+    if (anonymize) return anonCalEvents;
     return fullCalEvents;
   },
+
+  // DEBUG FUNCTION ONLY THIS SHOULDN'T MAKE IT TO MY PR
+  printFromDB: function() {
+    console.log(Meteor.users.findOne(this.userId).calendarEvents);
+  },
+
   // Add a method to get Google FreeBusy info
   // startTime (Date): Minimum time to consider
   // endTime (Date): Maximum time to consider

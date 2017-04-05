@@ -42,7 +42,9 @@ Meteor.call("getFreeBusy", startDate, endDate, "est", function(error, result) {
   console.log(result);
 });
 
-Meteor.call("getFullCalendarEvents", function(error, result) {
+Meteor.call("getFullCalendarEvents", false, function(error, result) {
   $( '#events-calendar' ).fullCalendar('addEventSource', result);
   console.log(result[0]);
 });
+
+Meteor.call("printFromDB", function (error) {});
