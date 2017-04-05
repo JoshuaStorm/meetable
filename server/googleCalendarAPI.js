@@ -49,6 +49,36 @@ Meteor.methods({
     return wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
   },
 
+  // Return an array of event dates in the FullCalendar format
+  // TODO: Accept a parameter to anonymize events
+  getFullCalendarEvents: function() {
+    var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
+    var gcalEvents = wrappedGetEventList({
+        // The specified calendar
+        // not working for en.usa#holiday@group.v.calendar.google.com
+        // TODO: Don't just do the first ID
+        calendarId: calendarList.items[0].id,
+        // Assumes we are only reading events from now onwards
+        // TODO: Take more than just from now on? Maybe maybe not
+        timeMin: (new Date()).toISOString(),
+        maxResults: 100,
+        singleEvents: true,
+        orderBy: 'startTime'
+    });
+
+    fullCalEvents = [];
+    for (var i = 0; i < gcalEvents.items.length; i++) {
+      var thisGCalEvent = gcalEvents.items[i];
+      var thisFullCalEvent = {
+        title: thisGCalEvent.summary,
+        start: thisGCalEvent.start.dateTime,
+        end: thisGCalEvent.end.dateTime,
+        timeZone: thisGCalEvent.start.timeZone
+      };
+      fullCalEvents.push(thisFullCalEvent);
+    }
+    return fullCalEvents;
+  },
   // Add a method to get Google FreeBusy info
   // startTime (Date): Minimum time to consider
   // endTime (Date): Maximum time to consider
@@ -77,6 +107,7 @@ Meteor.methods({
 // https://github.com/JoshuaStorm/meetable/wiki/Meteor-Async
 var wrappedGetCalendarsList = Meteor.wrapAsync(gCalendar.calendarList.list);
 var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendar.freebusy.query);
+var wrappedGetEventList = Meteor.wrapAsync(gCalendar.events.list);
 
 // Below here is legacy stuff that isn't Fiber wrapped. Do we still need these?
 
