@@ -20,8 +20,15 @@ Meteor.call("getAuthInfo", function(error){});
 
 // Not sure if this needs to be called on client or server -- depends how we
 // will parse the calendar data
-Meteor.call("getCalendarInfo", function(error){});
+// Meteor.call("getCalendarInfo", function(error){});
 
 var startDate = new Date("2017-04-1");
 var endDate = new Date("2017-04-4");
-Meteor.call("getFreeBusy", startDate, endDate, "est", function(error, result){});
+
+Meteor.call("getCalendarList", function(error, result) {
+  console.log(result);
+});
+
+Meteor.call("getFreeBusy", startDate, endDate, "est", function(error, result) {
+  console.log(result);
+});
