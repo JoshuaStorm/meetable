@@ -1,6 +1,10 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 5, 2017 (Josh)
+- Finally have a calendar presented to the user that pulls their Google calendar data. Required a bit of re-formatting data, see the `getFullCalendarEvents` Meteor.method add.
+- Next steps is to save the anonymized event data to a user collection so other users can search for it and we can present them possible meeting times.
+
 ## April 3, 2017 (Josh)
 - Done some research on Meteor async behavior. Realized we were doing some stuff very wrong. I posted a wiki article on it.
     - The basic concept is server-side async is all about 'fibers' and client-side async is still callbacks
