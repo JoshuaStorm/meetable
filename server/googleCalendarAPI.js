@@ -43,13 +43,6 @@ Meteor.methods({
     }
   },
 
-  // gets a list of the users calendars and then immediately prints
-  // the first event from that list
-  // TODO: wrapAsync these guys if we actually want to use them
-  getCalendarInfo: function() {
-        getCalendars(printEventList, {});
-  },
-
   // Get an array of all calendars for the current user
   // return data format: https://developers.google.com/google-apps/calendar/v3/reference/calendarList#resource
   getCalendarList: function() {
