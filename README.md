@@ -3,7 +3,8 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 
 ## April 5, 2017 (Josh)
 - Finally have a calendar presented to the user that pulls their Google calendar data. Required a bit of re-formatting data, see the `getFullCalendarEvents` Meteor.method add.
-- Next steps is to save the anonymized event data to a user collection so other users can search for it and we can present them possible meeting times.
+    - Next steps is to save the anonymized event data to a user collection so other users can search for it and we can present them possible meeting times.
+- Oops I lied, not next steps I already did it: Saving anonymized event data to the Meteor.users collection. I also put some boilerplate code for retrieving it for reference.
 
 ## April 3, 2017 (Josh)
 - Done some research on Meteor async behavior. Realized we were doing some stuff very wrong. I posted a wiki article on it.
