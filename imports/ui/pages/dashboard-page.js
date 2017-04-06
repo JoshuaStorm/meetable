@@ -15,6 +15,15 @@ Template.dashboard_page.helpers({
   	}
 });
 
+Template.dashboard_page.onRendered( () => {
+  $( '#events-calendar' ).fullCalendar({
+    header: {
+        center: 'month,agendaWeek,agendaDay' // buttons for switching between views
+    }
+  });
+});
+
+
 // I think we have to initiate the call to get the OAuth info from the client
 Meteor.call("getAuthInfo", function(error){});
 
@@ -32,3 +41,10 @@ Meteor.call("getCalendarList", function(error, result) {
 Meteor.call("getFreeBusy", startDate, endDate, "est", function(error, result) {
   console.log(result);
 });
+
+Meteor.call("getFullCalendarEvents", false, function(error, result) {
+  $( '#events-calendar' ).fullCalendar('addEventSource', result);
+  console.log(result[0]);
+});
+
+Meteor.call("printFromDB", function (error) {});

@@ -49,6 +49,59 @@ Meteor.methods({
     return wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
   },
 
+  // Return an array of event dates in the FullCalendar format
+  // SIDE EFFECT: Update database entry for this users events
+  // anonymize (boolean): Whether to return the data anonymized or not
+  getFullCalendarEvents: function(anonymize) {
+    var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
+    var gcalEvents = wrappedGetEventList({
+        // The specified calendar
+        // not working for en.usa#holiday@group.v.calendar.google.com
+        // TODO: Don't just do the first ID
+        calendarId: calendarList.items[0].id,
+        // Assumes we are only reading events from now onwards
+        // TODO: Take more than just from now on? Maybe maybe not
+        timeMin: (new Date()).toISOString(),
+        maxResults: 100,
+        singleEvents: true,
+        orderBy: 'startTime'
+    });
+
+    anonCalEvents = [];
+    fullCalEvents = [];
+    for (var i = 0; i < gcalEvents.items.length; i++) {
+      var thisGCalEvent = gcalEvents.items[i];
+
+      var thisAnonCalEvent = {
+        title: "Unknown",
+        start: thisGCalEvent.start.dateTime,
+        end: thisGCalEvent.end.dateTime,
+        timeZone: thisGCalEvent.start.timeZone
+      };
+      var thisFullCalEvent = {
+        title: thisGCalEvent.summary,
+        start: thisGCalEvent.start.dateTime,
+        end: thisGCalEvent.end.dateTime,
+        timeZone: thisGCalEvent.start.timeZone
+      };
+      anonCalEvents.push(thisAnonCalEvent);
+      fullCalEvents.push(thisFullCalEvent);
+    }
+    // Update this users events in the database with anonymized events
+    Meteor.users.update(this.userId, {
+      $set: {
+        calendarEvents: anonCalEvents
+      }
+    });
+    if (anonymize) return anonCalEvents;
+    return fullCalEvents;
+  },
+
+  // DEBUG FUNCTION ONLY THIS SHOULDN'T MAKE IT TO MY PR
+  printFromDB: function() {
+    console.log(Meteor.users.findOne(this.userId).calendarEvents);
+  },
+
   // Add a method to get Google FreeBusy info
   // startTime (Date): Minimum time to consider
   // endTime (Date): Maximum time to consider
@@ -77,6 +130,7 @@ Meteor.methods({
 // https://github.com/JoshuaStorm/meetable/wiki/Meteor-Async
 var wrappedGetCalendarsList = Meteor.wrapAsync(gCalendar.calendarList.list);
 var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendar.freebusy.query);
+var wrappedGetEventList = Meteor.wrapAsync(gCalendar.events.list);
 
 // Below here is legacy stuff that isn't Fiber wrapped. Do we still need these?
 
