@@ -6,6 +6,8 @@ import '../../ui/layouts/app-body.js';
 import '../../ui/pages/login-page.js';
 import '../../ui/pages/error-page.js';
 import '../../ui/pages/dashboard-page.js';
+// View calendar template
+import '../../ui/pages/calViewPage.js';
 
 /*FlowRouter.route('/', {
   name: 'App.home',
@@ -15,11 +17,22 @@ import '../../ui/pages/dashboard-page.js';
 });
 */
 
-// View calendar template
-import '../../ui/pages/calViewPage.js';
+var public = FlowRouter.group({}) /* routes that are public */
 
+var loggedIn = FlowRouter.group({ /* routes only for loggedIn users */
+  name: 'loggedIn',
+  triggersEnter: [
+    checkLoggedIn
+  ]
+})
 
-FlowRouter.route('/', {
+function checkLoggedIn (ctx, redirect) {  /* check if user is logged in */
+  if (!Meteor.userId()) {
+    redirect('/')
+  }
+}
+
+public.route('/', {
   name: 'App.home',
   action: function(params) {
         Tracker.autorun(function() {
@@ -32,25 +45,25 @@ FlowRouter.route('/', {
       }
 });
 
-FlowRouter.route('/dashboard', {
-  name: 'App.dashboard',
-  action() {
-    BlazeLayout.render('App_body', { main: 'dashboard_page' });
-  },
-});
-
-FlowRouter.route('/error', {
+public.route('/error', {
   name: 'App.error',
   action() {
     BlazeLayout.render('App_body', { main: 'error_page' });
   },
 });
 
-FlowRouter.route('/cal', {
-	name: 'App.calendar',
-	action() {
-		BlazeLayout.render('App_body', {main: 'calViewPage'});
-	},
+loggedIn.route('/dashboard', {
+  name: 'App.dashboard',
+  action() {
+    BlazeLayout.render('App_body', { main: 'dashboard_page' });
+  },
+});
+
+loggedIn.route('/cal', {
+  name: 'App.calendar',
+  action() {
+    BlazeLayout.render('App_body', {main: 'calViewPage'});
+  },
 });
 
 // the App_notFound template is used for unknown routes and missing lists
