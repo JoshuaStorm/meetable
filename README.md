@@ -1,6 +1,11 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 6, 2017 (Josh)
+- Set up basic (ugly) UI to send invitations to meetings.
+- Have a basic invitation email being sent, still need to save the invitation to a temporary account and transfer that to the newly invited account if and when they sign up after being invited.
+- Saving basic event invitations to both the invited and inviter users.
+
 ## April 5, 2017 (Josh)
 - Finally have a calendar presented to the user that pulls their Google calendar data. Required a bit of re-formatting data, see the `getFullCalendarEvents` Meteor.method add.
     - Next steps is to save the anonymized event data to a user collection so other users can search for it and we can present them possible meeting times.
