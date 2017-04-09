@@ -11,6 +11,8 @@ Template.dashboard_page.helpers({
    firstName: function(){
     var user = Meteor.user();
 	    if (user) {
+        // DEBUG:helpful to know exactly which account is logged in
+        console.log("logged in email: " + user.services.google.email);
 	      return user.services.google.given_name;
 	   	}
 	},

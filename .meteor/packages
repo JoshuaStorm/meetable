@@ -32,3 +32,5 @@ useraccounts:flow-routing
 fullcalendar:fullcalendar
 momentjs:moment
 autopublish
+aldeed:collection2-core
+aldeed:simple-schema
