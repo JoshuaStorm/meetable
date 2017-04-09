@@ -1,6 +1,11 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 8, 2017 (David)
+- Set up bare bones of `Meeting` collection schema
+- Working on function to create a Meeting object; stuck on issue with MomentJS objects being invalid. May want to avoid using MomentJS but there is an elegant range interation function that should be able to help us find all possible meeting times given a range of times, so it would be nice..
+- Added packages: moment-range, momentjs, simple-schema, collections2-core
+
 ## April 6, 2017 (Josh)
 - Set up basic (ugly) UI to send invitations to meetings.
 - Have a basic invitation email being sent, still need to save the invitation to a temporary account and transfer that to the newly invited account if and when they sign up after being invited.
