@@ -1,4 +1,5 @@
-import {SimpleSchema} from 'meteor/aldeed:simple-schema';
+// it took forever to find the correct way to import https://github.com/aldeed/meteor-collection2/#important-note-the-version-in-this-repo-is-deprecated
+import SimpleSchema from 'simpl-schema'; 
 const Meetings = new Mongo.Collection('meetings');
 export default Meetings; // Meetings object must be imported to access in other files
 
@@ -66,3 +67,5 @@ Schemas.Meetings = new SimpleSchema({
         label: "Did the selector choose this as the meeting time"
     },
 });
+
+Meetings.attachSchema(Schemas.Meetings);

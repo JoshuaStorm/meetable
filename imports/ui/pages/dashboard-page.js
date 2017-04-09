@@ -46,11 +46,26 @@ Template.dashboard_modal.events({
 
     var title = $('#meetingTitle').val();
     var email = $('#meetingInvitee').val();
+    var length = $('#meetingLength').val();
     // TODO: Handled errors, enforce the text boxes all have a value
     // TODO: Handle multiple emails, just passing an array of size 1 but backend should be able to handle multiple fine
-    Meteor.call('inviteToMeeting', [email], title, 1, function(error, result) {
+    Meteor.call('inviteToMeeting', [email], title, length, function(error, result) {
       if (error) {
         alert(error);
+      }
+    });
+
+    const windowStart = moment();
+
+    console.log("window start original: ");
+    console.log(windowStart);
+    var windowEnd = windowStart.clone().add(1, 'days');
+
+    // TODO: add fields to set the window of time to schedule the time
+    // currently using 24 hours after time button was pressed 
+    Meteor.call('createMeeting', [email], length, moment(), windowEnd, function(error, result) {
+      if (error) {
+        console.log("createMeeting: " + error);
       }
     });
 

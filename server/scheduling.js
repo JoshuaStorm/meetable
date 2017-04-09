@@ -1,5 +1,6 @@
 // File for our server functions for scheduling OUR meetings/events. (as opposed to Google events)
-
+import Meetings from '/collections/meetings.js'
+import Moment from 'meteor/momentjs:moment'
 Meteor.methods({
 
   // Add the meeting to the user
@@ -16,6 +17,60 @@ Meteor.methods({
   //     }
   //   });
   // },
+
+  // create the Meeting document for the meeting being scheduled
+  // TODO: currently assumes meetings must be within 24 hours of clicking create meeting
+  // invitedemails (array of strings): list of email addresses to invite
+  // duration (float): length of the meeting in hours
+  // windowStart (Moment.js object): earliest possible time to meet
+  // windowEnd (Moment.js object): latest possible time to meet
+
+  createMeeting: function(invitedEmails, duration, windowStart, windowEnd) {
+    var meeting = {
+      participants: [{
+        name: "inviter",
+        email: "inviteremail@gmail.com",
+        accepted: true,
+        selector: false
+      }, {
+        name: "invitee",
+        email: "invitee@gmail.com",
+        accepted: false,
+        selector: true
+      }],
+      availableTimes: []
+    };
+
+    var meetingLength = duration * 3600 * 1000; // convert hours to milliseconds
+    //var meetingWindowLength = windowEnd - windowStart;
+
+    //const meetingRange = moment.range(windowStart, windowEnd);
+    //let timeArray = Array.from(meetingRange.by('hour', { step: duration }))
+    console.log(invitedEmails);
+    console.log(duration);
+
+    console.log("windowStart: ");
+    console.log(windowStart);
+
+    console.log(windowEnd);
+
+    console.log("local try:");
+    console.log(moment());
+
+    console.log("meetingRange: ");
+    console.log(meetingRange);
+
+  console.log("timeArray: ");
+    console.log(timeArray);
+
+    var calendarList = Meteor.call("getCalendarList");
+
+    var gcalEvents = Meteor.call("getEventListTest", windowStart, windowEnd);
+
+    var gcalEvents = Meteor.call("getEventListTest", windowStart, windowEnd);
+
+    check(meeting, Meetings.simpleSchema());
+  },
 
   // Send out an invitation to a meeting/event
   // userEmails ([emails]): An array of the emails to schedule this meeting with

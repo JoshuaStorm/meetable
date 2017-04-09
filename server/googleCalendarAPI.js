@@ -46,7 +46,25 @@ Meteor.methods({
   // Get an array of all calendars for the current user
   // return data format: https://developers.google.com/google-apps/calendar/v3/reference/calendarList#resource
   getCalendarList: function() {
-    return wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
+    return wrappedGetCalendarsList({auth: oauth2Client, minAccessRole: "freeBusyReader"});
+  },
+
+  // minTime (momentJS object): earliest time to look for events
+  // maxTime (momentJS object): latest time to look for events
+  getEventListTest: function(minTime, maxTime) {
+    return wrappedGetEventwrappedGetEventList({
+        // The specified calendar
+        // not working for en.usa#holiday@group.v.calendar.google.com
+        // TODO: Don't just do the first ID
+        calendarId: calendarList.items[0].id,
+        // Assumes we are only reading events from now onwards
+        // TODO: Take more than just from now on? Maybe maybe not
+        timeMin: minTime.format("YYYY-MM-DDTHH:mm:ssZ"), //RFC3339
+        timeMax: maxTime.format("YYYY-MM-DDTHH:mm:ssZ"),
+        maxResults: 100,
+        singleEvents: true,
+        orderBy: 'startTime'
+    });
   },
 
   // Return an array of event dates in the FullCalendar format
@@ -123,7 +141,8 @@ Meteor.methods({
         timeZone: zone
       }
     });
-  }
+  },
+
 });
 
 // Wrapping up async function for Meteor fibers. Confused? See:
