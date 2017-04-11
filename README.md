@@ -1,6 +1,10 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 9, 2017 - Group Meeting
+- decided to require Cindy to click a link before we pull her calendar, if we already had access to it
+- planned strategy to finish prototype by Friday
+
 ## April 8, 2017 (David)
 - Set up bare bones of `Meeting` collection schema
 - Working on function to create a Meeting object; stuck on issue with MomentJS objects being invalid. May want to avoid using MomentJS but there is an elegant range interation function that should be able to help us find all possible meeting times given a range of times, so it would be nice..
