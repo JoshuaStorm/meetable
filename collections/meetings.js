@@ -27,6 +27,12 @@ Schemas.Meetings = new SimpleSchema({
             } 
         }
     },
+    participants: {
+        type: Array
+    },
+    "participants.$": {
+        type: Object
+    },
     "participants.$.name": {
         type: String,
         label: "First and Last Name of participant"
