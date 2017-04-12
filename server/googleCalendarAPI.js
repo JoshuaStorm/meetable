@@ -10,9 +10,9 @@ var auth = new googleAuth(); // used to authentication requests sent by gCalenda
 // Client secrets, etc. from David's (or Casey's?) Google Developer Console project
 
 var oauth2Client = new auth.OAuth2(
-  "411203275095-a0a2bbdtm407ue9km22es9jkn28674nq.apps.googleusercontent.com",
-  "2VDBkNk8dLg18OL1o3XM7Ev4",
-  "http://localhost:3000/"
+  "940955231388-i5aj301rucberlsfrsje07fj685jm9j7.apps.googleusercontent.com",
+  "hv93jvDPACddBk4sbOV9EJH2",
+  "http://localhost:3000/_oauth/google?close"
 );
 
 // set auth for all Google requests; instead of doing it for each request function
