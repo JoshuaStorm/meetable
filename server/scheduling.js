@@ -46,6 +46,8 @@ Meteor.methods({
 
     //const meetingRange = moment.range(windowStart, windowEnd);
     //let timeArray = Array.from(meetingRange.by('hour', { step: duration }))
+    var id = this.userId;
+    
     console.log(invitedEmails);
     console.log(duration);
 
@@ -53,6 +55,14 @@ Meteor.methods({
     console.log(windowStart);
 
     console.log(windowEnd);
+
+    var totalA = findUserAvailableTimes(id, windowStart, windowEnd);
+    console.log(totalA);
+
+
+    var date = new Date(Meteor.users.findOne(id).calendarEvents[1].start);
+
+    console.log(date.getTime());
 
     console.log("local try:");
     console.log(moment());
@@ -85,10 +95,10 @@ Meteor.methods({
       invited: userEmails,
       title: title,
       length: duration
-    }
+    };
 
     // Update the inviters sent invites in the DB
-    var invites = Meteor.users.findOne(this.userId).meetingInvitesSent // Pull their meeting invitations
+    var invites = Meteor.users.findOne(this.userId).meetingInvitesSent; // Pull their meeting invitations
     if (invites === undefined) invites = [];
     invites.push(invitation); // Append
     Meteor.users.update(this.userId, { // Now set the values again
@@ -149,8 +159,56 @@ function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
   Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
 }
 
-// Given two arrays of available times, return a new available times 
-// array which is the the intersection of the two arrays
+function toUnixDate(date) {
+  var unixTime = new Date(date);
+
+  return unixTime.getTime();
+}
+
+// given a userId, function finds the available times of the person based 
+function findUserAvailableTimes(userId, windowStart, windowEnd) {
+  var user = Meteor.users.findOne(userId);
+
+  var availableTimes = [];
+  var additionalTimes = user.additionalTimes;
+
+  for (i in additionalTimes) {
+    availableTimes.push(i);
+  }
+
+
+  // Gets the available times from the busy times
+  var calendarTimes = user.calendarEvents;
+
+  for (var i = 0; i < calendarTimes.length; i++) {
+    var startRange = windowStart;
+    
+    if (i != 0) {
+      startRange = (calendarTimes[i - 1].end);
+    }
+
+    var endRange = (calendarTimes[i].start);
+
+    var availableTime = {
+      startTime: startRange,
+      endTime: endRange
+    };
+
+    availableTimes.push(availableTime);
+  }
+
+  var availableTime = {
+    startTime: (calendarTimes[calendarTimes.length - 1].end),
+    endTime: windowEnd
+  };
+  availableTimes.push(availableTime);
+
+  return availableTimes;
+}
+
+// Given the available times in the meetings collection, and the busyTimes in a users calendar
+// return another availableTimes array which contains the times where available times and 
+// and busy times DONT intersect. I.E. where there are overlaps in 
 function findOverlap(times1, times2) {
  
   // The overlapped array
