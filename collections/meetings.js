@@ -33,6 +33,10 @@ Schemas.Meetings = new SimpleSchema({
     "participants.$": {
         type: Object
     },
+    "participants.$.id": {
+        type: String,
+        label: "Meteor's generated id for this user if they have an account"
+    },
     "participants.$.name": {
         type: String,
         label: "First and Last Name of participant"

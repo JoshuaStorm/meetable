@@ -1,9 +1,6 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 
-const moment = require('moment');
-require('twix');
-
 import './dashboard-page.html';
 
 /////////////////////////////////////////////
@@ -63,15 +60,14 @@ Template.dashboard_modal.events({
       }
     });
 
-    const windowStart = moment();
-
-    console.log("window start original: ");
-    console.log(windowStart.format());
-    var windowEnd = windowStart.clone().add(1, 'days');
+    // for now, the window of every meeting is the 24 hour period from clicking save
+    var windowStart = new Date();
+    var windowEnd = new Date(windowStart.valueOf())
+    windowEnd.setDate(windowEnd.getDate() + 1);
 
     // TODO: add fields to set the window of time to schedule the time
     // currently using 24 hours after time button was pressed 
-    Meteor.call('createMeeting', [email], length, windowStart.toString(), windowEnd.toString(), function(error, result) {
+    Meteor.call('createMeeting', [email], length, windowStart, windowEnd, function(error, result) {
       if (error) {
         console.log("createMeeting: " + error);
       }
