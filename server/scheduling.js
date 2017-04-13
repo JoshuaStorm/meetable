@@ -148,3 +148,36 @@ function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
             "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
   Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
 }
+
+// Given two arrays of available times, return a new available times 
+// array which is the the intersection of the two arrays
+function findOverlap(times1, times2) {
+ 
+  // The overlapped array
+  var availableTimes = [];
+
+  //each availableTimes array has a start time and end time, both in unix
+  for (i in times1) {
+    var eventStart = i.startTime;
+    var eventEnd = i.endTime;
+
+    for (j in times2) {
+      var startTime = j.startTime;
+      var endTime = j.endTime;
+
+      if (eventStart >= startTime && eventEnd <= endTime) {
+        var availableTime = {
+          startTime: eventStart,
+          endTime: eventEnd,
+          selected: false
+        };
+      
+        availableTimes.push(availableTime);
+
+      }
+    }
+
+    return availableTimes;
+
+  }
+}
