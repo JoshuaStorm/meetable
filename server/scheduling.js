@@ -83,14 +83,15 @@ Meteor.methods({
 
     var availableTimes = {
       startTime: windowStart,
-      endTime: windowEnd,
-      selected: false
+      endTime: windowEnd
     };
 
     meeting.availableTimes= availableTimes;
 
     console.log("meeting document:");
     console.log(meeting);
+
+    // TODO: insert this into the Mongo DB
 
     // var calendarList = Meteor.call("getCalendarList");
 
