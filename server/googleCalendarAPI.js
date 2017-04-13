@@ -11,7 +11,8 @@ var auth = new googleAuth(); // used to authentication requests sent by gCalenda
 
 var oauth2Client = new auth.OAuth2(
   "940955231388-i5aj301rucberlsfrsje07fj685jm9j7.apps.googleusercontent.com",
-  "hv93jvDPACddBk4sbOV9EJH2"
+  "hv93jvDPACddBk4sbOV9EJH2",
+  "http://localhost:3000"
 );
 
 // set auth for all Google requests; instead of doing it for each request function
