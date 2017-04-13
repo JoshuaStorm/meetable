@@ -72,20 +72,23 @@ Meteor.methods({
     for (var i = 0; i < gcalEvents.items.length; i++) {
       var thisGCalEvent = gcalEvents.items[i];
 
-      var thisAnonCalEvent = {
-        title: "Unknown",
-        start: thisGCalEvent.start.dateTime,
-        end: thisGCalEvent.end.dateTime,
-        timeZone: thisGCalEvent.start.timeZone
-      };
-      var thisFullCalEvent = {
-        title: thisGCalEvent.summary,
-        start: thisGCalEvent.start.dateTime,
-        end: thisGCalEvent.end.dateTime,
-        timeZone: thisGCalEvent.start.timeZone
-      };
-      anonCalEvents.push(thisAnonCalEvent);
-      fullCalEvents.push(thisFullCalEvent);
+      // TODO: Reconsider how to handle full day events, for now just throw them away
+      if (thisGCalEvent.start.dateTime !== undefined) { // If there is no start.dateTime, it's a full day event
+        var thisAnonCalEvent = {
+          title: "Unknown",
+          start: thisGCalEvent.start.dateTime,
+          end: thisGCalEvent.end.dateTime,
+          timeZone: thisGCalEvent.start.timeZone
+        };
+        var thisFullCalEvent = {
+          title: thisGCalEvent.summary,
+          start: thisGCalEvent.start.dateTime,
+          end: thisGCalEvent.end.dateTime,
+          timeZone: thisGCalEvent.start.timeZone
+        };
+        anonCalEvents.push(thisAnonCalEvent);
+        fullCalEvents.push(thisFullCalEvent);
+      }
     }
     // Update this users events in the database with anonymized events
     Meteor.users.update(this.userId, {
