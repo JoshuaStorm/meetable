@@ -1,6 +1,8 @@
 // File for our server functions for scheduling OUR meetings/events. (as opposed to Google events)
 import Meetings from '/collections/meetings.js'
-import Moment from 'meteor/momentjs:moment'
+const moment = require('moment');
+require('twix');
+
 Meteor.methods({
 
   // Add the meeting to the user
@@ -44,30 +46,10 @@ Meteor.methods({
     var meetingLength = duration * 3600 * 1000; // convert hours to milliseconds
     //var meetingWindowLength = windowEnd - windowStart;
 
-    //const meetingRange = moment.range(windowStart, windowEnd);
-    //let timeArray = Array.from(meetingRange.by('hour', { step: duration }))
-    console.log(invitedEmails);
-    console.log(duration);
 
-    console.log("windowStart: ");
-    console.log(windowStart);
+    // var calendarList = Meteor.call("getCalendarList");
 
-    console.log(windowEnd);
-
-    console.log("local try:");
-    console.log(moment());
-
-    console.log("meetingRange: ");
-    console.log(meetingRange);
-
-  console.log("timeArray: ");
-    console.log(timeArray);
-
-    var calendarList = Meteor.call("getCalendarList");
-
-    var gcalEvents = Meteor.call("getEventListTest", windowStart, windowEnd);
-
-    var gcalEvents = Meteor.call("getEventListTest", windowStart, windowEnd);
+    // var gcalEvents = Meteor.call("getEventListTest", windowStart, windowEnd);
 
     check(meeting, Meetings.simpleSchema());
   },

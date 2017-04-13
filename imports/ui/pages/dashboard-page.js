@@ -1,6 +1,9 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 
+const moment = require('moment');
+require('twix');
+
 import './dashboard-page.html';
 
 /////////////////////////////////////////////
@@ -44,9 +47,14 @@ Template.dashboard_modal.events({
   'click #save': function(e) {
     e.preventDefault();
 
-    var title = $('#meetingTitle').val();
-    var email = $('#meetingInvitee').val();
-    var length = $('#meetingLength').val();
+    // var title = $('#meetingTitle').val();
+    // var email = $('#meetingInvitee').val();
+    // var length = $('#meetingLength').val();
+
+    var title = "testing hardcoded";
+    var email = "dmelvin@princeton.edu";
+    var length = 2;
+
     // TODO: Handled errors, enforce the text boxes all have a value
     // TODO: Handle multiple emails, just passing an array of size 1 but backend should be able to handle multiple fine
     Meteor.call('inviteToMeeting', [email], title, length, function(error, result) {
@@ -58,12 +66,12 @@ Template.dashboard_modal.events({
     const windowStart = moment();
 
     console.log("window start original: ");
-    console.log(windowStart);
+    console.log(windowStart.format());
     var windowEnd = windowStart.clone().add(1, 'days');
 
     // TODO: add fields to set the window of time to schedule the time
     // currently using 24 hours after time button was pressed 
-    Meteor.call('createMeeting', [email], length, moment(), windowEnd, function(error, result) {
+    Meteor.call('createMeeting', [email], length, windowStart.toString(), windowEnd.toString(), function(error, result) {
       if (error) {
         console.log("createMeeting: " + error);
       }
