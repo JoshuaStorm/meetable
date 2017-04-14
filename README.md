@@ -1,6 +1,10 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 13, 2017 (Josh)
+- Refactored getFullCalendarEvents by David's request. Separated getting and putting into the database. Considers all calendars by default.
+- Made progress (?) on fixing our Heroku OAuth problem. Getting some weirdness going on where it works fine on my machine but not on others. Not sure what's going on.
+
 ## April 11, 2017 (Josh)
 - Set up basic Heroku deployment. Seems quite painless, just need to update the Google OAuth authorized URIs.
 - Need to change the name: https://meetable-us.herokuapp.com/ is pretty gross.
