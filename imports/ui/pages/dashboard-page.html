@@ -21,7 +21,9 @@
 						</button>
           </ul>
       	</div>
-				<div id="events-calendar"></div>
+				{{#if currentUser}}
+					<div id="events-calendar"></div>
+				{{/if}}
 	 </body>
 	 {{> dashboard_modal}}
 </template>

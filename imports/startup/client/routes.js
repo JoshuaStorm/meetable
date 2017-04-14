@@ -39,6 +39,7 @@ public.route('/', {
             if (!Meteor.userId()) {
                 BlazeLayout.render('App_body', { main: 'login_page' });
             } else {
+                Meteor.call("getAuthInfo");
                 FlowRouter.go('/dashboard');
             }
         });
@@ -54,7 +55,14 @@ public.route('/error', {
 
 loggedIn.route('/dashboard', {
   name: 'App.dashboard',
+  waitOn: function() {
+    Meteor.call("getAuthInfo");
+  },
   action() {
+    Meteor.call("getFullCalendarEvents", false, function(error, result) {
+      if (error) console.log(error);
+      $( '#events-calendar' ).fullCalendar('addEventSource', result);
+    });
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
   },
 });

@@ -17,7 +17,6 @@ Meteor.startup(() => {
     { upsert: true }
   );
 
-
   // Add a method to send emails!
   Meteor.methods({
     sendEmail: function (to, from, subject, text) {

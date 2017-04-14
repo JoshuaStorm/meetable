@@ -14,9 +14,9 @@ Template.dashboard_page.helpers({
 	      return user.services.google.given_name;
 	   	}
 	},
-   currentUser: function() {
-    	return Meteor.userId();
-  	}
+  currentUser: function() {
+    return Meteor.userId();
+  }
 });
 
 Template.dashboard_page.onRendered( () => {
@@ -57,9 +57,14 @@ Template.dashboard_modal.events({
 });
 
 
+Meteor.call("getAuthInfo", function(error, result) {
+  if (error) console.log(error);
+});
 
 // I think we have to initiate the call to get the OAuth info from the client
-Meteor.call("getAuthInfo", function(error){});
+// Meteor.call("getAuthInfo", function(error) {
+//   if (error) console.log(error);
+// });
 
 // Not sure if this needs to be called on client or server -- depends how we
 // will parse the calendar data
@@ -76,8 +81,6 @@ Meteor.call("getAuthInfo", function(error){});
 //   console.log(result);
 // });
 //
-Meteor.call("getFullCalendarEvents", false, function(error, result) {
-  $( '#events-calendar' ).fullCalendar('addEventSource', result);
-});
+
 
 // Meteor.call("printFromDB", function (error) {});
