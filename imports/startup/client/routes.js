@@ -34,13 +34,6 @@ function checkLoggedIn (ctx, redirect) {  /* check if user is logged in */
 
 public.route('/', {
   name: 'App.home',
-  waitOn: function() {
-    // If we're going to dashboard, ensure OAuth
-    if (Meteor.userId()) {
-      // TODO: This probably doesn't fail gracefully...
-      Meteor.call("getAuthInfo");
-    }
-  },
   action: function(params) {
     Tracker.autorun(function() {
       if (!Meteor.userId()) {
@@ -61,13 +54,12 @@ public.route('/error', {
 
 loggedIn.route('/dashboard', {
   name: 'App.dashboard',
-  waitOn: function() {
-    Meteor.call("getAuthInfo");
-  },
   action: function() {
-    Meteor.call("getFullCalendarEvents", false, function(error, result) {
-      if (error) console.log(error);
-      $( '#events-calendar' ).fullCalendar('addEventSource', result);
+    Meteor.call("getAuthInfo", function() {
+      Meteor.call("getFullCalendarEvents", false, function(error, result) {
+        if (error) console.log(error);
+        $( '#events-calendar' ).fullCalendar('addEventSource', result);
+      });
     });
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
   },
