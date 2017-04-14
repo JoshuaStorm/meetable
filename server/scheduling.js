@@ -1,6 +1,7 @@
 // File for our server functions for scheduling OUR meetings/events. (as opposed to Google events)
 import Meetings from '/collections/meetings.js'
-import Moment from 'meteor/momentjs:moment'
+
+
 Meteor.methods({
 
   // Add the meeting to the user
@@ -25,61 +26,79 @@ Meteor.methods({
   // windowStart (Moment.js object): earliest possible time to meet
   // windowEnd (Moment.js object): latest possible time to meet
 
+
   createMeeting: function(invitedEmails, duration, windowStart, windowEnd) {
     var meeting = {
       participants: [{
-        name: "inviter",
-        email: "inviteremail@gmail.com",
-        accepted: true,
-        selector: false
-      }, {
-        name: "invitee",
-        email: "invitee@gmail.com",
-        accepted: false,
-        selector: true
+        id: this.userId,
+        name: Meteor.users.findOne(this.userId).services.google.name,
+        email: Meteor.users.findOne(this.userId).services.google.email,
+        accepted: true, // creator automatically accepts event?? 
+        selector: false // creator is not always the one who picks the final date
       }],
-      availableTimes: []
+      duration: duration * 3600 * 1000,
+      windowStart: windowStart,
+      windowEnd: windowEnd,
+      selectedStartTime: null // will be calculated when all participants have accepted
     };
 
-    var meetingLength = duration * 3600 * 1000; // convert hours to milliseconds
-    //var meetingWindowLength = windowEnd - windowStart;
+    // add the invited participants
+    // TODO: any special considerations for users that don't have accoutns yet?
+    // for now, make their name and id null
+    for (var i = 0; i < invitedEmails.length; i++) {
+      newParticipant = {
+        id: null,
+        name: null,
+        email: invitedEmails[i],
+        accepted: false,
+        selector: false
+      };
 
-    //const meetingRange = moment.range(windowStart, windowEnd);
-    //let timeArray = Array.from(meetingRange.by('hour', { step: duration }))
-    var id = this.userId;
-    
-    console.log(invitedEmails);
-    console.log(duration);
+      // check if a user with this email exists,and if it does, use their personal info
+      var user = Meteor.users.findOne({"services.google.email": invitedEmails[i]});
+      if (user !== undefined)
+      {
+        newParticipant.name = user.services.google.name;
+        newParticipant.id = user.id;
+        // TODO: Perhaps we should have a modal confirmation saying
+        // "This user doesn't seem to have an account, would you like to invite them?"
+        
+        // TODO: PROBLEM!!!!!! We need to associate this event with an account that DOES NOT YET EXIST
+        // Not TOO hard to handle, just need to create a new collection.        
+      } 
 
-    console.log("windowStart: ");
-    console.log(windowStart);
+      // add this newParticipant to the document
+      meeting.participants.push(newParticipant);
+    }
 
-    console.log(windowEnd);
+    // if meeting is only two people, the invitee gets to choose the meeting time
+    // in meetings of more than two people, the event creator chooses the meeting time
+    if (meeting.participants.length === 2) {
+      meeting.participants[1].selector = true;
+    }
+    else {
+      meeting.participants[0].selector = true;
+    }
 
-    var totalA = findUserAvailableTimes(id, windowStart, windowEnd);
-    console.log(totalA);
+    var availableTimes = {
+      startTime: windowStart,
+      endTime: windowEnd
+    };
 
+    meeting.availableTimes = availableTimes;
 
-    var date = new Date(Meteor.users.findOne(id).calendarEvents[1].start);
+    console.log("meeting document:");
+    console.log(meeting);
 
-    console.log(date.getTime());
+    // TODO: insert this into the Mongo DB
 
-    console.log("local try:");
-    console.log(moment());
+    // var calendarList = Meteor.call("getCalendarList");
 
-    console.log("meetingRange: ");
-    console.log(meetingRange);
+    // var gcalEvents = Meteor.call("getEventListTest", windowStart, windowEnd);
 
-  console.log("timeArray: ");
-    console.log(timeArray);
+    // TODO: check currently gives Exception while invoking method 'createMeeting' Error: Match error: Unknown key in field participants
 
-    var calendarList = Meteor.call("getCalendarList");
-
-    var gcalEvents = Meteor.call("getEventListTest", windowStart, windowEnd);
-
-    var gcalEvents = Meteor.call("getEventListTest", windowStart, windowEnd);
-
-    check(meeting, Meetings.simpleSchema());
+    //check(meeting, Meetings.simpleSchema());
   },
 
   // Send out an invitation to a meeting/event

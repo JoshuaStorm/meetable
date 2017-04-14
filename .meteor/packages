@@ -30,8 +30,7 @@ email
 check
 useraccounts:flow-routing
 fullcalendar:fullcalendar
-momentjs:moment
 autopublish
 aldeed:collection2-core
 aldeed:simple-schema@1.5.3
-benmgreene:moment-range
+
