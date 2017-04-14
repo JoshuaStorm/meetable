@@ -103,11 +103,9 @@ Meteor.methods({
           calendarEvents: events
         }
       });
-      return true;
     } catch(e) {
-      return false;
+      throw "Error in updateEventsInDB" + e;
     }
-
   },
 
   // Okay, actually I'll leave this function, it's useful for debugging
