@@ -95,6 +95,8 @@ Meteor.methods({
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
     meeting.availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
 
+    console.log("busyTimes");
+    console.log(busyTimes);
 
     console.log("loggedInUserAvailableTimes");
     console.log(loggedInUserAvailableTimes);
@@ -211,6 +213,7 @@ function findUserBusyTimes(userId) {
 
   var busyTimes = [];
 
+  console.log(calendarTimes.length);
   for (var i = 0; i < calendarTimes.length; i++) {
     if (i == 0) {
       var busyTime = {
@@ -226,10 +229,21 @@ function findUserBusyTimes(userId) {
       var start = toDate(calendarTimes[i].start);
       var end = toDate(calendarTimes[i].end);
 
-      if (start.getTime() >= oldBusyTime.startTime.getTime() && start.getTime() <= oldBusyTime.endTime.getTime()) {
+      if (start.getTime() >= oldBusyTime.startTime.getTime() && end.getTime() <= oldBusyTime.endTime.getTime()) {
         oldBusyTime.endTime = end;
+        console.log("hello");
+        continue;
       }
+
       busyTimes.push(oldBusyTime);
+
+      var busyTime = {
+        startTime: start,
+        endTime: end
+      };
+
+      busyTimes.push(busyTime);
+      
     }
   }
   return busyTimes;
@@ -250,16 +264,17 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
 
   // loop through calendarEvents, and find inverse times
   //var calendarTimes = user.calendarEvents;
+  var last = 0;
 
   for (var i = 0; i < busyTimes.length; i++) {
     var startRange = windowStart;
     
     // first availableTime is from windowStart - busyTimes[0].start
 
-    if (windowStart.getTime() >= busyTimes[i].startTime.getTime()) {
+    if (windowStart.getTime() > busyTimes[i].startTime.getTime() || busyTimes[i].endTime.getTime() > windowEnd.getTime()) {
       continue;
     }
-
+    last = i;
     // find inverse of times
     if (i != 0) {
       startRange = (busyTimes[i - 1].endTime);
@@ -277,7 +292,7 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
 
   // final available time
   var availableTime = {
-    startTime: (busyTimes[busyTimes.length - 1].endTime),
+    startTime: (busyTimes[last].endTime),
     endTime: windowEnd
   };
   availableTimes.push(availableTime);
