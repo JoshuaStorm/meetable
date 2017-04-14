@@ -250,6 +250,9 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
   var availableTimes = [];
 
   //each availableTimes array has a start time and end time, both in unix
+
+  //first double for loop finds the searches for slots of length otherAvailableTimes in user availabeTimes
+
   for (o in otherAvailableTimes) {
     var otherStart = o.startTime;
     var otherEnd = o.endTime;
@@ -261,8 +264,27 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
       if (otherStart >= userStart && otherEnd <= userEnd) {
         var availableTime = {
           startTime: otherStart,
-          endTime: otherEnd,
-          selected: false
+          endTime: otherEnd
+        };
+      
+        availableTimes.push(availableTime);
+
+      }
+    }
+
+    //The second double for loop looks for slots of userAvailableTimes in otherAvailableTimes
+  for (u in userAvailableTimes) {
+    var otherStart = u.startTime;
+    var otherEnd = u.endTime;
+
+    for (o in otherAvailableTimes) {
+      var userStart = o.startTime;
+      var userEnd = o.endTime;
+
+      if (otherStart >= userStart && otherEnd <= userEnd) {
+        var availableTime = {
+          startTime: otherStart,
+          endTime: otherEnd
         };
       
         availableTimes.push(availableTime);
