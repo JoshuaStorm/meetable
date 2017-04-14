@@ -184,24 +184,28 @@ function toUnixDate(date) {
   return unixTime.getTime();
 }
 
-// given a userId, function finds the available times of the person based 
+// given a userId, find the available times of the person based on their
+// google calendar and additional busy times (both are stored in database) 
 function findUserAvailableTimes(userId, windowStart, windowEnd) {
   var user = Meteor.users.findOne(userId);
 
   var availableTimes = [];
   var additionalTimes = user.additionalTimes;
 
+  // TODO: add way to add additional busy times
   for (i in additionalTimes) {
     availableTimes.push(i);
   }
 
-
-  // Gets the available times from the busy times
+  // loop through calendarEvents, and find inverse times
   var calendarTimes = user.calendarEvents;
 
   for (var i = 0; i < calendarTimes.length; i++) {
     var startRange = windowStart;
     
+    // first availableTime is from windowStart - calendarTimes[0].start
+
+    // find inverse of times
     if (i != 0) {
       startRange = (calendarTimes[i - 1].end);
     }
@@ -216,6 +220,7 @@ function findUserAvailableTimes(userId, windowStart, windowEnd) {
     availableTimes.push(availableTime);
   }
 
+  // final available time
   var availableTime = {
     startTime: (calendarTimes[calendarTimes.length - 1].end),
     endTime: windowEnd
