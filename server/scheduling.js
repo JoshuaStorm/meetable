@@ -87,8 +87,18 @@ Meteor.methods({
 
     meeting.availableTimes = availableTimes;
 
-    console.log("meeting document:");
-    console.log(meeting);
+    // console.log("meeting document:");
+    // console.log(meeting);
+
+    var loggedInUserAvailableTimes = findUserAvailableTimes(this.userId, windowStart, windowEnd);
+    meeting.availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
+
+
+    console.log("loggedInUserAvailableTimes");
+    console.log(loggedInUserAvailableTimes);
+
+    console.log("overlapped times:");
+    console.log(meeting.availableTimes);
 
     // TODO: insert this into the Mongo DB
 
@@ -185,7 +195,7 @@ function toUnixDate(date) {
 }
 
 // given a userId, find the available times of the person based on their
-// google calendar and additional busy times (both are stored in database) 
+// google calendar stored in database and additional busy times (both are stored in database) 
 function findUserAvailableTimes(userId, windowStart, windowEnd) {
   var user = Meteor.users.findOne(userId);
 
@@ -230,27 +240,28 @@ function findUserAvailableTimes(userId, windowStart, windowEnd) {
   return availableTimes;
 }
 
-// Given the available times in the meetings collection, and the busyTimes in a users calendar
+// Given the available times in the meetings collection, and the availableTimes
+// of a single user, 
 // return another availableTimes array which contains the times where available times and 
 // and busy times DONT intersect. I.E. where there are overlaps in 
-function findOverlap(times1, times2) {
+function findOverlap(otherAvailableTimes, userAvailableTimes) {
  
-  // The overlapped array
+  // hold available times that work for all users
   var availableTimes = [];
 
   //each availableTimes array has a start time and end time, both in unix
-  for (i in times1) {
-    var eventStart = i.startTime;
-    var eventEnd = i.endTime;
+  for (o in otherAvailableTimes) {
+    var otherStart = o.startTime;
+    var otherEnd = o.endTime;
 
-    for (j in times2) {
-      var startTime = j.startTime;
-      var endTime = j.endTime;
+    for (u in userAvailableTimes) {
+      var userStart = u.startTime;
+      var userEnd = u.endTime;
 
-      if (eventStart >= startTime && eventEnd <= endTime) {
+      if (otherStart >= userStart && otherEnd <= userEnd) {
         var availableTime = {
-          startTime: eventStart,
-          endTime: eventEnd,
+          startTime: otherStart,
+          endTime: otherEnd,
           selected: false
         };
       
