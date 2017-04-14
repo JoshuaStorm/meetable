@@ -34,16 +34,22 @@ function checkLoggedIn (ctx, redirect) {  /* check if user is logged in */
 
 public.route('/', {
   name: 'App.home',
+  waitOn: function() {
+    // If we're going to dashboard, ensure OAuth
+    if (Meteor.userId()) {
+      // TODO: This probably doesn't fail gracefully...
+      Meteor.call("getAuthInfo");
+    }
+  },
   action: function(params) {
-        Tracker.autorun(function() {
-            if (!Meteor.userId()) {
-                BlazeLayout.render('App_body', { main: 'login_page' });
-            } else {
-                Meteor.call("getAuthInfo");
-                FlowRouter.go('/dashboard');
-            }
-        });
+    Tracker.autorun(function() {
+      if (!Meteor.userId()) {
+        BlazeLayout.render('App_body', { main: 'login_page' });
+      } else {
+        FlowRouter.go('/dashboard');
       }
+    });
+  }
 });
 
 public.route('/error', {
@@ -58,7 +64,7 @@ loggedIn.route('/dashboard', {
   waitOn: function() {
     Meteor.call("getAuthInfo");
   },
-  action() {
+  action: function() {
     Meteor.call("getFullCalendarEvents", false, function(error, result) {
       if (error) console.log(error);
       $( '#events-calendar' ).fullCalendar('addEventSource', result);

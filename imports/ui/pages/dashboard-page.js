@@ -57,9 +57,9 @@ Template.dashboard_modal.events({
 });
 
 
-Meteor.call("getAuthInfo", function(error, result) {
-  if (error) console.log(error);
-});
+// Meteor.call("getAuthInfo", function(error, result) {
+//   if (error) console.log(error);
+// });
 
 // I think we have to initiate the call to get the OAuth info from the client
 // Meteor.call("getAuthInfo", function(error) {
