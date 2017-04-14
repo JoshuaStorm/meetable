@@ -80,17 +80,19 @@ Meteor.methods({
       meeting.participants[0].selector = true;
     }
 
-    var availableTimes = {
+    var availableTimes = [{
       startTime: windowStart,
       endTime: windowEnd
-    };
+    }];
 
     meeting.availableTimes = availableTimes;
 
     // console.log("meeting document:");
     // console.log(meeting);
 
-    var loggedInUserAvailableTimes = findUserAvailableTimes(this.userId, windowStart, windowEnd);
+    var busyTimes = findUserBusyTimes(this.userId);
+
+    var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
     meeting.availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
 
 
@@ -200,37 +202,74 @@ function toDate(date) {
   return date;
 }
 
-// given a userId, find the available times of the person based on their
-// google calendar stored in database and additional busy times (both are stored in database) 
-function findUserAvailableTimes(userId, windowStart, windowEnd) {
+
+// Find users busy times using calendar info and additional busy times and stores them
+// chronologically in easy to use format
+function findUserBusyTimes(userId) {
   var user = Meteor.users.findOne(userId);
-
-  var availableTimes = [];
-  var additionalTimes = user.additionalTimes;
-
-  // TODO: add way to add additional busy times
-  for (i in additionalTimes) {
-    availableTimes.push(i);
-  }
-
-  // loop through calendarEvents, and find inverse times
   var calendarTimes = user.calendarEvents;
 
+  var busyTimes = [];
+
   for (var i = 0; i < calendarTimes.length; i++) {
+    if (i == 0) {
+      var busyTime = {
+        startTime: toDate(calendarTimes[i].start),
+        endTime: toDate(calendarTimes[i].end)
+      };
+
+      busyTimes.push(busyTime);
+    }
+
+    else {
+      var oldBusyTime = busyTimes.pop();
+      var start = toDate(calendarTimes[i].start);
+      var end = toDate(calendarTimes[i].end);
+
+      if (start.getTime() >= oldBusyTime.startTime.getTime() && start.getTime() <= oldBusyTime.endTime.getTime()) {
+        oldBusyTime.endTime = end;
+      }
+      busyTimes.push(oldBusyTime);
+    }
+  }
+  return busyTimes;
+}
+
+// given a userId, find the available times of the person based on their
+// google calendar stored in database and additional busy times (both are stored in database) 
+function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
+  //var user = Meteor.users.findOne(userId);
+
+  var availableTimes = [];
+ // var additionalTimes = user.additionalTimes;
+
+  // TODO: add way to add additional busy times
+  // for (i in additionalTimes) {
+  //   availableTimes.push(i);
+  // }
+
+  // loop through calendarEvents, and find inverse times
+  //var calendarTimes = user.calendarEvents;
+
+  for (var i = 0; i < busyTimes.length; i++) {
     var startRange = windowStart;
     
-    // first availableTime is from windowStart - calendarTimes[0].start
+    // first availableTime is from windowStart - busyTimes[0].start
+
+    if (windowStart.getTime() >= busyTimes[i].startTime.getTime()) {
+      continue;
+    }
 
     // find inverse of times
     if (i != 0) {
-      startRange = (calendarTimes[i - 1].end);
+      startRange = (busyTimes[i - 1].endTime);
     }
 
-    var endRange = (calendarTimes[i].start);
+    var endRange = busyTimes[i].startTime;
 
     var availableTime = {
-      startTime: toDate(startRange),
-      endTime: toDate(endRange)
+      startTime: (startRange),
+      endTime: (endRange)
     };
 
     availableTimes.push(availableTime);
@@ -238,7 +277,7 @@ function findUserAvailableTimes(userId, windowStart, windowEnd) {
 
   // final available time
   var availableTime = {
-    startTime: toDate(calendarTimes[calendarTimes.length - 1].end),
+    startTime: (busyTimes[busyTimes.length - 1].endTime),
     endTime: windowEnd
   };
   availableTimes.push(availableTime);
@@ -251,23 +290,23 @@ function findUserAvailableTimes(userId, windowStart, windowEnd) {
 // return another availableTimes array which contains the times where available times and 
 // and busy times DONT intersect. I.E. where there are overlaps in 
 function findOverlap(otherAvailableTimes, userAvailableTimes) {
- 
   // hold available times that work for all users
   var availableTimes = [];
 
   //each availableTimes array has a start time and end time, both in unix
 
   //first double for loop finds the searches for slots of length otherAvailableTimes in user availabeTimes
-
-  for (o in otherAvailableTimes) {
+  for (var i = 0; i < otherAvailableTimes.length; i++) {
+    var o = otherAvailableTimes[i];
     var otherStart = o.startTime;
     var otherEnd = o.endTime;
 
-    for (u in userAvailableTimes) {
+    for (var j = 0; j < userAvailableTimes.length; j++) {
+    var u = userAvailableTimes[j];
       var userStart = u.startTime;
       var userEnd = u.endTime;
 
-      if (otherStart >= userStart && otherEnd <= userEnd) {
+      if (otherStart.getTime() >= userStart.getTime() && otherEnd.getTime() <= userEnd.getTime()) {
         var availableTime = {
           startTime: otherStart,
           endTime: otherEnd
@@ -280,18 +319,20 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
   }
 
     //The second double for loop looks for slots of userAvailableTimes in otherAvailableTimes
-  for (u in userAvailableTimes) {
-    var otherStart = u.startTime;
-    var otherEnd = u.endTime;
+  for (var j = 0; j < userAvailableTimes.length; j++) {
+    var u = userAvailableTimes[j];  
+    var userStart = u.startTime;
+    var userEnd = u.endTime;
 
-    for (o in otherAvailableTimes) {
-      var userStart = o.startTime;
-      var userEnd = o.endTime;
+    for (var i = 0; i < otherAvailableTimes.length; i++) {
+    var o = otherAvailableTimes[i];
+      var otherStart = o.startTime;
+      var otherEnd = o.endTime;
 
-      if (otherStart >= userStart && otherEnd <= userEnd) {
+      if (userStart.getTime() >= otherStart.getTime() && userEnd.getTime() <= otherEnd.getTime()) {
         var availableTime = {
-          startTime: otherStart,
-          endTime: otherEnd
+          startTime: userStart,
+          endTime: userEnd
         };
       
         availableTimes.push(availableTime);
