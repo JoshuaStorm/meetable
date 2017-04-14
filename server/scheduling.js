@@ -194,6 +194,12 @@ function toUnixDate(date) {
   return unixTime.getTime();
 }
 
+function toDate(date) {
+  var date = new Date(date);
+
+  return date;
+}
+
 // given a userId, find the available times of the person based on their
 // google calendar stored in database and additional busy times (both are stored in database) 
 function findUserAvailableTimes(userId, windowStart, windowEnd) {
@@ -223,8 +229,8 @@ function findUserAvailableTimes(userId, windowStart, windowEnd) {
     var endRange = (calendarTimes[i].start);
 
     var availableTime = {
-      startTime: startRange,
-      endTime: endRange
+      startTime: toDate(startRange),
+      endTime: toDate(endRange)
     };
 
     availableTimes.push(availableTime);
@@ -232,7 +238,7 @@ function findUserAvailableTimes(userId, windowStart, windowEnd) {
 
   // final available time
   var availableTime = {
-    startTime: (calendarTimes[calendarTimes.length - 1].end),
+    startTime: toDate(calendarTimes[calendarTimes.length - 1].end),
     endTime: windowEnd
   };
   availableTimes.push(availableTime);
@@ -271,6 +277,7 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
 
       }
     }
+  }
 
     //The second double for loop looks for slots of userAvailableTimes in otherAvailableTimes
   for (u in userAvailableTimes) {
@@ -291,8 +298,8 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
 
       }
     }
+  }
 
     return availableTimes;
 
   }
-}
