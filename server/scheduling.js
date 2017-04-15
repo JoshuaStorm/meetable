@@ -92,18 +92,19 @@ Meteor.methods({
       }
     });
 
+    var busyTimes = findUserBusyTimes(this.userId, windowStart, windowEnd);
 
-    // var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
-    // availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
+    var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
+    availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
 
-    // console.log("busyTimes");
-    // console.log(busyTimes);
+    console.log("busyTimes");
+    console.log(busyTimes);
 
-    // console.log("loggedInUserAvailableTimes");
-    // console.log(loggedInUserAvailableTimes);
+    console.log("loggedInUserAvailableTimes");
+    console.log(loggedInUserAvailableTimes);
 
-    // console.log("overlapped times:");
-    // console.log(meeting.availableTimes);
+    console.log("overlapped times:");
+    console.log(availableTimes);
 
     
     // TODO: insert this into the Mongo DB
@@ -269,13 +270,13 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
     else {
       busyTime.startTime = start;
       busyTime.endTime = end;
-      if (end.getTime() > windowEnd.getTime()) busyTime.endTime = windowStart;
+      if (end.getTime() > windowEnd.getTime()) busyTime.endTime = windowEnd;
 
       // If the startTime of the current event is inside the previous event, this means these two events
       // are partially overlapping. This means the busyTime should be from the startTime of the previous
       // event, to the endTime of the event that lasts longer.
       var oldBusyTime = busyTimes.pop();
-      var oldStartTime = oldBusyTime.StartTime;
+      var oldStartTime = oldBusyTime.startTime;
       if ((start.getTime() >= oldBusyTime.startTime.getTime()) && (start.getTime() <= oldBusyTime.endTime.getTime())) {
         busyTime.startTime = oldBusyTime.startTime;
         busyTime.endTime = end;
@@ -294,52 +295,46 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   return busyTimes;
 }
 
+
 // given a userId, find the available times of the person based on their
 // google calendar stored in database and additional busy times (both are stored in database) 
 function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
-  //var user = Meteor.users.findOne(userId);
-
   var availableTimes = [];
- // var additionalTimes = user.additionalTimes;
+  var lastEndTime = windowStart;
 
-  // TODO: add way to add additional busy times
-  // for (i in additionalTimes) {
-  //   availableTimes.push(i);
-  // }
-
-  // loop through calendarEvents, and find inverse times
-  //var calendarTimes = user.calendarEvents;
-  var last = 0;
-
-  for (var i = 0; i < busyTimes.length; i++) {
-    var startRange = windowStart;
-    
-    // first availableTime is from windowStart - busyTimes[0].start
-    if (windowStart.getTime() > busyTimes[i].startTime.getTime() || busyTimes[i].endTime.getTime() > windowEnd.getTime()) {
-      continue;
-    }
-    last = i;
-    // find inverse of times
-    if (i != 0) {
-      startRange = (busyTimes[i - 1].endTime);
+  //For loop runs to the last element of the array + 1
+  for (var i = 0; i <= busyTimes.length; i++) {
+    var availableTime = {startTime: 0, endTime: 0};
+    var b = busyTimes[i];
+    //If lastEndTime is undefined, this is the first element of the array. Consequently, the start of 
+    // the available time should be from windowStart, or in the special case the first busy time starting
+    // at windowStart, from the end of that first busyTime
+    if (i == 0) {
+      if (b.startTime.getTime() === windowStart.getTime()) {
+        lastEndTime = b.endTime;
+        continue;
+      }
     }
 
-    var endRange = busyTimes[i].startTime;
+    //If b is undefined, this means that the last b was the last element of the array and the last available
+    //time should be from that b's endTime to windowEnd.
+    if (!b) {
+      //If the end of the last time = the end of the window, then the last available time is the final one
+      if (lastEndTime.getTime() === windowEnd.getTime()) continue;
 
-    var availableTime = {
-      startTime: (startRange),
-      endTime: (endRange)
-    };
+      availableTime.startTime = lastEndTime;
+      availableTime.endTime = windowEnd;
+    }
+    else {
+      //Available times is from the last busyTime's endtime to the current busyTimes startTime
+      availableTime.startTime = lastEndTime;
+      availableTime.endTime = b.startTime;
+
+      lastEndTime = b.endTime;
+    }
 
     availableTimes.push(availableTime);
   }
-
-  // final available time
-  var availableTime = {
-    startTime: (busyTimes[last].endTime),
-    endTime: windowEnd
-  };
-  availableTimes.push(availableTime);
 
   return availableTimes;
 }
