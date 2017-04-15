@@ -71,6 +71,8 @@ Template.dashboard_page.events({
   'click #save': function(e) {
     e.preventDefault();
 
+    //TODO: make sure all these user inputs are sanitized/safe
+
     var title = $('#meetingTitle').val();
     var email = $('#meetingInvitee').val();
     var length = $('#meetingLength').val();
@@ -90,7 +92,7 @@ Template.dashboard_page.events({
 
     // TODO: add fields to set the window of time to schedule the time
     // currently using 24 hours after time button was pressed 
-    Meteor.call('createMeeting', [email], length, windowStart, windowEnd, function(error, result) {
+    Meteor.call('createMeeting', title, [email], length, windowStart, windowEnd, function(error, result) {
       if (error) {
         console.log("createMeeting: " + error);
       }

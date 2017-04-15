@@ -27,7 +27,7 @@ Meteor.methods({
   // windowEnd (Moment.js object): latest possible time to meet
 
 
-  createMeeting: function(invitedEmails, duration, windowStart, windowEnd) {
+  createMeeting: function(title, invitedEmails, duration, windowStart, windowEnd) {
     var participants = [{
         id: this.userId,
         // name: Meteor.users.findOne(this.userId).services.google.name,
@@ -109,7 +109,7 @@ Meteor.methods({
     
     // TODO: insert this into the Mongo DB
     Meetings.insert({
-      title: "Placeholder Meeting Title", //TODO: pass this as a parameter to createMeeting
+      title: title, //TODO: pass this as a parameter to createMeeting
       isFinalized: false,
       availableTimes: availableTimes,
       participants: participants,
