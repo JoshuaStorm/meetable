@@ -1,6 +1,9 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 15, 2017 (Casey)
+- Merge UI update into the 'meetings' branch. The update adds three tabs, 'Schedule a Meeting', 'Invites', 'Meetings' which fold out upon being clicked. It also inlines the modal for scheduling a meeting.
+
 ## April 13, 2017 (Josh)
 - Refactored getFullCalendarEvents by David's request. Separated getting and putting into the database. Considers all calendars by default.
 - Made progress (?) on fixing our Heroku OAuth problem. Getting some weirdness going on where it works fine on my machine but not on others. Not sure what's going on.
