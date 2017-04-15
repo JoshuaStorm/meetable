@@ -270,7 +270,7 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
     else {
       busyTime.startTime = start;
       busyTime.endTime = end;
-      if (end.getTime() > windowEnd.getTime()) busyTime.endTime = windowEnd;
+      //if (end.getTime() > windowEnd.getTime()) busyTime.endTime = windowEnd;
 
       // If the startTime of the current event is inside the previous event, this means these two events
       // are partially overlapping. This means the busyTime should be from the startTime of the previous
@@ -285,6 +285,7 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
       else busyTimes.push(oldBusyTime);
     
 
+    if (busyTime.endTime.getTime() > windowEnd.getTime()) busyTime.endTime = windowEnd;
     // if the current start time is greater than or equal to the previous, the the event is already chronological
     // otherwise, it needs to be placed in the array in chronological order
     if (start.getTime() >= oldStartTime) busyTimes.push(busyTime);
