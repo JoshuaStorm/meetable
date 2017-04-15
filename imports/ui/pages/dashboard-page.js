@@ -48,6 +48,14 @@ Template.dashboard_page.events({
       Session.set('showSchedule',true);
     }
   },
+  'click #cancel':function(){
+    if (Session.get('showSchedule') == true){ // toggle the state of the tab (open/close on click)
+      Session.set('showSchedule',false);
+    } else
+    {
+      Session.set('showSchedule',true);
+    }
+  },
   'click #invitesButton':function(){
     Session.set('showSchedule',false);// if one tab is open, close the others
     Session.set('showMeetings',false);
