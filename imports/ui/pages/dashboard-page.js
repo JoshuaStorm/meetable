@@ -82,23 +82,11 @@ Template.dashboard_modal.events({
 // I think we have to initiate the call to get the OAuth info from the client
 Meteor.call("getAuthInfo", function(error){});
 
-// Not sure if this needs to be called on client or server -- depends how we
-// will parse the calendar data
-// Meteor.call("getCalendarInfo", function(error){});
-
-// var startDate = new Date("2017-04-1");
-// var endDate = new Date("2017-04-4");
-//
-// Meteor.call("getCalendarList", function(error, result) {
-//   console.log(result);
-// });
-//
-// Meteor.call("getFreeBusy", startDate, endDate, "est", function(error, result) {
-//   console.log(result);
-// });
-//
-Meteor.call("getFullCalendarEvents", false, function(error, result) {
+Meteor.call("getFullCalendarEvents", function(error, result) {
   $( '#events-calendar' ).fullCalendar('addEventSource', result);
 });
 
-// Meteor.call("printFromDB", function (error) {});
+// These calls are just for testing for now :)
+Meteor.call("updateEventsInDB", function(error, result) {});
+
+Meteor.call("printFromDB", function(error) {});
