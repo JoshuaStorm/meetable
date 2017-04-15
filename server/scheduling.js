@@ -28,37 +28,35 @@ Meteor.methods({
 
 
   createMeeting: function(invitedEmails, duration, windowStart, windowEnd) {
-    var meeting = {
-      participants: [{
+    var participants = [{
         id: this.userId,
-        name: Meteor.users.findOne(this.userId).services.google.name,
+        // name: Meteor.users.findOne(this.userId).services.google.name,
         email: Meteor.users.findOne(this.userId).services.google.email,
         accepted: true, // creator automatically accepts event?? 
         selector: false // creator is not always the one who picks the final date
-      }],
-      duration: duration * 3600 * 1000,
-      windowStart: windowStart,
-      windowEnd: windowEnd,
-      selectedStartTime: null // will be calculated when all participants have accepted
-    };
+      }];
 
     // add the invited participants
     // TODO: any special considerations for users that don't have accoutns yet?
     // for now, make their name and id null
+
+
     for (var i = 0; i < invitedEmails.length; i++) {
       newParticipant = {
         id: null,
-        name: null,
+        // name: null,
         email: invitedEmails[i],
         accepted: false,
         selector: false
       };
 
+
+      // TODO: why is id missing sometimes?
       // check if a user with this email exists,and if it does, use their personal info
       var user = Meteor.users.findOne({"services.google.email": invitedEmails[i]});
       if (user !== undefined)
       {
-        newParticipant.name = user.services.google.name;
+        // newParticipant.name = user.services.google.name;
         newParticipant.id = user.id;
         // TODO: Perhaps we should have a modal confirmation saying
         // "This user doesn't seem to have an account, would you like to invite them?"
@@ -68,16 +66,16 @@ Meteor.methods({
       } 
 
       // add this newParticipant to the document
-      meeting.participants.push(newParticipant);
+      participants.push(newParticipant);
     }
 
     // if meeting is only two people, the invitee gets to choose the meeting time
     // in meetings of more than two people, the event creator chooses the meeting time
-    if (meeting.participants.length === 2) {
-      meeting.participants[1].selector = true;
+    if (participants.length === 2) {
+      participants[1].selector = true;
     }
     else {
-      meeting.participants[0].selector = true;
+      participants[0].selector = true;
     }
 
     var availableTimes = [{
@@ -85,26 +83,33 @@ Meteor.methods({
       endTime: windowEnd
     }];
 
-    meeting.availableTimes = availableTimes;
 
-    // console.log("meeting document:");
-    // console.log(meeting);
+    // var busyTimes = findUserBusyTimes(this.userId, windowStart, windowEnd);
 
-    var busyTimes = findUserBusyTimes(this.userId, windowStart, windowEnd);
+    // var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
+    // availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
 
-    var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
-    meeting.availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
+    // console.log("busyTimes");
+    // console.log(busyTimes);
 
-    console.log("busyTimes");
-    console.log(busyTimes);
+    // console.log("loggedInUserAvailableTimes");
+    // console.log(loggedInUserAvailableTimes);
 
-    console.log("loggedInUserAvailableTimes");
-    console.log(loggedInUserAvailableTimes);
+    // console.log("overlapped times:");
+    // console.log(meeting.availableTimes);
 
-    console.log("overlapped times:");
-    console.log(meeting.availableTimes);
-
+    
     // TODO: insert this into the Mongo DB
+    Meetings.insert({
+      availableTimes: availableTimes,
+      participants: participants,
+      duration: duration * 3600 * 1000,
+      windowStart: windowStart,
+      windowEnd: windowEnd,
+      selectedStartTime: null // will be calculated when all participants have accepted
+
+    });
+
 
     // var calendarList = Meteor.call("getCalendarList");
 
@@ -189,7 +194,7 @@ function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
   var text = inviterEmail + " wants to meet with you for a meeting \"" + title + "\"\n" +
             "Login to schedule it now! https://www.meetable.us\n\n\n" +
             "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
-  Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
+  //Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
 }
 
 function toUnixDate(date) {
