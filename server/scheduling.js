@@ -33,7 +33,8 @@ Meteor.methods({
         // name: Meteor.users.findOne(this.userId).services.google.name,
         email: Meteor.users.findOne(this.userId).services.google.email,
         accepted: true, // creator automatically accepts event?? 
-        selector: false // creator is not always the one who picks the final date
+        selector: false, // creator is not always the one who picks the final date
+        creator: true,
       }];
 
     // add the invited participants
@@ -47,7 +48,8 @@ Meteor.methods({
         // name: null,
         email: invitedEmails[i],
         accepted: false,
-        selector: false
+        selector: false,
+        creator: false,
       };
 
 
@@ -84,7 +86,13 @@ Meteor.methods({
     }];
 
 
-    // var busyTimes = findUserBusyTimes(this.userId, windowStart, windowEnd);
+    var busyTimes = findUserBusyTimes(this.userId, windowStart, windowEnd);
+    Meteor.users.upsert(this.userId, {
+      $set: {
+        busyTimes: busyTimes
+      }
+    });
+
 
     // var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
     // availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
@@ -101,6 +109,8 @@ Meteor.methods({
     
     // TODO: insert this into the Mongo DB
     Meetings.insert({
+      title: "Placeholder Meeting Title", //TODO: pass this as a parameter to createMeeting
+      isFinalized: false,
       availableTimes: availableTimes,
       participants: participants,
       duration: duration * 3600 * 1000,
@@ -109,7 +119,6 @@ Meteor.methods({
       selectedStartTime: null // will be calculated when all participants have accepted
 
     });
-
 
     // var calendarList = Meteor.call("getCalendarList");
 
