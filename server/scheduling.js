@@ -41,7 +41,6 @@ Meteor.methods({
     // TODO: any special considerations for users that don't have accoutns yet?
     // for now, make their name and id null
 
-
     for (var i = 0; i < invitedEmails.length; i++) {
       newParticipant = {
         id: null,
@@ -116,17 +115,9 @@ Meteor.methods({
       duration: duration * 3600 * 1000,
       windowStart: windowStart,
       windowEnd: windowEnd,
-      selectedStartTime: null // will be calculated when all participants have accepted
-
+      selectedStartTime: null, // will be calculated when all participants have accepted
+      readyToFinalize: false
     });
-
-    // var calendarList = Meteor.call("getCalendarList");
-
-    // var gcalEvents = Meteor.call("getEventListTest", windowStart, windowEnd);
-
-    // TODO: check currently gives Exception while invoking method 'createMeeting' Error: Match error: Unknown key in field participants
-
-    //check(meeting, Meetings.simpleSchema());
   },
 
   // Send out an invitation to a meeting/event

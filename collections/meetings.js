@@ -47,6 +47,10 @@ Schemas.Meetings = new SimpleSchema({
         type: Boolean,
         label: "is every detail about this meeting finalized"
     },
+    readyToFinalize: {
+        type: Boolean,
+        label: "ready for the picker to pick a final time"
+    },
     participants: {
         type: Array
     },
