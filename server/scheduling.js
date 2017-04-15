@@ -90,7 +90,7 @@ Meteor.methods({
     // console.log("meeting document:");
     // console.log(meeting);
 
-    var busyTimes = findUserBusyTimes(this.userId);
+    var busyTimes = findUserBusyTimes(this.userId, windowStart, windowEnd);
 
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
     meeting.availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
@@ -205,47 +205,87 @@ function toDate(date) {
 }
 
 
+// inserts time into the array of times, times, in chronological order. Pass by refrence.
+// Assumes times is already chronological (otherwise this would be a sorting function #neverAgain)
+function insertInOrder(times, time) {
+  var oldTimes = [];
+
+  // Loop through the times stack and remove items one by one until the place of time is found
+  // Store popped times in oldTimes array so they may be restored after completion
+  while (times.length > 0) {
+    var oldTime = times.pop();
+
+    // If the current time is greater than the previous time, that means the current time has
+    // found its place in the stack and must be inserted right after the oldTime
+    if (time.startTime.getTime() > oldTime.startTime.getTime()) {
+      times.push(oldTime);
+      break;
+    }
+    oldTimes.push(oldTime);
+  }
+
+  times.push(time);
+
+  //restore the stack after inserting the time in proper place
+  while (oldTimes.length > 0) {
+    times.push(oldTimes.pop());
+  }
+
+}
+
+
 // Find users busy times using calendar info and additional busy times and stores them
-// chronologically in easy to use format
-function findUserBusyTimes(userId) {
+// chronologically in easy to use format from windowStart to windowEnd
+function findUserBusyTimes(userId, windowStart, windowEnd) {
   var user = Meteor.users.findOne(userId);
   var calendarTimes = user.calendarEvents;
 
   var busyTimes = [];
 
-  console.log(calendarTimes.length);
   for (var i = 0; i < calendarTimes.length; i++) {
-    if (i == 0) {
-      var busyTime = {
-        startTime: toDate(calendarTimes[i].start),
-        endTime: toDate(calendarTimes[i].end)
-      };
+    var start = toDate(calendarTimes[i].start);
+    var end = toDate(calendarTimes[i].end);
+    var busyTime = {startTime: 0, endTime: 0};
 
+    // Only include events from windowStart to windowEnd
+    //if the end of the event isn't within the window, exclude it
+    //if start isn't withing the window, exclude it
+    if (end.getTime() <= windowStart.getTime()) continue;
+    if (start.getTime() >= windowEnd.getTime()) continue;
+
+    // If this is the first element to be inserted in the array, the startTime is the window start
+    if (busyTimes.length == 0) {
+      busyTime.startTime = start;
+      if (start.getTime() < windowStart) busyTime.startTime = windowStart;
+      busyTime.endTime = end;
       busyTimes.push(busyTime);
     }
 
     else {
+      busyTime.startTime = start;
+      busyTime.endTime = end;
+      if (end.getTime() > windowEnd.getTime()) busyTime.endTime = windowStart;
+
+      // If the startTime of the current event is inside the previous event, this means these two events
+      // are partially overlapping. This means the busyTime should be from the startTime of the previous
+      // event, to the endTime of the event that lasts longer.
       var oldBusyTime = busyTimes.pop();
-      var start = toDate(calendarTimes[i].start);
-      var end = toDate(calendarTimes[i].end);
-
-      if (start.getTime() >= oldBusyTime.startTime.getTime() && end.getTime() <= oldBusyTime.endTime.getTime()) {
-        oldBusyTime.endTime = end;
-        console.log("hello");
-        continue;
+      var oldStartTime = oldBusyTime.StartTime;
+      if ((start.getTime() >= oldBusyTime.startTime.getTime()) && (start.getTime() <= oldBusyTime.endTime.getTime())) {
+        busyTime.startTime = oldBusyTime.startTime;
+        busyTime.endTime = end;
+        if (oldBusyTime.endTime.getTime() > end.getTime()) busyTime.endTime = oldBusyTime.endTime;
       }
+      else busyTimes.push(oldBusyTime);
+    
 
-      busyTimes.push(oldBusyTime);
-
-      var busyTime = {
-        startTime: start,
-        endTime: end
-      };
-
-      busyTimes.push(busyTime);
-      
+    // if the current start time is greater than or equal to the previous, the the event is already chronological
+    // otherwise, it needs to be placed in the array in chronological order
+    if (start.getTime() >= oldStartTime) busyTimes.push(busyTime);
+    else insertInOrder(busyTimes, busyTime);
     }
   }
+
   return busyTimes;
 }
 
@@ -270,7 +310,6 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
     var startRange = windowStart;
     
     // first availableTime is from windowStart - busyTimes[0].start
-
     if (windowStart.getTime() > busyTimes[i].startTime.getTime() || busyTimes[i].endTime.getTime() > windowEnd.getTime()) {
       continue;
     }
