@@ -44,13 +44,9 @@ Template.dashboard_modal.events({
   'click #save': function(e) {
     e.preventDefault();
 
-    // var title = $('#meetingTitle').val();
-    // var email = $('#meetingInvitee').val();
-    // var length = $('#meetingLength').val();
-
-    var title = "testing hardcoded";
-    var email = "dmelvin@princeton.edu";
-    var length = 2;
+    var title = $('#meetingTitle').val();
+    var email = $('#meetingInvitee').val();
+    var length = $('#meetingLength').val();
 
     // TODO: Handled errors, enforce the text boxes all have a value
     // TODO: Handle multiple emails, just passing an array of size 1 but backend should be able to handle multiple fine

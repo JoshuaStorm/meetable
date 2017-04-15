@@ -194,7 +194,7 @@ function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
   var text = inviterEmail + " wants to meet with you for a meeting \"" + title + "\"\n" +
             "Login to schedule it now! https://www.meetable.us\n\n\n" +
             "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
-  //Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
+  Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
 }
 
 function toUnixDate(date) {
