@@ -20,10 +20,13 @@
               Schedule a Meeting
             </button>
             <button id="invitesButton" type="button" class="btn btn-secondary">
-              Invites
+              Incoming
+            </button>
+            <button id="outgoingButton" type="button" class="btn btn-secondary">
+              Outgoing
             </button>
             <button id="meetingsButton" type="button" class="btn btn-secondary">
-              Meetings
+              Finalized Meetings
             </button>
           </ul>
         </div>
@@ -43,7 +46,7 @@
           </div>
           <div class="row">
             <button type="button" class="btn btn-primary" id="save">Save</button>
-            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-default" id="cancel">Cancel</button>
           </div>
          <hr/>
         </div>
@@ -52,7 +55,7 @@
               <div class="container">
                 <hr/>
                 <div class="row">
-                  <h3 class="text-center">Invites</h3>
+                  <h3 class="text-center">Incoming</h3>
                 </div>
                 <!-- some fake information -->
                 <div class="row">
@@ -70,24 +73,39 @@
                <hr/>
               </div>
           {{else}}
-            {{#if showMeetingsDiv}}
-             <hr/>
-              <div class="container">
-                <div class="row">
-                  <h3 class="text-center">Your Scheduled Meetings</h3>
-                </div>
-                <!-- some fake information -->
-                <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
-                  <h4>John<span style='font-weight:normal;'> Lunch at CJL (Accepted) </span></h4>
-                  <p>Monday, April 24 12:45-2:45pm</p>
-                </div>
-                <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
-                  <h4>Samantha<span style='font-weight:normal;'> Tutoring (Pending) </span></h4>
-                  <p>Monday, April 24 12:45-2:45pm</p>
-                </div>
-              </div>
-            <hr/>
+            {{#if showOutgoingDiv}}
+                <hr/>
+                <div class="container">
+                    <div class="row">
+                      <h3 class="text-center">Your Outgoing Meetings</h3>
+                    </div>
+                    <!-- some fake information -->
+                    <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
+                      <h4>Elroy<span style='font-weight:normal;'> Dinner (Pending) </span></h4>
+                      <p>Monday, April 24 12:45-2:45pm</p>
+                    </div>
+                  </div>
+                <hr/>
+            {{else}}
+              {{#if showMeetingsDiv}}
+                 <hr/>
+                  <div class="container">
+                    <div class="row">
+                      <h3 class="text-center">Your Scheduled Meetings</h3>
+                    </div>
+                    <!-- some fake information -->
+                    <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
+                      <h4>John<span style='font-weight:normal;'> Lunch at CJL </span></h4>
+                      <p>Monday, April 24 12:45-2:45pm</p>
+                    </div>
+                    <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
+                      <h4>Samantha<span style='font-weight:normal;'> Tutoring </span></h4>
+                      <p>Monday, April 24 12:45-2:45pm</p>
+                    </div>
+                  </div>
+                <hr/>
             {{/if}}
+          {{/if}}
           {{/if}}
         {{/if}}
         <div id="events-calendar"></div>

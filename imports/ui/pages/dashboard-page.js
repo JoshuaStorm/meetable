@@ -23,6 +23,9 @@ Template.dashboard_page.helpers({
     showInvitesDiv:function(){ // foldout for 'Invites'
         return Session.get('showInvites')
     },
+    showOutgoingDiv:function(){ // foldout for 'Meetings'
+        return Session.get('showOutgoing')
+    },
     showMeetingsDiv:function(){ // foldout for 'Meetings'
         return Session.get('showMeetings')
     }
@@ -41,6 +44,15 @@ Template.dashboard_page.events({
   'click #scheduleButton':function(){
     Session.set('showInvites',false); // if one tab is open, close the others
     Session.set('showMeetings',false);
+    Session.set('showOutgoing',false)
+    if (Session.get('showSchedule') == true){ // toggle the state of the tab (open/close on click)
+      Session.set('showSchedule',false);
+    } else
+    {
+      Session.set('showSchedule',true);
+    }
+  },
+  'click #cancel':function(){
     if (Session.get('showSchedule') == true){ // toggle the state of the tab (open/close on click)
       Session.set('showSchedule',false);
     } else
@@ -51,6 +63,7 @@ Template.dashboard_page.events({
   'click #invitesButton':function(){
     Session.set('showSchedule',false);// if one tab is open, close the others
     Session.set('showMeetings',false);
+    Session.set('showOutgoing',false)
     if (Session.get('showInvites') == true){ // toggle the state of the tab (open/close on click)
       Session.set('showInvites',false);
     } else
@@ -58,9 +71,21 @@ Template.dashboard_page.events({
       Session.set('showInvites',true);
     }
   },
+  'click #outgoingButton':function(){
+    Session.set('showSchedule',false);// if one tab is open, close the others
+    Session.set('showMeetings',false);
+    Session.set('showInvites',false)
+    if (Session.get('showOutgoing') == true){ // toggle the state of the tab (open/close on click)
+      Session.set('showOutgoing',false);
+    } else
+    {
+      Session.set('showOutgoing',true);
+    }
+  },
     'click #meetingsButton':function(){
     Session.set('showSchedule',false);// if one tab is open, close the others
     Session.set('showInvites',false);
+    Session.set('showOutgoing',false)
     if (Session.get('showMeetings') == true){ // toggle the state of the tab (open/close on click)
       Session.set('showMeetings',false);
     } else
