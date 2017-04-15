@@ -35,11 +35,8 @@ Schemas.Meetings = new SimpleSchema({
     },
     "participants.$.id": {
         type: String,
-        label: "Meteor's generated id for this user if they have an account"
-    },
-    "participants.$.name": {
-        type: String,
-        label: "First and Last Name of participant"
+        label: "Meteor's generated id for this user if they have an account",
+        optional: true
     },
     "participants.$.email": {
         type: String,
@@ -61,21 +58,13 @@ Schemas.Meetings = new SimpleSchema({
         type: Object
     },
     "availableTimes.$.startTime": {
-        type: Number,
+        type: Date,
         label: "Start time of this available meeting time in UNIX time in milliseconds"
     },
     "availableTimes.$.endTime": {
-        type: Number,
+        type: Date,
         label: "End time of this available meeting time in UNIX time in milliseconds"
-    },
-    "availableTimes.$.timeZone": {
-        type: String,
-        label: "what timezone this available meeting is in"
-    },
-    "availableTimes.$.selected": {
-        type: Boolean,
-        label: "Did the selector choose this as the meeting time"
-    },
+    }
 });
 
 Meetings.attachSchema(Schemas.Meetings);
