@@ -27,6 +27,26 @@ Schemas.Meetings = new SimpleSchema({
             } 
         }
     },
+    title: {
+        type: String,
+        label: "title of meeting"
+    },
+    duration: {
+        type: Number,
+        label: "duration of meeting in milliseconds"
+    },
+    windowStart: {
+        type: Date,
+        label: "earliest possible time for meeting"
+    },
+    windowEnd: {
+        type: Date,
+        label: "latest possible time for meeting"
+    },
+    isFinalized: {
+        type: Boolean,
+        label: "is every detail about this meeting finalized"
+    },
     participants: {
         type: Array
     },
@@ -51,6 +71,10 @@ Schemas.Meetings = new SimpleSchema({
         type: Boolean,
         label: "Does this participant choose the final time?"
     },
+    "participants.$.creator": {
+        type: Boolean,
+        label: "did this participant create this meeting?"
+    },
     availableTimes: {
         type: Array
     },
@@ -64,6 +88,11 @@ Schemas.Meetings = new SimpleSchema({
     "availableTimes.$.endTime": {
         type: Date,
         label: "End time of this available meeting time in UNIX time in milliseconds"
+    },
+    "selectedStartTime" : {
+        type: Date,
+        label: "final time chosen for meeting",
+        optional: true // TODO: i don't know if this should be optional
     }
 });
 
