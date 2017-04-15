@@ -8,17 +8,24 @@ import './dashboard-page.html';
 /////////////////////////////////////////////
 
 Template.dashboard_page.helpers({
-   firstName: function(){
-    var user = Meteor.user();
-	    if (user) {
-        // DEBUG:helpful to know exactly which account is logged in
-        console.log("logged in email: " + user.services.google.email);
-	      return user.services.google.given_name;
-	   	}
-	},
-   currentUser: function() {
-    	return Meteor.userId();
-  	}
+    firstName: function(){
+      var user = Meteor.user();
+      if (user) {
+        return user.services.google.given_name;
+      }
+    }, 
+    currentUser: function() {
+      return Meteor.userId();
+    },
+    showScheduleDiv:function(){ // foldout for 'Schedule a Meeting'
+        return Session.get('showSchedule')
+    },
+    showInvitesDiv:function(){ // foldout for 'Invites'
+        return Session.get('showInvites')
+    },
+    showMeetingsDiv:function(){ // foldout for 'Meetings'
+        return Session.get('showMeetings')
+    }
 });
 
 Template.dashboard_page.onRendered( () => {
@@ -31,16 +38,36 @@ Template.dashboard_page.onRendered( () => {
 });
 
 Template.dashboard_page.events({
-  'click #scheduleButton': function(error) {
-    $('#dashboardModal').modal('show');
-  }
-});
-
-/////////////////////////////////////////////
-////////// MODAL PAGE TEMPLATING ////////////
-/////////////////////////////////////////////
-
-Template.dashboard_modal.events({
+  'click #scheduleButton':function(){
+    Session.set('showInvites',false); // if one tab is open, close the others
+    Session.set('showMeetings',false);
+    if (Session.get('showSchedule') == true){ // toggle the state of the tab (open/close on click)
+      Session.set('showSchedule',false);
+    } else
+    {
+      Session.set('showSchedule',true);
+    }
+  },
+  'click #invitesButton':function(){
+    Session.set('showSchedule',false);// if one tab is open, close the others
+    Session.set('showMeetings',false);
+    if (Session.get('showInvites') == true){ // toggle the state of the tab (open/close on click)
+      Session.set('showInvites',false);
+    } else
+    {
+      Session.set('showInvites',true);
+    }
+  },
+    'click #meetingsButton':function(){
+    Session.set('showSchedule',false);// if one tab is open, close the others
+    Session.set('showInvites',false);
+    if (Session.get('showMeetings') == true){ // toggle the state of the tab (open/close on click)
+      Session.set('showMeetings',false);
+    } else
+    {
+      Session.set('showMeetings',true);
+    }
+  },
   'click #save': function(e) {
     e.preventDefault();
 
@@ -68,10 +95,8 @@ Template.dashboard_modal.events({
         console.log("createMeeting: " + error);
       }
     });
-
-    $('#dashboardModal').modal('hide');
-  }
-});
+  },
+})
 
 
 
