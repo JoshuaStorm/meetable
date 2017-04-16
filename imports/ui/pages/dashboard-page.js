@@ -41,11 +41,11 @@ Template.dashboard_page.onRendered( () => {
 });
 
 Template.dashboard_page.events({
-  'click #scheduleButton':function(){
+  'click #scheduleButton':function() {
     Session.set('showInvites',false); // if one tab is open, close the others
     Session.set('showMeetings',false);
     Session.set('showOutgoing',false)
-    if (Session.get('showSchedule') == true){ // toggle the state of the tab (open/close on click)
+    if (Session.get('showSchedule') == true) { // toggle the state of the tab (open/close on click)
       Session.set('showSchedule',false);
     } else
     {
@@ -53,14 +53,14 @@ Template.dashboard_page.events({
     }
   },
   'click #cancel':function(){
-    if (Session.get('showSchedule') == true){ // toggle the state of the tab (open/close on click)
+    if (Session.get('showSchedule') == true) { // toggle the state of the tab (open/close on click)
       Session.set('showSchedule',false);
     } else
     {
       Session.set('showSchedule',true);
     }
   },
-  'click #invitesButton':function(){
+  'click #invitesButton':function() {
     Session.set('showSchedule',false);// if one tab is open, close the others
     Session.set('showMeetings',false);
     Session.set('showOutgoing',false)
@@ -71,7 +71,7 @@ Template.dashboard_page.events({
       Session.set('showInvites',true);
     }
   },
-  'click #outgoingButton':function(){
+  'click #outgoingButton':function() {
     Session.set('showSchedule',false);// if one tab is open, close the others
     Session.set('showMeetings',false);
     Session.set('showInvites',false)
@@ -82,7 +82,7 @@ Template.dashboard_page.events({
       Session.set('showOutgoing',true);
     }
   },
-    'click #meetingsButton':function(){
+  'click #meetingsButton':function() {
     Session.set('showSchedule',false);// if one tab is open, close the others
     Session.set('showInvites',false);
     Session.set('showOutgoing',false)
@@ -112,7 +112,7 @@ Template.dashboard_page.events({
 
     // for now, the window of every meeting is the 24 hour period from clicking save
     var windowStart = new Date();
-    var windowEnd = new Date(windowStart.valueOf())
+    var windowEnd = new Date(windowStart.valueOf());
     windowEnd.setDate(windowEnd.getDate() + 1);
 
     // TODO: add fields to set the window of time to schedule the time
