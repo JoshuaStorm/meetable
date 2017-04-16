@@ -125,14 +125,4 @@ Template.dashboard_page.events({
   },
 })
 
-
-
-// I think we have to initiate the call to get the OAuth info from the client
-Meteor.call("getAuthInfo", function(error){});
-
-Meteor.call("getFullCalendarEvents", false, function(error, result) {
-  $( '#events-calendar' ).fullCalendar('addEventSource', result);
-});
-
-Meteor.call("updateEventsInDB", function(error, result) {});
-// Meteor.call("printFromDB", function(error) {}); // Just for testing
+Meteor.call("printFromDB", function(error) {});
