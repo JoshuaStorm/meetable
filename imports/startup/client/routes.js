@@ -35,14 +35,14 @@ function checkLoggedIn (ctx, redirect) {  /* check if user is logged in */
 public.route('/', {
   name: 'App.home',
   action: function(params) {
-        Tracker.autorun(function() {
-            if (!Meteor.userId()) {
-                BlazeLayout.render('App_body', { main: 'login_page' });
-            } else {
-                FlowRouter.go('/dashboard');
-            }
-        });
+    Tracker.autorun(function() {
+      if (!Meteor.userId()) {
+        BlazeLayout.render('App_body', { main: 'login_page' });
+      } else {
+        FlowRouter.go('/dashboard');
       }
+    });
+  }
 });
 
 public.route('/error', {
@@ -54,7 +54,14 @@ public.route('/error', {
 
 loggedIn.route('/dashboard', {
   name: 'App.dashboard',
-  action() {
+  action: function() {
+    Meteor.call("getAuthInfo", function() {
+      Meteor.call("getFullCalendarEvents", false, function(error, result) {
+        if (error) console.log(error);
+        $( '#events-calendar' ).fullCalendar('addEventSource', result);
+        Meteor.call("updateEventsInDB", function(error, result) {});
+      });
+    });
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
   },
 });

@@ -32,3 +32,4 @@ useraccounts:flow-routing
 fullcalendar:fullcalendar
 momentjs:moment
 autopublish
+session

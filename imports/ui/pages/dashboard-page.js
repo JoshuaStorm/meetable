@@ -14,9 +14,9 @@ Template.dashboard_page.helpers({
 	      return user.services.google.given_name;
 	   	}
 	},
-   currentUser: function() {
-    	return Meteor.userId();
-  	}
+  currentUser: function() {
+    return Meteor.userId();
+  }
 });
 
 Template.dashboard_page.onRendered( () => {
@@ -55,17 +55,5 @@ Template.dashboard_modal.events({
     $('#dashboardModal').modal('hide');
   }
 });
-
-
-
-// I think we have to initiate the call to get the OAuth info from the client
-Meteor.call("getAuthInfo", function(error){});
-
-Meteor.call("getFullCalendarEvents", function(error, result) {
-  $( '#events-calendar' ).fullCalendar('addEventSource', result);
-});
-
-// These calls are just for testing for now :)
-Meteor.call("updateEventsInDB", function(error, result) {});
 
 Meteor.call("printFromDB", function(error) {});

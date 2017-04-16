@@ -24,8 +24,11 @@ Meteor.methods({
 
     // Get auth info from the Meteor.users DB and setup oauth2Client to use it
     getAuthInfo : function() {
-    try {
+      try {
         // get authentication info, which was retrieved from Meteor.loginWithGoogle()
+        console.log("Services on googleCalendarAPI");
+        var user = Meteor.users.findOne(this.userId);
+        console.log(user !== undefined);
         var googleService = Meteor.users.findOne(this.userId).services.google;
         var accessToken = googleService.accessToken;
         var refreshToken = googleService.refreshToken;
@@ -37,10 +40,10 @@ Meteor.methods({
           refresh_token: refreshToken,
           expiry_date: expiryDate
         });
-
-    } catch(e) {
-      return null;
-    }
+      } catch(e) {
+        console.log(e);
+        return null;
+      }
   },
 
   // Get an array of all calendars for the current user
@@ -142,6 +145,7 @@ Meteor.methods({
 var wrappedGetCalendarsList = Meteor.wrapAsync(gCalendar.calendarList.list);
 var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendar.freebusy.query);
 var wrappedGetEventList = Meteor.wrapAsync(gCalendar.events.list);
+var wrappedGetRefreshTokens = Meteor.wrapAsync(oauth2Client.refreshAccessToken);
 
 // Below here is legacy stuff that isn't Fiber wrapped. Do we still need these?
 
