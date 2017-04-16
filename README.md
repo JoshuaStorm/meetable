@@ -4,6 +4,7 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 ## April 16, 2017 (Meeting)
 - Everyone gave updates on their work so far
 - Decided to move 'meetingInvitesReceived/Sent' and other information to go under the user 'profile', because we were having trouble pulling it from the client side
+- Finalized what to do if a user rejects a meeting (notify meeting creator, remove them from meeting, and if they were only other person, delete the meeting)
 - Goal: V1 deployed by Wednesday
 - Go through issues and assign to people
 
