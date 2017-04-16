@@ -13,7 +13,7 @@ Template.dashboard_page.helpers({
       if (user) {
         return user.services.google.given_name;
       }
-    }, 
+    },
     currentUser: function() {
       return Meteor.userId();
     },
@@ -116,7 +116,7 @@ Template.dashboard_page.events({
     windowEnd.setDate(windowEnd.getDate() + 1);
 
     // TODO: add fields to set the window of time to schedule the time
-    // currently using 24 hours after time button was pressed 
+    // currently using 24 hours after time button was pressed
     Meteor.call('createMeeting', title, [email], length, windowStart, windowEnd, function(error, result) {
       if (error) {
         console.log("createMeeting: " + error);
@@ -130,23 +130,9 @@ Template.dashboard_page.events({
 // I think we have to initiate the call to get the OAuth info from the client
 Meteor.call("getAuthInfo", function(error){});
 
-// Not sure if this needs to be called on client or server -- depends how we
-// will parse the calendar data
-// Meteor.call("getCalendarInfo", function(error){});
-
-// var startDate = new Date("2017-04-1");
-// var endDate = new Date("2017-04-4");
-//
-// Meteor.call("getCalendarList", function(error, result) {
-//   console.log(result);
-// });
-//
-// Meteor.call("getFreeBusy", startDate, endDate, "est", function(error, result) {
-//   console.log(result);
-// });
-//
 Meteor.call("getFullCalendarEvents", false, function(error, result) {
   $( '#events-calendar' ).fullCalendar('addEventSource', result);
 });
 
-// Meteor.call("printFromDB", function (error) {});
+Meteor.call("updateEventsInDB", function(error, result) {});
+// Meteor.call("printFromDB", function(error) {}); // Just for testing
