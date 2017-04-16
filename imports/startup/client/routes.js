@@ -59,6 +59,7 @@ loggedIn.route('/dashboard', {
       Meteor.call("getFullCalendarEvents", false, function(error, result) {
         if (error) console.log(error);
         $( '#events-calendar' ).fullCalendar('addEventSource', result);
+        Meteor.call("updateEventsInDB", function(error, result) {});
       });
     });
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
