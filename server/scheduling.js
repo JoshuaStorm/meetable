@@ -240,7 +240,6 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
     else {
       busyTime.startTime = start;
       busyTime.endTime = end;
-      console.log(busyTime)
       //if (end.getTime() > windowEnd.getTime()) busyTime.endTime = windowEnd;
 
       // If the startTime of the current event is inside the previous event, this means these two events
@@ -274,24 +273,23 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
   var availableTimes = [];
   var lastEndTime = windowStart;
 
-  console.log(busyTimes);
   // For loop runs to the last element of the array + 1
   for (var i = 0; i <= busyTimes.length; i++) {
     var availableTime = {startTime: 0, endTime: 0};
-    var b = busyTimes[i];
+    var busy = busyTimes[i];
     // If lastEndTime is undefined, this is the first element of the array. Consequently, the start of
     // the available time should be from windowStart, or in the special case the first busy time starting
     // at windowStart, from the end of that first busyTime
-    if (i == 0 && b) {
-      if (b.startTime.getTime() === windowStart.getTime()) {
-        lastEndTime = b.endTime;
+    if (i == 0 && busy) {
+      if (busy.startTime.getTime() === windowStart.getTime()) {
+        lastEndTime = busy.endTime;
         continue;
       }
     }
 
     //If b is undefined, this means that the last b was the last element of the array and the last available
     //time should be from that b's endTime to windowEnd.
-    if (!b) {
+    if (!busy) {
       //If the end of the last time = the end of the window, then the last available time is the final one
       if (lastEndTime.getTime() === windowEnd.getTime()) continue;
 
@@ -301,9 +299,9 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
     else {
       //Available times is from the last busyTime's endtime to the current busyTimes startTime
       availableTime.startTime = lastEndTime;
-      availableTime.endTime = b.startTime;
+      availableTime.endTime = busy.startTime;
 
-      lastEndTime = b.endTime;
+      lastEndTime = busy.endTime;
     }
 
     availableTimes.push(availableTime);
@@ -322,16 +320,14 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
 
   //each availableTimes array has a start time and end time, both in unix
 
-  //first double for loop finds the searches for slots of length otherAvailableTimes in user availabeTimes
+  // First double for loop finds the searches for slots of length otherAvailableTimes in user availabeTimes
   for (var i = 0; i < otherAvailableTimes.length; i++) {
-    var o = otherAvailableTimes[i];
-    var otherStart = o.startTime;
-    var otherEnd = o.endTime;
+    var otherStart = otherAvailableTimes[i].startTime;
+    var otherEnd = otherAvailableTimes[i].endTime;
 
     for (var j = 0; j < userAvailableTimes.length; j++) {
-    var u = userAvailableTimes[j];
-      var userStart = u.startTime;
-      var userEnd = u.endTime;
+      var userStart = userAvailableTimes[j].startTime;
+      var userEnd = userAvailableTimes[j].endTime;
 
       if (otherStart.getTime() >= userStart.getTime() && otherEnd.getTime() <= userEnd.getTime()) {
         var availableTime = {
@@ -345,14 +341,12 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
   }
   // The second double for loop looks for slots of userAvailableTimes in otherAvailableTimes
   for (var j = 0; j < userAvailableTimes.length; j++) {
-    var u = userAvailableTimes[j];
-    var userStart = u.startTime;
-    var userEnd = u.endTime;
+    var userStart = userAvailableTimes[j].startTime;
+    var userEnd = userAvailableTimes[j].endTime;
 
     for (var i = 0; i < otherAvailableTimes.length; i++) {
-    var o = otherAvailableTimes[i];
-      var otherStart = o.startTime;
-      var otherEnd = o.endTime;
+      var otherStart = otherAvailableTimes[i].startTime;
+      var otherEnd = otherAvailableTimes[i].endTime;
 
       if (userStart.getTime() >= otherStart.getTime() && userEnd.getTime() <= otherEnd.getTime()) {
         var availableTime = {
