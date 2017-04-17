@@ -26,9 +26,7 @@ Meteor.methods({
     getAuthInfo : function() {
       try {
         // get authentication info, which was retrieved from Meteor.loginWithGoogle()
-        console.log("Services on googleCalendarAPI");
         var user = Meteor.users.findOne(this.userId);
-        console.log(user !== undefined);
         var googleService = Meteor.users.findOne(this.userId).services.google;
         var accessToken = googleService.accessToken;
         var refreshToken = googleService.refreshToken;
