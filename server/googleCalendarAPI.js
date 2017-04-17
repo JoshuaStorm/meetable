@@ -26,9 +26,7 @@ Meteor.methods({
     getAuthInfo : function() {
       try {
         // get authentication info, which was retrieved from Meteor.loginWithGoogle()
-        console.log("Services on googleCalendarAPI");
         var user = Meteor.users.findOne(this.userId);
-        console.log(user !== undefined);
         var googleService = Meteor.users.findOne(this.userId).services.google;
         var accessToken = googleService.accessToken;
         var refreshToken = googleService.refreshToken;
@@ -103,7 +101,7 @@ Meteor.methods({
       var events = Meteor.call("getFullCalendarEvents");
       Meteor.users.update(this.userId, {
         $set: {
-          calendarEvents: events
+          "profile.calendarEvents": events
         }
       });
     } catch(e) {
@@ -113,31 +111,8 @@ Meteor.methods({
 
   // Okay, actually I'll leave this function, it's useful for debugging
   printFromDB: function() {
-    console.log(Meteor.users.findOne(this.userId).calendarEvents);
+    console.log(Meteor.users.findOne(this.userId).profile.calendarEvents);
   },
-
-  // Add a method to get Google FreeBusy info
-  // startTime (Date): Minimum time to consider
-  // endTime (Date): Maximum time to consider
-  // zone (string): Timezone to return response in
-  // NOTE: Something seems wonky about using future dates...
-  getFreeBusy: function (startTime, endTime, zone) {
-    check([startTime, endTime], [Date])
-    check(zone, String)
-    var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
-
-    return wrappedGetFreeBusy({
-      headers: { "content-type" : "application/json" },
-      // needed to include resource instead of sending the params directly.
-      resource: {
-        // TODO: Use something other than the first ID
-        items: [{"id" : calendarList.items[0].id}],
-        timeMin: startTime.toISOString(),
-        timeMax: endTime.toISOString(),
-        timeZone: zone
-      }
-    });
-  }
 });
 
 // Wrapping up async function for Meteor fibers. Confused? See:
@@ -146,45 +121,3 @@ var wrappedGetCalendarsList = Meteor.wrapAsync(gCalendar.calendarList.list);
 var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendar.freebusy.query);
 var wrappedGetEventList = Meteor.wrapAsync(gCalendar.events.list);
 var wrappedGetRefreshTokens = Meteor.wrapAsync(oauth2Client.refreshAccessToken);
-
-// Below here is legacy stuff that isn't Fiber wrapped. Do we still need these?
-
-// TODO: what if a user doesn't have calendars, permissions issues, other edge cases
-// TODO: on first run, it has no access oken and didn't work until refresh
-// TODO: what if someone only has FreeBusy info, but can't see event titles?
-
-// Print a list of the next 10 events in the calendar specified by calendarI
-function printEventList(calendarId) {
-  gCalendar.events.list
-  ({
-    // The specified calendar
-    // not working for en.usa#holiday@group.v.calendar.google.com
-    calendarId: calendarId,
-
-    // Assumes we are only reading events from now onwards
-    timeMin: (new Date()).toISOString(),
-    maxResults: 10,
-    singleEvents: true,
-    orderBy: 'startTime'
-  }, function(err, response)
-  {
-    if (err) {
-        console.log('printEventList: The API returned an error: ' + err);
-        return;
-    }
-
-    var events = response.items;
-    if (events.length == 0) {
-        console.log('No upcoming events found.');
-    } else
-    {
-        console.log('Upcoming 10 events:');
-        for (var i = 0; i < events.length; i++)
-        {
-            var event = events[i];
-            var start = event.start.dateTime || event.start.date;
-            console.log('%s - %s', start, event.summary);
-        }
-   }
-  });
-}

@@ -54,6 +54,9 @@ Template.dashboard_page.events({
   },
   'click #cancel':function(){
     if (Session.get('showSchedule') == true) { // toggle the state of the tab (open/close on click)
+
+
+
       Session.set('showSchedule',false);
     } else
     {
@@ -75,7 +78,7 @@ Template.dashboard_page.events({
     Session.set('showSchedule',false);// if one tab is open, close the others
     Session.set('showMeetings',false);
     Session.set('showInvites',false)
-    if (Session.get('showOutgoing') == true){ // toggle the state of the tab (open/close on click)
+    if (Session.get('showOutgoing') == true) { // toggle the state of the tab (open/close on click)
       Session.set('showOutgoing',false);
     } else
     {
@@ -86,7 +89,7 @@ Template.dashboard_page.events({
     Session.set('showSchedule',false);// if one tab is open, close the others
     Session.set('showInvites',false);
     Session.set('showOutgoing',false)
-    if (Session.get('showMeetings') == true){ // toggle the state of the tab (open/close on click)
+    if (Session.get('showMeetings') == true) { // toggle the state of the tab (open/close on click)
       Session.set('showMeetings',false);
     } else
     {

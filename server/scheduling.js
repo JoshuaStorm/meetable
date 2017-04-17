@@ -77,7 +77,7 @@ Meteor.methods({
 
     Meteor.users.upsert(this.userId, {
       $set: {
-        busyTimes: busyTimes
+        "profile.busyTimes": busyTimes
       }
     });
 
@@ -127,7 +127,7 @@ Meteor.methods({
     invites.push(invitation); // Append
     Meteor.users.update(this.userId, { // Now set the values again
       $set: {
-        meetingInvitesSent: invites
+        "profile.meetingInvitesSent": invites
       }
     });
 
@@ -150,7 +150,7 @@ Meteor.methods({
         invites.push(invitation); // Append
         Meteor.users.update(user._id, { // Now set the values again
           $set: {
-            meetingInvitesReceived: invites
+            "profile.meetingInvitesReceived": invites
           }
         });
       }
