@@ -39,14 +39,18 @@ Meteor.methods({
       var user = Meteor.users.findOne({"services.google.email": invitedEmails[i]});
       if (user !== undefined) {
         // newParticipant.name = user.services.google.name;
-        newParticipant.id = user.id;
+        newParticipant.id = user._id;
+        // Send an email to the user letting them now they have a new meeting invite
+        sendNewMeetingEmail(participants[0].email, newParticipant.email, title);
         // TODO: Perhaps we should have a modal confirmation saying
         // "This user doesn't seem to have an account, would you like to invite them?"
 
         // TODO: PROBLEM!!!!!! We need to associate this event with an account that DOES NOT YET EXIST
         // Not TOO hard to handle, just need to create a new collection.
+      } else {
+        // Otherwise send them a invitation email to join Meetable
+        sendInvitationEmail(participants[0].email, newParticipant.email, title);
       }
-
       // add this newParticipant to the document
       participants.push(newParticipant);
     }
@@ -65,14 +69,13 @@ Meteor.methods({
       endTime: windowEnd
     }];
 
-    console.log("windowStart");
-    console.log(windowStart);
-
-    console.log("windowEnd");
-    console.log(windowEnd);
+    // console.log("windowStart");
+    // console.log(windowStart);
+    //
+    // console.log("windowEnd");
+    // console.log(windowEnd);
 
     var busyTimes = findUserBusyTimes(this.userId, windowStart, windowEnd);
-
     console.log("busyTimes");
 
     Meteor.users.upsert(this.userId, {
@@ -85,15 +88,14 @@ Meteor.methods({
     availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
 
 
-    console.log("loggedInUserAvailableTimes");
-    console.log(loggedInUserAvailableTimes);
-
-    console.log("overlapped times:");
-    console.log(availableTimes);
-
+    // console.log("loggedInUserAvailableTimes");
+    // console.log(loggedInUserAvailableTimes);
+    //
+    // console.log("overlapped times:");
+    // console.log(availableTimes);
 
     // TODO: insert this into the Mongo DB
-    Meetings.insert({
+    var meetingId = Meetings.insert({
       title: title, //TODO: pass this as a parameter to createMeeting
       isFinalized: false,
       availableTimes: availableTimes,
@@ -104,14 +106,56 @@ Meteor.methods({
       selectedStartTime: null, // will be calculated when all participants have accepted
       readyToFinalize: false
     });
+
+    var sent = Meteor.users.findOne(this.userId).profile.meetingInvitesSent;
+    // This is to ensure our old database schema doesn't conflict and blow us up
+    if (sent.length == 0 || typeof sent[0] == 'object') {
+      Meteor.users.update(this.userId, { // Now set the values again
+        $set: {
+          "profile.meetingInvitesSent": [meetingId]
+        }
+      });
+    } else {
+      Meteor.users.update(this.userId, { // Now set the values again
+        $addToSet: {
+          "profile.meetingInvitesSent": meetingId
+        }
+      });
+    }
+    // Make sure all the invitees get this meeting associated with their userId
+    for (var i = 0; i < participants.length; i++) {
+      // The creater sent the invite, therefore is not being invited!
+      console.log("Yep, user: " + participants[i].id);
+      if (participants[i].creator == true) continue;
+      // TODO: Need to associate this with a temporary user!!!!! For now, just skip
+      if (participants[i].id == null)      continue;
+
+      var received = Meteor.users.findOne(participants[i].id).profile.meetingInvitesReceived;
+      // This is to ensure our old database schema doesn't conflict and blow us up
+      if (received.length == 0 || typeof received[0] == 'object') {
+        Meteor.users.update(this.userId, { // Now set the values again
+          $set: {
+            "profile.meetingInvitesReceived": [meetingId]
+          }
+        });
+      } else {
+        Meteor.users.update(this.userId, { // Now set the values again
+          $addToSet: {
+            "profile.meetingInvitesReceived": meetingId
+          }
+        });
+      }
+    }
+    console.log("Meeting Invites Sent");
+    console.log(Meteor.users.findOne(this.userId).profile.meetingInvitesSent);
+    console.log("Meeting Invites Received");
+    console.log(Meteor.users.findOne(this.userId).profile.meetingInvitesReceived);
   },
 
-  // Send out an invitation to a meeting/event
-  // userEmails ([emails]): An array of the emails to schedule this meeting with
-  // title (String): Title of the event/meeting
-  // duration (float): Length of the event/meeting
-  // TODO: Handle more than Google account
+  // DEPRECATED: I am just leaving this here cus it has good boilerplate code
+  // Feel free to delete later.
   inviteToMeeting: function(userEmails, title, duration) {
+    console.log("inviteToMeeting is DEPRECATED, don't use it!");
     // The email of the person inviting others to meeting
     var inviterEmail = Meteor.user().services.google.email;
     var invitation = {
