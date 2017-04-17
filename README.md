@@ -6,12 +6,12 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Bug fixed a few functions in the `meetings` PR. Notably a handful of corner case issues when we passed in a busy array of size 0.
 - Got deployment up to master! Worked quite painlessly too :)
 
+## April 15, 2017 (Casey)
+- Merge UI update into the 'meetings' branch. The update adds three tabs, 'Schedule a Meeting', 'Invites', 'Meetings' which fold out upon being clicked. It also inlines the modal for scheduling a meeting.
+
 ## April 14, 2017 (Josh)
 - Resolved OAuth problem, we had a race condition with authentication that I was missing.
 - Realized the massive `meetings` PR was really funky due to re-committing old code since some of us were up to date with master and others were not. Going to have to do a really large (37 commits...) `git rebase`. Small PRs == Good PRs
-
-## April 15, 2017 (Casey)
-- Merge UI update into the 'meetings' branch. The update adds three tabs, 'Schedule a Meeting', 'Invites', 'Meetings' which fold out upon being clicked. It also inlines the modal for scheduling a meeting.
 
 ## April 13, 2017 (Josh)
 - Refactored getFullCalendarEvents by David's request. Separated getting and putting into the database. Considers all calendars by default.
