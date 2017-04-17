@@ -1,6 +1,9 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 15, 2017 (David)
+- Update Meetings collection schema again to further match what we decided in our Wiki page
+
 ## April 15, 2017 (Josh)
 - Resolved some pretty hefty merge conflicts in `meetings` PR. I ended up just individually checking out files instead of doing a huge rebase. Worked out pretty well!
 - Bug fixed a few functions in the `meetings` PR. Notably a handful of corner case issues when we passed in a busy array of size 0.
@@ -9,9 +12,17 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 ## April 15, 2017 (Casey)
 - Merge UI update into the 'meetings' branch. The update adds three tabs, 'Schedule a Meeting', 'Invites', 'Meetings' which fold out upon being clicked. It also inlines the modal for scheduling a meeting.
 
+## April 14, 2017 (David)
+- Save the meeting document created in `createMeeting()` to the Meeting collection.
+- Edit the Meeting schema
+
 ## April 14, 2017 (Josh)
 - Resolved OAuth problem, we had a race condition with authentication that I was missing.
 - Realized the massive `meetings` PR was really funky due to re-committing old code since some of us were up to date with master and others were not. Going to have to do a really large (37 commits...) `git rebase`. Small PRs == Good PRs
+
+## April 13, 2017 (David)
+- Setup basic Meetings collection and the schema, but it needs to be chagned a bit.
+- start `createMeeting()` function that runs when a user tries to set up a meeting. Currently it just sets up the meeting object but doesn't insert it to the database
 
 ## April 13, 2017 (Josh)
 - Refactored getFullCalendarEvents by David's request. Separated getting and putting into the database. Considers all calendars by default.
