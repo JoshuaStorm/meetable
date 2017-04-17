@@ -122,7 +122,7 @@ Meteor.methods({
     };
 
     // Update the inviters sent invites in the DB
-    var invites = Meteor.users.findOne(this.userId).meetingInvitesSent; // Pull their meeting invitations
+    var invites = Meteor.users.findOne(this.userId).profile.meetingInvitesSent; // Pull their meeting invitations
     if (invites === undefined) invites = [];
     invites.push(invitation); // Append
     Meteor.users.update(this.userId, { // Now set the values again
@@ -145,7 +145,7 @@ Meteor.methods({
       } else {
         sendNewMeetingEmail(inviterEmail, userEmails[i], title);
         // Also need to add this invitation to their DB point so they can actually schedule it
-        invites = Meteor.users.findOne(user._id).meetingInvitesReceived // Pull their meeting invitations
+        invites = Meteor.users.findOne(user._id).profile.meetingInvitesReceived // Pull their meeting invitations
         if (invites === undefined) invites = [];
         invites.push(invitation); // Append
         Meteor.users.update(user._id, { // Now set the values again
@@ -215,7 +215,7 @@ function insertInOrder(times, time) {
 // chronologically in easy to use format from windowStart to windowEnd
 function findUserBusyTimes(userId, windowStart, windowEnd) {
   var user = Meteor.users.findOne(userId);
-  var calendarTimes = user.calendarEvents;
+  var calendarTimes = user.profile.calendarEvents;
 
   var busyTimes = [];
 
