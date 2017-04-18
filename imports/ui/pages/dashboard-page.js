@@ -104,6 +104,14 @@ Template.dashboard_page.events({
       Session.set('showMeetings',true);
     }
   },
+  // call function to change this user's 'accepted' value to true for the given meeting
+  'click #acceptInvite':function() {
+    Meteor.call('acceptInvite', this.toString(), Meteor.userId(), function(error, result) {
+      if (error) {
+        console.log("acceptInvite: " + error);
+      }
+    });
+  },
   'click #save': function(e) {
     e.preventDefault();
 
