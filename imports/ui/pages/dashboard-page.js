@@ -107,12 +107,6 @@ Template.dashboard_page.events({
 
     // TODO: Handled errors, enforce the text boxes all have a value
     // TODO: Handle multiple emails, just passing an array of size 1 but backend should be able to handle multiple fine
-    Meteor.call('inviteToMeeting', [email], title, length, function(error, result) {
-      if (error) {
-        alert(error);
-      }
-    });
-
     // for now, the window of every meeting is the 24 hour period from clicking save
     var windowStart = new Date();
     var windowEnd = new Date(windowStart.valueOf());
@@ -127,5 +121,3 @@ Template.dashboard_page.events({
     });
   },
 })
-
-Meteor.call("printFromDB", function(error) {});
