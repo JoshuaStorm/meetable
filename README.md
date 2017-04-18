@@ -1,6 +1,11 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 17, 2017 (Casey)
+- Josh reworked the database so that all the invitation data is now in the user profile
+- connected front end to database for all three tabs: 'incoming', 'outgoing', 'finalized'
+- began work on acceptInvite() function, but stuck on how to modify a database value from the client side. 
+
 ## April 16, 2017 (Meeting)
 - Everyone gave updates on their work so far
 - Decided to move 'meetingInvitesReceived/Sent' and other information to go under the user 'profile', because we were having trouble pulling it from the client side
