@@ -214,6 +214,7 @@ Meteor.methods({
         Meetings.update({_id:meetingId},{$set:setModifier});
       }
     }
+    checkMeetingFinalized(meetingId);
 }
 
 });
@@ -420,4 +421,24 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
     }
   }
   return availableTimes;
+}
+
+function checkMeetingFinalized(meetingId) {
+  var thisMeeting = Meetings.findOne({_id:meetingId});
+  var finalized = 1;
+  // iterate through all meeting participants and check if all have accepted
+  for (var i = 1; i < thisMeeting.participants.length; i++) {
+    var currUser = thisMeeting.participants[i];
+    if (currUser.accepted == false) { // current user found
+      finalized = 0;
+    }
+  }
+  if (finalized == 1) {
+    Meetings.update({_id:meetingId}, { // Now set the values again
+      $set: {
+        "readyToFinalize": true
+      }
+    })
+  }
+  return finalized;
 }
