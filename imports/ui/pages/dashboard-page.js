@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
+import Meetings from '/collections/meetings.js'
+
 
 import './dashboard-page.html';
 
@@ -28,6 +30,9 @@ Template.dashboard_page.helpers({
     },
     showMeetingsDiv:function(){ // foldout for 'Meetings'
         return Session.get('showMeetings')
+    },
+    invites() {
+        return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesReceived;
     }
 });
 
@@ -120,4 +125,20 @@ Template.dashboard_page.events({
       }
     });
   },
-})
+});
+
+Template.invite.helpers({
+  inviterName() {
+      return Meetings.findOne({_id:this.toString()}).participants[0].email;
+    },
+  meetingTitle() {
+      return Meetings.findOne({_id:this.toString()}).title;
+    },
+  meetingDuration() {
+      var length = Meetings.findOne({_id:this.toString()}).duration;
+      var hour = length / (1000 * 60 * 60);
+      var minute = length % (1000 * 60 * 60);
+      return hour + "hr " + minute + "min";
+    },
+});
+
