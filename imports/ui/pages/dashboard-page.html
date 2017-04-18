@@ -56,19 +56,10 @@
                 <hr/>
                 <div class="row">
                   <h3 class="text-center">Incoming</h3>
-                </div>
-                <!-- some fake information -->
-                <div class="row">
-                  <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
-                    <h4>Jimmy</h4> invites you to <b>Study Date</b> (Event Duration: 1hr 30min)
-                    <button class="pull-right">Decline</button>
-                    <button class="pull-right">Accept</button> 
-                  </div>
-                  <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
-                    <h4>Sally</h4> invites you to <b>Lunch at Mehek</b> (Event Duration: 2hr)
-                    <button class="pull-right">Decline</button>
-                    <button class="pull-right">Accept</button> 
-                  </div>
+                <!-- scan every meeting and print the invites -->
+                {{#each invites}}
+                  {{> invite}}
+                {{/each}}
                 </div>
                <hr/>
               </div>
@@ -111,3 +102,15 @@
         <div id="events-calendar"></div>
    </body>
 </template>
+
+<!-- template for displaying an invite -->
+<template name="invite">
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
+        <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
+        <button id="declineInvitation" class="pull-right">Decline</button>
+        <button id="acceptInvitation" class="pull-right">Accept</button> 
+      </div>
+    </div>
+</template>
+
