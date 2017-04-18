@@ -109,7 +109,7 @@ Meteor.methods({
 
     var sent = Meteor.users.findOne(this.userId).profile.meetingInvitesSent;
     // This is to ensure our old database schema doesn't conflict and blow us up
-    if (sent.length == 0 || typeof sent[0] == 'object') {
+    if (sent.length === 0 || typeof sent[0] === 'object') {
       Meteor.users.update(this.userId, { // Now set the values again
         $set: {
           "profile.meetingInvitesSent": [meetingId]
@@ -132,7 +132,7 @@ Meteor.methods({
 
       var received = Meteor.users.findOne(participants[i].id).profile.meetingInvitesReceived;
       // This is to ensure our old database schema doesn't conflict and blow us up
-      if (received.length == 0 || typeof received[0] == 'object') {
+      if (received.length === 0 || typeof received[0] === 'object') {
         Meteor.users.update(this.userId, { // Now set the values again
           $set: {
             "profile.meetingInvitesReceived": [meetingId]
