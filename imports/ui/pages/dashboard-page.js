@@ -33,6 +33,9 @@ Template.dashboard_page.helpers({
     },
     invites() {
         return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesReceived;
+    },
+    outgoingMeetings() {
+        return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesSent;
     }
 });
 
@@ -141,4 +144,20 @@ Template.invite.helpers({
       return hour + "hr " + minute + "min";
     },
 });
+
+Template.outgoing.helpers({
+  meetingParticipants() {
+    return Meetings.findOne({_id:this.toString()}).participants[1].email;
+  },
+  meetingTitle() {
+    return Meetings.findOne({_id:this.toString()}).title;
+  },
+  meetingDuration() {
+    var length = Meetings.findOne({_id:this.toString()}).duration;
+    var hour = length / (1000 * 60 * 60);
+    var minute = length % (1000 * 60 * 60);
+    return hour + "hr " + minute + "min";
+  },
+});
+
 

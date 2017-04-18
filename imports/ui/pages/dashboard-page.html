@@ -61,22 +61,20 @@
                   {{> invite}}
                 {{/each}}
                 </div>
-               <hr/>
+              <hr/>
               </div>
           {{else}}
             {{#if showOutgoingDiv}}
+              <div class="container">
                 <hr/>
-                <div class="container">
-                    <div class="row">
-                      <h3 class="text-center">Your Outgoing Meetings</h3>
-                    </div>
-                    <!-- some fake information -->
-                    <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
-                      <h4>Elroy<span style='font-weight:normal;'> Dinner (Pending) </span></h4>
-                      <p>Monday, April 24 12:45-2:45pm</p>
-                    </div>
-                  </div>
-                <hr/>
+                <div class="row">
+                  <h3 class="text-center">Your Outgoing Meetings</h3>
+                {{#each outgoingMeetings}}
+                  {{> outgoing}}
+                {{/each}}
+                </div>
+              <hr/>
+              </div>
             {{else}}
               {{#if showMeetingsDiv}}
                  <hr/>
@@ -114,3 +112,12 @@
     </div>
 </template>
 
+<!-- template for displaying an outgoing meeting -->
+<template name="outgoing">
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
+        <h4>{{meetingParticipants}}</h4>
+        <p><b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})</p>
+      </div>
+    </div>
+</template>
