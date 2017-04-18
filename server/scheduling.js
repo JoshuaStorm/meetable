@@ -199,8 +199,25 @@ Meteor.methods({
         });
       }
     }
-  }
+  },
+
+  // accept a meeting invitation; change the participant's 'accepted' value to true
+  acceptInvite: function(meetingId, userId) {
+    var thisMeeting = Meetings.findOne({_id:meetingId});
+    // iterate through all meeting participants to find index in array for the current user
+    // start with index 1 because you can skip the first participant ( creator)
+    for (var i = 1; i < thisMeeting.participants.length; i++) {
+      var currUser = thisMeeting.participants[i];
+      if (currUser.id == userId) { // current user found
+        var setModifier = {};
+        setModifier['participants.' + i + '.accepted'] = true;
+        Meetings.update({_id:meetingId},{$set:setModifier});
+      }
+    }
+}
+
 });
+
 
 // Send an invitation email to the inviteeEmail. THIS IS ONLY USED TO INVITED NEW USERS
 // inviterEmail (emailString): The email address of the inviter TODO: Make this a name?
