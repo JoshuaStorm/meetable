@@ -214,7 +214,7 @@ Meteor.methods({
         Meetings.update({_id:meetingId},{$set:setModifier});
       }
     }
-    checkMeetingFinalized(meetingId);
+    checkMeetingReadyToFinalize(meetingId);
 }
 
 });
@@ -423,7 +423,7 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
   return availableTimes;
 }
 
-function checkMeetingFinalized(meetingId) {
+function checkMeetingReadyToFinalize(meetingId) {
   var thisMeeting = Meetings.findOne({_id:meetingId});
   var finalized = 1;
   // iterate through all meeting participants and check if all have accepted
