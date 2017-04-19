@@ -69,12 +69,6 @@ Meteor.methods({
       endTime: windowEnd
     }];
 
-    // console.log("windowStart");
-    // console.log(windowStart);
-    //
-    // console.log("windowEnd");
-    // console.log(windowEnd);
-
     var busyTimes = findUserBusyTimes(this.userId, windowStart, windowEnd);
     console.log("busyTimes");
 
@@ -86,13 +80,6 @@ Meteor.methods({
 
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
     availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
-
-
-    // console.log("loggedInUserAvailableTimes");
-    // console.log(loggedInUserAvailableTimes);
-    //
-    // console.log("overlapped times:");
-    // console.log(availableTimes);
 
     // TODO: insert this into the Mongo DB
     var meetingId = Meetings.insert({
@@ -214,7 +201,10 @@ Meteor.methods({
         Meetings.update({_id:meetingId},{$set:setModifier});
       }
     }
-    checkMeetingFinalized(meetingId);
+    if (checkMeetingReadyToFinalize(meetingId)) {
+      findDurationLongMeetingTimes(meetingId);
+      console.log("We checked if the meeting is ready to finalize!");
+    }
 }
 
 });
@@ -423,7 +413,11 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
   return availableTimes;
 }
 
-function checkMeetingFinalized(meetingId) {
+// check if the meeting with id meetingId is ready to to choose a final time
+// currently defined as all users accepting the meeting
+// TODO: change this metric for group meetings?
+// return and set flag for whether the meeting has been finalized
+function checkMeetingReadyToFinalize(meetingId) {
   var thisMeeting = Meetings.findOne({_id:meetingId});
   var finalized = 1;
   // iterate through all meeting participants and check if all have accepted
@@ -441,4 +435,63 @@ function checkMeetingFinalized(meetingId) {
     })
   }
   return finalized;
+}
+
+// given a meetingId, look through the availableTimes and find duration long meeting times
+// return that new list and also save it to the meeting document 
+function findDurationLongMeetingTimes(meetingId) {
+  var thisMeeting = Meetings.findOne({_id:meetingId});
+  var duration = thisMeeting.duration;
+  var allAvailableBlocks = thisMeeting.availableTimes;
+
+  // loop through all available times and see how many duration long blocks
+  // fit within each available block
+
+  var durationLongBlocks = [];
+
+  for (var i = 0; i < allAvailableBlocks.length; i++) {
+    var thisAvailableBlock = allAvailableBlocks[i];
+
+    // set seconds and ms to 0 for round numbrers
+    var possibleDurationLongStart = new Date (thisAvailableBlock.startTime.getTime());
+    possibleDurationLongStart.setSeconds(0, 0);
+    var possibleDurationLongEnd = new Date (possibleDurationLongStart.getTime()+ duration);
+    possibleDurationLongEnd.setSeconds(0,0);
+
+    // try to fit as many duration long events into thisAvailableBlock as possible
+    while (possibleDurationLongEnd <= thisAvailableBlock.endTime) {
+      // save this as a valid block
+      durationLongBlocks.push({
+        "startTime": possibleDurationLongStart, 
+        "endTime": possibleDurationLongEnd
+      });
+
+      // try the next duration long block
+      possibleDurationLongStart = possibleDurationLongEnd;
+      possibleDurationLongEnd = new Date (possibleDurationLongStart.getTime() + duration);
+      possibleDurationLongEnd.setSeconds(0,0);
+    }
+  }
+
+  Meetings.update({_id:meetingId},{
+    $set: {
+      //"durationLongAvailableTimes" : [{"startTime": 2, "endTime": 2}]
+      "durationLongAvailableTimes" : durationLongBlocks
+    }
+  });
+
+  saveSuggestedMeetingTimes(meetingId, durationLongBlocks);
+
+  return durationLongBlocks;
+
+}
+
+// save what we will present as meeting times to the user
+// currently the first 5 meeting times chronologically
+function saveSuggestedMeetingTimes(meetingId, durationLongBlocks) {
+  Meetings.update({_id:meetingId}, { 
+      $set: {
+        "suggestedMeetingTimes": durationLongBlocks.slice(0, 5)
+      }
+    });
 }

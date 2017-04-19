@@ -18,15 +18,27 @@ Meetings.deny({
 const Schemas = {};
 
 Schemas.Meetings = new SimpleSchema({
-    createdAt: {
-        type: Date,
-        label: "Date Meeting Added to System",
-        autoValue: function() {
-            if ( this.isInsert ) {
-                return new Date;
-            } 
-        }
-    },
+    // TODO: fix createdAt and updatedAt
+    // createdAt: {
+    //     type: Date,
+    //     label: "Date Meeting Added to System",
+    //     autoValue: function() {
+    //         if ( this.isInsert ) {
+    //             return new Date;
+    //         }
+    //         if (this.isUpsert) {
+    //             return new Date;
+    //         } 
+    //     }
+    // },
+    // updatedAt: {
+    //     type: Date,
+    //     label: "When meeting was last updated",
+    //     autoValue: function () {
+    //         return new Date;
+    //     }
+    // },
+
     title: {
         type: String,
         label: "title of meeting"
@@ -87,17 +99,48 @@ Schemas.Meetings = new SimpleSchema({
     },
     "availableTimes.$.startTime": {
         type: Date,
-        label: "Start time of this available meeting time in UNIX time in milliseconds"
+        label: "Start time of this available meeting time"
     },
     "availableTimes.$.endTime": {
         type: Date,
-        label: "End time of this available meeting time in UNIX time in milliseconds"
+        label: "End time of this available meeting time"
+    },
+    durationLongAvailableTimes: {
+        type: Array,
+        optional: true
+    },
+    "durationLongAvailableTimes.$": {
+        type: Object
+    },
+    "durationLongAvailableTimes.$.startTime": {
+        type: Date,
+        label: "Start time of this duration long meeting block"
+    },
+    "durationLongAvailableTimes.$.endTime": {
+        type: Date,
+        label: "End time of this duration long meeting block"
+    },
+    suggestedMeetingTimes: {
+        type: Array,
+        optional: true
+    },
+    "suggestedMeetingTimes.$": {
+        type: Object
+    },
+    "suggestedMeetingTimes.$.startTime": {
+        type: Date,
+        label: "Start time of this suggested meeting time"
+    },
+    "suggestedMeetingTimes.$.endTime": {
+        type: Date,
+        label: "End time of this suggested meeting time"
     },
     "selectedStartTime" : {
         type: Date,
         label: "final time chosen for meeting",
         optional: true // TODO: i don't know if this should be optional
-    }
+    },
+
 });
 
 Meetings.attachSchema(Schemas.Meetings);
