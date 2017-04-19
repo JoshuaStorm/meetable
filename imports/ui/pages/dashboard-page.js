@@ -31,12 +31,12 @@ Template.dashboard_page.helpers({
     showMeetingsDiv:function(){ // foldout for 'Meetings'
         return Session.get('showMeetings')
     },
-    invites() {
+    invites:function() {
         return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesReceived;
     },
-    outgoingMeetings() {
+    outgoingMeetings:function() {
         return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesSent;
-    }
+    },
 });
 
 Template.dashboard_page.onRendered( () => {
@@ -62,9 +62,6 @@ Template.dashboard_page.events({
   },
   'click #cancel':function(){
     if (Session.get('showSchedule') == true) { // toggle the state of the tab (open/close on click)
-
-
-
       Session.set('showSchedule',false);
     } else
     {
@@ -104,14 +101,6 @@ Template.dashboard_page.events({
       Session.set('showMeetings',true);
     }
   },
-  // call function to change this user's 'accepted' value to true for the given meeting
-  'click #acceptInvite':function() {
-    Meteor.call('acceptInvite', this.toString(), Meteor.userId(), function(error, result) {
-      if (error) {
-        console.log("acceptInvite: " + error);
-      }
-    });
-  },
   'click #save': function(e) {
     e.preventDefault();
 
@@ -139,6 +128,52 @@ Template.dashboard_page.events({
 });
 
 Template.invite.helpers({
+  inviteType:function() {
+    return Template.instance().currentInviteType.get();
+  }
+});
+
+// set default value for the Invite type, dynamic template
+Template.invite.onCreated( function() {
+  this.currentInviteType = new ReactiveVar( "incoming" );
+});
+
+Template.invite.events({
+  // call function to change this user's 'accepted' value to true for the given meeting
+  'click #acceptInvite':function(event, template) {
+    Meteor.call('acceptInvite', this.toString(), Meteor.userId(), function(error, result) {
+      if (error) {
+        console.log("acceptInvite: " + error);
+      }
+    });
+    Meteor.call('checkMeetingReadyToFinalize', this.toString(), function(error, result) {
+      if (error) {
+        console.log("acceptInvite: " + error);
+      } else {
+        if (result)
+          template.currentInviteType.set('readyToFinalize');
+      }
+    });
+  },
+});
+
+
+Template.incoming.helpers({
+  inviterName() {
+      return Meetings.findOne({_id:this.toString()}).participants[0].email;
+    },
+  meetingTitle() {
+      return Meetings.findOne({_id:this.toString()}).title;
+    },
+  meetingDuration() {
+      var length = Meetings.findOne({_id:this.toString()}).duration;
+      var hour = length / (1000 * 60 * 60);
+      var minute = length % (1000 * 60 * 60);
+      return hour + "hr " + minute + "min";
+    },
+});
+
+Template.readyToFinalize.helpers({
   inviterName() {
       return Meetings.findOne({_id:this.toString()}).participants[0].email;
     },
