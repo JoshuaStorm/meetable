@@ -101,13 +101,26 @@
    </body>
 </template>
 
-<!-- template for displaying an invite -->
 <template name="invite">
+  {{> Template.dynamic template=inviteType}}
+</template>
+
+<!-- template for displaying an incoming invite -->
+<template name="incoming">
     <div class="row">
       <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
         <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
         <button id="declineInvite" class="pull-right">Decline</button>
         <button id="acceptInvite" class="pull-right">Accept</button> 
+      </div>
+    </div>
+</template>
+
+<!-- template for displaying a invite that's ready to finalize -->
+<template name="readyToFinalize">
+    <div class="row">
+      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
+        <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
       </div>
     </div>
 </template>
