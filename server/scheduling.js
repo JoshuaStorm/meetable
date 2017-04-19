@@ -11,12 +11,16 @@ Meteor.methods({
   // windowStart (Moment.js object): earliest possible time to meet
   // windowEnd (Moment.js object): latest possible time to meet
   createMeeting: function(title, invitedEmails, duration, windowStart, windowEnd) {
+    var thisUserEmail = Meteor.users.findOne(this.userId).services.google.email;
+    // If this is just the user being silly and trying to invite themselves to their own meeting, do nothing
+    if (invitedEmails.length === 1 && invitedEmails[0].toLowerCase() === thisUserEmail.toLowerCase()) return;
+
     var participants = [{
         id: this.userId,
         // name: Meteor.users.findOne(this.userId).services.google.name,
-        email: Meteor.users.findOne(this.userId).services.google.email,
+        email: thisUserEmail,
         accepted: true, // creator automatically accepts event??
-        selector: false, // creator is not always the one who picks the final date
+        selector: false, // creator is  not always the one who picks the final date
         creator: true,
       }];
 
@@ -25,6 +29,8 @@ Meteor.methods({
     // for now, make their name and id null
 
     for (var i = 0; i < invitedEmails.length; i++) {
+      // Don't allow a user to invite themselves
+      if (invitedEmails[i].toLowerCase() === thisUserEmail.toLowerCase()) continue;
       newParticipant = {
         id: null,
         // name: null,
@@ -95,8 +101,8 @@ Meteor.methods({
     });
 
     var sent = Meteor.users.findOne(this.userId).profile.meetingInvitesSent;
-    // This is to ensure our old database schema doesn't conflict and blow us up
-    if (sent === undefined || !sent.hasOwnProperty('length') || sent.length === 0 || typeof sent[0] === 'object') {
+    // Create a new set if necessary
+    if (!sent) {
       Meteor.users.update(this.userId, { // Now set the values again
         $set: {
           "profile.meetingInvitesSent": [meetingId]
@@ -118,8 +124,8 @@ Meteor.methods({
       if (participants[i].id == null)      continue;
 
       var received = Meteor.users.findOne(participants[i].id).profile.meetingInvitesReceived;
-      // This is to ensure our old database schema doesn't conflict and blow us up. Also sets up new users
-      if (received === undefined || !received.hasOwnProperty('length') || received.length === 0 || typeof received[0] === 'object') {
+      // Create a new set if necessary
+      if (!received) {
         Meteor.users.update(participants[i].id, { // Now set the values again
           $set: {
             "profile.meetingInvitesReceived": [meetingId]
@@ -201,12 +207,12 @@ Meteor.methods({
         Meetings.update({_id:meetingId},{$set:setModifier});
       }
     }
+
     if (checkMeetingReadyToFinalize(meetingId)) {
       findDurationLongMeetingTimes(meetingId);
       console.log("We checked if the meeting is ready to finalize!");
     }
 }
-
 });
 
 
@@ -418,23 +424,23 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
 // TODO: change this metric for group meetings?
 // return and set flag for whether the meeting has been finalized
 function checkMeetingReadyToFinalize(meetingId) {
-  var thisMeeting = Meetings.findOne({_id:meetingId});
-  var finalized = 1;
-  // iterate through all meeting participants and check if all have accepted
-  for (var i = 1; i < thisMeeting.participants.length; i++) {
-    var currUser = thisMeeting.participants[i];
-    if (currUser.accepted == false) { // current user found
-      finalized = 0;
-    }
-  }
-  if (finalized == 1) {
-    Meetings.update({_id:meetingId}, { // Now set the values again
-      $set: {
-        "readyToFinalize": true
+    var thisMeeting = Meetings.findOne({_id:meetingId});
+    var finalized = true;
+    // iterate through all meeting participants and check if all have accepted
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
+      var currUser = thisMeeting.participants[i];
+      if (currUser.accepted == false) { // current user found
+        finalized = false;
       }
-    })
-  }
-  return finalized;
+    }
+    if (finalized == true) {
+      Meetings.update({_id:meetingId}, { // Now set the values again
+        $set: {
+          "readyToFinalize": true
+        }
+      })
+    }
+    return finalized;
 }
 
 // given a meetingId, look through the availableTimes and find duration long meeting times
