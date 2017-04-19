@@ -162,14 +162,6 @@ Template.invite.events({
         console.log("acceptInvite: " + error);
       }
     });
-    Meteor.call('checkMeetingReadyToFinalize', this.toString(), function(error, result) {
-      if (error) {
-        console.log("acceptInvite: " + error);
-      } else {
-        if (result)
-          template.currentInviteType.set('readyToFinalize');
-      }
-    });
   },
 });
 
