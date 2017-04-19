@@ -166,6 +166,13 @@ Template.invite.events({
       }
     });
   },
+  'click #declineInvite': function(event, template) {
+    console.log("DENIED");
+
+    Meteor.call('declineInvite', this.toString(), Meteor.userId(), function(error, result) {
+      if (error) console.log("declineInvite: " + error);
+    });
+  }
 });
 
 Template.incoming.helpers({
@@ -275,5 +282,3 @@ Template.outgoing.helpers({
     return hour + "hr " + minute + "min";
   },
 });
-
-
