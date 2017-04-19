@@ -129,6 +129,22 @@ Template.dashboard_page.events({
 
 Template.invite.helpers({
   inviteType:function() {
+    var thisMeeting = Meetings.findOne({_id:this.toString()});
+    // iterate through all meeting participants to find index in array for the current user
+    // start with index 1 because you can skip the first participant ( creator)
+    for (var i = 1; i < thisMeeting.participants.length; i++) {
+      var currUser = thisMeeting.participants[i];
+      if (currUser.id == Meteor.userId()) { // current user found
+        console.log(currUser);
+        if(currUser.accepted == true) {
+          Template.instance().currentInviteType.set('readyToFinalize');
+        }
+        else {
+          Template.instance().currentInviteType.set('incoming');
+        }
+        break;
+      }
+    }
     return Template.instance().currentInviteType.get();
   }
 });
@@ -156,7 +172,6 @@ Template.invite.events({
     });
   },
 });
-
 
 Template.incoming.helpers({
   inviterName() {
