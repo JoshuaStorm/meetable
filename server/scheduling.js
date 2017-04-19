@@ -87,6 +87,12 @@ Meteor.methods({
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
     availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
 
+    console.log(busyTimes);
+    console.log("findUserAvailableTimes");
+    console.log(loggedInUserAvailableTimes);
+    console.log("findOverlap");
+    console.log(availableTimes);
+
     // TODO: insert this into the Mongo DB
     var meetingId = Meetings.insert({
       title: title, //TODO: pass this as a parameter to createMeeting
