@@ -1,12 +1,15 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 18, 2017 (David)
+- wrote functions to find meeting blocks of the correct duration that work for every user, and save them to the Meetings collection
+
 ## April 16, 2017 (Josh)
 - Fix issues where we were saving in user collection, but we should have been doing user.profile (Meteor thing).
 - Switch from saving meetings on each users respective id in the users collection to just saving to the meetings collection and saving reference ids to the users collection.
 
 ## April 15, 2017 (David)
-- Update Meetings collection schema again to further match what we decided in our Wiki page
+- Updated Meetings collection schema again to further match what we decided in our Wiki page
 
 ## April 15, 2017 (Josh)
 - Resolved some pretty hefty merge conflicts in `meetings` PR. I ended up just individually checking out files instead of doing a huge rebase. Worked out pretty well!
