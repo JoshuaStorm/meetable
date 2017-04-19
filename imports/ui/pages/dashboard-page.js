@@ -166,6 +166,13 @@ Template.invite.events({
       }
     });
   },
+  'click #declineInvite': function(event, template) {
+    console.log("DENIED");
+
+    Meteor.call('declineInvite', this.toString(), Meteor.userId(), function(error, result) {
+      if (error) console.log("declineInvite: " + error);
+    });
+  }
 });
 
 Template.incoming.helpers({
@@ -248,9 +255,15 @@ Template.selector.helpers({
 
 Template.selector.events({
    'submit form': function(event){
-         event.preventDefault();
-         var radioValue = event.target.myForm.value;
-         console.log(radioValue);
+      event.preventDefault();
+      var radioValue = event.target.myForm.value;
+      console.log(radioValue);
+
+      Meteor.call('selectFinaltime', this.toString(), radioValue, function(error, result) {
+        if (error) {
+          console.log("selectFinaltime: " + error);
+        }
+      });
     }
 });
 
@@ -269,5 +282,3 @@ Template.outgoing.helpers({
     return hour + "hr " + minute + "min";
   },
 });
-
-

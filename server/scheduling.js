@@ -212,7 +212,81 @@ Meteor.methods({
       findDurationLongMeetingTimes(meetingId);
       console.log("We checked if the meeting is ready to finalize!");
     }
-}
+  },
+
+  // TODO: finish lol
+  // Decline a meeting invitation
+  declineInvite: function(meetingId, userId) {
+    var thisMeeting = Meetings.findOne({_id: meetingId});
+    var participants = thisMeeting.participants;
+
+    // Remove the decliner from the participants list
+    var decliner = null
+    for (var i = 0; i < participants.length; i++) {
+      if (participants[i].id === userId) {
+        decliner = participants[i];
+        participants.splice(i, 1); // Remove the element at index, in place
+      }
+    }
+    // Something is funky if the userId isn't in the participants list!
+    if (decliner === null) {
+      console.log("Error in declineInvite: Decliner isn't a participant");
+      return;
+    }
+    // Update participants
+    Meetings.update({_id: meetingId}, {
+      $set: {
+        "participants" : participants
+      }
+    });
+
+    // Get details of meeting
+    var meetingTitle = thisMeeting.title;
+    var meetingCreator = null;
+    for (var i = 0; i < participants.length; i++) {
+      if (participants[i].creator) meetingCreator = participants[i];
+    }
+
+    // If the participants list is now size 1, destroy this meeting
+    if (participants.length <= 1) {
+      // Remove this from sent meetings in creator's collection
+      // NOTE: Pull removes all instances of something from a set
+      Meteor.users.update(meetingCreator.id, {
+        $pull: {
+          "profile.meetingInvitesSent": meetingId
+        }
+      });
+      // Kill this meeting in the meeting collection
+      Meetings.remove({_id:meetingId});
+    }
+    // Remove this from received meetings in decliner's collection
+    Meteor.users.update(userId, {
+      $pull: {
+        "profile.meetingInvitesReceived": meetingId
+      }
+    });
+    // Email the inviter that they got ghosted hardcore
+    sendDeclinedEmail(meetingCreator.email, decliner.email, meetingTitle);
+  },
+
+  // called on client's submission of select time form
+  // given a formValue that maps to an index into suggestedMeetingTimes
+  // choose this as the final selected time and save that choice in the database
+  selectFinaltime: function(meetingId, formValue) {
+    var index = parseInt(formValue);
+
+    var thisMeeting = Meetings.findOne({_id:meetingId});
+    var selectedTime = {
+      "startTime" : thisMeeting.suggestedMeetingTimes[index].startTime,
+      "endTime" : thisMeeting.suggestedMeetingTimes[index].endTime
+    };
+
+    Meetings.update({_id:meetingId},{
+      $set: {
+        "selectedBlock" : selectedTime
+      }
+    });
+  }
 });
 
 
@@ -239,6 +313,17 @@ function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
             "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
   Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
 }
+
+// Same as above, but text is assuming user got denied hardcore
+function sendDeclinedEmail(inviterEmail, inviteeEmail, title) {
+  var subject = inviteeEmail + " declined your meeting invitation.";
+  var text = inviteeEmail + " declined your meeting invitation for \"" + title + "\"\n" +
+            "Perhaps another time! https://www.meetable.us\n\n\n" +
+            "You are receiving this email because you tried to schedule a meeting with " + inviteeEmail +
+            " on Meetable, but they chose not to accept your invitation.";
+  Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
+}
+
 
 
 // inserts time into the array of times, times, in chronological order. Pass by refrence.
@@ -444,7 +529,7 @@ function checkMeetingReadyToFinalize(meetingId) {
 }
 
 // given a meetingId, look through the availableTimes and find duration long meeting times
-// return that new list and also save it to the meeting document 
+// return that new list and also save it to the meeting document
 function findDurationLongMeetingTimes(meetingId) {
   var thisMeeting = Meetings.findOne({_id:meetingId});
   var duration = thisMeeting.duration;
@@ -468,7 +553,7 @@ function findDurationLongMeetingTimes(meetingId) {
     while (possibleDurationLongEnd <= thisAvailableBlock.endTime) {
       // save this as a valid block
       durationLongBlocks.push({
-        "startTime": possibleDurationLongStart, 
+        "startTime": possibleDurationLongStart,
         "endTime": possibleDurationLongEnd
       });
 
@@ -495,7 +580,7 @@ function findDurationLongMeetingTimes(meetingId) {
 // save what we will present as meeting times to the user
 // currently the first 5 meeting times chronologically
 function saveSuggestedMeetingTimes(meetingId, durationLongBlocks) {
-  Meetings.update({_id:meetingId}, { 
+  Meetings.update({_id:meetingId}, {
       $set: {
         "suggestedMeetingTimes": durationLongBlocks.slice(0, 5)
       }

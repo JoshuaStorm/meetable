@@ -135,10 +135,17 @@ Schemas.Meetings = new SimpleSchema({
         type: Date,
         label: "End time of this suggested meeting time"
     },
-    "selectedStartTime" : {
-        type: Date,
-        label: "final time chosen for meeting",
+    "selectedBlock" : {
+        type: Object,
         optional: true // TODO: i don't know if this should be optional
+    },
+    "selectedBlock.startTime": {
+        type: Date,
+        label: "Start time of the final meeting time"
+    },
+    "selectedBlock.endTime": {
+        type: Date,
+        label: "End time of the final meeting time"
     },
 
 });
