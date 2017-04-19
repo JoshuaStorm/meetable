@@ -10,15 +10,9 @@ var auth = new googleAuth(); // used to authentication requests sent by gCalenda
 // Client secrets, etc. from David's (or Casey's?) Google Developer Console project
 
 var oauth2Client = new auth.OAuth2(
-<<<<<<< HEAD
   "411203275095-a0a2bbdtm407ue9km22es9jkn28674nq.apps.googleusercontent.com",
   "2VDBkNk8dLg18OL1o3XM7Ev4",
   "http://localhost:3000/"
-=======
-  "940955231388-i5aj301rucberlsfrsje07fj685jm9j7.apps.googleusercontent.com",
-  "hv93jvDPACddBk4sbOV9EJH2",
-  "http://localhost:3000"
->>>>>>> master
 );
 
 // set auth for all Google requests; instead of doing it for each request function
@@ -30,14 +24,8 @@ Meteor.methods({
 
     // Get auth info from the Meteor.users DB and setup oauth2Client to use it
     getAuthInfo : function() {
-<<<<<<< HEAD
     try {
         // get authentication info, which was retrieved from Meteor.loginWithGoogle()
-=======
-      try {
-        // get authentication info, which was retrieved from Meteor.loginWithGoogle()
-        var user = Meteor.users.findOne(this.userId);
->>>>>>> master
         var googleService = Meteor.users.findOne(this.userId).services.google;
         var accessToken = googleService.accessToken;
         var refreshToken = googleService.refreshToken;
@@ -49,23 +37,15 @@ Meteor.methods({
           refresh_token: refreshToken,
           expiry_date: expiryDate
         });
-<<<<<<< HEAD
 
     } catch(e) {
       return null;
     }
-=======
-      } catch(e) {
-        console.log(e);
-        return null;
-      }
->>>>>>> master
   },
 
   // Get an array of all calendars for the current user
   // return data format: https://developers.google.com/google-apps/calendar/v3/reference/calendarList#resource
   getCalendarList: function() {
-<<<<<<< HEAD
     return wrappedGetCalendarsList({auth: oauth2Client, minAccessRole: "freeBusyReader"});
   },
 
@@ -163,74 +143,6 @@ Meteor.methods({
     });
   },
 
-=======
-    return wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
-  },
-
-  // Return an array of event dates in the FullCalendar format
-  // Updated to use all calendars in the calendarList :)
-  getFullCalendarEvents: function() {
-    var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
-    // Many users have multiple calendars, let's use them all for now
-    // TODO: Include a preference to not include a certain calendar
-    var fullCalEvents = [];
-    var lastWeek = new Date();
-    lastWeek.setDate(lastWeek.getDate() - 7); // This actually works how we want it to!
-    for (var i = 0; i < calendarList.items.length; i++) {
-      // Holiday list creates SERIOUS problems for GoogleAPI (ironically), just avoid at all cost.
-      // This seems to be a known problem, oddly enough. Regexp to the rescue!
-      var holidayRE = new RegExp('.*holiday@group.v.calendar.google.com');
-      if (holidayRE.test(calendarList.items[i].id)) continue;
-
-      var gCalEvents = wrappedGetEventList({
-          // The specified calendar
-          calendarId: calendarList.items[i].id,
-          timeMin: lastWeek.toISOString(),
-          // TODO: Need to decide how to handle this maxResults query... How many should we actually max out?
-          maxResults: 50,
-          singleEvents: true,
-          orderBy: 'startTime'
-      });
-      // Need to skip calendars that Google makes but aren't actually event holding
-      if (gCalEvents === "Not Found")     continue;
-      if (gCalEvents.items === undefined) continue;
-
-      for (var j = 0; j < gCalEvents.items.length; j++) {
-        var thisGCalEvent = gCalEvents.items[j];
-        // TODO: Reconsider how to handle full day events, for now just throw them away
-        if (thisGCalEvent.start.dateTime !== undefined) { // If there is no start.dateTime, it's a full day event
-          var thisFullCalEvent = {
-            title: thisGCalEvent.summary,
-            start: thisGCalEvent.start.dateTime,
-            end: thisGCalEvent.end.dateTime,
-            timeZone: thisGCalEvent.start.timeZone
-          };
-          fullCalEvents.push(thisFullCalEvent);
-        }
-      }
-    }
-    return fullCalEvents;
-  },
-
-  // Updates datebase with gCalEvents in the fulLCal format for CURRENT USER
-  updateEventsInDB: function() {
-    try {
-      var events = Meteor.call("getFullCalendarEvents");
-      Meteor.users.update(this.userId, {
-        $set: {
-          "profile.calendarEvents": events
-        }
-      });
-    } catch(e) {
-      throw "Error in updateEventsInDB" + e;
-    }
-  },
-
-  // Okay, actually I'll leave this function, it's useful for debugging
-  printFromDB: function() {
-    console.log(Meteor.users.findOne(this.userId).profile.calendarEvents);
-  },
->>>>>>> master
 });
 
 // Wrapping up async function for Meteor fibers. Confused? See:
@@ -238,7 +150,6 @@ Meteor.methods({
 var wrappedGetCalendarsList = Meteor.wrapAsync(gCalendar.calendarList.list);
 var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendar.freebusy.query);
 var wrappedGetEventList = Meteor.wrapAsync(gCalendar.events.list);
-<<<<<<< HEAD
 
 // Below here is legacy stuff that isn't Fiber wrapped. Do we still need these?
 
@@ -281,6 +192,3 @@ function printEventList(calendarId) {
            }
         });
 }
-=======
-var wrappedGetRefreshTokens = Meteor.wrapAsync(oauth2Client.refreshAccessToken);
->>>>>>> master

@@ -15,5 +15,5 @@ Template.calViewPage.onRendered( () => {
             buttonText: 'Weekly'
         }
     }
-  });
+});
 });

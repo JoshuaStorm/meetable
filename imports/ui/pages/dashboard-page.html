@@ -1,136 +1,20 @@
 
 
 <template name="dashboard_page">
-  <body>
-    <div class="page-header">
-        <h1 class="text-center">Meetable</h1>
+	<body>
+		<div class="page-header">
+	     	<h1 class="text-center">Meetable</h1>
         </div>
 
         <div class="container">
-          <div class="row">
+         	<div class="row">
             {{#if currentUser}}
               <h2 class = "text-center"> Welcome {{firstName}}, this is your dashboard.</h2>
             {{/if}}
-          </div>
+      		</div>
           <ul class="nav navbar-nav navbar-right">
               {{> atNavButton}}
-          </ul>
-          <ul class="nav navbar-nav navbar-left">
-            <button id="scheduleButton" type="button" class="btn btn-secondary">
-              Schedule a Meeting
-            </button>
-            <button id="invitesButton" type="button" class="btn btn-secondary">
-              Incoming
-            </button>
-            <button id="outgoingButton" type="button" class="btn btn-secondary">
-              Outgoing
-            </button>
-            <button id="meetingsButton" type="button" class="btn btn-secondary">
-              Finalized Meetings
-            </button>
-          </ul>
-        </div>
-
-        <!-- accordion fold out -->
-
-        {{#if showScheduleDiv}}
-        <div class="container">
-          <hr/>
-          <div class="row">
-            <h3 class="text-center">Schedule a Meeting</h3>
-          </div>
-          <div class="row">
-            <input class="col-xs-offset-2" type="text" id="meetingInvitee" placeholder="Invitee's Email Address" />
-            <input type="text" id="meetingTitle" placeholder="Event Title"/>
-            <input type="number" id="meetingLength" placeholder="Length (hrs)"/>
-          </div>
-          <div class="row">
-            <button type="button" class="btn btn-primary" id="save">Save</button>
-            <button type="button" class="btn btn-default" id="cancel">Cancel</button>
-          </div>
-         <hr/>
-        </div>
-        {{else}}
-          {{#if showInvitesDiv}}
-              <div class="container">
-                <hr/>
-                <div class="row">
-                  <h3 class="text-center">Incoming</h3>
-                <!-- scan every meeting and print the invites -->
-                {{#each invites}}
-                  {{> invite}}
-                {{/each}}
-                </div>
-              <hr/>
-              </div>
-          {{else}}
-            {{#if showOutgoingDiv}}
-              <div class="container">
-                <hr/>
-                <div class="row">
-                  <h3 class="text-center">Your Outgoing Meetings</h3>
-                {{#each outgoingMeetings}}
-                  {{> outgoing}}
-                {{/each}}
-                </div>
-              <hr/>
-              </div>
-            {{else}}
-              {{#if showMeetingsDiv}}
-                 <hr/>
-                  <div class="container">
-                    <div class="row">
-                      <h3 class="text-center">Your Scheduled Meetings</h3>
-                    </div>
-                    <!-- some fake information -->
-                    <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
-                      <h4>John<span style='font-weight:normal;'> Lunch at CJL </span></h4>
-                      <p>Monday, April 24 12:45-2:45pm</p>
-                    </div>
-                    <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
-                      <h4>Samantha<span style='font-weight:normal;'> Tutoring </span></h4>
-                      <p>Monday, April 24 12:45-2:45pm</p>
-                    </div>
-                  </div>
-                <hr/>
-            {{/if}}
-          {{/if}}
-          {{/if}}
-        {{/if}}
-        <div id="events-calendar"></div>
-   </body>
-</template>
-
-<template name="invite">
-  {{> Template.dynamic template=inviteType}}
-</template>
-
-<!-- template for displaying an incoming invite -->
-<template name="incoming">
-    <div class="row">
-      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
-        <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
-        <button id="declineInvite" class="pull-right">Decline</button>
-        <button id="acceptInvite" class="pull-right">Accept</button> 
-      </div>
-    </div>
-</template>
-
-<!-- template for displaying a invite that's ready to finalize -->
-<template name="readyToFinalize">
-    <div class="row">
-      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
-        <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
-      </div>
-    </div>
-</template>
-
-<!-- template for displaying an outgoing meeting -->
-<template name="outgoing">
-    <div class="row">
-      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
-        <h4>{{meetingParticipants}}</h4>
-        <p><b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})</p>
-      </div>
-    </div>
+            </ul>
+      	</div>
+	 </body>
 </template>

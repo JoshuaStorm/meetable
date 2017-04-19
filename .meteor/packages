@@ -17,6 +17,7 @@ es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers.
 ecmascript@0.6.3              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.2.3            # Server-side component of the `meteor shell` command
 
+autopublish@1.0.7             # Publish all data to the clients (for prototyping)
 insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
 accounts-password
 accounts-google
@@ -30,7 +31,4 @@ email
 check
 useraccounts:flow-routing
 fullcalendar:fullcalendar
-autopublish
-aldeed:collection2-core
-aldeed:simple-schema@1.5.3
-session
+momentjs:moment
