@@ -212,7 +212,39 @@ Meteor.methods({
       findDurationLongMeetingTimes(meetingId);
       console.log("We checked if the meeting is ready to finalize!");
     }
-}
+  },
+
+  //TODO: finish lol
+  denyInvitation: function(meetingId, userId) {
+    var thisMeeting = Meetings.findOne({_id:meetingId});
+    var participants = thisMeeting.participants;
+
+    for (var i = 0; i < participants.length; i++) {
+      if (participants[i].id === userId) {
+        console.log("found a match!")
+      }
+    }
+    // TODO: send event creator an email that this userId rejected the meeting invite
+  },
+
+  // called on client's submission of select time form
+  // given a formValue that maps to an index into suggestedMeetingTimes
+  // choose this as the final selected time and save that choice in the database
+  selectFinaltime: function(meetingId, formValue) {
+    var index = parseInt(formValue);
+
+    var thisMeeting = Meetings.findOne({_id:meetingId});
+    var selectedTime = {
+      "startTime" : thisMeeting.suggestedMeetingTimes[index].startTime,
+      "endTime" : thisMeeting.suggestedMeetingTimes[index].endTime
+    };
+
+    Meetings.update({_id:meetingId},{
+      $set: {
+        "selectedBlock" : selectedTime
+      }
+    });
+  }
 });
 
 
