@@ -127,8 +127,12 @@ Template.dashboard_page.events({
   },
 });
 
+/////////////////////////////////////////////
+/////////     invite Template      //////////
+/////////////////////////////////////////////
+
 Template.invite.helpers({
-  inviteType:function() {
+  inviteType: function() {
     var thisMeeting = Meetings.findOne({_id:this.toString()});
     // iterate through all meeting participants to find index in array for the current user
     // start with index 1 because you can skip the first participant ( creator)
@@ -179,7 +183,37 @@ Template.incoming.helpers({
     },
 });
 
+/////////////////////////////////////////////
+////////  readyToFinalize Template   ////////
+/////////////////////////////////////////////
+
 Template.readyToFinalize.helpers({
+  finalizeType: function() {
+    var thisMeeting = Meetings.findOne({_id:this.toString()});
+    // iterate through all meeting participants to find index in array for the current user
+    // start with index 1 because you can skip the first participant ( creator)
+    for (var i = 1; i < thisMeeting.participants.length; i++) {
+      var currUser = thisMeeting.participants[i];
+      if (currUser.id == Meteor.userId()) { // current user found
+        if(currUser.selector == true) {
+          Template.instance().currentFinalizeType.set('selector');
+        }
+        else {
+          Template.instance().currentFinalizeType.set('notSelector');
+        }
+        break;
+      }
+    }
+    return Template.instance().currentFinalizeType.get();
+  }
+});
+
+// set default value for the Invite type, dynamic template
+Template.readyToFinalize.onCreated( function() {
+  this.currentFinalizeType = new ReactiveVar( "notSelector" );
+});
+
+Template.notSelector.helpers({
   inviterName() {
       return Meetings.findOne({_id:this.toString()}).participants[0].email;
     },
@@ -193,6 +227,33 @@ Template.readyToFinalize.helpers({
       return hour + "hr " + minute + "min";
     },
 });
+
+Template.selector.helpers({
+  inviterName() {
+      return Meetings.findOne({_id:this.toString()}).participants[0].email;
+    },
+  meetingTitle() {
+      return Meetings.findOne({_id:this.toString()}).title;
+    },
+  meetingDuration() {
+      var length = Meetings.findOne({_id:this.toString()}).duration;
+      var hour = length / (1000 * 60 * 60);
+      var minute = length % (1000 * 60 * 60);
+      return hour + "hr " + minute + "min";
+    },
+  suggestedTimes:function() {
+        return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
+    },
+});
+
+Template.selector.events({
+   'submit form': function(event){
+         event.preventDefault();
+         var radioValue = event.target.myForm.value;
+         console.log(radioValue);
+    }
+});
+
 
 Template.outgoing.helpers({
   meetingParticipants() {
