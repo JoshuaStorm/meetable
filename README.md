@@ -3,6 +3,7 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 
 ## April 18, 2017 (David)
 - wrote functions to find meeting blocks of the correct duration that work for every user, and save them to the Meetings collection
+- wrote function to save selected meeting time to the DB
 
 ## April 16, 2017 (Josh)
 - Fix issues where we were saving in user collection, but we should have been doing user.profile (Meteor thing).
