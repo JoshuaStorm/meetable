@@ -1,21 +1,23 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session'
 
 import './login-page.html';
 
 Template.login_page.events({
 	'click [name=google]'(e, tmpl) {
 		e.preventDefault();
-		Meteor.loginWithGoogle({
-			requestPermissions: ['email', 'https://www.googleapis.com/auth/calendar']
-		}, function (err) {
-			if (err)
-			Session.set('errorMessage', err.reason || 'Unknown error');
+	  var googleLoginOptions = {
+	    requestOfflineToken: true,
+	    requestPermissions: ['https://www.googleapis.com/auth/calendar'],
+			loginStyle: 'popup'
+	  };
+
+	  Meteor.loginWithGoogle(googleLoginOptions, function (err) {
+			if (err) Session.set('errorMessage', err.reason || 'Unknown error');
 		});
-	}
-
+	},
 });
-
 
 // How we send email from client-side JS
 // NOTE: Uncommenting this will send an email EVERY TIME THE LOGIN PAGE IS REFRESHED.
