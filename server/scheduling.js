@@ -259,7 +259,7 @@ function insertInOrder(times, time) {
       if ((time.startTime.getTime() >= oldTime.startTime.getTime()) && 
           (time.startTime.getTime() <= oldTime.endTime.getTime())) {
         busyTime = {startTime: oldTime.startTime, endTime: time.endTime};
-        if (oldTime.endTime.getTime() > end.getTime()) busyTime.endTime = oldTime.endTime;
+        if (oldTime.endTime.getTime() > time.endTime.getTime()) busyTime.endTime = oldTime.endTime;
       }
 
       if (!busyTime) times.push(oldTime);
@@ -267,6 +267,7 @@ function insertInOrder(times, time) {
     }
     oldTimes.push(oldTime);
   }
+
   if (!busyTime) times.push(time);
   else times.push(busyTime);
 
