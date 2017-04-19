@@ -254,13 +254,21 @@ function insertInOrder(times, time) {
     // If the current time is greater than the previous time, that means the current time has
     // found its place in the stack and must be inserted right after the oldTime
     if (time.startTime.getTime() > oldTime.startTime.getTime()) {
-      times.push(oldTime);
+      var busyTime;
+
+      if ((time.startTime.getTime() >= oldTime.startTime.getTime()) && 
+          (time.startTime.getTime() <= oldTime.endTime.getTime())) {
+        busyTime = {startTime: oldTime.startTime, endTime: time.endTime};
+        if (oldTime.endTime.getTime() > end.getTime()) busyTime.endTime = oldTime.endTime;
+      }
+
+      if (!busyTime) times.push(oldTime);
       break;
     }
     oldTimes.push(oldTime);
   }
-
-  times.push(time);
+  if (!busyTime) times.push(time);
+  else times.push(busyTime);
 
   //restore the stack after inserting the time in proper place
   while (oldTimes.length > 0) {
@@ -319,7 +327,6 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
       else insertInOrder(busyTimes, busyTime);
     }
   }
-
   return busyTimes;
 }
 
