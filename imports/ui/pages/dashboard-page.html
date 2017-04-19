@@ -1,4 +1,4 @@
-
+ 
 
 <template name="dashboard_page">
   <body>
@@ -118,11 +118,26 @@
 
 <!-- template for displaying a invite that's ready to finalize -->
 <template name="readyToFinalize">
-    <div class="row">
-      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
-        <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
-      </div>
+  {{> Template.dynamic template=finalizeType}}
+</template>
+
+<!-- template for displaying an invite ready to finalize if you are not the selector -->
+<template name="notSelector">
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
+      Waiting on <h4>{{inviterName}}</h4> to select a time for <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
     </div>
+  </div>
+</template>
+
+<!-- template for displaying an invite ready to finalize if you are the selector -->
+<template name="selector">
+  <div class="row">
+    <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
+      <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
+      Please select a time for the meeting:
+    </div>
+  </div>
 </template>
 
 <!-- template for displaying an outgoing meeting -->
