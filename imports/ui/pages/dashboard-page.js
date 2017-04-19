@@ -241,6 +241,17 @@ Template.selector.helpers({
       var minute = length % (1000 * 60 * 60);
       return hour + "hr " + minute + "min";
     },
+  suggestedTimes:function() {
+        return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
+    },
+});
+
+Template.selector.events({
+   'submit form': function(event){
+         event.preventDefault();
+         var radioValue = event.target.myForm.value;
+         console.log(radioValue);
+    }
 });
 
 

@@ -136,6 +136,12 @@
     <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
       <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
       Please select a time for the meeting:
+      <form>
+      {{#each suggestedTimes}}
+          <label><input type = "radio" name = "myForm" value = "{{@index}}"> {{startTime}} - {{endTime}} </label>
+      {{/each}}
+      <input type = "submit" value = "SUBMIT">
+      </form>
     </div>
   </div>
 </template>
