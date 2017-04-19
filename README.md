@@ -1,7 +1,15 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
-<<<<<<< HEAD
+## April 18, 2017 (Casey)
+- 'Incoming' tab: implement dynamic templates so that on clicking accept, the user will see the div change to reflect that
+- finalizing meetings: if a user is the selector, they can pick from radio buttons and finalize the meeting time; otherwise, displays a message saying to wait for meeting selector to choose time
+- minor change to 'Schedule a Meeting' which centers the form inputs
+
+## April 18, 2017 (David)
+- wrote functions to find meeting blocks of the correct duration that work for every user, and save them to the Meetings collection
+- wrote function to save selected meeting time to the DB
+
 ## April 17, 2017 (Casey)
 - Josh reworked the database so that all the invitation data is now in the user profile
 - connected front end to database for all three tabs: 'incoming', 'outgoing', 'finalized'
@@ -14,17 +22,14 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Goal: V1 deployed by Wednesday
 - Go through issues and assign to people
 
-## April 16, 2017 (Casey)
-- Figured out how to connect from meetings collection in the database to our front-end using spacebars, under the 'invites' tab. 
-- For now, it just shows the inviter, duration, and title for all the meetings in the database. Still need to filter this so that it just displays the invites for the current user. 
-=======
-## April 18, 2017 (David)
-- wrote functions to find meeting blocks of the correct duration that work for every user, and save them to the Meetings collection
-- wrote function to save selected meeting time to the DB
-
 ## April 16, 2017 (Josh)
 - Fix issues where we were saving in user collection, but we should have been doing user.profile (Meteor thing).
 - Switch from saving meetings on each users respective id in the users collection to just saving to the meetings collection and saving reference ids to the users collection.
+
+## April 16, 2017 (Casey)
+- Figured out how to connect from meetings collection in the database to our front-end using spacebars, under the 'invites' tab. 
+- For now, it just shows the inviter, duration, and title for all the meetings in the database. Still need to filter this so that it just displays the invites for the current user. 
+
 
 ## April 15, 2017 (David)
 - Updated Meetings collection schema again to further match what we decided in our Wiki page
@@ -33,7 +38,6 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Resolved some pretty hefty merge conflicts in `meetings` PR. I ended up just individually checking out files instead of doing a huge rebase. Worked out pretty well!
 - Bug fixed a few functions in the `meetings` PR. Notably a handful of corner case issues when we passed in a busy array of size 0.
 - Got deployment up to master! Worked quite painlessly too :)
->>>>>>> origin/gh-pages
 
 ## April 15, 2017 (Casey)
 - Merge UI update into the 'meetings' branch. The update adds three tabs, 'Schedule a Meeting', 'Invites', 'Meetings' which fold out upon being clicked. It also inlines the modal for scheduling a meeting.
