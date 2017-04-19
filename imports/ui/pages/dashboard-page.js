@@ -135,7 +135,6 @@ Template.invite.helpers({
     for (var i = 1; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
       if (currUser.id == Meteor.userId()) { // current user found
-        console.log(currUser);
         if(currUser.accepted == true) {
           Template.instance().currentInviteType.set('readyToFinalize');
         }
