@@ -1,5 +1,6 @@
 // File for our server functions for scheduling OUR meetings/events. (as opposed to Google events)
-import Meetings from '/collections/meetings.js'
+import Meetings from '/collections/meetings.js';
+import Temp from '/collections/temp.js';
 
 
 Meteor.methods({
@@ -48,11 +49,8 @@ Meteor.methods({
         newParticipant.id = user._id;
         // Send an email to the user letting them now they have a new meeting invite
         sendNewMeetingEmail(participants[0].email, newParticipant.email, title);
-        // TODO: Perhaps we should have a modal confirmation saying
+        // TODO: Perhaps we should have a confirmation saying
         // "This user doesn't seem to have an account, would you like to invite them?"
-
-        // TODO: PROBLEM!!!!!! We need to associate this event with an account that DOES NOT YET EXIST
-        // Not TOO hard to handle, just need to create a new collection.
       } else {
         // Otherwise send them a invitation email to join Meetable
         sendInvitationEmail(participants[0].email, newParticipant.email, title);
@@ -121,8 +119,26 @@ Meteor.methods({
       console.log("Yep, user: " + participants[i].id);
       if (participants[i].creator == true) continue;
       // TODO: Need to associate this with a temporary user!!!!! For now, just skip
-      if (participants[i].id == null)      continue;
-
+      if (participants[i].id == null) {
+        var tempUser = Temp.findOne({email: participants[i].email});
+        var ids = meetingId
+        console.log(tempUser);
+        if (!tempUser) {
+          Temp.insert({
+            email: participants[i].email,
+            meetingInvitesReceived: [meetingId]
+          });
+        } else {
+          Temp.update(tempUser._id, {
+            $addToSet: {
+              meetingInvitesReceived: meetingId
+            }
+          });
+        }
+        tempUser = Temp.findOne({email: participants[i].email});
+        console.log(tempUser);
+        continue; // Skip the rest this loop
+      }
       var received = Meteor.users.findOne(participants[i].id).profile.meetingInvitesReceived;
       // Create a new set if necessary
       if (!received) {
