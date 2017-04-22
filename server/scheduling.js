@@ -118,7 +118,7 @@ Meteor.methods({
       // The creater sent the invite, therefore is not being invited!
       console.log("Yep, user: " + participants[i].id);
       if (participants[i].creator == true) continue;
-      // TODO: Need to associate this with a temporary user!!!!! For now, just skip
+      // Associate this email with a temporary user if they don't have an account
       if (participants[i].id == null) {
         var tempUser = Temp.findOne({email: participants[i].email});
         var ids = meetingId
@@ -139,6 +139,7 @@ Meteor.methods({
         console.log(tempUser);
         continue; // Skip the rest this loop
       }
+
       var received = Meteor.users.findOne(participants[i].id).profile.meetingInvitesReceived;
       // Create a new set if necessary
       if (!received) {
@@ -159,6 +160,30 @@ Meteor.methods({
     console.log(Meteor.users.findOne(this.userId).profile.meetingInvitesSent);
     console.log("Meeting Invites Received");
     console.log(Meteor.users.findOne(this.userId).profile.meetingInvitesReceived);
+  },
+
+  // Check if the current user has temp data associated with their email.
+  // If they do, associate temp data with actual user. Destroy temp item.
+  attachTempUser: function() {
+    var email = Meteor.users.findOne(this.userId).services.google.email;
+    if (!email) {
+      console.log("Error in attachTempUser: userId has no email");
+      return;
+    }
+    var tempUser = Temp.findOne({"email": email});
+    // If there is a tempUser, attach it. Otherwise do nothing :)
+    if (tempUser) {
+      var received = tempUser.meetingInvitesReceived;
+      for (var i = 0; i < received.length; i++) {
+        Meteor.users.update(this.userId, {
+          $addToSet: {
+            "profile.meetingInvitesReceived": received[i]
+          }
+        });
+      }
+      // Destroy Temp element for this user.
+      Temp.remove({"email": email});
+    }
   },
 
   // DEPRECATED: I am just leaving this here cus it has good boilerplate code
