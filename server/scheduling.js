@@ -87,6 +87,12 @@ Meteor.methods({
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
     availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
 
+    console.log(busyTimes);
+    console.log("findUserAvailableTimes");
+    console.log(loggedInUserAvailableTimes);
+    console.log("findOverlap");
+    console.log(availableTimes);
+
     // TODO: insert this into the Mongo DB
     var meetingId = Meetings.insert({
       title: title, //TODO: pass this as a parameter to createMeeting
@@ -328,29 +334,35 @@ function sendDeclinedEmail(inviterEmail, inviteeEmail, title) {
 
 // inserts time into the array of times, times, in chronological order. Pass by refrence.
 // Assumes times is already chronological (otherwise this would be a sorting function #neverAgain)
-function insertInOrder(times, time) {
+function insertInOrder(calendarTimes) {
+  var times = [];
   var oldTimes = [];
 
-  // Loop through the times stack and remove items one by one until the place of time is found
-  // Store popped times in oldTimes array so they may be restored after completion
-  while (times.length > 0) {
-    var oldTime = times.pop();
+  for (var i = 0; i < calendarTimes.length; i++) {
+    var time = {start: new Date(calendarTimes[i].start), end: new Date(calendarTimes[i].end)};
+    // Loop through the times stack and remove items one by one until the place of time is found
+    // Store popped times in oldTimes array so they may be restored after completion
+    while (times.length > 0) {
+      var oldTime = times.pop();
 
-    // If the current time is greater than the previous time, that means the current time has
-    // found its place in the stack and must be inserted right after the oldTime
-    if (time.startTime.getTime() > oldTime.startTime.getTime()) {
-      times.push(oldTime);
-      break;
+      // If the current time is greater than the previous time, that means the current time has
+      // found its place in the stack and must be inserted right after the oldTime
+      if (time.start.getTime() >= oldTime.start.getTime()) {
+          times.push(oldTime);
+          break;
+      }
+
+      oldTimes.push(oldTime);
     }
-    oldTimes.push(oldTime);
-  }
 
-  times.push(time);
+    times.push(time);
 
-  //restore the stack after inserting the time in proper place
-  while (oldTimes.length > 0) {
-    times.push(oldTimes.pop());
+    //restore the stack after inserting the time in proper place
+    while (oldTimes.length > 0) {
+      times.push(oldTimes.pop());
+    }
   }
+  return times;
 }
 
 
@@ -359,6 +371,8 @@ function insertInOrder(times, time) {
 function findUserBusyTimes(userId, windowStart, windowEnd) {
   var user = Meteor.users.findOne(userId);
   var calendarTimes = user.profile.calendarEvents;
+
+  var calendarTimes = insertInOrder(calendarTimes);
 
   var busyTimes = [];
 
@@ -379,20 +393,31 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
       if (start.getTime() < windowStart) busyTime.startTime = windowStart;
       busyTime.endTime = end;
       busyTimes.push(busyTime);
+      console.log(busyTime);
     }
     else {
       busyTime.startTime = start;
+      if (start.getTime() < windowStart.getTime()) {
+        busyTime.startTime = windowStart;
+        start = windowStart;
+      }
       busyTime.endTime = end;
+      if (end.getTime() > windowEnd.getTime()) {
+        busyTime.endTime = windowEnd;
+        end = windowEnd;
+      }
       //if (end.getTime() > windowEnd.getTime()) busyTime.endTime = windowEnd;
-
+      console.log(busyTime);
       // If the startTime of the current event is inside the previous event, this means these two events
       // are partially overlapping. This means the busyTime should be from the startTime of the previous
       // event, to the endTime of the event that lasts longer.
       var oldBusyTime = busyTimes.pop();
       var oldStartTime = oldBusyTime.startTime;
+      console.log(oldStartTime.getTime() + " " + start.getTime());
       if ((start.getTime() >= oldBusyTime.startTime.getTime()) && (start.getTime() <= oldBusyTime.endTime.getTime())) {
         busyTime.startTime = oldBusyTime.startTime;
         busyTime.endTime = end;
+        console.log(i);
         if (oldBusyTime.endTime.getTime() > end.getTime()) busyTime.endTime = oldBusyTime.endTime;
       }
       else busyTimes.push(oldBusyTime);
@@ -400,11 +425,10 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
       if (busyTime.endTime.getTime() > windowEnd.getTime()) busyTime.endTime = windowEnd;
       // if the current start time is greater than or equal to the previous, the the event is already chronological
       // otherwise, it needs to be placed in the array in chronological order
-      if (start.getTime() >= oldStartTime) busyTimes.push(busyTime);
-      else insertInOrder(busyTimes, busyTime);
+      //console.log(busyTime.startTime);
+      busyTimes.push(busyTime);
     }
   }
-
   return busyTimes;
 }
 
