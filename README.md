@@ -1,6 +1,9 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 22, 2017 (Josh)
+- Set up Temp user collection so you can invite emails who do not have current accounts and all those invites will attach to their new account when they signup.
+
 ## April 18, 2017 (Casey)
 - 'Incoming' tab: implement dynamic templates so that on clicking accept, the user will see the div change to reflect that
 - finalizing meetings: if a user is the selector, they can pick from radio buttons and finalize the meeting time; otherwise, displays a message saying to wait for meeting selector to choose time
