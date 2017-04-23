@@ -1,6 +1,9 @@
 # meetable
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 23, 2017 (Josh)
+- Finish up some lingering issues with handling group meetings. Just need the front-end stuff figured out to get them working now! (and probably some bug fixes)
+
 ## April 22, 2017 (Josh)
 - Set up Temp user collection so you can invite emails who do not have current accounts and all those invites will attach to their new account when they signup.
 
