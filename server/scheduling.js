@@ -40,14 +40,13 @@ Meteor.methods({
         creator: false,
       };
 
-      // TODO: why is id missing sometimes?
       // check if a user with this email exists,and if it does, use their personal info
       var user = Meteor.users.findOne({"services.google.email": invitedEmails[i]});
       if (user !== undefined) {
         // newParticipant.name = user.services.google.name;
         newParticipant.id = user._id;
-        // Send an email to the user letting them now they have a new meeting invite
-        sendNewMeetingEmail(participants[0].email, newParticipant.email, title);
+        // Send an email to the user letting them know they have a new meeting invite
+        sendNewMeetingEmail(participants[i].email, newParticipant.email, title);
         // TODO: Perhaps we should have a modal confirmation saying
         // "This user doesn't seem to have an account, would you like to invite them?"
 
@@ -55,7 +54,7 @@ Meteor.methods({
         // Not TOO hard to handle, just need to create a new collection.
       } else {
         // Otherwise send them a invitation email to join Meetable
-        sendInvitationEmail(participants[0].email, newParticipant.email, title);
+        sendInvitationEmail(thisUserEmail, newParticipant.email, title);
       }
       // add this newParticipant to the document
       participants.push(newParticipant);
@@ -65,8 +64,7 @@ Meteor.methods({
     // in meetings of more than two people, the event creator chooses the meeting time
     if (participants.length === 2) {
       participants[1].selector = true;
-    }
-    else {
+    } else {
       participants[0].selector = true;
     }
 
@@ -93,7 +91,7 @@ Meteor.methods({
     console.log("findOverlap");
     console.log(availableTimes);
 
-    // TODO: insert this into the Mongo DB
+    // Insert this into the Mongo DB
     var meetingId = Meetings.insert({
       title: title, //TODO: pass this as a parameter to createMeeting
       isFinalized: false,
@@ -220,7 +218,6 @@ Meteor.methods({
     }
   },
 
-  // TODO: finish lol
   // Decline a meeting invitation
   declineInvite: function(meetingId, userId) {
     var thisMeeting = Meetings.findOne({_id: meetingId});
@@ -232,6 +229,7 @@ Meteor.methods({
       if (participants[i].id === userId) {
         decliner = participants[i];
         participants.splice(i, 1); // Remove the element at index, in place
+        break;
       }
     }
     // Something is funky if the userId isn't in the participants list!

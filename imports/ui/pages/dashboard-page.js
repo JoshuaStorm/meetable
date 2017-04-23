@@ -104,11 +104,21 @@ Template.dashboard_page.events({
   'click #save': function(e) {
     e.preventDefault();
 
-    //TODO: make sure all these user inputs are sanitized/safe
-
+    // TODO: make sure all these user inputs are sanitized/safe
     var title = $('#meetingTitle').val();
-    var email = $('#meetingInvitee').val();
+    // TODO: User dynamic fields instead of just space separating emails
+    var emails = $('#meetingInvitee').val().split(" ");
     var length = $('#meetingLength').val();
+
+    // Remove all non-emails from this list
+    // ReGex check email field. This is the 99.9% working email ReGex
+    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var cleanEmails = []
+    for (var i = 0; i < emails.length; i++) {
+      // TODO: Prompt user when they pass a non-email?
+      if (emails[i].match(regex)) cleanEmails.push(emails[i]);
+      else console.log("Non-email passed in; removed from invitees list.")
+    }
 
     // TODO: Handled errors, enforce the text boxes all have a value
     // TODO: Handle multiple emails, just passing an array of size 1 but backend should be able to handle multiple fine
@@ -119,7 +129,7 @@ Template.dashboard_page.events({
 
     // TODO: add fields to set the window of time to schedule the time
     // currently using 24 hours after time button was pressed
-    Meteor.call('createMeeting', title, [email], length, windowStart, windowEnd, function(error, result) {
+    Meteor.call('createMeeting', title, emails, length, windowStart, windowEnd, function(error, result) {
       if (error) {
         console.log("createMeeting: " + error);
       }
@@ -175,6 +185,7 @@ Template.invite.events({
 
 Template.incoming.helpers({
   inviterName() {
+      // This should show a list of users
       return Meetings.findOne({_id:this.toString()}).participants[0].email;
     },
   meetingTitle() {
@@ -200,7 +211,7 @@ Template.readyToFinalize.helpers({
     for (var i = 1; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
       if (currUser.id == Meteor.userId()) { // current user found
-        if(currUser.selector == true) {
+        if (currUser.selector == true) {
           Template.instance().currentFinalizeType.set('selector');
         }
         else {
@@ -247,25 +258,25 @@ Template.selector.helpers({
       return hour + "hr " + minute + "min";
     },
   suggestedTimes:function() {
-        return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
+      return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
     },
 });
 
 Template.selector.events({
-   'submit form': function(event){
-      event.preventDefault();
-      var radioValue = event.target.myForm.value;
-      Meteor.call('selectFinaltime', this.toString(), radioValue, function(error, result) {
-        if (error) {
-          console.log("selectFinaltime: " + error);
-        }
-      });
-    }
+  'submit form': function(event) {
+    event.preventDefault();
+    var radioValue = event.target.myForm.value;
+    Meteor.call('selectFinaltime', this.toString(), radioValue, function(error, result) {
+      if (error) {
+        console.log("selectFinaltime: " + error);
+      }
+    });
+  }
 });
-
 
 Template.outgoing.helpers({
   meetingParticipants() {
+    // TODO: This should show a list of users
     return Meetings.findOne({_id:this.toString()}).participants[1].email;
   },
   meetingTitle() {
