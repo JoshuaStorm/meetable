@@ -76,7 +76,6 @@ Meteor.methods({
     }];
 
     var busyTimes = findUserBusyTimes(this.userId, windowStart, windowEnd);
-    console.log("busyTimes");
 
     Meteor.users.upsert(this.userId, {
       $set: {
@@ -86,12 +85,6 @@ Meteor.methods({
 
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
     availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
-
-    console.log(busyTimes);
-    console.log("findUserAvailableTimes");
-    console.log(loggedInUserAvailableTimes);
-    console.log("findOverlap");
-    console.log(availableTimes);
 
     // TODO: insert this into the Mongo DB
     var meetingId = Meetings.insert({
@@ -124,7 +117,6 @@ Meteor.methods({
     // Make sure all the invitees get this meeting associated with their userId
     for (var i = 0; i < participants.length; i++) {
       // The creater sent the invite, therefore is not being invited!
-      console.log("Yep, user: " + participants[i].id);
       if (participants[i].creator == true) continue;
       // TODO: Need to associate this with a temporary user!!!!! For now, just skip
       if (participants[i].id == null)      continue;
@@ -145,10 +137,6 @@ Meteor.methods({
         });
       }
     }
-    console.log("Meeting Invites Sent");
-    console.log(Meteor.users.findOne(this.userId).profile.meetingInvitesSent);
-    console.log("Meeting Invites Received");
-    console.log(Meteor.users.findOne(this.userId).profile.meetingInvitesReceived);
   },
 
   // DEPRECATED: I am just leaving this here cus it has good boilerplate code
@@ -292,6 +280,39 @@ Meteor.methods({
         "selectedBlock" : selectedTime
       }
     });
+
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
+      console.log(thisMeeting.participants[i].id);
+      thisId = thisMeeting.participants[i].id
+      user = Meteor.users.findOne(thisId);
+      // Add this meeting to each participant's finalizedMeetings
+      finalized = user.profile.finalizedMeetings;
+
+      if (finalized === undefined) {
+        Meteor.users.update(thisId, {
+          $set:  { "profile.finalizedMeetings": [meetingId] }
+        });
+      } else {
+        Meteor.users.update(thisId, {
+          $addToSet:  { "profile.finalizedMeetings": meetingId }
+        });
+      }
+      // Remove it from their received and sent
+      Meteor.users.update(thisId, {
+        $pull: { "profile.meetingInvitesReceived": meetingId }
+      });
+      Meteor.users.update(thisId, {
+        $pull: { "profile.meetingInvitesSent": meetingId }
+      });
+      user = Meteor.users.findOne(thisId);
+      console.log(user.services.google.email);
+      console.log("Sent: ");
+      console.log(user.profile.meetingInvitesSent);
+      console.log("Received: ");
+      console.log(user.profile.meetingInvitesReceived);
+      console.log("Finalized: ");
+      console.log(user.profile.finalizedMeetings);
+    }
   }
 });
 
@@ -393,7 +414,6 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
       if (start.getTime() < windowStart) busyTime.startTime = windowStart;
       busyTime.endTime = end;
       busyTimes.push(busyTime);
-      console.log(busyTime);
     }
     else {
       busyTime.startTime = start;
@@ -407,17 +427,15 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
         end = windowEnd;
       }
       //if (end.getTime() > windowEnd.getTime()) busyTime.endTime = windowEnd;
-      console.log(busyTime);
       // If the startTime of the current event is inside the previous event, this means these two events
       // are partially overlapping. This means the busyTime should be from the startTime of the previous
       // event, to the endTime of the event that lasts longer.
       var oldBusyTime = busyTimes.pop();
       var oldStartTime = oldBusyTime.startTime;
-      console.log(oldStartTime.getTime() + " " + start.getTime());
       if ((start.getTime() >= oldBusyTime.startTime.getTime()) && (start.getTime() <= oldBusyTime.endTime.getTime())) {
         busyTime.startTime = oldBusyTime.startTime;
         busyTime.endTime = end;
-        console.log(i);
+
         if (oldBusyTime.endTime.getTime() > end.getTime()) busyTime.endTime = oldBusyTime.endTime;
       }
       else busyTimes.push(oldBusyTime);
