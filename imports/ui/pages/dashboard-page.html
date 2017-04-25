@@ -20,13 +20,13 @@
             
             <!-- Start schedule meeting block -->
             <div class="row">
-              <button id="scheduleButton" type="button" class="btn btn-block">
+              <button id="scheduleButton" type="button" class="btn btn-block btn-lg">
                 <div class="text-left">
                   Schedule a Meeting
                 </div>
               </button>
             </div>
-            <div id="scheduleMeeting" class="row dashboardDropdownContent">
+            <div id="scheduleMeeting" class="container-fluid dashboardDropdownContent">
             <form>
               <fieldset>
                 <div class="form-group">
@@ -56,13 +56,13 @@
             </div>
 
             <div class="row">
-              <button id="invitesButton" type="button" class="btn btn-block">
+              <button id="invitesButton" type="button" class="btn btn-block btn-lg">
                 <div class="text-left">
                    Incoming
                 </div>
               </button>
             </div>
-            <div id="incomingInvites" class="row dashboardDropdownContent">
+            <div id="incomingInvites" class="container-fluid dashboardDropdownContent">
               <div class="col">
                   <!-- scan every meeting and print the invites -->
                   {{#each invites}}
@@ -70,15 +70,14 @@
                   {{/each}}
                 </div>
             </div>
-
             <div class="row">
-              <button id="outgoingButton" type="button" class="btn btn-block">
+              <button id="outgoingButton" type="button" class="btn btn-block btn-lg">
                 <div class="text-left">
                   Outgoing
                 </div>
               </button>
             </div>
-            <div id="outgoingInvites" class="row dashboardDropdownContent">
+            <div id="outgoingInvites" class="container-fluid dashboardDropdownContent">
               <div class="col">
                 {{#each outgoingMeetings}}
                   {{> outgoing}}
@@ -88,13 +87,13 @@
             </div>
 
             <div class="row">
-                <button id="meetingsButton" type="button" class="btn btn-block">
+                <button id="meetingsButton" type="button" class="btn btn-block btn-lg">
                   <div class="text-left">
                     Finalized Meetings
                   </div>
                 </button>
             </div> 
-            <div id="finalizedMeetings" class="row dashboardDropdownContent">
+            <div id="finalizedMeetings" class="container-fluid dashboardDropdownContent">
               <div class="col">
                  <!-- print the scheduled meetings -->
                 {{#each final}}
@@ -104,11 +103,13 @@
             </div>
 
             <div class="row">
-              <button id="hideCalendarsButton" type="button" class="btn">
+              <button id="hideCalendarsButton" type="button" class="btn btn-block btn-lg">
+                <div class="text-left">  
                   Hide Certain Calendars
+                </div>
               </button>
             </div>
-            <div class="row dashboardDropdownContent" id="hideCalendars">
+            <div class="container-fluid dashboardDropdownContent" id="hideCalendars">
               <form>
                 <label> <input type="checkbox" name="salutation" value="longCalendarString0">Courses</label>
                 <label> <input type="checkbox" name="salutation" value="longCalendarString1">Activities</label>
@@ -119,11 +120,13 @@
             </div>
 
             <div class="row">
-              <button id="extraBustyTimesButton" type="button" class="btn">
+              <button id="extraBustyTimesButton" type="button" class="btn btn-block btn-lg">
+                <div class="text-left">
                   Add Extra Busy Times
+                </div>
               </button>
             </div>
-            <div class="row dashboardDropdownContent" id="extraBusyTimes">
+            <div class="container-fluid dashboardDropdownContent" id="extraBusyTimes">
               <form>
                 <label>Start
                   <input id="datetime" type="datetime-local">
