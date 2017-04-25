@@ -49,6 +49,13 @@ Template.dashboard_page.onRendered( () => {
       center: 'month,agendaWeek,agendaDay' // buttons for switching between views
     }
   });
+
+  // call jquery stuff
+
+  $("#scheduleButton").click(function(){
+    $("#sliding").slideToggle();
+    //$("#panel").slideToggle();
+});
 });
 
 Template.dashboard_page.events({
