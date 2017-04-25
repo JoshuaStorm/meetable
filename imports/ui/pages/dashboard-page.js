@@ -37,6 +37,9 @@ Template.dashboard_page.helpers({
     outgoingMeetings:function() {
         return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesSent;
     },
+    final: function() {
+        return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings;
+    }
 });
 
 Template.dashboard_page.onRendered( () => {
@@ -278,3 +281,34 @@ Template.outgoing.helpers({
     return hour + "hr " + minute + "min";
   },
 });
+
+Template.finalizedMeeting.helpers({
+  meetingHost() {
+    return Meetings.findOne({_id:this.toString()}).participants[0].email;
+  },
+  participants() {
+    var peopleList = Meetings.findOne({_id:this.toString()}).participants;
+    var participants = "";
+    var comma = ", ";
+    for (var i = 1; i < peopleList.length; i++) {
+      participants = participants.concat(peopleList[i].email);
+      if (i > 1)
+        participants = participants.concat(comma);
+    }
+    return participants;
+  },
+  meetingTitle() {
+    return Meetings.findOne({_id:this.toString()}).title;
+  },
+  selectedStart() {
+    var start = Meetings.findOne({_id:this.toString()}).selectedBlock.startTime;
+    var time=new Date(start).toLocaleString();
+    return time;
+  },
+  selectedEnd() {
+    var end = Meetings.findOne({_id:this.toString()}).selectedBlock.endTime;
+    var time=new Date(end).toLocaleString();
+    return time;
+  }
+});
+
