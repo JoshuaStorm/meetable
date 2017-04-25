@@ -56,18 +56,11 @@
               {{else}}
                 {{#if showMeetingsDiv}}
       
-                        <h3 >Your Scheduled Meetings</h3>
-                   
-                      <!-- some fake information -->
-                      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
-                        <h4>John<span style='font-weight:normal;'> Lunch at CJL </span></h4>
-                        <p>Monday, April 24 12:45-2:45pm</p>
-                      </div>
-                      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
-                        <h4>Samantha<span style='font-weight:normal;'> Tutoring </span></h4>
-                        <p>Monday, April 24 12:45-2:45pm</p>
-                      </div>
-           
+                   <h3 >Your Scheduled Meetings</h3>
+                   <!-- print the scheduled meetings -->
+                  {{#each final}}
+                    {{> finalizedMeeting}}
+                  {{/each}}
                  
               {{/if}}
             {{/if}}
@@ -137,6 +130,16 @@
       <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
         <h4>{{meetingParticipants}}</h4>
         <p><b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})</p>
+      </div>
+    </div>
+</template>
+
+<template name="finalizedMeeting">
+  <div class="row">
+      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
+        <h4>Host: {{meetingHost}}</h4>
+        <p> Participants: {{participants}}</p>
+        <p><b>{{meetingTitle}}</b> <br/>Start: {{windowStart}} <br/>End: {{windowEnd}}</p>
       </div>
     </div>
 </template>
