@@ -46,29 +46,30 @@ Template.dashboard_page.onRendered( () => {
   $(".dashboardDropdownContent").hide();
   $("#scheduleMeeting").show();
 
+  // time parameters are in milliseconds
   $("#scheduleButton").click(function(){
-    $("#scheduleMeeting").slideToggle();
+    $("#scheduleMeeting").slideToggle(100);
   });
   $("#invitesButton").click(function(){
-    $("#incomingInvites").slideToggle();
+    $("#incomingInvites").slideToggle(100);
   });
   $("#outgoingButton").click(function(){
-    $("#outgoingInvites").slideToggle();
+    $("#outgoingInvites").slideToggle(100);
   });
   $("#meetingsButton").click(function(){
-    $("#finalizedMeetings").slideToggle();
+    $("#finalizedMeetings").slideToggle(100);
   });
   $("#hideCalendarsButton").click(function(){
-    $("#hideCalendars").slideToggle();
+    $("#hideCalendars").slideToggle(100);
   });
   $("#extraBustyTimesButton").click(function(){
-    $("#extraBusyTimes").slideToggle();
+    $("#extraBusyTimes").slideToggle(100);
   });
 
   // hide the meeting creation section when user cancels creation
   $("#cancelCreateMeeting").click(function() {
     console.log("PLEASADS")
-    $("#scheduleMeeting").slideUp();
+    $("#scheduleMeeting").slideUp(100);
   });
 });
 
