@@ -55,9 +55,7 @@ public.route('/error', {
 loggedIn.route('/dashboard', {
   name: 'App.dashboard',
   action: function() {
-    // TODO: Should only need to attach Temp data if new signup but our current routing doesn't seem to expose signup/signin
     Meteor.call("getAuthInfo", function() {
-      Meteor.call("attachTempUser", function(error, result) {});
       Meteor.call("getFullCalendarEvents", false, function(error, result) {
         if (error) console.log(error);
         $( '#events-calendar' ).fullCalendar('addEventSource', result);

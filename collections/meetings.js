@@ -1,6 +1,5 @@
 // it took forever to find the correct way to import https://github.com/aldeed/meteor-collection2/#important-note-the-version-in-this-repo-is-deprecated
-import SimpleSchema from 'simpl-schema';
-import Schemas from './schemas.js'
+import SimpleSchema from 'simpl-schema'; 
 const Meetings = new Mongo.Collection('meetings');
 export default Meetings; // Meetings object must be imported to access in other files
 
@@ -16,6 +15,8 @@ Meetings.deny({
   remove() { return true; }
 });
 
+const Schemas = {};
+
 Schemas.Meetings = new SimpleSchema({
     // TODO: fix createdAt and updatedAt
     // createdAt: {
@@ -27,7 +28,7 @@ Schemas.Meetings = new SimpleSchema({
     //         }
     //         if (this.isUpsert) {
     //             return new Date;
-    //         }
+    //         } 
     //     }
     // },
     // updatedAt: {
@@ -146,6 +147,7 @@ Schemas.Meetings = new SimpleSchema({
         type: Date,
         label: "End time of the final meeting time"
     },
+
 });
 
 Meetings.attachSchema(Schemas.Meetings);
