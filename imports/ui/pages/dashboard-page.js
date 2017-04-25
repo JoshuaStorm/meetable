@@ -50,12 +50,22 @@ Template.dashboard_page.onRendered( () => {
     }
   });
 
-  // call jquery stuff
+  // toggle main tabs
+  // must be in this function because jQuery can only run on DOM after
+  // the DOM is rendered (which is when this function is called)
 
   $("#scheduleButton").click(function(){
-    $("#sliding").slideToggle();
-    //$("#panel").slideToggle();
-});
+    $("#scheduleMeeting").slideToggle();
+  });
+  $("#invitesButton").click(function(){
+    $("#incomingInvites").slideToggle();
+  });
+  $("#outgoingButton").click(function(){
+    $("#outgoingInvites").slideToggle();
+  });
+  $("#meetingsButton").click(function(){
+    $("#finalizedMeetings").slideToggle();
+  });
 });
 
 Template.dashboard_page.events({
