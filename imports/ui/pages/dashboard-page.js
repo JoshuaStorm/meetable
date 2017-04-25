@@ -122,6 +122,8 @@ Template.dashboard_page.events({
     Meteor.call('createMeeting', title, [email], length, windowStart, windowEnd, function(error, result) {
       if (error) {
         console.log("createMeeting: " + error);
+      } else{
+        Bert.alert( 'Success! Meeting invite sent.', 'success', 'growl-bottom-left' );
       }
     });
   },
