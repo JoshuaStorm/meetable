@@ -300,12 +300,12 @@ Template.finalizedMeeting.helpers({
   meetingTitle() {
     return Meetings.findOne({_id:this.toString()}).title;
   },
-  windowStart() {
+  selectedStart() {
     var start = Meetings.findOne({_id:this.toString()}).selectedBlock.startTime;
     var time=new Date(start).toLocaleString();
     return time;
   },
-  windowEnd() {
+  selectedEnd() {
     var end = Meetings.findOne({_id:this.toString()}).selectedBlock.endTime;
     var time=new Date(end).toLocaleString();
     return time;
