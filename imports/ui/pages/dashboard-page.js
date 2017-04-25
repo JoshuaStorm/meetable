@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import Meetings from '/collections/meetings.js'
-
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import './dashboard-page.html';
 
@@ -76,7 +76,6 @@ Template.dashboard_page.onRendered( () => {
 Template.dashboard_page.events({
   'click #save': function(e) {
     e.preventDefault();
-
     //TODO: make sure all these user inputs are sanitized/safe
 
     var title = $('#meetingTitle').val();
@@ -97,6 +96,9 @@ Template.dashboard_page.events({
         console.log("createMeeting: " + error);
       }
     });
+  },
+  'click .navbar-brand': function(e) {
+    FlowRouter.go('/');
   },
 });
 
