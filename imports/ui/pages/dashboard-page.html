@@ -1,104 +1,89 @@
- 
-
-<template name="dashboard_page">
+ <template name="dashboard_page">
   <body>
-    <div class="page-header">
-        <h1 class="text-center">Meetable</h1>
-        </div>
-
-        <div class="container">
-          <div class="row">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-5">
             {{#if currentUser}}
-              <h2 class = "text-center"> Welcome {{firstName}}, this is your dashboard.</h2>
+                <h2> Welcome {{firstName}}, this is your dashboard.</h2>
             {{/if}}
-          </div>
-          <ul class="nav navbar-nav navbar-right">
-              {{> atNavButton}}
-          </ul>
-          <ul class="nav navbar-nav navbar-left">
-            <button id="scheduleButton" type="button" class="btn btn-secondary">
-              Schedule a Meeting
-            </button>
-            <button id="invitesButton" type="button" class="btn btn-secondary">
-              Incoming
-            </button>
-            <button id="outgoingButton" type="button" class="btn btn-secondary">
-              Outgoing
-            </button>
-            <button id="meetingsButton" type="button" class="btn btn-secondary">
-              Finalized Meetings
-            </button>
-          </ul>
-        </div>
+            
+            <ul class="nav navbar-nav navbar-right">
+                {{> atNavButton}}
+            </ul>
+            <ul class="nav navbar-nav navbar-left">
+              <button id="scheduleButton" type="button" class="btn btn-secondary">
+                Schedule a Meeting
+              </button>
+              <button id="invitesButton" type="button" class="btn btn-secondary">
+                Incoming
+              </button>
+              <button id="outgoingButton" type="button" class="btn btn-secondary">
+                Outgoing
+              </button>
+              <button id="meetingsButton" type="button" class="btn btn-secondary">
+                Finalized Meetings
+              </button>
+            </ul>
 
-        <!-- accordion fold out -->
-
-        {{#if showScheduleDiv}}
-        <div class="container">
-          <hr/>
-          <div class="row">
-            <h3 class="text-center">Schedule a Meeting</h3>
-          </div>
-          <div class="row">
-            <div class="col-md-2 col-md-offset-3"> <input type="text" id="meetingInvitee" placeholder="Invitee's Email Address"/> </div>
-            <div class="col-md-2"> <input type="text" id="meetingTitle" placeholder="Event Title"/> </div>
-            <div class="col-md-2"> <input type="number" id="meetingLength" placeholder="Length (hrs)"/> </div>
-          </div>
-          <div class="row">
-            <button type="button" class="btn btn-primary" id="save">Save</button>
-            <button type="button" class="btn btn-default" id="cancel">Cancel</button>
-          </div>
-         <hr/>
-        </div>
-        {{else}}
-          {{#if showInvitesDiv}}
-              <div class="container">
-                <hr/>
-                <div class="row">
-                  <h3 class="text-center">Incoming</h3>
-                <!-- scan every meeting and print the invites -->
-                {{#each invites}}
-                  {{> invite}}
-                {{/each}}
-                </div>
-              <hr/>
-              </div>
+            {{#if showScheduleDiv}}
+              <h3>Schedule a Meeting</h3>
+            
+              <input type="text" id="meetingInvitee" placeholder="Invitee's Email Address"/>
+              <input type="text" id="meetingTitle" placeholder="Event Title"/> 
+              <input type="number" id="meetingLength" placeholder="Length (hrs)"/> 
+            
+            
+              <button type="button" class="btn btn-primary" id="save">Save</button>
+              <button type="button" class="btn btn-default" id="cancel">Cancel</button>
           {{else}}
-            {{#if showOutgoingDiv}}
-              <div class="container">
-                <hr/>
-                <div class="row">
-                  <h3 class="text-center">Your Outgoing Meetings</h3>
-                {{#each outgoingMeetings}}
-                  {{> outgoing}}
-                {{/each}}
-                </div>
-              <hr/>
-              </div>
+            {{#if showInvitesDiv}}
+                
+                    <h3>Incoming</h3>
+                  <!-- scan every meeting and print the invites -->
+                  {{#each invites}}
+                    {{> invite}}
+                  {{/each}}
+                  
+          
             {{else}}
-              {{#if showMeetingsDiv}}
-                 <hr/>
-                  <div class="container">
-                    <div class="row">
-                      <h3 class="text-center">Your Scheduled Meetings</h3>
-                    </div>
-                    <!-- some fake information -->
-                    <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
-                      <h4>John<span style='font-weight:normal;'> Lunch at CJL </span></h4>
-                      <p>Monday, April 24 12:45-2:45pm</p>
-                    </div>
-                    <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
-                      <h4>Samantha<span style='font-weight:normal;'> Tutoring </span></h4>
-                      <p>Monday, April 24 12:45-2:45pm</p>
-                    </div>
-                  </div>
+              {{#if showOutgoingDiv}}
+               
+                    <h3 >Your Outgoing Meetings</h3>
+                  {{#each outgoingMeetings}}
+                    {{> outgoing}}
+                  {{/each}}
                 <hr/>
+              {{else}}
+                {{#if showMeetingsDiv}}
+      
+                        <h3 >Your Scheduled Meetings</h3>
+                   
+                      <!-- some fake information -->
+                      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
+                        <h4>John<span style='font-weight:normal;'> Lunch at CJL </span></h4>
+                        <p>Monday, April 24 12:45-2:45pm</p>
+                      </div>
+                      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
+                        <h4>Samantha<span style='font-weight:normal;'> Tutoring </span></h4>
+                        <p>Monday, April 24 12:45-2:45pm</p>
+                      </div>
+           
+                 
+              {{/if}}
+            {{/if}}
             {{/if}}
           {{/if}}
-          {{/if}}
-        {{/if}}
-        <div id="events-calendar"></div>
-   </body>
+          </div>
+
+      
+        <!-- Right colum start -->
+        <div class="col-sm-7">
+          <div id="events-calendar"></div>
+        </div>
+         <!-- Right colum end -->
+      </div>
+    </div>
+  </body>
 </template>
 
 <template name="invite">
