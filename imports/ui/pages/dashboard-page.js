@@ -123,6 +123,9 @@ Template.dashboard_page.events({
       if (error) {
         console.log("createMeeting: " + error);
       } else{
+        var resetTitle = document.getElementById('meetingTitle').value ="";
+        var resetInvitee = document.getElementById('meetingInvitee').value ="";
+        var resetLength = document.getElementById('meetingLength').value ="";
         Bert.alert( 'Success! Meeting invite sent.', 'success', 'growl-bottom-left' );
       }
     });
