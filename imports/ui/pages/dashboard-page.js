@@ -19,24 +19,15 @@ Template.dashboard_page.helpers({
     currentUser: function() {
       return Meteor.userId();
     },
-    showScheduleDiv:function(){ // foldout for 'Schedule a Meeting'
-        return Session.get('showSchedule')
-    },
-    showInvitesDiv:function(){ // foldout for 'Invites'
-        return Session.get('showInvites')
-    },
-    showOutgoingDiv:function(){ // foldout for 'Meetings'
-        return Session.get('showOutgoing')
-    },
-    showMeetingsDiv:function(){ // foldout for 'Meetings'
-        return Session.get('showMeetings')
-    },
     invites:function() {
         return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesReceived;
     },
     outgoingMeetings:function() {
         return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesSent;
     },
+    final: function() {
+        return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings;
+    }
 });
 
 Template.dashboard_page.onRendered( () => {
@@ -46,61 +37,43 @@ Template.dashboard_page.onRendered( () => {
       center: 'month,agendaWeek,agendaDay' // buttons for switching between views
     }
   });
+
+  // toggle main tabs
+  // must be in this function because jQuery can only run on DOM after
+  // the DOM is rendered (which is when this function is called)
+
+  // only show schedule meeting section from start
+  $(".dashboardDropdownContent").hide();
+  $("#scheduleMeeting").show();
+
+  // time parameters are in milliseconds
+  $("#scheduleButton").click(function(){
+    $("#scheduleMeeting").slideToggle(100);
+  });
+  $("#invitesButton").click(function(){
+    $("#incomingInvites").slideToggle(100);
+  });
+  $("#outgoingButton").click(function(){
+    $("#outgoingInvites").slideToggle(100);
+  });
+  $("#meetingsButton").click(function(){
+    $("#finalizedMeetings").slideToggle(100);
+  });
+  $("#hideCalendarsButton").click(function(){
+    $("#hideCalendars").slideToggle(100);
+  });
+  $("#extraBustyTimesButton").click(function(){
+    $("#extraBusyTimes").slideToggle(100);
+  });
+
+  // hide the meeting creation section when user cancels creation
+  $("#cancelCreateMeeting").click(function() {
+    console.log("PLEASADS")
+    $("#scheduleMeeting").slideUp(100);
+  });
 });
 
 Template.dashboard_page.events({
-  'click #scheduleButton':function() {
-    Session.set('showInvites',false); // if one tab is open, close the others
-    Session.set('showMeetings',false);
-    Session.set('showOutgoing',false)
-    if (Session.get('showSchedule') == true) { // toggle the state of the tab (open/close on click)
-      Session.set('showSchedule',false);
-    } else
-    {
-      Session.set('showSchedule',true);
-    }
-  },
-  'click #cancel':function(){
-    if (Session.get('showSchedule') == true) { // toggle the state of the tab (open/close on click)
-      Session.set('showSchedule',false);
-    } else
-    {
-      Session.set('showSchedule',true);
-    }
-  },
-  'click #invitesButton':function() {
-    Session.set('showSchedule',false);// if one tab is open, close the others
-    Session.set('showMeetings',false);
-    Session.set('showOutgoing',false)
-    if (Session.get('showInvites') == true){ // toggle the state of the tab (open/close on click)
-      Session.set('showInvites',false);
-    } else
-    {
-      Session.set('showInvites',true);
-    }
-  },
-  'click #outgoingButton':function() {
-    Session.set('showSchedule',false);// if one tab is open, close the others
-    Session.set('showMeetings',false);
-    Session.set('showInvites',false)
-    if (Session.get('showOutgoing') == true) { // toggle the state of the tab (open/close on click)
-      Session.set('showOutgoing',false);
-    } else
-    {
-      Session.set('showOutgoing',true);
-    }
-  },
-  'click #meetingsButton':function() {
-    Session.set('showSchedule',false);// if one tab is open, close the others
-    Session.set('showInvites',false);
-    Session.set('showOutgoing',false)
-    if (Session.get('showMeetings') == true) { // toggle the state of the tab (open/close on click)
-      Session.set('showMeetings',false);
-    } else
-    {
-      Session.set('showMeetings',true);
-    }
-  },
   'click #save': function(e) {
     e.preventDefault();
 
@@ -278,3 +251,34 @@ Template.outgoing.helpers({
     return hour + "hr " + minute + "min";
   },
 });
+
+Template.finalizedMeeting.helpers({
+  meetingHost() {
+    return Meetings.findOne({_id:this.toString()}).participants[0].email;
+  },
+  participants() {
+    var peopleList = Meetings.findOne({_id:this.toString()}).participants;
+    var participants = "";
+    var comma = ", ";
+    for (var i = 1; i < peopleList.length; i++) {
+      participants = participants.concat(peopleList[i].email);
+      if (i > 1)
+        participants = participants.concat(comma);
+    }
+    return participants;
+  },
+  meetingTitle() {
+    return Meetings.findOne({_id:this.toString()}).title;
+  },
+  selectedStart() {
+    var start = Meetings.findOne({_id:this.toString()}).selectedBlock.startTime;
+    var time=new Date(start).toLocaleString();
+    return time;
+  },
+  selectedEnd() {
+    var end = Meetings.findOne({_id:this.toString()}).selectedBlock.endTime;
+    var time=new Date(end).toLocaleString();
+    return time;
+  }
+});
+

@@ -278,7 +278,8 @@ Meteor.methods({
 
     Meetings.update({_id:meetingId},{
       $set: {
-        "selectedBlock" : selectedTime
+        "selectedBlock" : selectedTime,
+        "isFinalized" : true
       }
     });
 
