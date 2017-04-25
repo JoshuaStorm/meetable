@@ -1,3 +1,4 @@
+
  <template name="dashboard_page">
   <body>
     <div class="container-fluid">
@@ -8,14 +9,15 @@
         </ul>
       </div>
       <div class="row">
-        <div class="col-sm-5">
+        <!-- Left column start -->
+        <div class="col-sm-5" id="dashboardLeftCol">
             {{#if currentUser}}
                 <h2> Welcome {{firstName}}, this is your dashboard.</h2>
             {{/if}}
             
-            
+            <!-- Start schedule meeting block -->
             <div class="row">
-              <button id="scheduleButton" type="button" class="btn btn-secondary">
+              <button id="scheduleButton" type="button" class="btn">
                 Schedule a Meeting
               </button>
             </div>
@@ -35,13 +37,13 @@
             </div>
 
             <div class="row">
-              <button id="invitesButton" type="button" class="btn btn-secondary">
+              <button id="invitesButton" type="button" class="btn">
                 Incoming
               </button>
             </div>
             <div class="row">
-              <div id="incomingInvites">
-                    <h3>Incoming</h3>
+              <div class="col" id="incomingInvites">
+                  <h3>Incoming</h3>
                   <!-- scan every meeting and print the invites -->
                   {{#each invites}}
                     {{> invite}}
@@ -50,14 +52,12 @@
             </div>
 
             <div class="row">
-              <button id="outgoingButton" type="button" class="btn btn-secondary">
+              <button id="outgoingButton" type="button" class="btn">
                 Outgoing
               </button>
             </div>
-
             <div class="row">
-
-              <div id="outgoingInvites">
+              <div class="col" id="outgoingInvites">
                 <h3 >Your Outgoing Meetings</h3>
                 {{#each outgoingMeetings}}
                   {{> outgoing}}
@@ -66,40 +66,58 @@
               </div>
             </div>
 
-          <div class="row">
-              <button id="meetingsButton" type="button" class="btn btn-secondary">
-                Finalized Meetings
-              </button>
-          </div>
-            
-          <div class="row">
-            <div id="finalizedMeetings">
-               <h3 >Your Scheduled Meetings</h3>
-               <!-- print the scheduled meetings -->
-              {{#each final}}
-                {{> finalizedMeeting}}
-              {{/each}}
+            <div class="row">
+                <button id="meetingsButton" type="button" class="btn">
+                  Finalized Meetings
+                </button>
+            </div> 
+            <div class="row">
+              <div class="col" id="finalizedMeetings">
+                 <h3 >Your Scheduled Meetings</h3>
+                 <!-- print the scheduled meetings -->
+                {{#each final}}
+                  {{> finalizedMeeting}}
+                {{/each}}
+              </div>
             </div>
-          </div>
 
+            <div class="row">
+              <button id="hideCalendarsButton" type="button" class="btn">
+                  Hide Certain Calendars
+              </button>
+            </div>
+            <div class="row" id="hideCalendars">
+              <form>
+                <label> <input type="checkbox" name="salutation" value="longCalendarString0">Courses</label>
+                <label> <input type="checkbox" name="salutation" value="longCalendarString1">Activities</label>
+                <label> <input type="checkbox" name="salutation" value="longCalendarString2">Office Hours</label>
+                <label> <input type="checkbox" name="salutation" value="longCalendarString3">Basketball Practices</label>
+                <input type = "submit" value = "SUBMIT" class="btn-primary">
+              </form>
+            </div>
 
-
-            
-
+            <div class="row">
+              <button id="extraBustyTimesButton" type="button" class="btn">
+                  Add Extra Busy Times
+              </button>
+            </div>
+            <div class="row" id="extraBustyTimes">
+              <form>
+                <label>Start
+                  <input id="datetime" type="datetime-local">
+                </label>
+                <label>End
+                  <input id="datetime" type="datetime-local">
+                </label>
                 
-                  
+                <input type = "submit" value = "SUBMIT" class="btn-primary">
+              </form>
+            </div>
+        </div>
+        <!--left column end -->
 
-               
-
-              
-              
-                 
-
-          </div>
-
-      
-        <!-- Right colum start -->
-        <div class="col-sm-7">
+        <!-- Right column start -->
+        <div class="col-sm-7" id="dashboardRightCol">
           <div id="events-calendar"></div>
         </div>
          <!-- Right colum end -->
@@ -114,13 +132,9 @@
 
 <!-- template for displaying an incoming invite -->
 <template name="incoming">
-    <div class="row">
-      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
-        <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
-        <button id="declineInvite" class="pull-right">Decline</button>
-        <button id="acceptInvite" class="pull-right">Accept</button> 
-      </div>
-    </div>
+  <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
+  <button id="declineInvite" class="pull-right">Decline</button>
+  <button id="acceptInvite" class="pull-right">Accept</button> 
 </template>
 
 <!-- template for displaying a invite that's ready to finalize -->
@@ -130,11 +144,11 @@
 
 <!-- template for displaying an invite ready to finalize if you are not the selector -->
 <template name="notSelector">
-  <div class="row">
-    <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
+  <!-- <div class="row"> -->
+    <!-- <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'> -->
       Waiting on <h4>{{inviterName}}</h4> to select a time for <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
-    </div>
-  </div>
+    <!-- </div> -->
+  <!-- </div> -->
 </template>
 
 <!-- template for displaying an invite ready to finalize if you are the selector -->
@@ -155,20 +169,14 @@
 
 <!-- template for displaying an outgoing meeting -->
 <template name="outgoing">
-    <div class="row">
-      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
-        <h4>{{meetingParticipants}}</h4>
-        <p><b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})</p>
-      </div>
-    </div>
+  <h4>{{meetingParticipants}}</h4>
+  <p><b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})</p>
+  <hr/>
 </template>
 
 <template name="finalizedMeeting">
-  <div class="row">
-      <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9dfa9;'>
-        <h4>Host: {{meetingHost}}</h4>
-        <p> Participants: {{participants}}</p>
-        <p><b>{{meetingTitle}}</b> <br/>Start: {{selectedStart}} <br/>End: {{selectedEnd}}</p>
-      </div>
-    </div>
+  <h4>Host: {{meetingHost}}</h4>
+  <p> Participants: {{participants}}</p>
+  <p><b>{{meetingTitle}}</b> <br/>Start: {{selectedStart}} <br/>End: {{selectedEnd}}</p>
+  <hr/>
 </template>
