@@ -116,15 +116,13 @@ Template.invite.helpers({
     var thisMeeting = Meetings.findOne({_id:this.toString()});
     // iterate through all meeting participants to find index in array for the current user
     // start with index 1 because you can skip the first participant ( creator)
-    var ready = false;
-    Meteor.call('checkMeetingReadyToFinalize', this.toString(), function(error, result) {
+    Session.set("ready", false);
+    Meteor.call('readyToFinalize', this.toString(), function(error, result) {
       if (error) {
-        console.log("checkMeetingReadyToFinalize: " + error);
-      } else {
-        ready = true;
-      }
+        console.log("readyToFinalize: " + error);
+      } 
     });
-    if (ready == true) {
+    if (thisMeeting.readyToFinalize == true) {
       Template.instance().currentInviteType.set('readyToFinalize');
     }
     else {
@@ -266,9 +264,9 @@ Template.outgoing.helpers({
     return hour + "hr " + minute + "min";
   },
   finalizeType() {
-    Meteor.call('checkMeetingReadyToFinalize', this.toString(), function(error, result) {
+    Meteor.call('readyToFinalize', this.toString(), function(error, result) {
       if (error) {
-        console.log("checkMeetingReadyToFinalize: " + error);
+        console.log("readyToFinalize: " + error);
       } else {
         return true;
       }
