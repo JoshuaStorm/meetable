@@ -252,7 +252,15 @@ Template.selector.events({
 
 Template.outgoing.helpers({
   meetingParticipants() {
-    return Meetings.findOne({_id:this.toString()}).participants[1].email;
+    var peopleList = Meetings.findOne({_id:this.toString()}).participants;
+    var participants = "";
+    var comma = ", ";
+    for (var i = 1; i < peopleList.length; i++) {
+      participants = participants.concat(peopleList[i].email);
+      if (i > 1)
+        participants = participants.concat(comma);
+    }
+    return participants;
   },
   meetingTitle() {
     return Meetings.findOne({_id:this.toString()}).title;
@@ -263,15 +271,8 @@ Template.outgoing.helpers({
     var minute = length % (1000 * 60 * 60);
     return hour + "hr " + minute + "min";
   },
-  finalizeType() {
-    Meteor.call('readyToFinalize', this.toString(), function(error, result) {
-      if (error) {
-        console.log("readyToFinalize: " + error);
-      } else {
-        return true;
-      }
-    });
-    return false;
+  readyToFinalize() {
+    return Meetings.findOne({_id:this.toString()}).readyToFinalize;
   }
 });
 
@@ -302,6 +303,17 @@ Template.outgoingFinalize.helpers({
     }
     return participants;
   },
+  'submit form': function(event){
+      event.preventDefault();
+      var radioValue = event.target.myForm.value;
+      Meteor.call('selectFinaltime', this.toString(), radioValue, function(error, result) {
+        if (error) {
+          console.log("selectFinaltime: " + error);
+        } else {
+          Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
+        }
+      });
+    }
 
 });
 

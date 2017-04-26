@@ -220,10 +220,8 @@
 <!-- template for displaying an outgoing meeting that's ready to finalize -->
 <template name="outgoingFinalize">
   <span class="label label-primary">Ready to finalize</span>
-  <div class="row">
-    <div class="container-fluid">
-      <p><b>{{meetingTitle}}</b> ({{meetingDuration}})
-      <br/> Participants: {{meetingParticipants}}
+      <h4><b>{{meetingTitle}}</b></h4> ({{meetingDuration}})
+      <p>Participants: {{meetingParticipants}}
       <br/> Please select a time for the meeting:</p>
       <form>
       {{#each suggestedTimes}}
@@ -236,8 +234,7 @@
       {{/each}}
       <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
       </form>
-    </div>
-  </div>
+
 </template>
 
 <!-- template for displaying a finalized meeting -->
