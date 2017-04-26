@@ -3,10 +3,10 @@
   <body>
 <nav class="navbar navbar-toggleable-md navbar-dark bg-primary">
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-8">
-            <a class="navbar-brand" href="#">Meetable</a>
-            <ul class="nav navbar-nav navbar-right">
-                {{> atNavButton}}
-            </ul>
+              <a class="navbar-brand" href="#">Meetable</a>
+              <ul class="nav navbar-nav navbar-right">
+                  {{> atNavButton}}
+              </ul>
            </div>
         </nav>
 
@@ -15,7 +15,7 @@
         <!-- Left column start -->
         <div class="col-sm-5" id="dashboardLeftCol">
             {{#if currentUser}}
-                <h2> Welcome {{firstName}}, this is your dashboard.</h2>
+                <h3> Welcome {{firstName}}, this is your dashboard.</h3>
             {{/if}}
             
             <!-- Start schedule meeting block -->
