@@ -116,17 +116,19 @@ Template.invite.helpers({
     var thisMeeting = Meetings.findOne({_id:this.toString()});
     // iterate through all meeting participants to find index in array for the current user
     // start with index 1 because you can skip the first participant ( creator)
-    for (var i = 1; i < thisMeeting.participants.length; i++) {
-      var currUser = thisMeeting.participants[i];
-      if (currUser.id == Meteor.userId()) { // current user found
-        if(currUser.accepted == true) {
-          Template.instance().currentInviteType.set('readyToFinalize');
-        }
-        else {
-          Template.instance().currentInviteType.set('incoming');
-        }
-        break;
-      }
+    Session.set("ready", false);
+    Meteor.call('readyToFinalize', this.toString(), function(error, result) {
+      if (error) {
+        console.log("readyToFinalize: " + error);
+      } 
+    });
+    // an incoming meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a two person meeting
+    if (thisMeeting.readyToFinalize && thisMeeting.participants.length == 2)
+    {
+      Template.instance().currentInviteType.set('readyToFinalize');
+    }
+    else {
+      Template.instance().currentInviteType.set('incoming');
     }
     return Template.instance().currentInviteType.get();
   }
@@ -170,6 +172,22 @@ Template.incoming.helpers({
       var minute = length % (1000 * 60 * 60);
       return hour + "hr " + minute + "min";
     },
+  acceptedInvite() {
+    var thisMeeting = Meetings.findOne({_id:meetingId});
+    var accepted = false;
+    // iterate through all meeting participants to find index in array for the current user
+    // start with index 1 because you can skip the first participant ( creator)
+    for (var i = 1; i < thisMeeting.participants.length; i++) {
+      var currUser = thisMeeting.participants[i];
+      if (currUser.id == Meteor.userId()) { // current user found
+        if(currUser.accepted == true) {
+            accepted = true;
+            break;
+        }
+      }
+    }
+    return accepted;
+  }
 });
 
 /////////////////////////////////////////////
@@ -257,7 +275,15 @@ Template.selector.events({
 
 Template.outgoing.helpers({
   meetingParticipants() {
-    return Meetings.findOne({_id:this.toString()}).participants[1].email;
+    var peopleList = Meetings.findOne({_id:this.toString()}).participants;
+    var participants = "";
+    var comma = ", ";
+    for (var i = 1; i < peopleList.length; i++) {
+      participants = participants.concat(peopleList[i].email);
+      if (i > 1)
+        participants = participants.concat(comma);
+    }
+    return participants;
   },
   meetingTitle() {
     return Meetings.findOne({_id:this.toString()}).title;
@@ -268,6 +294,56 @@ Template.outgoing.helpers({
     var minute = length % (1000 * 60 * 60);
     return hour + "hr " + minute + "min";
   },
+  readyToFinalize() {
+    var readyOutgoing = false;
+    // an outgoing meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a group meeting
+    if (Meetings.findOne({_id:this.toString()}).readyToFinalize && Meetings.findOne({_id:this.toString()}).participants.length > 2)
+    {
+      readyOutgoing = true;
+    }
+    return readyOutgoing;
+  }
+});
+
+Template.outgoingFinalize.helpers({
+  inviterName() {
+      return Meetings.findOne({_id:this.toString()}).participants[0].email;
+    },
+  meetingTitle() {
+      return Meetings.findOne({_id:this.toString()}).title;
+    },
+  meetingDuration() {
+      var length = Meetings.findOne({_id:this.toString()}).duration;
+      var hour = length / (1000 * 60 * 60);
+      var minute = length % (1000 * 60 * 60);
+      return hour + "hr " + minute + "min";
+    },
+  suggestedTimes:function() {
+        return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
+    },
+  participants() {
+    var peopleList = Meetings.findOne({_id:this.toString()}).participants;
+    var participants = "";
+    var comma = ", ";
+    for (var i = 1; i < peopleList.length; i++) {
+      participants = participants.concat(peopleList[i].email);
+      if (i > 1)
+        participants = participants.concat(comma);
+    }
+    return participants;
+  },
+  'submit form': function(event){
+      event.preventDefault();
+      var radioValue = event.target.myForm.value;
+      Meteor.call('selectFinaltime', this.toString(), radioValue, function(error, result) {
+        if (error) {
+          console.log("selectFinaltime: " + error);
+        } else {
+          Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
+        }
+      });
+    }
+
 });
 
 Template.finalizedMeeting.helpers({
