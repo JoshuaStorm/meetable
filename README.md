@@ -2,7 +2,7 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
-## Group Meetings
+## April 26, 2017 (Group Meeting)
 - Review status on the 4 big things we were supposed to do last week
 - Consider letting people add unavailable times even if they don't have a Google Calendar
 - Prioritization orders - extra unavailability times, group meetings, filter calendars, fix login on mobile, consider checking if people are available within a specific time within the window (are you meetable for dinner this week?)
