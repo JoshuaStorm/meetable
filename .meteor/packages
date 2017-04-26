@@ -23,7 +23,6 @@ accounts-google
 google-config-ui
 kadira:flow-router
 kadira:blaze-layout
-twbs:bootstrap
 service-configuration
 useraccounts:bootstrap
 email
@@ -34,4 +33,6 @@ autopublish
 aldeed:collection2-core
 aldeed:simple-schema@1.5.3
 session
+fezvrasta:bootstrap-material-design
+modweb:arrive
 themeteorchef:bert
