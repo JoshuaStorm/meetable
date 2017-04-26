@@ -2,6 +2,9 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 25, 2017 (Josh)
+- Oops, left a bug in Temp collection. Fixed them!
+
 ## April 25, 2017 (David)
 + Added scrollbar to left column and makr sure whole page stays eothin vertical viewport. Done in a hsfky way but works in  Chrome worh many screen sizes 
 
