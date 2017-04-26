@@ -63,6 +63,12 @@ loggedIn.route('/dashboard', {
         $( '#events-calendar' ).fullCalendar('addEventSource', result);
         Meteor.call("updateEventsInDB", function(error, result) {});
       });
+      Meteor.call("getFullCalendarFinalized", function(error, result) {
+        if (error) console.log(error);
+        console.log("Client side called!");
+        console.log(result);
+        $( '#events-calendar' ).fullCalendar('addEventSource', { events: result, color: 'yellow' });
+      });
     });
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
   },

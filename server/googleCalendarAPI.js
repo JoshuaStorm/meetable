@@ -50,8 +50,7 @@ Meteor.methods({
     return wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
   },
 
-  // Return an array of event dates in the FullCalendar format
-  // Updated to use all calendars in the calendarList :)
+  // Return an array of current users gCal events in the FullCalendar format
   getFullCalendarEvents: function() {
     var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
     // Many users have multiple calendars, let's use them all for now

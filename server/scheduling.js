@@ -13,7 +13,7 @@ Meteor.methods({
   // Creates the meeting document. This function is called when a person clicks save on the schedule tab.
   // The function then creates the unique meeting collection and associates each user in invitedEmails to
   // that collection. It also sets the creator of the meeting and who has accepted
-   createMeeting: function(title, invitedEmails, duration, windowStart, windowEnd) {
+  createMeeting: function(title, invitedEmails, duration, windowStart, windowEnd) {
     var thisUserEmail = Meteor.users.findOne(this.userId).services.google.email;
 
     // If this is just the user being silly and trying to invite themselves to their own meeting, do nothing
