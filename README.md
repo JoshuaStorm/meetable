@@ -7,6 +7,10 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Switched to using Material Design for our front end theme, and made adjustments to the spacing/alignment of our various tabs
 - Add animated alerts to confirm success/failure of actions
 
+## April 24, 2017 (David)
+- setup a basic two column layout for the site using Bootstrap's grid system
+- Restructured a lot of HTML and JS to do this
+
 ## April 23, 2017 (Josh)
 - Finish up some lingering issues with handling group meetings. Just need the front-end stuff figured out to get them working now! (and probably some bug fixes)
 
