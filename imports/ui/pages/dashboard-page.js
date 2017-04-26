@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import Meetings from '/collections/meetings.js'
-
+import { FlowRouter } from 'meteor/kadira:flow-router';
 
 import './dashboard-page.html';
 
@@ -76,7 +76,6 @@ Template.dashboard_page.onRendered( () => {
 Template.dashboard_page.events({
   'click #save': function(e) {
     e.preventDefault();
-
     //TODO: make sure all these user inputs are sanitized/safe
 
     var title = $('#meetingTitle').val();
@@ -95,8 +94,16 @@ Template.dashboard_page.events({
     Meteor.call('createMeeting', title, [email], length, windowStart, windowEnd, function(error, result) {
       if (error) {
         console.log("createMeeting: " + error);
+      } else{
+        var resetTitle = document.getElementById('meetingTitle').value ="";
+        var resetInvitee = document.getElementById('meetingInvitee').value ="";
+        var resetLength = document.getElementById('meetingLength').value ="";
+        Bert.alert( 'Success! Meeting invite sent.', 'success', 'growl-bottom-left' );
       }
     });
+  },
+  'click .navbar-brand': function(e) {
+    FlowRouter.go('/');
   },
 });
 
@@ -141,7 +148,11 @@ Template.invite.events({
   },
   'click #declineInvite': function(event, template) {
     Meteor.call('declineInvite', this.toString(), Meteor.userId(), function(error, result) {
-      if (error) console.log("declineInvite: " + error);
+      if (error){
+        console.log("declineInvite: " + error);
+      } else {
+        Bert.alert( 'Invite has been declined', 'danger', 'growl-bottom-left', 'fa-calendar-times-o' );
+      }
     });
   }
 });
@@ -231,6 +242,8 @@ Template.selector.events({
       Meteor.call('selectFinaltime', this.toString(), radioValue, function(error, result) {
         if (error) {
           console.log("selectFinaltime: " + error);
+        } else {
+          Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
         }
       });
     }

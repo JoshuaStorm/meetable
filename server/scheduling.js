@@ -1,6 +1,6 @@
 // File for our server functions for scheduling OUR meetings/events. (as opposed to Google events)
-import Meetings from '/collections/meetings.js'
-
+import Meetings from '/collections/meetings.js';
+import Temp from '/collections/temp.js';
 
 Meteor.methods({
 
@@ -95,8 +95,11 @@ Meteor.methods({
     for (var i = 0; i < participants.length; i++) {
       // The creater sent the invite, therefore is not being invited!
       if (participants[i].creator == true) continue;
-      // TODO: Need to associate this with a temporary user!!!!! For now, just skip
-      if (participants[i].id == null)      continue;
+      // Associate this email with a temporary user if they don't have an account
+      if (participants[i].id == null) {
+        updateTempUser(participants[i].email, meetingId);
+        continue; // Skip rest of this for loop
+    }
 
       var received = Meteor.users.findOne(participants[i].id).profile.meetingInvitesReceived;
       // Create a new set if necessary
@@ -113,6 +116,48 @@ Meteor.methods({
           }
         });
       }
+    }
+  },
+
+  // Check if the current user has temp data associated with their email.
+  // If they do, associate temp data with actual user. Destroy temp item.
+  // Update all meetings they are a participant in to add their ids
+  attachTempUser: function() {
+    var email = Meteor.users.findOne(this.userId).services.google.email;
+    if (!email) {
+      console.log("Error in attachTempUser: userId has no email");
+      return;
+    }
+    var tempUser = Temp.findOne({ 'email': email });
+    // If there is a tempUser, attach it. Otherwise do nothing :)
+    if (!tempUser) return;
+    var received = tempUser.meetingInvitesReceived;
+    for (var i = 0; i < received.length; i++) {
+      // Add this received to the real user collection
+      Meteor.users.update(this.userId, {
+        $addToSet: { 'profile.meetingInvitesReceived': received[i] }
+      });
+
+      // Update meeting this user is associated with to contain their id
+      var thisMeeting = Meetings.findOne(received[i]);
+      if (!thisMeeting) {
+        console.log("attachTempUser: Weird missing meeting");
+        continue;
+      }
+      var participants = thisMeeting.participants;
+      for (var j = 0; j < participants.length; j++) {
+        if (participants[j].email === email) {
+          // Set this this user as a participant in the meetings ID
+          var setModifier = {};
+          setModifier['participants.' + j + '.id'] = this.userId
+          Meetings.update(received[i], {
+            $set: setModifier
+          });
+          break;
+        }
+      }
+      // Destroy Temp element for this user.
+      Temp.remove({ 'email' : email });
     }
   },
 
@@ -316,7 +361,6 @@ Meteor.methods({
 // Adds the participants indicated by array of emails, invitedEmails, to the the participants array
 // (which will later be added to the correct meetings collection).
 function addInvitedParticipants(currentUserEmail, participants, invitedEmails, emailTitle) {
-
     // add the invited participants
     for (var i = 0; i < invitedEmails.length; i++) {
       // Don't allow a user to invite themselves
@@ -330,24 +374,17 @@ function addInvitedParticipants(currentUserEmail, participants, invitedEmails, e
         creator: false,
       };
 
-      // TODO: why is id missing sometimes?
+      // TODO: why is name missing sometimes?
       // check if a user with this email exists,and if it does, use their personal info
       var user = Meteor.users.findOne({"services.google.email": invitedEmails[i]});
       if (user !== undefined) {
-        // newParticipant.name = user.services.google.name;
         newParticipant.id = user._id;
         // Send an email to the user letting them now they have a new meeting invite
         sendNewMeetingEmail(participants[0].email, newParticipant.email, emailTitle);
-      }
-
-        // If user does not exist...
-        // TODO: PROBLEM!!!!!! We need to associate this event with an account that DOES NOT YET EXIST
-        // Not TOO hard to handle, just need to create a new collection.
-      else {
+      } else {
         // Otherwise send them a invitation email to join Meetable
         sendInvitationEmail(participants[0].email, newParticipant.email, emailTitle);
       }
-
       // add this newParticipant to the document
       participants.push(newParticipant);
     }
@@ -385,6 +422,25 @@ function sendDeclinedEmail(inviterEmail, inviteeEmail, title) {
             "You are receiving this email because you tried to schedule a meeting with " + inviteeEmail +
             " on Meetable, but they chose not to accept your invitation.";
   Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
+}
+
+// Update a tempUser of the given email with the given meetingId.
+// Create new tempUser if necessary
+function updateTempUser(email, meetingId) {
+  var tempUser = Temp.findOne({ email: email });
+  console.log(tempUser);
+  if (!tempUser) {
+    Temp.insert({
+      'email': email,
+      'meetingInvitesReceived': [meetingId]
+    });
+  } else {
+    Temp.update(tempUser._id, {
+      $addToSet: { 'meetingInvitesReceived': meetingId }
+    });
+  }
+  tempUser = Temp.findOne({ 'email': email });
+  console.log(tempUser);
 }
 
 
