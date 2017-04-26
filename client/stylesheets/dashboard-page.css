@@ -10,7 +10,7 @@
 #dashboardLeftCol {
   /* show a vertical scroll bar on the left column */
   overflow: hidden;
-  overflow-y: scroll; 
+  overflow-y: auto; 
 
 }
 @media (max-width: 768px) { 
