@@ -64,9 +64,11 @@
             </div>
             <div id="incomingInvites" class="container-fluid dashboardDropdownContent">
               <div class="col">
-                  <!-- scan every meeting and print the invites -->
+                 <!-- print every invite -->
                   {{#each invites}}
                     {{> invite}}
+                  {{else}}
+                    <div class="container-fluid"> <p>No invites yet :(</p></div>
                   {{/each}}
                 </div>
             </div>
@@ -79,10 +81,12 @@
             </div>
             <div id="outgoingInvites" class="container-fluid dashboardDropdownContent">
               <div class="col">
+                   <!-- print every outgoing meeting -->
                 {{#each outgoingMeetings}}
                   {{> outgoing}}
+                {{else}}
+                  <div class="container-fluid"> <p> You have not sent any meeting invites yet. Click 'Schedule a Meeting' to get started! </p></div>
                 {{/each}}
-                <hr/>
               </div>
             </div>
 
@@ -98,6 +102,8 @@
                  <!-- print the scheduled meetings -->
                 {{#each final}}
                   {{> finalizedMeeting}}
+                {{else}}
+                  <div class="container-fluid"> <p> You do not have any finalized meetings yet. </p></div>
                 {{/each}}
               </div>
             </div>
@@ -211,5 +217,4 @@
   <p> Participants: {{participants}}<br/>
   Start: {{selectedStart}} <br/>
   End: {{selectedEnd}}</p>
-  <hr/>
 </template>
