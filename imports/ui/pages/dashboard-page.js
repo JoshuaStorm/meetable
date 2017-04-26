@@ -272,7 +272,13 @@ Template.outgoing.helpers({
     return hour + "hr " + minute + "min";
   },
   readyToFinalize() {
-    return Meetings.findOne({_id:this.toString()}).readyToFinalize;
+    var readyOutgoing = false;
+    // an outgoing meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a group meeting
+    if (Meetings.findOne({_id:this.toString()}).readyToFinalize && Meetings.findOne({_id:this.toString()}).participants.length > 2)
+    {
+      readyOutgoing = true;
+    }
+    return readyOutgoing;
   }
 });
 
