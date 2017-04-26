@@ -411,7 +411,7 @@ function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
   var text = inviterEmail + " wants to meet with you for a meeting \"" + title + "\"\n" +
             "Login to schedule it now! https://www.meetable.us\n\n\n" +
             "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
-  Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
+  Meteor.call("sendEmail", inviteeEmail, "do-not-reply@becker.codes", subject, text);
 }
 
 // Same as above, but text is assuming user got denied hardcore
@@ -421,7 +421,7 @@ function sendDeclinedEmail(inviterEmail, inviteeEmail, title) {
             "Perhaps another time! https://www.meetable.us\n\n\n" +
             "You are receiving this email because you tried to schedule a meeting with " + inviteeEmail +
             " on Meetable, but they chose not to accept your invitation.";
-  Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
+  Meteor.call("sendEmail", inviterEmail, "do-not-reply@becker.codes", subject, text);
 }
 
 // Update a tempUser of the given email with the given meetingId.
