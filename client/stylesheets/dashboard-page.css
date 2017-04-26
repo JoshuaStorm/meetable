@@ -1,7 +1,7 @@
 #dashboardLeftCol, #dashboardRightCol {
   /* Very hacky way to get both divs to take the height under the nav bar */
   /* if we ever have vertical layout issues, this is probably why */
-  height: 92vh;
+  height: 88vh;
 }
 .navbar {
   /* give only a little breathing froom between navbar and the content */
