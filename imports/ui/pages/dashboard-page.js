@@ -230,7 +230,7 @@ Template.selector.helpers({
       var minute = length % (1000 * 60 * 60);
       return hour + "hr " + minute + "min";
     },
-  suggestedTimes:function() {
+  suggestedTimes() {
         return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
     },
 });
@@ -239,11 +239,16 @@ Template.selector.events({
    'submit form': function(event){
       event.preventDefault();
       var radioValue = event.target.myForm.value;
-      Meteor.call('selectFinaltime', this.toString(), radioValue, function(error, result) {
+      Meteor.call('selectFinalTime', this.toString(), radioValue, function(error, result) {
         if (error) {
-          console.log("selectFinaltime: " + error);
+          console.log("selectFinalTime: " + error);
         } else {
           Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
+          Meteor.call("getFullCalendarFinalized", function(error, result) {
+            if (error) console.log(error);
+            $( '#events-calendar' ).fullCalendar('removeEventSource', "finalized");
+            $( '#events-calendar' ).fullCalendar('addEventSource', { id: "finalized", events: result });
+          });
         }
       });
     }
@@ -294,4 +299,3 @@ Template.finalizedMeeting.helpers({
     return time;
   }
 });
-
