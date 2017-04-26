@@ -307,7 +307,7 @@ Meteor.methods({
   // called on client's submission of select time form
   // given a formValue that maps to an index into suggestedMeetingTimes
   // choose this as the final selected time and save that choice in the database
-  selectFinaltime: function(meetingId, formValue) {
+  selectFinalTime: function(meetingId, formValue) {
     var index = parseInt(formValue);
 
     var thisMeeting = Meetings.findOne({_id:meetingId});

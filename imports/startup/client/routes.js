@@ -65,9 +65,7 @@ loggedIn.route('/dashboard', {
       });
       Meteor.call("getFullCalendarFinalized", function(error, result) {
         if (error) console.log(error);
-        console.log("Client side called!");
-        console.log(result);
-        $( '#events-calendar' ).fullCalendar('addEventSource', result);
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: "finalized", events: result });
       });
     });
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
