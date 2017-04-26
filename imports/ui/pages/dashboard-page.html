@@ -145,7 +145,7 @@
         <div class="col-sm-7" id="dashboardRightCol">
           <div id="events-calendar"></div>
         </div>
-         <!-- Right colum end -->
+         <!-- Right column end -->
       </div>
     </div>
   </body>
@@ -157,9 +157,11 @@
 
 <!-- template for displaying an incoming invite -->
 <template name="incoming">
-  <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
-  <button id="declineInvite" class="pull-right">Decline</button>
-  <button id="acceptInvite" class="pull-right">Accept</button> 
+  <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
+  <div class="row">
+    <button type="button" class="btn btn-default btn-sm" id="declineInvite">Decline</button>
+    <button type="save" class="btn btn-primary btn-sm" id="acceptInvite">Accept</button>
+  </div>           
 </template>
 
 <!-- template for displaying a invite that's ready to finalize -->
@@ -179,14 +181,19 @@
 <!-- template for displaying an invite ready to finalize if you are the selector -->
 <template name="selector">
   <div class="row">
-    <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'>
-      <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
-      Please select a time for the meeting:
+    <div class="container-fluid">
+      <h4>{{inviterName}}</h4> <p> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
+      <br/>Please select a time for the meeting:</p>
       <form>
       {{#each suggestedTimes}}
-          <label><input type = "radio" name = "myForm" value = "{{@index}}"> {{startTime}} - {{endTime}} </label>
+        <div class="radio">
+          <label>
+            <input type="radio" name="myForm" value="{{@index}}" checked="">
+            {{startTime}} - {{endTime}}
+          </label>
+        </div>
       {{/each}}
-      <input type = "submit" value = "SUBMIT">
+      <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
       </form>
     </div>
   </div>
