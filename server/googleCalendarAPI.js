@@ -57,7 +57,11 @@ Meteor.methods({
     // TODO: Include a preference to not include a certain calendar
     var fullCalEvents = [];
     var lastWeek = new Date();
-    lastWeek.setDate(lastWeek.getDate() - 7); // This actually works how we want it to!
+    lastWeek.setDate(lastWeek.getDate() - 7);
+    var nextWeek = new Date();
+    // NOTE: Grabbing up to four weeks in to the future.
+    // TODO: Make this grab more if a user views beyond 4 weeks into the future.
+    nextWeek.setDate(nextWeek.getDate() + 28);
     for (var i = 0; i < calendarList.items.length; i++) {
       // Holiday list creates SERIOUS problems for GoogleAPI (ironically), just avoid at all cost.
       // This seems to be a known problem, oddly enough. Regexp to the rescue!
@@ -65,11 +69,9 @@ Meteor.methods({
       if (holidayRE.test(calendarList.items[i].id)) continue;
 
       var gCalEvents = wrappedGetEventList({
-          // The specified calendar
           calendarId: calendarList.items[i].id,
           timeMin: lastWeek.toISOString(),
-          // TODO: Need to decide how to handle this maxResults query... How many should we actually max out?
-          maxResults: 50,
+          timeMax: nextWeek.toISOString(),
           singleEvents: true,
           orderBy: 'startTime'
       });
