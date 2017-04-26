@@ -6,7 +6,8 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Review status on the 4 big things we were supposed to do last week
 - Consider letting people add unavailable times even if they don't have a Google Calendar
 - Prioritization orders - extra unavailability times, group meetings, filter calendars, fix login on mobile, consider checking if people are available within a specific time within the window (are you meetable for dinner this week?)
-- David bugfixes
+- David bugfixes, sanitize inputs
+- Casey - Prompt user if they want to add finalized event to their calendar #139
 
 ## April 25, 2017 (Josh)
 - Show finalized events on the client side calendar.
