@@ -218,8 +218,8 @@
     {{> outgoingFinalize}}
   {{else}}
   <span class="label label-warning">Waiting for responses...</span>
-    <h4>{{meetingParticipants}}</h4>
-    <p><b>{{meetingTitle}}</b> ({{meetingDuration}})</p>
+    <p><h5>{{meetingTitle}}</h5> ({{meetingDuration}})</p>
+    <p>Participants: {{meetingParticipants}}</p>
   {{/if}}
 </template>
 
@@ -245,7 +245,7 @@
 
 <!-- template for displaying a finalized meeting -->
 <template name="finalizedMeeting">
-  <h4>{{meetingTitle}}</h4>
+  <h5><mark>{{meetingTitle}}</mark></h5>
   <p><b>{{meetingHost}}</b></p>
   <p> Participants: {{participants}}<br/>
   Start: {{selectedStart}} <br/>
