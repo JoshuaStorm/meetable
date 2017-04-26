@@ -263,6 +263,44 @@ Template.outgoing.helpers({
     var minute = length % (1000 * 60 * 60);
     return hour + "hr " + minute + "min";
   },
+  finalizeType() {
+    Meteor.call('checkMeetingReadyToFinalize', this.toString(), function(error, result) {
+      if (error) {
+        console.log("checkMeetingReadyToFinalize: " + error);
+      }
+    });
+    return true;
+  }
+});
+
+Template.outgoingFinalize.helpers({
+  inviterName() {
+      return Meetings.findOne({_id:this.toString()}).participants[0].email;
+    },
+  meetingTitle() {
+      return Meetings.findOne({_id:this.toString()}).title;
+    },
+  meetingDuration() {
+      var length = Meetings.findOne({_id:this.toString()}).duration;
+      var hour = length / (1000 * 60 * 60);
+      var minute = length % (1000 * 60 * 60);
+      return hour + "hr " + minute + "min";
+    },
+  suggestedTimes:function() {
+        return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
+    },
+  participants() {
+    var peopleList = Meetings.findOne({_id:this.toString()}).participants;
+    var participants = "";
+    var comma = ", ";
+    for (var i = 1; i < peopleList.length; i++) {
+      participants = participants.concat(peopleList[i].email);
+      if (i > 1)
+        participants = participants.concat(comma);
+    }
+    return participants;
+  },
+
 });
 
 Template.finalizedMeeting.helpers({

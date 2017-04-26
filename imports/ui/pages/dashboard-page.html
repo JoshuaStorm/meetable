@@ -207,10 +207,40 @@
 
 <!-- template for displaying an outgoing meeting -->
 <template name="outgoing">
-  <h4>{{meetingParticipants}}</h4>
-  <p><b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})</p>
+  {{#if readyToFinalize}}
+    {{> outgoingFinalize}}
+  {{else}}
+  <span class="label label-warning">Waiting for responses...</span>
+    <h4>{{meetingParticipants}}</h4>
+    <p><b>{{meetingTitle}}</b> ({{meetingDuration}})</p>
+  {{/if}}
 </template>
 
+
+<!-- template for displaying an outgoing meeting that's ready to finalize -->
+<template name="outgoingFinalize">
+  <span class="label label-primary">Ready to finalize</span>
+  <div class="row">
+    <div class="container-fluid">
+      <p><b>{{meetingTitle}}</b> ({{meetingDuration}})
+      <br/> Participants: {{meetingParticipants}}
+      <br/> Please select a time for the meeting:</p>
+      <form>
+      {{#each suggestedTimes}}
+        <div class="radio">
+          <label>
+            <input type="radio" name="myForm" value="{{@index}}" checked="">
+            {{startTime}} - {{endTime}}
+          </label>
+        </div>
+      {{/each}}
+      <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
+      </form>
+    </div>
+  </div>
+</template>
+
+<!-- template for displaying a finalized meeting -->
 <template name="finalizedMeeting">
   <h4>{{meetingTitle}}</h4>
   <p><b>{{meetingHost}}</b></p>
