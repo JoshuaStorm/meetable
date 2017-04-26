@@ -172,6 +172,22 @@ Template.incoming.helpers({
       var minute = length % (1000 * 60 * 60);
       return hour + "hr " + minute + "min";
     },
+  acceptedInvite() {
+    var thisMeeting = Meetings.findOne({_id:meetingId});
+    var accepted = false;
+    // iterate through all meeting participants to find index in array for the current user
+    // start with index 1 because you can skip the first participant ( creator)
+    for (var i = 1; i < thisMeeting.participants.length; i++) {
+      var currUser = thisMeeting.participants[i];
+      if (currUser.id == Meteor.userId()) { // current user found
+        if(currUser.accepted == true) {
+            accepted = true;
+            break;
+        }
+      }
+    }
+    return accepted;
+  }
 });
 
 /////////////////////////////////////////////

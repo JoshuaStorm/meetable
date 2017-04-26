@@ -163,11 +163,18 @@
 
 <!-- template for displaying an incoming invite -->
 <template name="incoming">
-  <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
-  <div class="row">
-    <button type="button" class="btn btn-default btn-sm" id="declineInvite">Decline</button>
-    <button type="save" class="btn btn-primary btn-sm" id="acceptInvite">Accept</button>
-  </div>           
+  <!-- user already accepted invite, now waiting on other participants to accept -->
+  {{#if acceptedInvite}} 
+    <span class="label label-primary">Accepted, waiting for host to finalize time.</span>
+    <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
+  <!-- user has not accepted invite -->
+  {{else}}
+   <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
+    <div class="row">
+      <button type="button" class="btn btn-default btn-sm" id="declineInvite">Decline</button>
+      <button type="save" class="btn btn-primary btn-sm" id="acceptInvite">Accept</button>
+    </div>   
+  {{/if}}        
 </template>
 
 <!-- template for displaying a invite that's ready to finalize -->
