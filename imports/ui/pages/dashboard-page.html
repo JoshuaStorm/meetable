@@ -203,12 +203,13 @@
 <template name="outgoing">
   <h4>{{meetingParticipants}}</h4>
   <p><b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})</p>
-  <hr/>
 </template>
 
 <template name="finalizedMeeting">
-  <h4>Host: {{meetingHost}}</h4>
-  <p> Participants: {{participants}}</p>
-  <p><b>{{meetingTitle}}</b> <br/>Start: {{selectedStart}} <br/>End: {{selectedEnd}}</p>
+  <h4>{{meetingTitle}}</h4>
+  <p><b>{{meetingHost}}</b></p>
+  <p> Participants: {{participants}}<br/>
+  Start: {{selectedStart}} <br/>
+  End: {{selectedEnd}}</p>
   <hr/>
 </template>
