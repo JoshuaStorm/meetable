@@ -122,7 +122,9 @@ Template.invite.helpers({
         console.log("readyToFinalize: " + error);
       } 
     });
-    if (thisMeeting.readyToFinalize == true) {
+    // an incoming meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a two person meeting
+    if (thisMeeting.readyToFinalize && thisMeeting.participants.length == 2)
+    {
       Template.instance().currentInviteType.set('readyToFinalize');
     }
     else {
