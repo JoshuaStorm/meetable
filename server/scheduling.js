@@ -10,12 +10,12 @@ Meteor.methods({
   // windowStart (Moment.js object): earliest possible time to meet
   // windowEnd (Moment.js object): latest possible time to meet
 
-  /* Creates the meeting document. This function is called when a person clicks save on the schedule tab.
-     The function then creates the unique meeting collection and associates each user in invitedEmails to
-     that collection. It also sets the creator of the meeting and who has accepted */
+  // Creates the meeting document. This function is called when a person clicks save on the schedule tab.
+  // The function then creates the unique meeting collection and associates each user in invitedEmails to
+  // that collection. It also sets the creator of the meeting and who has accepted
    createMeeting: function(title, invitedEmails, duration, windowStart, windowEnd) {
     var thisUserEmail = Meteor.users.findOne(this.userId).services.google.email;
-    
+
     // If this is just the user being silly and trying to invite themselves to their own meeting, do nothing
     if (invitedEmails.length === 1 && invitedEmails[0].toLowerCase() === thisUserEmail.toLowerCase()) return;
 
@@ -29,8 +29,8 @@ Meteor.methods({
         creator: true,
       }];
 
-    // Add the rest of the participants  
-    addInvitedParticipants(thisUserEmail ,participants, invitedEmails, title);
+    // Add the rest of the participants
+    addInvitedParticipants(thisUserEmail, participants, invitedEmails, title);
 
     // if meeting is only two people, the invitee gets to choose the meeting time
     // in meetings of more than two people, the event creator chooses the meeting time
@@ -57,9 +57,7 @@ Meteor.methods({
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
     var availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
 
-    
-
-    // CREATE THE MEETINGS COLLECTION using information above. 
+    // CREATE THE MEETINGS COLLECTION using information above.
     // MeetingId = unique meeting id to be associated with each user in meeting
     var meetingId = Meetings.insert({
       title: title, //TODO: pass this as a parameter to createMeeting
@@ -75,7 +73,7 @@ Meteor.methods({
 
 
     var sent = Meteor.users.findOne(this.userId).profile.meetingInvitesSent;
-    
+
     // Associate creator with meetingId
     // Create a new set if necessary
     if (!sent) {
@@ -116,9 +114,6 @@ Meteor.methods({
         });
       }
     }
-
-
-
   },
 
   // DEPRECATED: I am just leaving this here cus it has good boilerplate code
@@ -319,9 +314,9 @@ Meteor.methods({
 });
 
 // Adds the participants indicated by array of emails, invitedEmails, to the the participants array
-// (which will later be added to the correct meetings collection). 
+// (which will later be added to the correct meetings collection).
 function addInvitedParticipants(currentUserEmail, participants, invitedEmails, emailTitle) {
-      
+
     // add the invited participants
     for (var i = 0; i < invitedEmails.length; i++) {
       // Don't allow a user to invite themselves
@@ -342,8 +337,8 @@ function addInvitedParticipants(currentUserEmail, participants, invitedEmails, e
         // newParticipant.name = user.services.google.name;
         newParticipant.id = user._id;
         // Send an email to the user letting them now they have a new meeting invite
-        sendNewMeetingEmail(participants[0].email, newParticipant.email, emailTitle);  
-      } 
+        sendNewMeetingEmail(participants[0].email, newParticipant.email, emailTitle);
+      }
 
         // If user does not exist...
         // TODO: PROBLEM!!!!!! We need to associate this event with an account that DOES NOT YET EXIST
