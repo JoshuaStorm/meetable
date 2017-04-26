@@ -21,7 +21,7 @@ Meteor.methods({
         title: thisMeeting.title,
         start: thisMeeting.selectedBlock.startTime,
         end:   thisMeeting.selectedBlock.endTime,
-        color: 0xff0000
+        color: "#b30000"
       };
       events.push(thisEvent);
     }
