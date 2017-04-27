@@ -120,7 +120,7 @@ Template.invite.helpers({
     Meteor.call('readyToFinalize', this.toString(), function(error, result) {
       if (error) {
         console.log("readyToFinalize: " + error);
-      } 
+      }
     });
     // an incoming meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a two person meeting
     if (thisMeeting.readyToFinalize && thisMeeting.participants.length == 2)
@@ -264,8 +264,8 @@ Template.selector.events({
           Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
           Meteor.call("getFullCalendarFinalized", function(error, result) {
             if (error) console.log(error);
-            $( '#events-calendar' ).fullCalendar('removeEventSource', "finalized");
-            $( '#events-calendar' ).fullCalendar('addEventSource', { id: "finalized", events: result });
+            $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
+            $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
           });
         }
       });
