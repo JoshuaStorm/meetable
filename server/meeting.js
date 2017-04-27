@@ -6,6 +6,7 @@ Meteor.methods({
   // Return an array of the current users finalized events in the FullCalendar format
   getFullCalendarFinalized: function() {
     var finalizedIds = Meteor.users.findOne(this.userId).profile.finalizedMeetings;
+    if (!finalizedIds) return [];
     var events = [];
 
     for (var i = 0; i < finalizedIds.length; i++) {

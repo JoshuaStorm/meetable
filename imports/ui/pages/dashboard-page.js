@@ -78,17 +78,17 @@ Template.dashboard_page.events({
     e.preventDefault();
     // TODO: make sure all these user inputs are sanitized/safe
     var title = $('#meetingTitle').val();
-    // TODO: User dynamic fields instead of just space separating emails
-    var emails = $('#meetingInvitee').val().split(" ");
+    // TODO: User dynamic fields instead of just comma separating emails
+    var emails = $('#meetingInvitee').val().split(",");
     var length = $('#meetingLength').val();
 
     // Remove all non-emails from this list
     // ReGex check email field. This is the 99.9% working email ReGex
     var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    var cleanEmails = []
+    var cleanEmails = [];
     for (var i = 0; i < emails.length; i++) {
       // TODO: Prompt user when they pass a non-email?
-      if (emails[i].match(regex)) cleanEmails.push(emails[i]);
+      if (emails[i].trim().match(regex)) cleanEmails.push(emails[i].trim());
       else console.log("Non-email passed in; removed from invitees list.")
     }
 
@@ -130,11 +130,10 @@ Template.invite.helpers({
     Meteor.call('readyToFinalize', this.toString(), function(error, result) {
       if (error) {
         console.log("readyToFinalize: " + error);
-      } 
+      }
     });
     // an incoming meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a two person meeting
-    if (thisMeeting.readyToFinalize && thisMeeting.participants.length == 2)
-    {
+    if (thisMeeting.readyToFinalize && thisMeeting.participants.length == 2) {
       Template.instance().currentInviteType.set('readyToFinalize');
     }
     else {
@@ -151,7 +150,7 @@ Template.invite.onCreated( function() {
 
 Template.invite.events({
   // call function to change this user's 'accepted' value to true for the given meeting
-  'click #acceptInvite':function(event, template) {
+  'click #acceptInvite': function(event, template) {
     Meteor.call('acceptInvite', this.toString(), Meteor.userId(), function(error, result) {
       if (error) {
         console.log("acceptInvite: " + error);
@@ -184,20 +183,15 @@ Template.incoming.helpers({
       return hour + "hr " + minute + "min";
     },
   acceptedInvite() {
-    var thisMeeting = Meetings.findOne({_id:meetingId});
-    var accepted = false;
+    var thisMeeting = Meetings.findOne({_id:this.toString()});
     // iterate through all meeting participants to find index in array for the current user
-    // start with index 1 because you can skip the first participant ( creator)
-    for (var i = 1; i < thisMeeting.participants.length; i++) {
+    // NOTE: Switch this to check all users, I don't think we should assume the first participant is always the creator. May get us into trouble later
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
       if (currUser.id == Meteor.userId()) { // current user found
-        if(currUser.accepted == true) {
-            accepted = true;
-            break;
-        }
+        return currUser.accepted;
       }
     }
-    return accepted;
   }
 });
 
@@ -341,11 +335,14 @@ Template.outgoingFinalize.helpers({
         participants = participants.concat(comma);
     }
     return participants;
-  },
+  }
+});
+
+Template.outgoingFinalize.events({
   'submit form': function(event){
       event.preventDefault();
       var radioValue = event.target.myForm.value;
-      Meteor.call('selectFinaltime', this.toString(), radioValue, function(error, result) {
+      Meteor.call('selectFinalTime', this.toString(), radioValue, function(error, result) {
         if (error) {
           console.log("selectFinaltime: " + error);
         } else {
@@ -353,7 +350,6 @@ Template.outgoingFinalize.helpers({
         }
       });
     }
-
 });
 
 Template.finalizedMeeting.helpers({

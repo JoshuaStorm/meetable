@@ -213,17 +213,15 @@ Meteor.methods({
   acceptInvite: function(meetingId, userId) {
     var thisMeeting = Meetings.findOne({_id:meetingId});
     // iterate through all meeting participants to find index in array for the current user
-    // start with index 1 because you can skip the first participant (creator) set
-    for (var i = 1; i < thisMeeting.participants.length; i++) {
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
       if (currUser.id == userId) { // current user found
         var setModifier = {};
         setModifier['participants.' + i + '.accepted'] = true;
-        Meetings.update({_id:meetingId},{$set:setModifier});
+        Meetings.update({_id:meetingId}, {$set:setModifier});
+        break;
       }
     }
-
-
 
     // Find overlap between this user and the availableTimes and insert in collection
     var busyTimes = findUserBusyTimes(this.userId, thisMeeting.windowStart, thisMeeting.windowEnd);
@@ -331,11 +329,11 @@ Meteor.methods({
 
       if (finalized === undefined) {
         Meteor.users.update(thisId, {
-          $set:  { "profile.finalizedMeetings": [meetingId] }
+          $set: { "profile.finalizedMeetings": [meetingId] }
         });
       } else {
         Meteor.users.update(thisId, {
-          $addToSet:  { "profile.finalizedMeetings": meetingId }
+          $addToSet: { "profile.finalizedMeetings": meetingId }
         });
       }
       // Remove it from their received and sent

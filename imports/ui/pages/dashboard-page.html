@@ -18,7 +18,7 @@
             {{#if currentUser}}
                 <h3> Welcome {{firstName}}, this is your dashboard.</h3>
             {{/if}}
-            
+
             <!-- Start schedule meeting block -->
             <div class="row">
               <button id="scheduleButton" type="button" class="btn btn-block btn-lg">
@@ -97,7 +97,7 @@
                     Finalized Meetings
                   </div>
                 </button>
-            </div> 
+            </div>
             <div id="finalizedMeetings" class="container-fluid dashboardDropdownContent">
               <div class="col">
                  <!-- print the scheduled meetings -->
@@ -111,7 +111,7 @@
 
             <div class="row">
               <button id="hideCalendarsButton" type="button" class="btn btn-block btn-lg">
-                <div class="text-left">  
+                <div class="text-left">
                   Hide Certain Calendars
                 </div>
               </button>
@@ -141,7 +141,7 @@
                 <label>End
                   <input id="datetime" type="datetime-local">
                 </label>
-                
+
                 <input type = "submit" value = "SUBMIT" class="btn-primary">
               </form>
             </div>
@@ -175,8 +175,8 @@
     <div class="row">
       <button type="button" class="btn btn-default btn-sm" id="declineInvite">Decline</button>
       <button type="save" class="btn btn-primary btn-sm" id="acceptInvite">Accept</button>
-    </div>   
-  {{/if}}        
+    </div>
+  {{/if}}
 </template>
 
 <!-- template for displaying a invite that's ready to finalize -->
