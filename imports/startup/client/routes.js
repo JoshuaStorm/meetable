@@ -60,8 +60,10 @@ loggedIn.route('/dashboard', {
       Meteor.call('attachTempUser', function(error, result) {});
       Meteor.call("getFullCalendarEvents", false, function(error, result) {
         if (error) console.log(error);
-        $( '#events-calendar' ).fullCalendar('removeEventSource', 'gCal');
-        $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'gCal', events: result });
+        if (result) {
+          $( '#events-calendar' ).fullCalendar('removeEventSource', 'gCal');
+          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'gCal', events: result });
+        }
         Meteor.call("updateEventsInDB", function(error, result) {});
       });
       Meteor.call('getFullCalendarFinalized', function(error, result) {
