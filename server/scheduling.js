@@ -405,7 +405,7 @@ function sendInvitationEmail(inviterEmail, inviteeEmail, title) {
             "you already know works for everyone!\n\n" +
             "Join now! https://www.meetable.us\n\n\n" +
             "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
-  Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
+  Meteor.call("sendEmail", inviteeEmail, "do-not-reply@becker.codes", subject, text);
 }
 
 // Same as above, but text is assuming user already has account... Not the best modularity but whatevs
