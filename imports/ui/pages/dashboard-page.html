@@ -122,7 +122,7 @@
                 <label> <input type="checkbox" name="salutation" value="longCalendarString1">Activities</label>
                 <label> <input type="checkbox" name="salutation" value="longCalendarString2">Office Hours</label>
                 <label> <input type="checkbox" name="salutation" value="longCalendarString3">Basketball Practices</label>
-                <input type = "submit" value = "SUBMIT" class="btn-primary">
+                <input type = "submit" value = "calendar-select" class="btn-primary">
               </form>
             </div>
 
@@ -134,15 +134,23 @@
               </button>
             </div>
             <div class="container-fluid dashboardDropdownContent" id="extraBusyTimes">
+              <div class="col">
+                 <!-- print the scheduled meetings -->
+                {{#each additionalTime}}
+                  {{> additional}}
+                {{else}}
+                  <div class="container-fluid"> <p> You do not have any additional times that you are busy. </p></div>
+                {{/each}}
+              </div>
               <form>
                 <label>Start
-                  <input id="datetime" type="datetime-local">
+                  <input id="datetime-start" type="datetime-local">
                 </label>
                 <label>End
-                  <input id="datetime" type="datetime-local">
+                  <input id="datetime-end" type="datetime-local">
                 </label>
                 
-                <input type = "submit" value = "SUBMIT" class="btn-primary">
+                <input type = "submit" value = "submit" id = "submit-extra-times" class="btn-primary">
               </form>
             </div>
         </div>
@@ -223,6 +231,12 @@
     <p><h5>{{meetingTitle}}</h5> ({{meetingDuration}})</p>
     <p>Participants: {{meetingParticipants}}</p>
   {{/if}}
+</template>
+
+<template name="additional">
+  <p> - {{timeStart}} - {{timeEnd}}
+  <button type="button" class="btn link-btn" id="delete-button">delete</button>
+  </p>
 </template>
 
 

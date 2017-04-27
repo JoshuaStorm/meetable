@@ -27,4 +27,24 @@ Meteor.methods({
     }
     return events;
   },
+
+  getFullCalendarAdditional: function() {
+    var additionals = Meteor.users.findOne(this.userId).profile.additionalBusyTimes;
+    var events = [];
+
+    for (var i = 0; i < additionals.length; i++) {
+      var additional = additionals[i];
+
+      var thisEvent = {
+        title: "User added busy time",
+        start: additional.startTime,
+        end: additional.endTime,
+        borderColor: "#b21503",
+        backgroundColor: "rgba(188, 183, 183, 0.5)",
+        textColor: "#000000",
+      };
+      events.push(thisEvent);
+    }
+    return events;
+  },
 });

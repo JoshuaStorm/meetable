@@ -210,6 +210,41 @@ Meteor.methods({
     }
   },
 
+  addBusyTimes: function(busyTime) {
+    var user = this.userId;
+
+    var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
+      // Create a new set if necessary
+      if (!busy) {
+        Meteor.users.update(user, { // Now set the values again
+          $set: {
+            "profile.additionalBusyTimes": [busyTime]
+          }
+        });
+      } else {
+        Meteor.users.update(user, { // Now set the values again
+          $addToSet: {
+            "profile.additionalBusyTimes": busyTime
+          }
+        });
+      }
+
+},
+
+deleteBusyTimes: function(busyTime) {
+  var user = this.userId;
+
+  var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
+  if (!busy) throw error;
+
+  Meteor.users.update(user, {
+    $pull: {
+      "profile.additionalBusyTimes": busyTime
+    }
+  });
+
+},
+
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
     var thisMeeting = Meetings.findOne({_id:meetingId});
@@ -487,6 +522,10 @@ function insertInOrder(calendarTimes) {
 function findUserBusyTimes(userId, windowStart, windowEnd) {
   var user = Meteor.users.findOne(userId);
   var calendarTimes = user.profile.calendarEvents;
+  var additionalBusyTimes = Meteor.users.findOne(userId).profile.additionalBusyTimes;
+
+  if (additionalBusyTimes)
+  calendarTimes.concat(additionalBusyTimes);
 
   var calendarTimes = insertInOrder(calendarTimes);
 
