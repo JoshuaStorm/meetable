@@ -166,7 +166,7 @@
 <!-- template for displaying an incoming invite -->
 <template name="incoming">
   <!-- user already accepted invite, now waiting on other participants to accept -->
-  {{#if acceptedInvite}} 
+  {{#if acceptedInvite}}
     <span class="label label-primary">Accepted, waiting for host to finalize time.</span>
     <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
   <!-- user has not accepted invite -->

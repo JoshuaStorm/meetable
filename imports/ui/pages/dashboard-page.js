@@ -347,6 +347,12 @@ Template.outgoingFinalize.events({
           console.log("selectFinaltime: " + error);
         } else {
           Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
+          Meteor.call("getFullCalendarFinalized", function(error, result) {
+            if (error) console.log(error);
+            $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
+            $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
+          });
+
         }
       });
     }
