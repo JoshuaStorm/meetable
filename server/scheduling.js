@@ -1,55 +1,36 @@
 // File for our server functions for scheduling OUR meetings/events. (as opposed to Google events)
-import Meetings from '/collections/meetings.js'
-
+import Meetings from '/collections/meetings.js';
+import Temp from '/collections/temp.js';
 
 Meteor.methods({
 
-  // create the Meeting document for the meeting being scheduled
   // TODO: currently assumes meetings must be within 24 hours of clicking create meeting
   // invitedemails (array of strings): list of email addresses to invite
   // duration (float): length of the meeting in hours
   // windowStart (Moment.js object): earliest possible time to meet
   // windowEnd (Moment.js object): latest possible time to meet
+
+  // Creates the meeting document. This function is called when a person clicks save on the schedule tab.
+  // The function then creates the unique meeting collection and associates each user in invitedEmails to
+  // that collection. It also sets the creator of the meeting and who has accepted
   createMeeting: function(title, invitedEmails, duration, windowStart, windowEnd) {
+    var thisUserEmail = Meteor.users.findOne(this.userId).services.google.email;
+
+    // If this is just the user being silly and trying to invite themselves to their own meeting, do nothing
+    if (invitedEmails.length === 1 && invitedEmails[0].toLowerCase() === thisUserEmail.toLowerCase()) return;
+
+    // Initializes participants array and sets the first participant as the creator
+    // This participants array will then go in the participants slot of this meeting collection
     var participants = [{
         id: this.userId,
-        // name: Meteor.users.findOne(this.userId).services.google.name,
-        email: Meteor.users.findOne(this.userId).services.google.email,
+        email: thisUserEmail,
         accepted: true, // creator automatically accepts event??
-        selector: false, // creator is not always the one who picks the final date
+        selector: false, // creator is  not always the one who picks the final date
         creator: true,
       }];
 
-    // add the invited participants
-    // TODO: any special considerations for users that don't have accoutns yet?
-    // for now, make their name and id null
-
-    for (var i = 0; i < invitedEmails.length; i++) {
-      newParticipant = {
-        id: null,
-        // name: null,
-        email: invitedEmails[i],
-        accepted: false,
-        selector: false,
-        creator: false,
-      };
-
-      // TODO: why is id missing sometimes?
-      // check if a user with this email exists,and if it does, use their personal info
-      var user = Meteor.users.findOne({"services.google.email": invitedEmails[i]});
-      if (user !== undefined) {
-        // newParticipant.name = user.services.google.name;
-        newParticipant.id = user.id;
-        // TODO: Perhaps we should have a modal confirmation saying
-        // "This user doesn't seem to have an account, would you like to invite them?"
-
-        // TODO: PROBLEM!!!!!! We need to associate this event with an account that DOES NOT YET EXIST
-        // Not TOO hard to handle, just need to create a new collection.
-      }
-
-      // add this newParticipant to the document
-      participants.push(newParticipant);
-    }
+    // Add the rest of the participants
+    addInvitedParticipants(thisUserEmail, participants, invitedEmails, title);
 
     // if meeting is only two people, the invitee gets to choose the meeting time
     // in meetings of more than two people, the event creator chooses the meeting time
@@ -65,35 +46,20 @@ Meteor.methods({
       endTime: windowEnd
     }];
 
-    console.log("windowStart");
-    console.log(windowStart);
-
-    console.log("windowEnd");
-    console.log(windowEnd);
-
     var busyTimes = findUserBusyTimes(this.userId, windowStart, windowEnd);
-
-    console.log("busyTimes");
 
     Meteor.users.upsert(this.userId, {
       $set: {
-        busyTimes: busyTimes
+        "profile.busyTimes": busyTimes
       }
     });
 
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
-    availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
+    var availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
 
-
-    console.log("loggedInUserAvailableTimes");
-    console.log(loggedInUserAvailableTimes);
-
-    console.log("overlapped times:");
-    console.log(availableTimes);
-
-
-    // TODO: insert this into the Mongo DB
-    Meetings.insert({
+    // CREATE THE MEETINGS COLLECTION using information above.
+    // MeetingId = unique meeting id to be associated with each user in meeting
+    var meetingId = Meetings.insert({
       title: title, //TODO: pass this as a parameter to createMeeting
       isFinalized: false,
       availableTimes: availableTimes,
@@ -104,14 +70,101 @@ Meteor.methods({
       selectedStartTime: null, // will be calculated when all participants have accepted
       readyToFinalize: false
     });
+
+
+    var sent = Meteor.users.findOne(this.userId).profile.meetingInvitesSent;
+
+    // Associate creator with meetingId
+    // Create a new set if necessary
+    if (!sent) {
+      Meteor.users.update(this.userId, { // Now set the values again
+        $set: {
+          "profile.meetingInvitesSent": [meetingId]
+        }
+      });
+    } else {
+      Meteor.users.update(this.userId, { // Now set the values again
+        $addToSet: {
+          "profile.meetingInvitesSent": meetingId
+        }
+      });
+    }
+
+
+    // Associate meetingId with all participants involved
+    for (var i = 0; i < participants.length; i++) {
+      // The creater sent the invite, therefore is not being invited!
+      if (participants[i].creator == true) continue;
+      // Associate this email with a temporary user if they don't have an account
+      if (participants[i].id == null) {
+        updateTempUser(participants[i].email, meetingId);
+        continue; // Skip rest of this for loop
+    }
+
+      var received = Meteor.users.findOne(participants[i].id).profile.meetingInvitesReceived;
+      // Create a new set if necessary
+      if (!received) {
+        Meteor.users.update(participants[i].id, { // Now set the values again
+          $set: {
+            "profile.meetingInvitesReceived": [meetingId]
+          }
+        });
+      } else {
+        Meteor.users.update(participants[i].id, { // Now set the values again
+          $addToSet: {
+            "profile.meetingInvitesReceived": meetingId
+          }
+        });
+      }
+    }
   },
 
-  // Send out an invitation to a meeting/event
-  // userEmails ([emails]): An array of the emails to schedule this meeting with
-  // title (String): Title of the event/meeting
-  // duration (float): Length of the event/meeting
-  // TODO: Handle more than Google account
+  // Check if the current user has temp data associated with their email.
+  // If they do, associate temp data with actual user. Destroy temp item.
+  // Update all meetings they are a participant in to add their ids
+  attachTempUser: function() {
+    var email = Meteor.users.findOne(this.userId).services.google.email;
+    if (!email) {
+      console.log("Error in attachTempUser: userId has no email");
+      return;
+    }
+    var tempUser = Temp.findOne({ 'email': email });
+    // If there is a tempUser, attach it. Otherwise do nothing :)
+    if (!tempUser) return;
+    var received = tempUser.meetingInvitesReceived;
+    for (var i = 0; i < received.length; i++) {
+      // Add this received to the real user collection
+      Meteor.users.update(this.userId, {
+        $addToSet: { 'profile.meetingInvitesReceived': received[i] }
+      });
+
+      // Update meeting this user is associated with to contain their id
+      var thisMeeting = Meetings.findOne(received[i]);
+      if (!thisMeeting) {
+        console.log("attachTempUser: Weird missing meeting");
+        continue;
+      }
+      var participants = thisMeeting.participants;
+      for (var j = 0; j < participants.length; j++) {
+        if (participants[j].email === email) {
+          // Set this this user as a participant in the meetings ID
+          var setModifier = {};
+          setModifier['participants.' + j + '.id'] = this.userId
+          Meetings.update(received[i], {
+            $set: setModifier
+          });
+          break;
+        }
+      }
+      // Destroy Temp element for this user.
+      Temp.remove({ 'email' : email });
+    }
+  },
+
+  // DEPRECATED: I am just leaving this here cus it has good boilerplate code
+  // Feel free to delete later.
   inviteToMeeting: function(userEmails, title, duration) {
+    console.log("inviteToMeeting is DEPRECATED, don't use it!");
     // The email of the person inviting others to meeting
     var inviterEmail = Meteor.user().services.google.email;
     var invitation = {
@@ -122,12 +175,12 @@ Meteor.methods({
     };
 
     // Update the inviters sent invites in the DB
-    var invites = Meteor.users.findOne(this.userId).meetingInvitesSent; // Pull their meeting invitations
+    var invites = Meteor.users.findOne(this.userId).profile.meetingInvitesSent; // Pull their meeting invitations
     if (invites === undefined) invites = [];
     invites.push(invitation); // Append
     Meteor.users.update(this.userId, { // Now set the values again
       $set: {
-        meetingInvitesSent: invites
+        "profile.meetingInvitesSent": invites
       }
     });
 
@@ -145,18 +198,200 @@ Meteor.methods({
       } else {
         sendNewMeetingEmail(inviterEmail, userEmails[i], title);
         // Also need to add this invitation to their DB point so they can actually schedule it
-        invites = Meteor.users.findOne(user._id).meetingInvitesReceived // Pull their meeting invitations
+        invites = Meteor.users.findOne(user._id).profile.meetingInvitesReceived // Pull their meeting invitations
         if (invites === undefined) invites = [];
         invites.push(invitation); // Append
         Meteor.users.update(user._id, { // Now set the values again
           $set: {
-            meetingInvitesReceived: invites
+            "profile.meetingInvitesReceived": invites
           }
         });
       }
     }
+  },
+
+  // accept a meeting invitation; change the participant's 'accepted' value to true
+  acceptInvite: function(meetingId, userId) {
+    var thisMeeting = Meetings.findOne({_id:meetingId});
+    // iterate through all meeting participants to find index in array for the current user
+    // start with index 1 because you can skip the first participant (creator) set
+    for (var i = 1; i < thisMeeting.participants.length; i++) {
+      var currUser = thisMeeting.participants[i];
+      if (currUser.id == userId) { // current user found
+        var setModifier = {};
+        setModifier['participants.' + i + '.accepted'] = true;
+        Meetings.update({_id:meetingId},{$set:setModifier});
+      }
+    }
+
+
+
+    // Find overlap between this user and the availableTimes and insert in collection
+    var busyTimes = findUserBusyTimes(this.userId, thisMeeting.windowStart, thisMeeting.windowEnd);
+    Meteor.users.upsert(this.userId, {
+      $set: {
+        "profile.busyTimes": busyTimes
+      }
+    });
+    var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, thisMeeting.windowStart, thisMeeting.windowEnd);
+    var availableTimes = findOverlap(thisMeeting.availableTimes, loggedInUserAvailableTimes);
+
+    Meetings.update({_id: meetingId}, {
+      $set: {
+        "availableTimes" : availableTimes
+      }
+    });
+
+    // Check if meeting is ready to finalize
+    if (checkMeetingReadyToFinalize(meetingId)) {
+      findDurationLongMeetingTimes(meetingId);
+      console.log("We checked if the meeting is ready to finalize!");
+    }
+  },
+
+  // TODO: finish lol
+  // Decline a meeting invitation
+  declineInvite: function(meetingId, userId) {
+    var thisMeeting = Meetings.findOne({_id: meetingId});
+    var participants = thisMeeting.participants;
+
+    // Remove the decliner from the participants list
+    var decliner = null
+    for (var i = 0; i < participants.length; i++) {
+      if (participants[i].id === userId) {
+        decliner = participants[i];
+        participants.splice(i, 1); // Remove the element at index, in place
+      }
+    }
+    // Something is funky if the userId isn't in the participants list!
+    if (decliner === null) {
+      console.log("Error in declineInvite: Decliner isn't a participant");
+      return;
+    }
+    // Update participants
+    Meetings.update({_id: meetingId}, {
+      $set: {
+        "participants" : participants
+      }
+    });
+
+    // Get details of meeting
+    var meetingTitle = thisMeeting.title;
+    var meetingCreator = null;
+    for (var i = 0; i < participants.length; i++) {
+      if (participants[i].creator) meetingCreator = participants[i];
+    }
+
+    // If the participants list is now size 1, destroy this meeting
+    if (participants.length <= 1) {
+      // Remove this from sent meetings in creator's collection
+      // NOTE: Pull removes all instances of something from a set
+      Meteor.users.update(meetingCreator.id, {
+        $pull: {
+          "profile.meetingInvitesSent": meetingId
+        }
+      });
+      // Kill this meeting in the meeting collection
+      Meetings.remove({_id:meetingId});
+    }
+    // Remove this from received meetings in decliner's collection
+    Meteor.users.update(userId, {
+      $pull: {
+        "profile.meetingInvitesReceived": meetingId
+      }
+    });
+    // Email the inviter that they got ghosted hardcore
+    sendDeclinedEmail(meetingCreator.email, decliner.email, meetingTitle);
+  },
+
+  // called on client's submission of select time form
+  // given a formValue that maps to an index into suggestedMeetingTimes
+  // choose this as the final selected time and save that choice in the database
+  selectFinalTime: function(meetingId, formValue) {
+    var index = parseInt(formValue);
+
+    var thisMeeting = Meetings.findOne({_id:meetingId});
+    var selectedTime = {
+      "startTime" : thisMeeting.suggestedMeetingTimes[index].startTime,
+      "endTime" : thisMeeting.suggestedMeetingTimes[index].endTime
+    };
+
+    Meetings.update({_id:meetingId},{
+      $set: {
+        "selectedBlock" : selectedTime,
+        "isFinalized" : true
+      }
+    });
+
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
+      console.log(thisMeeting.participants[i].id);
+      thisId = thisMeeting.participants[i].id
+      user = Meteor.users.findOne(thisId);
+      // Add this meeting to each participant's finalizedMeetings
+      finalized = user.profile.finalizedMeetings;
+
+      if (finalized === undefined) {
+        Meteor.users.update(thisId, {
+          $set:  { "profile.finalizedMeetings": [meetingId] }
+        });
+      } else {
+        Meteor.users.update(thisId, {
+          $addToSet:  { "profile.finalizedMeetings": meetingId }
+        });
+      }
+      // Remove it from their received and sent
+      Meteor.users.update(thisId, {
+        $pull: { "profile.meetingInvitesReceived": meetingId }
+      });
+      Meteor.users.update(thisId, {
+        $pull: { "profile.meetingInvitesSent": meetingId }
+      });
+      user = Meteor.users.findOne(thisId);
+      console.log(user.services.google.email);
+      console.log("Sent: ");
+      console.log(user.profile.meetingInvitesSent);
+      console.log("Received: ");
+      console.log(user.profile.meetingInvitesReceived);
+      console.log("Finalized: ");
+      console.log(user.profile.finalizedMeetings);
+    }
+  },
+  readyToFinalize: function(meetingId) {
+    return checkMeetingReadyToFinalize(meetingId);
   }
 });
+
+// Adds the participants indicated by array of emails, invitedEmails, to the the participants array
+// (which will later be added to the correct meetings collection).
+function addInvitedParticipants(currentUserEmail, participants, invitedEmails, emailTitle) {
+    // add the invited participants
+    for (var i = 0; i < invitedEmails.length; i++) {
+      // Don't allow a user to invite themselves
+      if (invitedEmails[i].toLowerCase() === currentUserEmail.toLowerCase()) continue;
+
+      newParticipant = {
+        id: null,
+        email: invitedEmails[i],
+        accepted: false,
+        selector: false,
+        creator: false,
+      };
+
+      // TODO: why is name missing sometimes?
+      // check if a user with this email exists,and if it does, use their personal info
+      var user = Meteor.users.findOne({"services.google.email": invitedEmails[i]});
+      if (user !== undefined) {
+        newParticipant.id = user._id;
+        // Send an email to the user letting them now they have a new meeting invite
+        sendNewMeetingEmail(participants[0].email, newParticipant.email, emailTitle);
+      } else {
+        // Otherwise send them a invitation email to join Meetable
+        sendInvitationEmail(participants[0].email, newParticipant.email, emailTitle);
+      }
+      // add this newParticipant to the document
+      participants.push(newParticipant);
+    }
+}
 
 // Send an invitation email to the inviteeEmail. THIS IS ONLY USED TO INVITED NEW USERS
 // inviterEmail (emailString): The email address of the inviter TODO: Make this a name?
@@ -179,35 +414,71 @@ function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
   var text = inviterEmail + " wants to meet with you for a meeting \"" + title + "\"\n" +
             "Login to schedule it now! https://www.meetable.us\n\n\n" +
             "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
-  Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
+  Meteor.call("sendEmail", inviteeEmail, "do-not-reply@becker.codes", subject, text);
 }
+
+// Same as above, but text is assuming user got denied hardcore
+function sendDeclinedEmail(inviterEmail, inviteeEmail, title) {
+  var subject = inviteeEmail + " declined your meeting invitation.";
+  var text = inviteeEmail + " declined your meeting invitation for \"" + title + "\"\n" +
+            "Perhaps another time! https://www.meetable.us\n\n\n" +
+            "You are receiving this email because you tried to schedule a meeting with " + inviteeEmail +
+            " on Meetable, but they chose not to accept your invitation.";
+  Meteor.call("sendEmail", inviterEmail, "do-not-reply@becker.codes", subject, text);
+}
+
+// Update a tempUser of the given email with the given meetingId.
+// Create new tempUser if necessary
+function updateTempUser(email, meetingId) {
+  var tempUser = Temp.findOne({ email: email });
+  console.log(tempUser);
+  if (!tempUser) {
+    Temp.insert({
+      'email': email,
+      'meetingInvitesReceived': [meetingId]
+    });
+  } else {
+    Temp.update(tempUser._id, {
+      $addToSet: { 'meetingInvitesReceived': meetingId }
+    });
+  }
+  tempUser = Temp.findOne({ 'email': email });
+  console.log(tempUser);
+}
+
 
 
 // inserts time into the array of times, times, in chronological order. Pass by refrence.
 // Assumes times is already chronological (otherwise this would be a sorting function #neverAgain)
-function insertInOrder(times, time) {
+function insertInOrder(calendarTimes) {
+  var times = [];
   var oldTimes = [];
 
-  // Loop through the times stack and remove items one by one until the place of time is found
-  // Store popped times in oldTimes array so they may be restored after completion
-  while (times.length > 0) {
-    var oldTime = times.pop();
+  for (var i = 0; i < calendarTimes.length; i++) {
+    var time = {start: new Date(calendarTimes[i].start), end: new Date(calendarTimes[i].end)};
+    // Loop through the times stack and remove items one by one until the place of time is found
+    // Store popped times in oldTimes array so they may be restored after completion
+    while (times.length > 0) {
+      var oldTime = times.pop();
 
-    // If the current time is greater than the previous time, that means the current time has
-    // found its place in the stack and must be inserted right after the oldTime
-    if (time.startTime.getTime() > oldTime.startTime.getTime()) {
-      times.push(oldTime);
-      break;
+      // If the current time is greater than the previous time, that means the current time has
+      // found its place in the stack and must be inserted right after the oldTime
+      if (time.start.getTime() >= oldTime.start.getTime()) {
+          times.push(oldTime);
+          break;
+      }
+
+      oldTimes.push(oldTime);
     }
-    oldTimes.push(oldTime);
-  }
 
-  times.push(time);
+    times.push(time);
 
-  //restore the stack after inserting the time in proper place
-  while (oldTimes.length > 0) {
-    times.push(oldTimes.pop());
+    //restore the stack after inserting the time in proper place
+    while (oldTimes.length > 0) {
+      times.push(oldTimes.pop());
+    }
   }
+  return times;
 }
 
 
@@ -215,7 +486,9 @@ function insertInOrder(times, time) {
 // chronologically in easy to use format from windowStart to windowEnd
 function findUserBusyTimes(userId, windowStart, windowEnd) {
   var user = Meteor.users.findOne(userId);
-  var calendarTimes = user.calendarEvents;
+  var calendarTimes = user.profile.calendarEvents;
+
+  var calendarTimes = insertInOrder(calendarTimes);
 
   var busyTimes = [];
 
@@ -239,9 +512,16 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
     }
     else {
       busyTime.startTime = start;
+      if (start.getTime() < windowStart.getTime()) {
+        busyTime.startTime = windowStart;
+        start = windowStart;
+      }
       busyTime.endTime = end;
+      if (end.getTime() > windowEnd.getTime()) {
+        busyTime.endTime = windowEnd;
+        end = windowEnd;
+      }
       //if (end.getTime() > windowEnd.getTime()) busyTime.endTime = windowEnd;
-
       // If the startTime of the current event is inside the previous event, this means these two events
       // are partially overlapping. This means the busyTime should be from the startTime of the previous
       // event, to the endTime of the event that lasts longer.
@@ -250,6 +530,7 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
       if ((start.getTime() >= oldBusyTime.startTime.getTime()) && (start.getTime() <= oldBusyTime.endTime.getTime())) {
         busyTime.startTime = oldBusyTime.startTime;
         busyTime.endTime = end;
+
         if (oldBusyTime.endTime.getTime() > end.getTime()) busyTime.endTime = oldBusyTime.endTime;
       }
       else busyTimes.push(oldBusyTime);
@@ -257,11 +538,10 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
       if (busyTime.endTime.getTime() > windowEnd.getTime()) busyTime.endTime = windowEnd;
       // if the current start time is greater than or equal to the previous, the the event is already chronological
       // otherwise, it needs to be placed in the array in chronological order
-      if (start.getTime() >= oldStartTime) busyTimes.push(busyTime);
-      else insertInOrder(busyTimes, busyTime);
+      //console.log(busyTime.startTime);
+      busyTimes.push(busyTime);
     }
   }
-
   return busyTimes;
 }
 
@@ -359,4 +639,87 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
     }
   }
   return availableTimes;
+}
+
+// check if the meeting with id meetingId is ready to to choose a final time
+// currently defined as all users accepting the meeting
+// TODO: change this metric for group meetings?
+// return and set flag for whether the meeting has been finalized
+function checkMeetingReadyToFinalize(meetingId) {
+    var thisMeeting = Meetings.findOne({_id:meetingId});
+    var finalized = true;
+    // iterate through all meeting participants and check if all have accepted
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
+      var currUser = thisMeeting.participants[i];
+      if (currUser.accepted == false) { // current user found
+        finalized = false;
+      }
+    }
+    if (finalized == true) {
+      Meetings.update({_id:meetingId}, { // Now set the values again
+        $set: {
+          "readyToFinalize": true
+        }
+      })
+    }
+    return finalized;
+}
+
+// given a meetingId, look through the availableTimes and find duration long meeting times
+// return that new list and also save it to the meeting document
+function findDurationLongMeetingTimes(meetingId) {
+  var thisMeeting = Meetings.findOne({_id:meetingId});
+  var duration = thisMeeting.duration;
+  var allAvailableBlocks = thisMeeting.availableTimes;
+
+  // loop through all available times and see how many duration long blocks
+  // fit within each available block
+
+  var durationLongBlocks = [];
+
+  for (var i = 0; i < allAvailableBlocks.length; i++) {
+    var thisAvailableBlock = allAvailableBlocks[i];
+
+    // set seconds and ms to 0 for round numbrers
+    var possibleDurationLongStart = new Date (thisAvailableBlock.startTime.getTime());
+    possibleDurationLongStart.setSeconds(0, 0);
+    var possibleDurationLongEnd = new Date (possibleDurationLongStart.getTime()+ duration);
+    possibleDurationLongEnd.setSeconds(0,0);
+
+    // try to fit as many duration long events into thisAvailableBlock as possible
+    while (possibleDurationLongEnd <= thisAvailableBlock.endTime) {
+      // save this as a valid block
+      durationLongBlocks.push({
+        "startTime": possibleDurationLongStart,
+        "endTime": possibleDurationLongEnd
+      });
+
+      // try the next duration long block
+      possibleDurationLongStart = possibleDurationLongEnd;
+      possibleDurationLongEnd = new Date (possibleDurationLongStart.getTime() + duration);
+      possibleDurationLongEnd.setSeconds(0,0);
+    }
+  }
+
+  Meetings.update({_id:meetingId},{
+    $set: {
+      //"durationLongAvailableTimes" : [{"startTime": 2, "endTime": 2}]
+      "durationLongAvailableTimes" : durationLongBlocks
+    }
+  });
+
+  saveSuggestedMeetingTimes(meetingId, durationLongBlocks);
+
+  return durationLongBlocks;
+
+}
+
+// save what we will present as meeting times to the user
+// currently the first 5 meeting times chronologically
+function saveSuggestedMeetingTimes(meetingId, durationLongBlocks) {
+  Meetings.update({_id:meetingId}, {
+      $set: {
+        "suggestedMeetingTimes": durationLongBlocks.slice(0, 5)
+      }
+    });
 }
