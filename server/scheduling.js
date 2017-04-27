@@ -353,6 +353,9 @@ Meteor.methods({
       console.log("Finalized: ");
       console.log(user.profile.finalizedMeetings);
     }
+  },
+  readyToFinalize: function(meetingId) {
+    return checkMeetingReadyToFinalize(meetingId);
   }
 });
 

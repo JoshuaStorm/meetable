@@ -55,17 +55,21 @@ public.route('/error', {
 loggedIn.route('/dashboard', {
   name: 'App.dashboard',
   action: function() {
-    // TODO: Should only need to attach Temp data if new signup but our current routing doesn't seem to expose signup/signin
-    Meteor.call("getAuthInfo", function() {
-      Meteor.call("attachTempUser", function(error, result) {});
+    // TODO: Should only need to attach Temp data if new signup but our current routing doesn't seem to expose signup vs. signin
+    Meteor.call('getAuthInfo', function() {
+      Meteor.call('attachTempUser', function(error, result) {});
       Meteor.call("getFullCalendarEvents", false, function(error, result) {
         if (error) console.log(error);
-        if (result) $( '#events-calendar' ).fullCalendar('addEventSource', result);
+        if (result) {
+          $( '#events-calendar' ).fullCalendar('removeEventSource', 'gCal');
+          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'gCal', events: result });
+        }
         Meteor.call("updateEventsInDB", function(error, result) {});
       });
-      Meteor.call("getFullCalendarFinalized", function(error, result) {
+      Meteor.call('getFullCalendarFinalized', function(error, result) {
         if (error) console.log(error);
-        $( '#events-calendar' ).fullCalendar('addEventSource', { id: "finalized", events: result });
+        $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
       });
     });
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
