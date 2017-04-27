@@ -2,6 +2,11 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 26, 2017 (Josh)
+- Finished up group meetings!
+- Cleaned up `findBusyTimes()` and made it consider our `finalizedMeetings` collection.
+- Fixed a longstanding bug where hitting the back button made is add calendar events again (like it would pile events on top of events).
+
 ## April 26, 2017 (Group Meeting)
 - Review status on the 4 big things we were supposed to do last week
 - Consider letting people add unavailable times even if they don't have a Google Calendar
