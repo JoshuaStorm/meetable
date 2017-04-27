@@ -490,7 +490,11 @@ function insertInOrder(calendarTimes) {
   var oldTimes = [];
 
   for (var i = 0; i < calendarTimes.length; i++) {
-    var time = {start: new Date(calendarTimes[i].start), end: new Date(calendarTimes[i].end)};
+    var start = calendarTimes[i].start;
+    if (!(start instanceof Date)) start = new Date(start);
+    var end = calendarTimes[i].end;
+    if (!(end instanceof Date)) end = new Date(end);
+    var time = {start: start, end: end};
     // Loop through the times stack and remove items one by one until the place of time is found
     // Store popped times in oldTimes array so they may be restored after completion
     while (times.length > 0) {
@@ -525,15 +529,19 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   var additionalBusyTimes = Meteor.users.findOne(userId).profile.additionalBusyTimes;
 
   if (additionalBusyTimes)
-  calendarTimes.concat(additionalBusyTimes);
+  var newCalendarTimes = calendarTimes.slice(0);
+  var newCalendarTimes = newCalendarTimes.concat(additionalBusyTimes);
 
-  var calendarTimes = insertInOrder(calendarTimes);
+
+  var calendarTimes = insertInOrder(newCalendarTimes);
 
   var busyTimes = [];
 
   for (var i = 0; i < calendarTimes.length; i++) {
-    var start = new Date(calendarTimes[i].start);
-    var end = new Date(calendarTimes[i].end);
+    var start = calendarTimes[i].start;
+    if (!(start instanceof Date)) start = new Date(start);
+    var end = calendarTimes[i].end;
+    if (!(end instanceof Date)) end = new Date(end);
     var busyTime = {startTime: 0, endTime: 0};
 
     // Only include events from windowStart to windowEnd
@@ -654,8 +662,20 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
           endTime: otherEnd
         };
 
-        availableTimes.push(availableTime);
+         if (!availableTimes.includes(availableTime)) availableTimes.push(availableTime);
+
       }
+
+      else if ((otherStart.getTime() >= userStart.getTime() && otherStart.getTime() <= userEnd.getTime()) && otherEnd.getTime() >= userEnd.getTime()) {
+        var availableTime = {
+          startTime: otherStart,
+          endTime: userEnd
+        };
+         if (!availableTimes.includes(availableTime)) availableTimes.push(availableTime);
+      }
+
+
+       
     }
   }
   // The second double for loop looks for slots of userAvailableTimes in otherAvailableTimes
@@ -672,12 +692,21 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
           startTime: userStart,
           endTime: userEnd
         };
+        if (!availableTimes.includes(availableTime)) availableTimes.push(availableTime);
+      }
 
-        availableTimes.push(availableTime);
+      else if ((userStart.getTime() >= otherStart.getTime() && userStart.getTime() <= otherEnd.getTime()) && userEnd.getTime() >= otherEnd.getTime()) {
+        var availableTime = {
+          startTime: userStart,
+          endTime: otherEnd
+        };
+         if (!availableTimes.includes(availableTime)) availableTimes.push(availableTime);
       }
     }
   }
+
   return availableTimes;
+
 }
 
 // check if the meeting with id meetingId is ready to to choose a final time

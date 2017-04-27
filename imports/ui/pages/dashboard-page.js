@@ -138,7 +138,7 @@ Template.dashboard_page.events({
     }
     console.log(endTime);
 
-    var busyTime = {startTime: startTime, endTime: endTime};
+    var busyTime = {start: startTime, end: endTime};
 
     Meteor.call('addBusyTimes', busyTime, function(error, result) {
       if (error) {
@@ -146,6 +146,7 @@ Template.dashboard_page.events({
       } else {
           Meteor.call("getFullCalendarAdditional", function(error, result) {
           if (error) console.log(error);
+          $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
           $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
         });
       }
@@ -166,14 +167,14 @@ Template.dashboard_page.events({
 Template.additional.helpers({
   timeStart() {
     var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[this.startTime.getDay()];
+    var day = weekday[this.start.getDay()];
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[this.startTime.getMonth()];
-    var date = this.startTime.getDate();
-    var year = this.startTime.getFullYear();
-    var hour = this.startTime.getHours();
+    var month = months[this.start.getMonth()];
+    var date = this.start.getDate();
+    var year = this.start.getFullYear();
+    var hour = this.start.getHours();
     if (hour < 10) hour = "0" + hour;
-    var min = this.startTime.getMinutes();
+    var min = this.start.getMinutes();
     if (min < 10) min = "0" + min;
 
     return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min);
@@ -181,14 +182,14 @@ Template.additional.helpers({
   },
   timeEnd() {
     var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[this.endTime.getDay()];
+    var day = weekday[this.end.getDay()];
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[this.endTime.getMonth()];
-    var date = this.endTime.getDate();
-    var year = this.endTime.getFullYear();
-    var hour = this.endTime.getHours();
+    var month = months[this.end.getMonth()];
+    var date = this.end.getDate();
+    var year = this.end.getFullYear();
+    var hour = this.end.getHours();
     if (hour < 10) hour = "0" + hour;
-    var min = this.endTime.getMinutes();
+    var min = this.end.getMinutes();
     if (min < 10) min = "0" + min;
 
 
@@ -206,7 +207,7 @@ Template.additional.events({
       Meteor.call("getFullCalendarAdditional", function(error, result) {
           if (error) console.log(error);
           $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
-            $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
+          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
         });
     });
   }

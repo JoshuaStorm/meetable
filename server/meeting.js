@@ -37,8 +37,8 @@ Meteor.methods({
 
       var thisEvent = {
         title: "User added busy time",
-        start: additional.startTime,
-        end: additional.endTime,
+        start: additional.start,
+        end: additional.end,
         borderColor: "#b21503",
         backgroundColor: "rgba(188, 183, 183, 0.5)",
         textColor: "#000000",
