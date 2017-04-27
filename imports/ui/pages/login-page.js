@@ -14,7 +14,10 @@ Template.login_page.events({
 	  };
 
 	  Meteor.loginWithGoogle(googleLoginOptions, function (err) {
-			if (err) Session.set('errorMessage', err.reason || 'Unknown error');
+			if (err){
+				Session.set('errorMessage', err.reason || 'Unknown error');
+				console.log("Meteor login with google error: " + err);
+			}
 		});
 	},
 });

@@ -1,0 +1,26 @@
+"google" : {
+        "accessToken" : "ya29.Glw4BMe9ElvchUZtrmKLJQej5yFy3VfHVn0I1_gI1gXq3Z_XqM13iEtOGyqTpYOk2daS8Fl7l3RCwKJKrhn0opOxyj6eqDwqMTuEe7pR3RN1lDKRA853TjYsbUp0-Q",
+        "idToken" : "eyJhbGciOiJSUzI1NiIsImtpZCI6IjIwNjRmMDkxODNiODA0OGY4ODFlYTZmMDMzNmJkOGE5OGVkYmFlOWQifQ.eyJhenAiOiI5NDA5NTUyMzEzODgtaTVhajMwMXJ1Y2JlcmxzZnJzamUwN2ZqNjg1am05ajcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI5NDA5NTUyMzEzODgtaTVhajMwMXJ1Y2JlcmxzZnJzamUwN2ZqNjg1am05ajcuYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTEyNjkzMTU2MDMwOTEzNjAwNjMiLCJlbWFpbCI6InRpbWV3YXJwdHJpbzExQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiX1U4ZkF2NkV1c0RGY1I1cnU3XzgxUSIsImlzcyI6ImFjY291bnRzLmdvb2dsZS5jb20iLCJpYXQiOjE0OTMyNDk0ODksImV4cCI6MTQ5MzI1MzA4OX0.ezut6srgzIqNSWeIN9RiXeqbzJ4cpV2vEQvXxJyeSGTBLhzX3YUoanEirg2Qi4FhoJ2QMe2qBcy8R4qmSfOETBM4l9kJ8lZPx8x-nH85K_309xBouuojNyWOXJc-jBcOAos931MadC8lJGFAS1FJAriIG49R0c7krva89OVyMCBFALPyqzaLHPjamHYogrLVR4euiIIqg5SmyRqqKBKS_MCzLoFCpUBUumJAqIZe7jGVxmvwVvTZDXsIWAfE8zHt8d_VuR5u_s5-cdIvUTREACpfjA_f-keatxx3niJyqm1MhQR0wQIXTgLcgNYdPBrzG5SyFOlJ0ogT-NBDDqxGyQ",
+        "expiresAt" : 1493253089425,
+        "scope" : [
+            "https://www.googleapis.com/auth/calendar",
+            "https://www.googleapis.com/auth/userinfo.email",
+            "https://www.googleapis.com/auth/plus.me"
+        ],
+        "id" : "111269315603091360063",
+        "email" : "timewarptrio11@gmail.com",
+        "verified_email" : true,
+        "name" : "David Melvin",
+        "given_name" : "David",
+        "family_name" : "Melvin",
+        "picture" : "https://lh6.googleusercontent.com/-RWZurCCGvns/AAAAAAAAAAI/AAAAAAAAFJQ/kkOnHxB8rUU/photo.jpg"
+    },
+    "resume" : {
+        "loginTokens" : [
+            {
+                "when" : ISODate("2017-04-26T23:31:29.926Z"),
+                "hashedToken" : "Ly1EbWvx/spdxXR8JwucIPBIygwJPb6J41s7/wRmPec="
+            }
+        ]
+    }
+}
