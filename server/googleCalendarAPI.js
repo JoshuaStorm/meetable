@@ -10,9 +10,8 @@ var auth = new googleAuth(); // used to authentication requests sent by gCalenda
 // Client secrets, etc. from David's (or Casey's?) Google Developer Console project
 
 var oauth2Client = new auth.OAuth2(
-  "940955231388-i5aj301rucberlsfrsje07fj685jm9j7.apps.googleusercontent.com",
-  "hv93jvDPACddBk4sbOV9EJH2",
-  "http://localhost:3000"
+  "940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com",
+  "mKa01x_C9W_MnlIuHVJRupb3"
 );
 
 // set auth for all Google requests; instead of doing it for each request function
@@ -37,6 +36,7 @@ Meteor.methods({
           access_token: accessToken,
           refresh_token: refreshToken,
           expiry_date: expiryDate
+          
         });
       } catch(e) {
         console.log(e);
