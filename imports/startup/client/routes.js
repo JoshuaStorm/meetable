@@ -60,7 +60,7 @@ loggedIn.route('/dashboard', {
       Meteor.call("attachTempUser", function(error, result) {});
       Meteor.call("getFullCalendarEvents", false, function(error, result) {
         if (error) console.log(error);
-        $( '#events-calendar' ).fullCalendar('addEventSource', result);
+        if (result) $( '#events-calendar' ).fullCalendar('addEventSource', result);
         Meteor.call("updateEventsInDB", function(error, result) {});
       });
       Meteor.call("getFullCalendarFinalized", function(error, result) {
