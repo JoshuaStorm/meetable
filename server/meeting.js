@@ -4,9 +4,11 @@ import Meetings from '/collections/meetings.js';
 
 Meteor.methods({
   // Return an array of the current users finalized events in the FullCalendar format
+  // Return null if user does not have any finalized
   getFullCalendarFinalized: function() {
     var finalizedIds = Meteor.users.findOne(this.userId).profile.finalizedMeetings;
-    if (!finalizedIds) return [];
+    // A user may not have any finalized meetings
+    if (!finalizedIds || !finalizedIds.length) return null;
     var events = [];
 
     for (var i = 0; i < finalizedIds.length; i++) {
