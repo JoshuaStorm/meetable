@@ -30,4 +30,14 @@ Meteor.methods({
     }
     return events;
   },
+
+  // Add the given meeting ID to the curren users calendar
+  // meetingId (String): The meetingId
+  addMeetingToUserCalendar: function(meetingId) {
+    var thisMeeting = Meetings.findOne(meetingId);
+    Meteor.call('addGCalEvent', thisMeeting.title, thisMeeting.startTime, thisMeeting.endTime, thisUser.timeZone,)
+
+
+
+  }
 });

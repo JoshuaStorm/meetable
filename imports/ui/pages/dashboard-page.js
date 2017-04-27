@@ -375,3 +375,6 @@ Template.finalizedMeeting.helpers({
     return time;
   }
 });
+
+
+Meteor.call("addGCalEvent", null, "SWAG", null, null, null);
