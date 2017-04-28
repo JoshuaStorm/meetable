@@ -281,7 +281,6 @@ deleteBusyTimes: function(busyTime) {
     // Check if meeting is ready to finalize
     if (checkMeetingReadyToFinalize(meetingId)) {
       findDurationLongMeetingTimes(meetingId);
-      console.log("We checked if the meeting is ready to finalize!");
     }
   },
 
@@ -360,7 +359,6 @@ deleteBusyTimes: function(busyTime) {
     });
 
     for (var i = 0; i < thisMeeting.participants.length; i++) {
-      console.log(thisMeeting.participants[i].id);
       thisId = thisMeeting.participants[i].id
       user = Meteor.users.findOne(thisId);
       // Add this meeting to each participant's finalizedMeetings
@@ -383,13 +381,6 @@ deleteBusyTimes: function(busyTime) {
         $pull: { "profile.meetingInvitesSent": meetingId }
       });
       user = Meteor.users.findOne(thisId);
-      console.log(user.services.google.email);
-      console.log("Sent: ");
-      console.log(user.profile.meetingInvitesSent);
-      console.log("Received: ");
-      console.log(user.profile.meetingInvitesReceived);
-      console.log("Finalized: ");
-      console.log(user.profile.finalizedMeetings);
     }
   },
   readyToFinalize: function(meetingId) {
@@ -467,7 +458,6 @@ function sendDeclinedEmail(inviterEmail, inviteeEmail, title) {
 // Create new tempUser if necessary
 function updateTempUser(email, meetingId) {
   var tempUser = Temp.findOne({ email: email });
-  console.log(tempUser);
   if (!tempUser) {
     Temp.insert({
       'email': email,
@@ -479,7 +469,6 @@ function updateTempUser(email, meetingId) {
     });
   }
   tempUser = Temp.findOne({ 'email': email });
-  console.log(tempUser);
 }
 
 // Return an array of input users finalized meeting times from Meetable
@@ -633,17 +622,14 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
           startTime: otherStart,
           endTime: otherEnd
         };
-
-         if (!availableTimes.includes(availableTime)) availableTimes.push(availableTime);
-
+        if (!availableTimes.includes(availableTime)) availableTimes.push(availableTime);
       }
-
       else if ((otherStart.getTime() >= userStart.getTime() && otherStart.getTime() <= userEnd.getTime()) && otherEnd.getTime() >= userEnd.getTime()) {
         var availableTime = {
           startTime: otherStart,
           endTime: userEnd
         };
-         if (!availableTimes.includes(availableTime)) availableTimes.push(availableTime);
+        if (!availableTimes.includes(availableTime)) availableTimes.push(availableTime);
       }
     }
   }
@@ -663,19 +649,17 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
         };
         if (!availableTimes.includes(availableTime)) availableTimes.push(availableTime);
       }
-
       else if ((userStart.getTime() >= otherStart.getTime() && userStart.getTime() <= otherEnd.getTime()) && userEnd.getTime() >= otherEnd.getTime()) {
         var availableTime = {
           startTime: userStart,
           endTime: otherEnd
         };
-         if (!availableTimes.includes(availableTime)) availableTimes.push(availableTime);
+        if (!availableTimes.includes(availableTime)) availableTimes.push(availableTime);
       }
     }
   }
 
   return availableTimes;
-
 }
 
 // check if the meeting with id meetingId is ready to to choose a final time
@@ -683,23 +667,23 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
 // TODO: change this metric for group meetings?
 // return and set flag for whether the meeting has been finalized
 function checkMeetingReadyToFinalize(meetingId) {
-    var thisMeeting = Meetings.findOne({_id:meetingId});
-    var finalized = true;
-    // iterate through all meeting participants and check if all have accepted
-    for (var i = 0; i < thisMeeting.participants.length; i++) {
-      var currUser = thisMeeting.participants[i];
-      if (currUser.accepted == false) { // current user found
-        finalized = false;
+  var thisMeeting = Meetings.findOne({_id:meetingId});
+  var finalized = true;
+  // iterate through all meeting participants and check if all have accepted
+  for (var i = 0; i < thisMeeting.participants.length; i++) {
+    var currUser = thisMeeting.participants[i];
+    if (currUser.accepted == false) { // current user found
+      finalized = false;
+    }
+  }
+  if (finalized == true) {
+    Meetings.update({_id:meetingId}, { // Now set the values again
+      $set: {
+        "readyToFinalize": true
       }
-    }
-    if (finalized == true) {
-      Meetings.update({_id:meetingId}, { // Now set the values again
-        $set: {
-          "readyToFinalize": true
-        }
-      })
-    }
-    return finalized;
+    })
+  }
+  return finalized;
 }
 
 // given a meetingId, look through the availableTimes and find duration long meeting times
