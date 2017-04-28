@@ -76,11 +76,21 @@ Template.dashboard_page.onRendered( () => {
 Template.dashboard_page.events({
   'click #save': function(e) {
     e.preventDefault();
-    //TODO: make sure all these user inputs are sanitized/safe
-
+    // TODO: make sure all these user inputs are sanitized/safe
     var title = $('#meetingTitle').val();
-    var email = $('#meetingInvitee').val();
+    // TODO: User dynamic fields instead of just comma separating emails
+    var emails = $('#meetingInvitee').val().split(",");
     var length = $('#meetingLength').val();
+
+    // Remove all non-emails from this list
+    // ReGex check email field. This is the 99.9% working email ReGex
+    var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var cleanEmails = [];
+    for (var i = 0; i < emails.length; i++) {
+      // TODO: Prompt user when they pass a non-email?
+      if (emails[i].trim().match(regex)) cleanEmails.push(emails[i].trim());
+      else console.log("Non-email passed in; removed from invitees list.")
+    }
 
     // TODO: Handled errors, enforce the text boxes all have a value
     // TODO: Handle multiple emails, just passing an array of size 1 but backend should be able to handle multiple fine
@@ -91,7 +101,7 @@ Template.dashboard_page.events({
 
     // TODO: add fields to set the window of time to schedule the time
     // currently using 24 hours after time button was pressed
-    Meteor.call('createMeeting', title, [email], length, windowStart, windowEnd, function(error, result) {
+    Meteor.call('createMeeting', title, emails, length, windowStart, windowEnd, function(error, result) {
       if (error) {
         console.log("createMeeting: " + error);
       } else{
@@ -123,8 +133,7 @@ Template.invite.helpers({
       }
     });
     // an incoming meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a two person meeting
-    if (thisMeeting.readyToFinalize && thisMeeting.participants.length == 2)
-    {
+    if (thisMeeting.readyToFinalize && thisMeeting.participants.length == 2) {
       Template.instance().currentInviteType.set('readyToFinalize');
     }
     else {
@@ -141,7 +150,7 @@ Template.invite.onCreated( function() {
 
 Template.invite.events({
   // call function to change this user's 'accepted' value to true for the given meeting
-  'click #acceptInvite':function(event, template) {
+  'click #acceptInvite': function(event, template) {
     Meteor.call('acceptInvite', this.toString(), Meteor.userId(), function(error, result) {
       if (error) {
         console.log("acceptInvite: " + error);
@@ -161,6 +170,7 @@ Template.invite.events({
 
 Template.incoming.helpers({
   inviterName() {
+      // This should show a list of users
       return Meetings.findOne({_id:this.toString()}).participants[0].email;
     },
   meetingTitle() {
@@ -173,20 +183,15 @@ Template.incoming.helpers({
       return hour + "hr " + minute + "min";
     },
   acceptedInvite() {
-    var thisMeeting = Meetings.findOne({_id:meetingId});
-    var accepted = false;
+    var thisMeeting = Meetings.findOne({_id:this.toString()});
     // iterate through all meeting participants to find index in array for the current user
-    // start with index 1 because you can skip the first participant ( creator)
-    for (var i = 1; i < thisMeeting.participants.length; i++) {
+    // NOTE: Switch this to check all users, I don't think we should assume the first participant is always the creator. May get us into trouble later
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
       if (currUser.id == Meteor.userId()) { // current user found
-        if(currUser.accepted == true) {
-            accepted = true;
-            break;
-        }
+        return currUser.accepted;
       }
     }
-    return accepted;
   }
 });
 
@@ -202,7 +207,7 @@ Template.readyToFinalize.helpers({
     for (var i = 1; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
       if (currUser.id == Meteor.userId()) { // current user found
-        if(currUser.selector == true) {
+        if (currUser.selector == true) {
           Template.instance().currentFinalizeType.set('selector');
         }
         else {
@@ -249,7 +254,7 @@ Template.selector.helpers({
       return hour + "hr " + minute + "min";
     },
   suggestedTimes() {
-        return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
+      return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
     },
 });
 
@@ -271,7 +276,6 @@ Template.selector.events({
       });
     }
 });
-
 
 Template.outgoing.helpers({
   meetingParticipants() {
@@ -331,19 +335,27 @@ Template.outgoingFinalize.helpers({
         participants = participants.concat(comma);
     }
     return participants;
-  },
+  }
+});
+
+Template.outgoingFinalize.events({
   'submit form': function(event){
       event.preventDefault();
       var radioValue = event.target.myForm.value;
-      Meteor.call('selectFinaltime', this.toString(), radioValue, function(error, result) {
+      Meteor.call('selectFinalTime', this.toString(), radioValue, function(error, result) {
         if (error) {
           console.log("selectFinaltime: " + error);
         } else {
           Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
+          Meteor.call("getFullCalendarFinalized", function(error, result) {
+            if (error) console.log(error);
+            $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
+            $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
+          });
+
         }
       });
     }
-
 });
 
 Template.finalizedMeeting.helpers({

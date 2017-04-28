@@ -36,8 +36,7 @@ Meteor.methods({
     // in meetings of more than two people, the event creator chooses the meeting time
     if (participants.length === 2) {
       participants[1].selector = true;
-    }
-    else {
+    } else {
       participants[0].selector = true;
     }
 
@@ -214,13 +213,13 @@ Meteor.methods({
   acceptInvite: function(meetingId, userId) {
     var thisMeeting = Meetings.findOne({_id:meetingId});
     // iterate through all meeting participants to find index in array for the current user
-    // start with index 1 because you can skip the first participant (creator) set
-    for (var i = 1; i < thisMeeting.participants.length; i++) {
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
       if (currUser.id == userId) { // current user found
         var setModifier = {};
         setModifier['participants.' + i + '.accepted'] = true;
-        Meetings.update({_id:meetingId},{$set:setModifier});
+        Meetings.update({_id:meetingId}, {$set:setModifier});
+        break;
       }
     }
 
@@ -247,7 +246,6 @@ Meteor.methods({
     }
   },
 
-  // TODO: finish lol
   // Decline a meeting invitation
   declineInvite: function(meetingId, userId) {
     var thisMeeting = Meetings.findOne({_id: meetingId});
@@ -259,6 +257,7 @@ Meteor.methods({
       if (participants[i].id === userId) {
         decliner = participants[i];
         participants.splice(i, 1); // Remove the element at index, in place
+        break;
       }
     }
     // Something is funky if the userId isn't in the participants list!
@@ -330,11 +329,11 @@ Meteor.methods({
 
       if (finalized === undefined) {
         Meteor.users.update(thisId, {
-          $set:  { "profile.finalizedMeetings": [meetingId] }
+          $set: { "profile.finalizedMeetings": [meetingId] }
         });
       } else {
         Meteor.users.update(thisId, {
-          $addToSet:  { "profile.finalizedMeetings": meetingId }
+          $addToSet: { "profile.finalizedMeetings": meetingId }
         });
       }
       // Remove it from their received and sent
