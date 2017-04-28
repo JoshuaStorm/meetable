@@ -109,11 +109,8 @@ Template.dashboard_page.events({
     FlowRouter.go('/');
   },
 
-  'click #submit-extra-times': function(e, tpl) {
+  'click #submit-extra-times': function(e) {
     e.preventDefault();
-
-    var s = this.s ^= 1;
-    tpl.$('#submit-extra-times').val(s?'delete':'submit');
 
     var startTime = $('#datetime-start').val();
     startTime = new Date(startTime);
