@@ -38,8 +38,11 @@ Template.dashboard_page.onRendered( () => {
     defaultView: 'agendaWeek',
     header: {
       center: 'month,agendaWeek,agendaDay' // buttons for switching between views
-    }
+    },
   });
+
+  // initialize the date time picker
+  this.$('.datetimepicker').datetimepicker();
 
   // toggle main tabs
   // must be in this function because jQuery can only run on DOM after

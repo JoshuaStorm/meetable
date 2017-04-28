@@ -45,7 +45,26 @@
                     <input type="number" class="form-control" id="meetingLength" placeholder="Length (hrs)">
                   </div>
                 </div>
-
+                <div class="form-group">
+                  <div class="col-md-10 datetimepicker">
+                    <input id="datetimepicker1" class="set-start-date form-control" type="text" placeholder="Scheduling Window Start"/>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker1').datetimepicker();
+                    });
+                </script>
+                 <div class="form-group">
+                  <div class="col-md-10 datetimepicker">
+                    <input id="datetimepicker2" class="set-end-date form-control" type="text" placeholder="Scheduling Window End"/>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datetimepicker2').datetimepicker();
+                    });
+                </script>
                 <div class="form-group">
                   <div class="col-md-10 col-md-offset-2">
                     <button type="button" class="btn btn-default" id="cancelCreateMeeting">Cancel</button>
