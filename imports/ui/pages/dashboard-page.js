@@ -113,15 +113,12 @@ Template.dashboard_page.events({
     e.preventDefault();
 
     var s = this.s ^= 1;
-    console.log();
     tpl.$('#submit-extra-times').val(s?'delete':'submit');
 
     var startTime = $('#datetime-start').val();
     startTime = new Date(startTime);
     var endTime = $('#datetime-end').val();
     endTime = new Date(endTime);
-
-
 
     if (isNaN(startTime.getTime())) {
       Bert.alert( 'Please enter a valid start time.', 'danger', 'fixed-bottom');
@@ -136,29 +133,21 @@ Template.dashboard_page.events({
       Bert.alert( 'End time must be after start time. ', 'danger', 'fixed-bottom');
       throw 'EndTime greater than startTime';
     }
-    console.log(endTime);
 
     var busyTime = {start: startTime, end: endTime};
 
     Meteor.call('addBusyTimes', busyTime, function(error, result) {
       if (error) {
-        console.log("addBusyTimes: " + error);
+        console.log("Error in addBusyTimes: " + error);
       } else {
-          Meteor.call("getFullCalendarAdditional", function(error, result) {
+        Meteor.call("getFullCalendarAdditional", function(error, result) {
           if (error) console.log(error);
           $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
           $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
         });
       }
     });
-
-
-    var additionalTimes = Meteor.users.findOne(Meteor.userId()).profile;
-    
-    console.log(additionalTimes);
-
   }
-  
 });
 
 /////////////////////////////////////////////
@@ -166,33 +155,31 @@ Template.dashboard_page.events({
 /////////////////////////////////////////////
 Template.additional.helpers({
   timeStart() {
+    var startDate = new Date(this.start);
     var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[this.start.getDay()];
+    var day = weekday[startDate.getDay()];
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[this.start.getMonth()];
-    var date = this.start.getDate();
-    var year = this.start.getFullYear();
-    var hour = this.start.getHours();
+    var month = months[startDate.getMonth()];
+    var date = startDate.getDate();
+    var year = startDate.getFullYear();
+    var hour = startDate.getHours();
     if (hour < 10) hour = "0" + hour;
-    var min = this.start.getMinutes();
+    var min = startDate.getMinutes();
     if (min < 10) min = "0" + min;
-
     return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min);
-    
   },
   timeEnd() {
+    var endDate = new Date(this.end);
     var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[this.end.getDay()];
+    var day = weekday[endDate.getDay()];
     var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[this.end.getMonth()];
-    var date = this.end.getDate();
-    var year = this.end.getFullYear();
-    var hour = this.end.getHours();
+    var month = months[endDate.getMonth()];
+    var date = endDate.getDate();
+    var year = endDate.getFullYear();
+    var hour = endDate.getHours();
     if (hour < 10) hour = "0" + hour;
-    var min = this.end.getMinutes();
+    var min = endDate.getMinutes();
     if (min < 10) min = "0" + min;
-
-
     return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min);
   }
 });
@@ -201,7 +188,6 @@ Template.additional.events({
 
   'click #delete-button': function(e) {
     //e.preventDefault();
-    console.log("wtf");
     Meteor.call('deleteBusyTimes', this, function(error, result) {
       if (error) throw "there are no additional busyTimes for some reason!";
       Meteor.call("getFullCalendarAdditional", function(error, result) {
@@ -212,9 +198,6 @@ Template.additional.events({
     });
   }
 });
-
-  
-
 
 
 /////////////////////////////////////////////

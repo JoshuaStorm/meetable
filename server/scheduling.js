@@ -123,6 +123,8 @@ Meteor.methods({
   // If they do, associate temp data with actual user. Destroy temp item.
   // Update all meetings they are a participant in to add their ids
   attachTempUser: function() {
+    var user = Meteor.users.findOne(this.userId);
+    if (!user || !user.services) return;
     var email = Meteor.users.findOne(this.userId).services.google.email;
     if (!email) {
       console.log("Error in attachTempUser: userId has no email");
@@ -210,27 +212,28 @@ Meteor.methods({
     }
   },
 
+  // Add an additional busy time to the users additional collection.
   addBusyTimes: function(busyTime) {
     var user = this.userId;
 
     var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
-      // Create a new set if necessary
-      if (!busy) {
-        Meteor.users.update(user, { // Now set the values again
-          $set: {
-            "profile.additionalBusyTimes": [busyTime]
-          }
-        });
-      } else {
-        Meteor.users.update(user, { // Now set the values again
-          $addToSet: {
-            "profile.additionalBusyTimes": busyTime
-          }
-        });
-      }
-
+    // Create a new set if necessary
+    if (!busy) {
+      Meteor.users.update(user, { // Now set the values again
+        $set: {
+          "profile.additionalBusyTimes": [busyTime]
+        }
+      });
+    } else {
+      Meteor.users.update(user, { // Now set the values again
+        $addToSet: {
+          "profile.additionalBusyTimes": busyTime
+        }
+      });
+    }
 },
 
+// Delete the given busyTime from the additionalBusyTimes collection
 deleteBusyTimes: function(busyTime) {
   var user = this.userId;
 
@@ -258,8 +261,6 @@ deleteBusyTimes: function(busyTime) {
         Meetings.update({_id:meetingId},{$set:setModifier});
       }
     }
-
-
 
     // Find overlap between this user and the availableTimes and insert in collection
     var busyTimes = findUserBusyTimes(this.userId, thisMeeting.windowStart, thisMeeting.windowEnd);
@@ -440,7 +441,7 @@ function sendInvitationEmail(inviterEmail, inviteeEmail, title) {
             "you already know works for everyone!\n\n" +
             "Join now! https://www.meetable.us\n\n\n" +
             "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
-  Meteor.call("sendEmail", inviteeEmail, inviterEmail, subject, text);
+  Meteor.call("sendEmail", inviteeEmail, "do-not-reply@becker.codes", subject, text);
 }
 
 // Same as above, but text is assuming user already has account... Not the best modularity but whatevs
@@ -481,45 +482,23 @@ function updateTempUser(email, meetingId) {
   console.log(tempUser);
 }
 
-
-
-// inserts time into the array of times, times, in chronological order. Pass by refrence.
-// Assumes times is already chronological (otherwise this would be a sorting function #neverAgain)
-function insertInOrder(calendarTimes) {
+// Return an array of input users finalized meeting times from Meetable
+function getFinalizedMeetingTimes(userId) {
+  var finalizedIds = Meteor.users.findOne(userId).profile.finalizedMeetings;
+  // A user may not have any finalized meetings
+  if (!finalizedIds || !finalizedIds.length) return [];
   var times = [];
-  var oldTimes = [];
 
-  for (var i = 0; i < calendarTimes.length; i++) {
-    var start = calendarTimes[i].start;
-    if (!(start instanceof Date)) start = new Date(start);
-    var end = calendarTimes[i].end;
-    if (!(end instanceof Date)) end = new Date(end);
-    var time = {start: start, end: end};
-    // Loop through the times stack and remove items one by one until the place of time is found
-    // Store popped times in oldTimes array so they may be restored after completion
-    while (times.length > 0) {
-      var oldTime = times.pop();
-
-      // If the current time is greater than the previous time, that means the current time has
-      // found its place in the stack and must be inserted right after the oldTime
-      if (time.start.getTime() >= oldTime.start.getTime()) {
-          times.push(oldTime);
-          break;
-      }
-
-      oldTimes.push(oldTime);
-    }
-
+  for (var i = 0; i < finalizedIds.length; i++) {
+    var meeting = Meetings.findOne(finalizedIds[i]);
+    var time = {
+      start: new Date(meeting.selectedBlock.startTime),
+      end: new Date(meeting.selectedBlock.endTime)
+    };
     times.push(time);
-
-    //restore the stack after inserting the time in proper place
-    while (oldTimes.length > 0) {
-      times.push(oldTimes.pop());
-    }
   }
   return times;
 }
-
 
 // Find users busy times using calendar info and additional busy times and stores them
 // chronologically in easy to use format from windowStart to windowEnd
@@ -527,67 +506,60 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   var user = Meteor.users.findOne(userId);
   var calendarTimes = user.profile.calendarEvents;
   var additionalBusyTimes = Meteor.users.findOne(userId).profile.additionalBusyTimes;
+  if (!additionalBusyTimes) additionalBusyTimes = [];
+  var meetingTimes = getFinalizedMeetingTimes(userId);
 
-  if (additionalBusyTimes)
-  var newCalendarTimes = calendarTimes.slice(0);
-  var newCalendarTimes = newCalendarTimes.concat(additionalBusyTimes);
+  calendarTimes = calendarTimes.concat(meetingTimes);
+  calendarTimes = calendarTimes.concat(additionalBusyTimes);
 
+  // Sort the times based on startTime
+  calendarTimes.sort(function(time1, time2) {
+    var key1 = new Date(time1.start);
+    var key2 = new Date(time2.start);
 
-  var calendarTimes = insertInOrder(newCalendarTimes);
+    if (key1 < key2) return -1;
+    if (key1 > key2) return 1;
+    return 0;
+  });
 
   var busyTimes = [];
 
+  // Add all the busy times in a proper format, ensure within the window
   for (var i = 0; i < calendarTimes.length; i++) {
     var start = calendarTimes[i].start;
-    if (!(start instanceof Date)) start = new Date(start);
     var end = calendarTimes[i].end;
+    // Slight deviations in how we store Dates, ensure they're consistent here.
+    // TODO: Store our data consistently such that we don't need to do this.
+    if (!(start instanceof Date)) start = new Date(start);
     if (!(end instanceof Date)) end = new Date(end);
+
     var busyTime = {startTime: 0, endTime: 0};
 
     // Only include events from windowStart to windowEnd
     // if the end of the event isn't within the window, exclude it
     // if start isn't withing the window, exclude it
-    if (end.getTime() < windowStart.getTime()) continue;
-    if (start.getTime() > windowEnd.getTime()) continue;
+    if (end < windowStart) continue;
+    if (start > windowEnd) continue;
 
-    // If this is the first element to be inserted in the array, the startTime is the window start
-    if (busyTimes.length === 0) {
-      busyTime.startTime = start;
-      if (start.getTime() < windowStart) busyTime.startTime = windowStart;
-      busyTime.endTime = end;
-      busyTimes.push(busyTime);
-    }
-    else {
-      busyTime.startTime = start;
-      if (start.getTime() < windowStart.getTime()) {
-        busyTime.startTime = windowStart;
-        start = windowStart;
-      }
-      busyTime.endTime = end;
-      if (end.getTime() > windowEnd.getTime()) {
-        busyTime.endTime = windowEnd;
-        end = windowEnd;
-      }
-      //if (end.getTime() > windowEnd.getTime()) busyTime.endTime = windowEnd;
+    if (start < windowStart) start = windowStart;
+    if (end > windowEnd)     end = windowEnd;
+
+    busyTime.startTime = start;
+    busyTime.endTime = end;
+
+    if (busyTimes.length !== 0) {
+      var prevBusyTime = busyTimes.pop();
+      var prevStartTime = prevBusyTime.startTime;
       // If the startTime of the current event is inside the previous event, this means these two events
-      // are partially overlapping. This means the busyTime should be from the startTime of the previous
-      // event, to the endTime of the event that lasts longer.
-      var oldBusyTime = busyTimes.pop();
-      var oldStartTime = oldBusyTime.startTime;
-      if ((start.getTime() >= oldBusyTime.startTime.getTime()) && (start.getTime() <= oldBusyTime.endTime.getTime())) {
-        busyTime.startTime = oldBusyTime.startTime;
-        busyTime.endTime = end;
-
-        if (oldBusyTime.endTime.getTime() > end.getTime()) busyTime.endTime = oldBusyTime.endTime;
+      // are partially overlapping. Coalesce them.
+      if ((start >= prevBusyTime.startTime) && (start <= prevBusyTime.endTime)) {
+        busyTime.startTime = prevBusyTime.startTime;
+        if (prevBusyTime.endTime > end) busyTime.endTime = prevBusyTime.endTime;
+      } else {
+        busyTimes.push(prevBusyTime);
       }
-      else busyTimes.push(oldBusyTime);
-
-      if (busyTime.endTime.getTime() > windowEnd.getTime()) busyTime.endTime = windowEnd;
-      // if the current start time is greater than or equal to the previous, the the event is already chronological
-      // otherwise, it needs to be placed in the array in chronological order
-      //console.log(busyTime.startTime);
-      busyTimes.push(busyTime);
     }
+    busyTimes.push(busyTime);
   }
   return busyTimes;
 }
@@ -673,9 +645,6 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
         };
          if (!availableTimes.includes(availableTime)) availableTimes.push(availableTime);
       }
-
-
-       
     }
   }
   // The second double for loop looks for slots of userAvailableTimes in otherAvailableTimes
