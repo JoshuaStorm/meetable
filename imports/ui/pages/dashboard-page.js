@@ -26,13 +26,22 @@ Template.dashboard_page.helpers({
       return Meteor.userId();
     },
     invites:function() {
-        return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesReceived;
+      return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesReceived;
+    },
+    numIncoming:function() { // for badge
+      return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesReceived.length;
     },
     outgoingMeetings:function() {
         return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesSent;
     },
+    numOutgoing:function() { // for badge
+      return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesSent.length;
+    },
     final: function() {
         return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings;
+    },
+    numFinalized:function() { // for badge
+      return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings.length;
     },
     additionalTime: function() {
         return Meteor.users.findOne(Meteor.userId()).profile.additionalBusyTimes;
