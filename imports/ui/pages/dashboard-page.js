@@ -27,6 +27,9 @@ Template.dashboard_page.helpers({
     },
     final: function() {
         return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings;
+    },
+    additionalTime: function() {
+        return Meteor.users.findOne(Meteor.userId()).profile.additionalBusyTimes;
     }
 });
 
@@ -115,7 +118,94 @@ Template.dashboard_page.events({
   'click .navbar-brand': function(e) {
     FlowRouter.go('/');
   },
+
+  'click #submit-extra-times': function(e) {
+    e.preventDefault();
+
+    var startTime = $('#datetime-start').val();
+    startTime = new Date(startTime);
+    var endTime = $('#datetime-end').val();
+    endTime = new Date(endTime);
+
+    if (isNaN(startTime.getTime())) {
+      Bert.alert( 'Please enter a valid start time.', 'danger', 'fixed-bottom');
+      throw 'Invalid Start';
+    }
+    else if (isNaN(endTime.getTime())) {
+      Bert.alert( 'Please enter a valid end time.', 'danger', 'fixed-bottom');
+      throw 'Invalid End';
+    }
+
+    if (endTime.getTime() <= startTime.getTime()) {
+      Bert.alert( 'End time must be after start time. ', 'danger', 'fixed-bottom');
+      throw 'EndTime greater than startTime';
+    }
+
+    var busyTime = {start: startTime, end: endTime};
+
+    Meteor.call('addBusyTimes', busyTime, function(error, result) {
+      if (error) {
+        console.log("Error in addBusyTimes: " + error);
+      } else {
+        Meteor.call("getFullCalendarAdditional", function(error, result) {
+          if (error) console.log(error);
+          $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
+          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
+        });
+      }
+    });
+  }
 });
+
+/////////////////////////////////////////////
+/////////  additional template  /////////////
+/////////////////////////////////////////////
+Template.additional.helpers({
+  timeStart() {
+    var startDate = new Date(this.start);
+    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    var day = weekday[startDate.getDay()];
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var month = months[startDate.getMonth()];
+    var date = startDate.getDate();
+    var year = startDate.getFullYear();
+    var hour = startDate.getHours();
+    if (hour < 10) hour = "0" + hour;
+    var min = startDate.getMinutes();
+    if (min < 10) min = "0" + min;
+    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min);
+  },
+  timeEnd() {
+    var endDate = new Date(this.end);
+    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    var day = weekday[endDate.getDay()];
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var month = months[endDate.getMonth()];
+    var date = endDate.getDate();
+    var year = endDate.getFullYear();
+    var hour = endDate.getHours();
+    if (hour < 10) hour = "0" + hour;
+    var min = endDate.getMinutes();
+    if (min < 10) min = "0" + min;
+    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min);
+  }
+});
+
+Template.additional.events({
+
+  'click #delete-button': function(e) {
+    //e.preventDefault();
+    Meteor.call('deleteBusyTimes', this, function(error, result) {
+      if (error) throw "there are no additional busyTimes for some reason!";
+      Meteor.call("getFullCalendarAdditional", function(error, result) {
+          if (error) console.log(error);
+          $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
+          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
+        });
+    });
+  }
+});
+
 
 /////////////////////////////////////////////
 /////////     invite Template      //////////

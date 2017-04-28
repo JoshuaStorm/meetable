@@ -8,7 +8,7 @@ Meteor.methods({
   getFullCalendarFinalized: function() {
     var finalizedIds = Meteor.users.findOne(this.userId).profile.finalizedMeetings;
     // A user may not have any finalized meetings
-    if (!finalizedIds || !finalizedIds.length) return null;
+    if (!finalizedIds || !finalizedIds.length) return [];
     var events = [];
 
     for (var i = 0; i < finalizedIds.length; i++) {
@@ -17,14 +17,32 @@ Meteor.methods({
         console.log("Error in getFullCalendarFinalized: Meeting Id exists on user but now in Meetings");
         return;
       }
-      console.log("Found finalized!: " + thisMeeting.title);
-      console.log(thisMeeting.selectedBlock.startTime);
-      console.log(thisMeeting.selectedBlock.endTime);
       var thisEvent = {
         title: thisMeeting.title,
         start: thisMeeting.selectedBlock.startTime,
         end:   thisMeeting.selectedBlock.endTime,
         color: "#b30000"
+      };
+      events.push(thisEvent);
+    }
+    return events;
+  },
+
+  getFullCalendarAdditional: function() {
+    var additionals = Meteor.users.findOne(this.userId).profile.additionalBusyTimes;
+    if (!additionals) return [];
+    var events = [];
+
+    for (var i = 0; i < additionals.length; i++) {
+      var additional = additionals[i];
+
+      var thisEvent = {
+        title: "User added busy time",
+        start: additional.start,
+        end: additional.end,
+        borderColor: "#b21503",
+        backgroundColor: "rgba(188, 183, 183, 0.5)",
+        textColor: "#000000",
       };
       events.push(thisEvent);
     }
