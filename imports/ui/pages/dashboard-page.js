@@ -110,6 +110,11 @@ Template.dashboard_page.events({
     // TODO: User dynamic fields instead of just comma separating emails
     var emails = $('#meetingInvitee').val().split(",");
     var length = $('#meetingLength').val();
+    var windowStart = $('#chooseWindowStart').val();
+    var windowEnd = $('#chooseWindowEnd').val();
+
+    console.log(windowStart);
+    console.log(windowEnd);
 
     // Remove all non-emails from this list
     // ReGex check email field. This is the 99.9% working email ReGex
@@ -120,13 +125,6 @@ Template.dashboard_page.events({
       if (emails[i].trim().match(regex)) cleanEmails.push(emails[i].trim());
       else console.log("Non-email passed in; removed from invitees list.")
     }
-
-    // TODO: Handled errors, enforce the text boxes all have a value
-    // TODO: Handle multiple emails, just passing an array of size 1 but backend should be able to handle multiple fine
-    // for now, the window of every meeting is the 24 hour period from clicking save
-    var windowStart = new Date();
-    var windowEnd = new Date(windowStart.valueOf());
-    windowEnd.setDate(windowEnd.getDate() + 1);
 
     // TODO: add fields to set the window of time to schedule the time
     // currently using 24 hours after time button was pressed
