@@ -46,6 +46,7 @@
                   </div>
                 </div>
 
+
                 <div class="form-group">
                   <div class="col-md-10 col-md-offset-2">
                     <button type="button" class="btn btn-default" id="cancelCreateMeeting">Cancel</button>
@@ -60,7 +61,8 @@
               <button id="invitesButton" type="button" class="btn btn-block btn-lg">
                 <div class="text-left">
                    Incoming
-                </div>
+                  <span class="badge">{{numIncoming}}</span>
+                </div> 
               </button>
             </div>
             <div id="incomingInvites" class="container-fluid dashboardDropdownContent">
@@ -77,6 +79,7 @@
               <button id="outgoingButton" type="button" class="btn btn-block btn-lg">
                 <div class="text-left">
                   Outgoing
+                  <span class="badge">{{numOutgoing}}</span>
                 </div>
               </button>
             </div>
@@ -95,6 +98,7 @@
                 <button id="meetingsButton" type="button" class="btn btn-block btn-lg">
                   <div class="text-left">
                     Finalized Meetings
+                    <span class="badge">{{numFinalized}}</span>
                   </div>
                 </button>
             </div>
