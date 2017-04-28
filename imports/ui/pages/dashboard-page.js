@@ -216,7 +216,6 @@ Template.invite.helpers({
     var thisMeeting = Meetings.findOne({_id:this.toString()});
     // iterate through all meeting participants to find index in array for the current user
     // start with index 1 because you can skip the first participant ( creator)
-    Session.set("ready", false);
     Meteor.call('readyToFinalize', this.toString(), function(error, result) {
       if (error) {
         console.log("readyToFinalize: " + error);
@@ -448,6 +447,10 @@ Template.outgoingFinalize.events({
     }
 });
 
+Template.finalizedMeeting.onCreated( function() {
+  this.pushedType = new ReactiveVar("notPushed");
+});
+
 Template.finalizedMeeting.helpers({
   meetingHost() {
     return Meetings.findOne({_id:this.toString()}).participants[0].email;
@@ -475,5 +478,15 @@ Template.finalizedMeeting.helpers({
     var end = Meetings.findOne({_id:this.toString()}).selectedBlock.endTime;
     var time=new Date(end).toLocaleString();
     return time;
+  },
+  pushedType: function() {
+    return Template.instance().pushedType.get();
+  }
+});
+
+Template.finalizedMeeting.events({
+  'click #pushEvent': function(e) {
+      Template.instance().pushedType.set('pushed');
+      //add code below to push the event to gcal
   }
 });
