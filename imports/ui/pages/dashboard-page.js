@@ -112,7 +112,7 @@ Template.dashboard_page.events({
     var length = $('#meetingLength').val();
     var windowStart = new Date($('#chooseWindowStart').val());
     var windowEnd = new Date($('#chooseWindowEnd').val());
-    
+
     // Remove all non-emails from this list
     // ReGex check email field. This is the 99.9% working email ReGex
     var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -132,6 +132,8 @@ Template.dashboard_page.events({
         var resetTitle = document.getElementById('meetingTitle').value ="";
         var resetInvitee = document.getElementById('meetingInvitee').value ="";
         var resetLength = document.getElementById('meetingLength').value ="";
+        var resetWindowStart = document.getElementById('chooseWindowStart').value ="";
+        var resetWindowEnd = document.getElementById('chooseWindowEnd').value ="";
         Bert.alert( 'Success! Meeting invite sent.', 'success', 'growl-bottom-left' );
       }
     });
