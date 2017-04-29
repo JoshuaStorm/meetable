@@ -61,6 +61,7 @@ Meteor.methods({
     var meetingId = Meetings.insert({
       title: title, //TODO: pass this as a parameter to createMeeting
       isFinalized: false,
+      addedToGCal: false,
       availableTimes: availableTimes,
       participants: participants,
       duration: duration * 3600 * 1000,

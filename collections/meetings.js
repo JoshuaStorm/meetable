@@ -58,6 +58,10 @@ Schemas.Meetings = new SimpleSchema({
         type: Boolean,
         label: "is every detail about this meeting finalized"
     },
+    addedToGCal: {
+        type: Boolean,
+        label: "has this event been added to the users gcal"
+    },
     readyToFinalize: {
         type: Boolean,
         label: "ready for the picker to pick a final time"

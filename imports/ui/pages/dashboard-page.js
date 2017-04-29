@@ -56,15 +56,15 @@ Template.dashboard_page.onRendered( () => {
     }
   });
 
-  //autopopulates the start field with an ISOstring of current time (which is readable by the html datetime-local)
-  //the tzoffset is to get the ISO from UTC time to current timezone
+  // autopopulates the start field with an ISOstring of current time (which is readable by the html datetime-local)
+  // the tzoffset is to get the ISO from UTC time to current timezone
   var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
   var isoStrStart = (new Date(Date.now() - tzoffset)).toISOString();
   var isoStrEnd = (new Date(Date.now() - tzoffset + 3600000)).toISOString(); // end time is an hour ahead of start time
   $('#datetime-start').val(isoStrStart.substring(0,isoStrStart.length-5));
   $('#datetime-end').val(isoStrEnd.substring(0,isoStrEnd.length-5));
 
-  
+
   // toggle main tabs
   // must be in this function because jQuery can only run on DOM after
   // the DOM is rendered (which is when this function is called)
@@ -494,12 +494,12 @@ Template.finalizedMeeting.helpers({
   },
   selectedStart() {
     var start = Meetings.findOne({_id:this.toString()}).selectedBlock.startTime;
-    var time=new Date(start).toLocaleString();
+    var time = new Date(start).toLocaleString();
     return time;
   },
   selectedEnd() {
     var end = Meetings.findOne({_id:this.toString()}).selectedBlock.endTime;
-    var time=new Date(end).toLocaleString();
+    var time = new Date(end).toLocaleString();
     return time;
   },
   pushedType: function() {
@@ -509,7 +509,10 @@ Template.finalizedMeeting.helpers({
 
 Template.finalizedMeeting.events({
   'click #pushEvent': function(e) {
-      Template.instance().pushedType.set('pushed');
-      //add code below to push the event to gcal
+    Template.instance().pushedType.set('pushed');
+    //add code below to push the event to gcal
+    Meteor.call('addMeetingToUserCalendar', this.toString(), function(error, result) {
+      if (error) console.log('addMeetingToUserCalendar: ' + error);
+    });
   }
 });
