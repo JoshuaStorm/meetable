@@ -4,7 +4,7 @@ import Meetings from '/collections/meetings.js';
 
 Meteor.methods({
   // Return an array of the current users finalized events in the FullCalendar format
-  // Return null if user does not have any finalized
+  // NOTE: This will NOT return the finalized meetings pushed to GCal.
   getFullCalendarFinalized: function() {
     var finalizedIds = Meteor.users.findOne(this.userId).profile.finalizedMeetings;
     // A user may not have any finalized meetings
@@ -17,6 +17,8 @@ Meteor.methods({
         console.log("Error in getFullCalendarFinalized: Meeting Id exists on user but now in Meetings");
         return;
       }
+      // Do not include events added to GCal to avoid presenting them twice to user
+      if (thisMeeting.addedToGCal) continue;
       var thisEvent = {
         title: thisMeeting.title,
         start: thisMeeting.selectedBlock.startTime,
