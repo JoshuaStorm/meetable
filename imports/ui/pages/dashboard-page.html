@@ -1,10 +1,10 @@
  <template name="dashboard_page">
 
   <body>
-<nav class="navbar navbar-toggleable-md navbar-dark bg-primary">
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-8">
+<nav class="navbar navbar-dark bg-primary">
+            <div >
               <a class="navbar-brand" href="#">Meetable</a>
-              <ul class="nav navbar-nav navbar-right">
+              <ul class="navbar-nav navbar-right pull-right">
                   {{> atNavButton}}
               </ul>
            </div>
@@ -45,6 +45,26 @@
                     <input type="number" class="form-control" id="meetingLength" placeholder="Length (hrs)">
                   </div>
                 </div>
+                <div class="form-group">
+                  <div class="col-md-10 datetimepicker">
+                    <input id="chooseWindowStart" class="set-start-date form-control" type="text" placeholder="Scheduling Window Start"/>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#chooseWindowStart').datetimepicker();
+                    });
+                </script>
+                 <div class="form-group">
+                  <div class="col-md-10 datetimepicker">
+                    <input id="chooseWindowEnd" class="set-end-date form-control" type="text" placeholder="Scheduling Window End"/>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#chooseWindowEnd').datetimepicker();
+                    });
+                </script>
 
                 <div class="form-group">
                   <div class="col-md-10 col-md-offset-2">
@@ -60,7 +80,8 @@
               <button id="invitesButton" type="button" class="btn btn-block btn-lg">
                 <div class="text-left">
                    Incoming
-                </div>
+                  <span class="badge">{{numIncoming}}</span>
+                </div> 
               </button>
             </div>
             <div id="incomingInvites" class="container-fluid dashboardDropdownContent">
@@ -77,6 +98,7 @@
               <button id="outgoingButton" type="button" class="btn btn-block btn-lg">
                 <div class="text-left">
                   Outgoing
+                  <span class="badge">{{numOutgoing}}</span>
                 </div>
               </button>
             </div>
@@ -95,6 +117,7 @@
                 <button id="meetingsButton" type="button" class="btn btn-block btn-lg">
                   <div class="text-left">
                     Finalized Meetings
+                    <span class="badge">{{numFinalized}}</span>
                   </div>
                 </button>
             </div>
