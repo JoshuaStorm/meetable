@@ -81,8 +81,17 @@ Meteor.methods({
 
       for (var j = 0; j < gCalEvents.items.length; j++) {
         var thisGCalEvent = gCalEvents.items[j];
-        // TODO: Reconsider how to handle full day events, for now just throw them away
-        if (thisGCalEvent.start.dateTime !== undefined) { // If there is no start.dateTime, it's a full day event
+        // Per the GCal spec, if start has a date property, it's a full day event
+        if (thisGCalEvent.start.hasOwnProperty('date')) {
+          var thisFullCalEvent = {
+            allDay: true,
+            title: thisGCalEvent.summary,
+            start: thisGCalEvent.start.date,
+            end: thisGCalEvent.end.date,
+            timeZone: thisGCalEvent.start.timeZone
+          };
+          fullCalEvents.push(thisFullCalEvent);
+        } else if (thisGCalEvent.start.hasOwnProperty('dateTime')) {
           var thisFullCalEvent = {
             title: thisGCalEvent.summary,
             start: thisGCalEvent.start.dateTime,
