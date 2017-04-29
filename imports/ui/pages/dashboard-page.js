@@ -470,10 +470,6 @@ Template.outgoingFinalize.events({
     }
 });
 
-Template.finalizedMeeting.onCreated( function() {
-  this.pushedType = new ReactiveVar("notPushed");
-});
-
 Template.finalizedMeeting.helpers({
   meetingHost() {
     return Meetings.findOne({_id:this.toString()}).participants[0].email;
@@ -502,17 +498,16 @@ Template.finalizedMeeting.helpers({
     var time = new Date(end).toLocaleString();
     return time;
   },
-  pushedType: function() {
-    return Template.instance().pushedType.get();
+  addedToGCal: function() {
+    var thisMeeting = Meetings.findOne({_id:this.toString()});
+    // iterate through all meeting participants to find index in array for the current user
+    // NOTE: Switch this to check all users, I don't think we should assume the first participant is always the creator. May get us into trouble later
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
+      var currUser = thisMeeting.participants[i];
+      if (currUser.id == Meteor.userId()) { // current user found
+        return currUser.addedToGCal;
+      }
+    }
   }
 });
 
-Template.finalizedMeeting.events({
-  'click #pushEvent': function(e) {
-    Template.instance().pushedType.set('pushed');
-    //add code below to push the event to gcal
-    Meteor.call('addMeetingToUserCalendar', this.toString(), function(error, result) {
-      if (error) console.log('addMeetingToUserCalendar: ' + error);
-    });
-  }
-});
