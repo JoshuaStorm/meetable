@@ -53,17 +53,20 @@ Template.dashboard_page.onRendered( () => {
     defaultView: 'agendaWeek',
     header: {
       center: 'month,agendaWeek,agendaDay' // buttons for switching between views
-    }
+    },
   });
 
-  // autopopulates the start field with an ISOstring of current time (which is readable by the html datetime-local)
-  // the tzoffset is to get the ISO from UTC time to current timezone
+
+  // initialize the date time picker
+  this.$('.datetimepicker').datetimepicker();
+
+  //autopopulates the start field with an ISOstring of current time (which is readable by the html datetime-local)
+  //the tzoffset is to get the ISO from UTC time to current timezone
   var tzoffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
   var isoStrStart = (new Date(Date.now() - tzoffset)).toISOString();
   var isoStrEnd = (new Date(Date.now() - tzoffset + 3600000)).toISOString(); // end time is an hour ahead of start time
   $('#datetime-start').val(isoStrStart.substring(0,isoStrStart.length-5));
   $('#datetime-end').val(isoStrEnd.substring(0,isoStrEnd.length-5));
-
 
   // toggle main tabs
   // must be in this function because jQuery can only run on DOM after
@@ -107,6 +110,8 @@ Template.dashboard_page.events({
     // TODO: User dynamic fields instead of just comma separating emails
     var emails = $('#meetingInvitee').val().split(",");
     var length = $('#meetingLength').val();
+    var windowStart = new Date($('#chooseWindowStart').val());
+    var windowEnd = new Date($('#chooseWindowEnd').val());
 
     // Remove all non-emails from this list
     // ReGex check email field. This is the 99.9% working email ReGex
@@ -118,13 +123,6 @@ Template.dashboard_page.events({
       else console.log("Non-email passed in; removed from invitees list.")
     }
 
-    // TODO: Handled errors, enforce the text boxes all have a value
-    // TODO: Handle multiple emails, just passing an array of size 1 but backend should be able to handle multiple fine
-    // for now, the window of every meeting is the 24 hour period from clicking save
-    var windowStart = new Date();
-    var windowEnd = new Date(windowStart.valueOf());
-    windowEnd.setDate(windowEnd.getDate() + 1);
-
     // TODO: add fields to set the window of time to schedule the time
     // currently using 24 hours after time button was pressed
     Meteor.call('createMeeting', title, emails, length, windowStart, windowEnd, function(error, result) {
@@ -134,6 +132,8 @@ Template.dashboard_page.events({
         var resetTitle = document.getElementById('meetingTitle').value ="";
         var resetInvitee = document.getElementById('meetingInvitee').value ="";
         var resetLength = document.getElementById('meetingLength').value ="";
+        var resetWindowStart = document.getElementById('chooseWindowStart').value ="";
+        var resetWindowEnd = document.getElementById('chooseWindowEnd').value ="";
         Bert.alert( 'Success! Meeting invite sent.', 'success', 'growl-bottom-left' );
       }
     });
