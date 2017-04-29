@@ -71,6 +71,7 @@ loggedIn.route('/dashboard', {
         $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
         $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
       });
+      Meteor.call("addMeetingToUserCalendar", 'pd9vXDkWMdvsDbvXi', function(e, r) {});
     });
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
   },

@@ -212,6 +212,7 @@ Meteor.methods({
 
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
+    console.log(meetingId);
     var thisMeeting = Meetings.findOne({_id:meetingId});
     // iterate through all meeting participants to find index in array for the current user
     // start with index 1 because you can skip the first participant (creator) set
@@ -322,7 +323,6 @@ Meteor.methods({
     });
 
     for (var i = 0; i < thisMeeting.participants.length; i++) {
-      console.log(thisMeeting.participants[i].id);
       thisId = thisMeeting.participants[i].id
       user = Meteor.users.findOne(thisId);
       // Add this meeting to each participant's finalizedMeetings
@@ -345,13 +345,6 @@ Meteor.methods({
         $pull: { "profile.meetingInvitesSent": meetingId }
       });
       user = Meteor.users.findOne(thisId);
-      console.log(user.services.google.email);
-      console.log("Sent: ");
-      console.log(user.profile.meetingInvitesSent);
-      console.log("Received: ");
-      console.log(user.profile.meetingInvitesReceived);
-      console.log("Finalized: ");
-      console.log(user.profile.finalizedMeetings);
     }
   },
   readyToFinalize: function(meetingId) {

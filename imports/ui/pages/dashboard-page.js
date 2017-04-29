@@ -68,7 +68,6 @@ Template.dashboard_page.onRendered( () => {
 
   // hide the meeting creation section when user cancels creation
   $("#cancelCreateMeeting").click(function() {
-    console.log("PLEASADS")
     $("#scheduleMeeting").slideUp(100);
   });
 });
@@ -375,6 +374,3 @@ Template.finalizedMeeting.helpers({
     return time;
   }
 });
-
-
-Meteor.call("addGCalEvent", null, "SWAG", null, null, null);

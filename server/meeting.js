@@ -17,9 +17,6 @@ Meteor.methods({
         console.log("Error in getFullCalendarFinalized: Meeting Id exists on user but now in Meetings");
         return;
       }
-      console.log("Found finalized!: " + thisMeeting.title);
-      console.log(thisMeeting.selectedBlock.startTime);
-      console.log(thisMeeting.selectedBlock.endTime);
       var thisEvent = {
         title: thisMeeting.title,
         start: thisMeeting.selectedBlock.startTime,
@@ -35,9 +32,6 @@ Meteor.methods({
   // meetingId (String): The meetingId
   addMeetingToUserCalendar: function(meetingId) {
     var thisMeeting = Meetings.findOne(meetingId);
-    Meteor.call('addGCalEvent', thisMeeting.title, thisMeeting.startTime, thisMeeting.endTime, thisUser.timeZone,)
-
-
-
-  }
+    Meteor.call('addGCalEvent', thisMeeting.title, thisMeeting.selectedBlock.startTime, thisMeeting.selectedBlock.endTime, thisMeeting.participants);
+  },
 });

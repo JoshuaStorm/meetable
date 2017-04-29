@@ -112,16 +112,18 @@ Meteor.methods({
 
   // Adds the input event to data into a gCal event on the current user primary calendar.
   // Only adds to the current user since we NEVER want to add to another users calendar without their DIRECT consent.
-  // NOTE: I put this here to keep it abstracted from our user data handling.
+  // NOTE: I put this here to keep it separate from our user data handling.
+  //       hence why we have addMeetingToUserCalendar and this.
   // title (String): Name of the event
   // start (Date): The start time for the event
   // end (Date): The end time for the event
   // participants ([Emails]): A list of participant emails
   addGCalEvent: function(title, start, end, participants) {
-    var timeZone = Meteor.users.findOne(this.userI).timeZone;
+    var timeZone = Meteor.users.findOne(this.userId).timeZone;
+
     var objectifiedEmails = [];
     for (var i = 0; i < participants.length; i++) {
-      objectifiedEmails.push({ 'email': participants[i] });
+      objectifiedEmails.push({ 'email': participants[i].email });
     }
 
     var event = {
@@ -140,6 +142,7 @@ Meteor.methods({
       calendarId: 'primary',
       resource: event
     };
+
     wrappedPutEvent(params);
   },
 
