@@ -2,6 +2,9 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 29, 2017 (Josh)
+- Stop considering events labeled as "available" (or as gCal confusingly calls it, "transparent") as busy times in our calculations. Still show them on the displayed calendar as a different color.
+
 ## April 28, 2017 (Josh)
 - Finished adding gCal events to user calendars.
 - Handle full day events.
