@@ -8,7 +8,7 @@ Meteor.methods({
   getFullCalendarFinalized: function() {
     var finalizedIds = Meteor.users.findOne(this.userId).profile.finalizedMeetings;
     // A user may not have any finalized meetings
-    if (!finalizedIds || !finalizedIds.length) return null;
+    if (!finalizedIds || !finalizedIds.length) return [];
     var events = [];
 
     for (var i = 0; i < finalizedIds.length; i++) {
@@ -28,6 +28,27 @@ Meteor.methods({
     return events;
   },
 
+  getFullCalendarAdditional: function() {
+    var additionals = Meteor.users.findOne(this.userId).profile.additionalBusyTimes;
+    if (!additionals) return [];
+    var events = [];
+
+    for (var i = 0; i < additionals.length; i++) {
+      var additional = additionals[i];
+
+      var thisEvent = {
+        title: "User added busy time",
+        start: additional.start,
+        end: additional.end,
+        borderColor: "#b21503",
+        backgroundColor: "rgba(188, 183, 183, 0.5)",
+        textColor: "#000000",
+      };
+      events.push(thisEvent);
+    }
+    return events;
+  },
+  
   // Add the given meeting ID to the curren users calendar
   // meetingId (String): The meetingId
   addMeetingToUserCalendar: function(meetingId) {
