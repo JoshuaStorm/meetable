@@ -58,7 +58,5 @@ Meteor.methods({
     Meetings.update({_id:meetingId}, {
       $set: { 'addedToGCal': true }
     });
-    var thisMeeting = Meetings.findOne(meetingId);
-    console.log(thisMeeting.addedToGCal);
   },
 });
