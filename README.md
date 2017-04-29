@@ -2,6 +2,11 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## April 28, 2017 (Josh)
+- Finished adding gCal events to user calendars.
+- Handle full day events.
+- Work on handling "transparent" events, pretty much events marked as "Available"
+
 ## April 27, 2017 (Josh)
 - Started adding gCal events to users calendars if they click a button (UI by Casey though).
 - Cleaned up some code and reviewed some PRs. Not much of my own code today.
