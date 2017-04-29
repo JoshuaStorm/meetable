@@ -36,8 +36,7 @@ Meteor.methods({
     // in meetings of more than two people, the event creator chooses the meeting time
     if (participants.length === 2) {
       participants[1].selector = true;
-    }
-    else {
+    } else {
       participants[0].selector = true;
     }
 
@@ -123,6 +122,8 @@ Meteor.methods({
   // If they do, associate temp data with actual user. Destroy temp item.
   // Update all meetings they are a participant in to add their ids
   attachTempUser: function() {
+    var user = Meteor.users.findOne(this.userId);
+    if (!user || !user.services) return;
     var email = Meteor.users.findOne(this.userId).services.google.email;
     if (!email) {
       console.log("Error in attachTempUser: userId has no email");
@@ -210,17 +211,53 @@ Meteor.methods({
     }
   },
 
+  // Add an additional busy time to the users additional collection.
+  addBusyTimes: function(busyTime) {
+    var user = this.userId;
+
+    var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
+    // Create a new set if necessary
+    if (!busy) {
+      Meteor.users.update(user, { // Now set the values again
+        $set: {
+          "profile.additionalBusyTimes": [busyTime]
+        }
+      });
+    } else {
+      Meteor.users.update(user, { // Now set the values again
+        $addToSet: {
+          "profile.additionalBusyTimes": busyTime
+        }
+      });
+    }
+},
+
+// Delete the given busyTime from the additionalBusyTimes collection
+deleteBusyTimes: function(busyTime) {
+  var user = this.userId;
+
+  var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
+  if (!busy) throw error;
+
+  Meteor.users.update(user, {
+    $pull: {
+      "profile.additionalBusyTimes": busyTime
+    }
+  });
+
+},
+
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
     var thisMeeting = Meetings.findOne({_id:meetingId});
     // iterate through all meeting participants to find index in array for the current user
-    // start with index 1 because you can skip the first participant (creator) set
-    for (var i = 1; i < thisMeeting.participants.length; i++) {
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
       if (currUser.id == userId) { // current user found
         var setModifier = {};
         setModifier['participants.' + i + '.accepted'] = true;
-        Meetings.update({_id:meetingId},{$set:setModifier});
+        Meetings.update({_id:meetingId}, {$set:setModifier});
+        break;
       }
     }
 
@@ -243,11 +280,9 @@ Meteor.methods({
     // Check if meeting is ready to finalize
     if (checkMeetingReadyToFinalize(meetingId)) {
       findDurationLongMeetingTimes(meetingId);
-      console.log("We checked if the meeting is ready to finalize!");
     }
   },
 
-  // TODO: finish lol
   // Decline a meeting invitation
   declineInvite: function(meetingId, userId) {
     var thisMeeting = Meetings.findOne({_id: meetingId});
@@ -259,6 +294,7 @@ Meteor.methods({
       if (participants[i].id === userId) {
         decliner = participants[i];
         participants.splice(i, 1); // Remove the element at index, in place
+        break;
       }
     }
     // Something is funky if the userId isn't in the participants list!
@@ -322,7 +358,6 @@ Meteor.methods({
     });
 
     for (var i = 0; i < thisMeeting.participants.length; i++) {
-      console.log(thisMeeting.participants[i].id);
       thisId = thisMeeting.participants[i].id
       user = Meteor.users.findOne(thisId);
       // Add this meeting to each participant's finalizedMeetings
@@ -330,11 +365,11 @@ Meteor.methods({
 
       if (finalized === undefined) {
         Meteor.users.update(thisId, {
-          $set:  { "profile.finalizedMeetings": [meetingId] }
+          $set: { "profile.finalizedMeetings": [meetingId] }
         });
       } else {
         Meteor.users.update(thisId, {
-          $addToSet:  { "profile.finalizedMeetings": meetingId }
+          $addToSet: { "profile.finalizedMeetings": meetingId }
         });
       }
       // Remove it from their received and sent
@@ -345,13 +380,6 @@ Meteor.methods({
         $pull: { "profile.meetingInvitesSent": meetingId }
       });
       user = Meteor.users.findOne(thisId);
-      console.log(user.services.google.email);
-      console.log("Sent: ");
-      console.log(user.profile.meetingInvitesSent);
-      console.log("Received: ");
-      console.log(user.profile.meetingInvitesReceived);
-      console.log("Finalized: ");
-      console.log(user.profile.finalizedMeetings);
     }
   },
   readyToFinalize: function(meetingId) {
@@ -429,7 +457,6 @@ function sendDeclinedEmail(inviterEmail, inviteeEmail, title) {
 // Create new tempUser if necessary
 function updateTempUser(email, meetingId) {
   var tempUser = Temp.findOne({ email: email });
-  console.log(tempUser);
   if (!tempUser) {
     Temp.insert({
       'email': email,
@@ -441,7 +468,6 @@ function updateTempUser(email, meetingId) {
     });
   }
   tempUser = Temp.findOne({ 'email': email });
-  console.log(tempUser);
 }
 
 // Return an array of input users finalized meeting times from Meetable
@@ -467,10 +493,13 @@ function getFinalizedMeetingTimes(userId) {
 function findUserBusyTimes(userId, windowStart, windowEnd) {
   var user = Meteor.users.findOne(userId);
   var calendarTimes = user.profile.calendarEvents;
-  // calendarTimes = insertInOrder(calendarTimes);
-
+  var additionalBusyTimes = Meteor.users.findOne(userId).profile.additionalBusyTimes;
+  if (!additionalBusyTimes) additionalBusyTimes = [];
   var meetingTimes = getFinalizedMeetingTimes(userId);
+
   calendarTimes = calendarTimes.concat(meetingTimes);
+  calendarTimes = calendarTimes.concat(additionalBusyTimes);
+
   // Sort the times based on startTime
   calendarTimes.sort(function(time1, time2) {
     var key1 = new Date(time1.start);
@@ -485,8 +514,13 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
 
   // Add all the busy times in a proper format, ensure within the window
   for (var i = 0; i < calendarTimes.length; i++) {
-    var start = new Date(calendarTimes[i].start);
-    var end = new Date(calendarTimes[i].end);
+    var start = calendarTimes[i].start;
+    var end = calendarTimes[i].end;
+    // Slight deviations in how we store Dates, ensure they're consistent here.
+    // TODO: Store our data consistently such that we don't need to do this.
+    if (!(start instanceof Date)) start = new Date(start);
+    if (!(end instanceof Date)) end = new Date(end);
+
     var busyTime = {startTime: 0, endTime: 0};
 
     // Only include events from windowStart to windowEnd
@@ -587,8 +621,16 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
           startTime: otherStart,
           endTime: otherEnd
         };
-
-        availableTimes.push(availableTime);
+        // This if statement says "if availableTimes does not contain an availableTime with the current availableTime startTime,
+        // add the current availableTime". Basically if this availableTime is not a duplicate.
+        if (availableTimes.filter(e => e.startTime == availableTime.startTime).length === 0) availableTimes.push(availableTime);
+      }
+      else if ((otherStart.getTime() >= userStart.getTime() && otherStart.getTime() <= userEnd.getTime()) && otherEnd.getTime() >= userEnd.getTime()) {
+        var availableTime = {
+          startTime: otherStart,
+          endTime: userEnd
+        };
+        if (availableTimes.filter(e => e.startTime == availableTime.startTime).length === 0) availableTimes.push(availableTime);
       }
     }
   }
@@ -606,11 +648,19 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
           startTime: userStart,
           endTime: userEnd
         };
-
-        availableTimes.push(availableTime);
+        if (availableTimes.filter(e => e.startTime == availableTime.startTime).length === 0) availableTimes.push(availableTime);
+      }
+      else if ((userStart.getTime() >= otherStart.getTime() && userStart.getTime() <= otherEnd.getTime()) && userEnd.getTime() >= otherEnd.getTime()) {
+        var availableTime = {
+          startTime: userStart,
+          endTime: otherEnd
+        };
+        if (availableTimes.filter(e => e.startTime == availableTime.startTime).length === 0) availableTimes.push(availableTime);
       }
     }
   }
+
+  console.log(availableTimes);
   return availableTimes;
 }
 
@@ -619,23 +669,23 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
 // TODO: change this metric for group meetings?
 // return and set flag for whether the meeting has been finalized
 function checkMeetingReadyToFinalize(meetingId) {
-    var thisMeeting = Meetings.findOne({_id:meetingId});
-    var finalized = true;
-    // iterate through all meeting participants and check if all have accepted
-    for (var i = 0; i < thisMeeting.participants.length; i++) {
-      var currUser = thisMeeting.participants[i];
-      if (currUser.accepted == false) { // current user found
-        finalized = false;
+  var thisMeeting = Meetings.findOne({_id:meetingId});
+  var finalized = true;
+  // iterate through all meeting participants and check if all have accepted
+  for (var i = 0; i < thisMeeting.participants.length; i++) {
+    var currUser = thisMeeting.participants[i];
+    if (currUser.accepted == false) { // current user found
+      finalized = false;
+    }
+  }
+  if (finalized == true) {
+    Meetings.update({_id:meetingId}, { // Now set the values again
+      $set: {
+        "readyToFinalize": true
       }
-    }
-    if (finalized == true) {
-      Meetings.update({_id:meetingId}, { // Now set the values again
-        $set: {
-          "readyToFinalize": true
-        }
-      })
-    }
-    return finalized;
+    })
+  }
+  return finalized;
 }
 
 // given a meetingId, look through the availableTimes and find duration long meeting times
