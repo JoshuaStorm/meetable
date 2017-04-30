@@ -50,12 +50,15 @@ Meteor.methods({
     return wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
   },
 
-  // Return an array of current users gCal events in the FullCalendar format
+  // Get current users gCal events in the FullCalendar format
+  // Return format is a { busy: [arrayOfFullCalEvents], available: [arrayOfFullCalEvents] }
   getFullCalendarEvents: function() {
     var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
     // Many users have multiple calendars, let's use them all for now
     // TODO: Include a preference to not include a certain calendar
-    var fullCalEvents = [];
+    var busyEvents = [];
+    var availableEvents = [];
+
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
     var nextWeek = new Date();
@@ -98,20 +101,26 @@ Meteor.methods({
             end: thisGCalEvent.end.dateTime,
             timeZone: thisGCalEvent.start.timeZone
           };
-          fullCalEvents.push(thisFullCalEvent);
+          // Events that are "transparent" are set to "available" (ie. shouldn't be considered for our busy times)
+          if (thisGCalEvent.hasOwnProperty('transparency') && thisGCalEvent.transparency === "transparent") {
+            thisFullCalEvent.color = '#00ba3e';
+            availableEvents.push(thisFullCalEvent);
+          } else {
+            busyEvents.push(thisFullCalEvent);
+          }
         }
       }
     }
-    return fullCalEvents;
+    return { 'busy': busyEvents, 'available': availableEvents };
   },
 
-  // Updates datebase with gCalEvents in the fulLCal format for CURRENT USER
+  // Updates datebase with 'busy' gCalEvents in the fullCal format for current user
   updateEventsInDB: function() {
     try {
       var events = Meteor.call("getFullCalendarEvents");
       Meteor.users.update(this.userId, {
         $set: {
-          "profile.calendarEvents": events
+          "profile.calendarEvents": events.busy
         }
       });
     } catch(e) {
