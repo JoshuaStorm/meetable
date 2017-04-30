@@ -21,6 +21,15 @@ Template.dashboard_page.helpers({
       if (user) {
         return user.services.google.given_name;
       }
+      else {
+        return "user that's not logged in"
+      }
+    },
+    email: function(){
+      var user = Meteor.user();
+      if (user) {
+        return user.services.google.email;
+      }
     },
     currentUser: function() {
       return Meteor.userId();

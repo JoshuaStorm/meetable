@@ -3,7 +3,7 @@
   <body>
 <nav class="navbar navbar-dark bg-primary">
             <div >
-              <a class="navbar-brand" href="#">Meetable</a>
+              <a class="navbar-brand" id="meetable-name" href="#">Meetable</a>
               <ul class="navbar-nav navbar-right pull-right">
                   {{> atNavButton}}
               </ul>
@@ -14,10 +14,7 @@
       <div class="row">
         <!-- Left column start -->
         <div class="col-sm-5" id="dashboardLeftCol">
-        <hr/>
-            {{#if currentUser}}
-                <h3> Welcome {{firstName}}, this is your dashboard.</h3>
-            {{/if}}
+          <h4> Welcome, {{email}}!</h4>
 
             <!-- Start schedule meeting block -->
             <div class="row">
@@ -207,7 +204,6 @@
 
         <!-- Right column start -->
         <div class="col-sm-7" id="dashboardRightCol">
-        <hr/>
           <div id="events-calendar"></div>
         </div>
          <!-- Right column end -->
