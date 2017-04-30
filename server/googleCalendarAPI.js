@@ -50,12 +50,15 @@ Meteor.methods({
     return wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
   },
 
-  // Return an array of current users gCal events in the FullCalendar format
+  // Get current users gCal events in the FullCalendar format
+  // Return format is a { busy: [arrayOfFullCalEvents], available: [arrayOfFullCalEvents] }
   getFullCalendarEvents: function() {
     var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
     // Many users have multiple calendars, let's use them all for now
     // TODO: Include a preference to not include a certain calendar
-    var fullCalEvents = [];
+    var busyEvents = [];
+    var availableEvents = [];
+
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
     var nextWeek = new Date();
@@ -81,28 +84,43 @@ Meteor.methods({
 
       for (var j = 0; j < gCalEvents.items.length; j++) {
         var thisGCalEvent = gCalEvents.items[j];
-        // TODO: Reconsider how to handle full day events, for now just throw them away
-        if (thisGCalEvent.start.dateTime !== undefined) { // If there is no start.dateTime, it's a full day event
-          var thisFullCalEvent = {
+        // Per the GCal spec, if start has a date property, it's a full day event
+        var thisFullCalEvent = {};
+        if (thisGCalEvent.start.hasOwnProperty('date')) {
+          thisFullCalEvent = {
+            allDay: true,
+            title: thisGCalEvent.summary,
+            start: thisGCalEvent.start.date,
+            end: thisGCalEvent.end.date,
+            timeZone: thisGCalEvent.start.timeZone
+          };
+        } else if (thisGCalEvent.start.hasOwnProperty('dateTime')) {
+          thisFullCalEvent = {
             title: thisGCalEvent.summary,
             start: thisGCalEvent.start.dateTime,
             end: thisGCalEvent.end.dateTime,
             timeZone: thisGCalEvent.start.timeZone
           };
-          fullCalEvents.push(thisFullCalEvent);
+        }
+        // Events that are "transparent" are set to "available" (ie. shouldn't be considered for our busy times)
+        if (thisGCalEvent.hasOwnProperty('transparency') && thisGCalEvent.transparency === "transparent") {
+          thisFullCalEvent.color = '#00ba3e'; // Green
+          availableEvents.push(thisFullCalEvent);
+        } else {
+          busyEvents.push(thisFullCalEvent);
         }
       }
     }
-    return fullCalEvents;
+    return { 'busy': busyEvents, 'available': availableEvents };
   },
 
-  // Updates datebase with gCalEvents in the fulLCal format for CURRENT USER
+  // Updates datebase with 'busy' gCalEvents in the fullCal format for current user
   updateEventsInDB: function() {
     try {
       var events = Meteor.call("getFullCalendarEvents");
       Meteor.users.update(this.userId, {
         $set: {
-          "profile.calendarEvents": events
+          "profile.calendarEvents": events.busy
         }
       });
     } catch(e) {

@@ -21,6 +21,18 @@ Template.dashboard_page.helpers({
       if (user) {
         return user.services.google.given_name;
       }
+      else {
+        return "user that's not logged in"
+      }
+    },
+    email: function(){
+      var user = Meteor.user();
+      if (user) {
+        return user.services.google.email;
+      }
+      else {
+        return "user that's not logged in"
+      }
     },
     currentUser: function() {
       return Meteor.userId();
@@ -92,7 +104,7 @@ Template.dashboard_page.onRendered( () => {
   $("#hideCalendarsButton").click(function(){
     $("#hideCalendars").slideToggle(100);
   });
-  $("#extraBustyTimesButton").click(function(){
+  $("#extraBusyTimesButton").click(function(){
     $("#extraBusyTimes").slideToggle(100);
   });
 
@@ -119,6 +131,10 @@ Template.dashboard_page.events({
     var cleanEmails = [];
     for (var i = 0; i < emails.length; i++) {
       // TODO: Prompt user when they pass a non-email?
+      if (emails[i].trim() === Meteor.users.findOne(Meteor.userId()).services.google.email) {
+        Bert.alert( 'Cannot schedule meeting with yourself', 'danger', 'growl-bottom-left' );
+        return;
+      }
       if (emails[i].trim().match(regex)) cleanEmails.push(emails[i].trim());
       else console.log("Non-email passed in; removed from invitees list.")
     }
@@ -394,10 +410,10 @@ Template.outgoing.helpers({
     var peopleList = Meetings.findOne({_id:this.toString()}).participants;
     var participants = "";
     var comma = ", ";
-    for (var i = 1; i < peopleList.length; i++) {
+    participants = participants.concat(peopleList[1].email);
+    for (var i = 2; i < peopleList.length; i++) {
+      participants = participants.concat(comma);
       participants = participants.concat(peopleList[i].email);
-      if (i > 1)
-        participants = participants.concat(comma);
     }
     return participants;
   },
@@ -441,10 +457,10 @@ Template.outgoingFinalize.helpers({
     var peopleList = Meetings.findOne({_id:this.toString()}).participants;
     var participants = "";
     var comma = ", ";
-    for (var i = 1; i < peopleList.length; i++) {
+    participants = participants.concat(peopleList[1].email);
+    for (var i = 2; i < peopleList.length; i++) {
+      participants = participants.concat(comma);
       participants = participants.concat(peopleList[i].email);
-      if (i > 1)
-        participants = participants.concat(comma);
     }
     return participants;
   }
@@ -478,10 +494,10 @@ Template.finalizedMeeting.helpers({
     var peopleList = Meetings.findOne({_id:this.toString()}).participants;
     var participants = "";
     var comma = ", ";
-    for (var i = 1; i < peopleList.length; i++) {
+    participants = participants.concat(peopleList[1].email);
+    for (var i = 2; i < peopleList.length; i++) {
+      participants = participants.concat(comma);
       participants = participants.concat(peopleList[i].email);
-      if (i > 1)
-        participants = participants.concat(comma);
     }
     return participants;
   },

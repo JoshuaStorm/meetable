@@ -3,7 +3,7 @@
   <body>
 <nav class="navbar navbar-dark bg-primary">
             <div >
-              <a class="navbar-brand" href="#">Meetable</a>
+              <a class="navbar-brand" id="meetable-name" href="#">Meetable</a>
               <ul class="navbar-nav navbar-right pull-right">
                   {{> atNavButton}}
               </ul>
@@ -14,10 +14,7 @@
       <div class="row">
         <!-- Left column start -->
         <div class="col-sm-5" id="dashboardLeftCol">
-        <hr/>
-            {{#if currentUser}}
-                <h3> Welcome {{firstName}}, this is your dashboard.</h3>
-            {{/if}}
+          <h4> Welcome, {{email}}!</h4>
 
             <!-- Start schedule meeting block -->
             <div class="row">
@@ -52,17 +49,23 @@
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#chooseWindowStart').datetimepicker();
+                        $('#chooseWindowStart').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
                     });
                 </script>
-                 <div class="form-group">
+                <div class="form-group">
                   <div class="col-md-10 datetimepicker">
                     <input id="chooseWindowEnd" class="set-end-date form-control" type="text" placeholder="Scheduling Window End"/>
-                    </div>
+                  </div>
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#chooseWindowEnd').datetimepicker();
+                        $('#chooseWindowEnd').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
                     });
                 </script>
 
@@ -150,7 +153,7 @@
             </div>
 
             <div class="row">
-              <button id="extraBustyTimesButton" type="button" class="btn btn-block btn-lg">
+              <button id="extraBusyTimesButton" type="button" class="btn btn-block btn-lg">
                 <div class="text-left">
                   Add Extra Busy Times
                 </div>
@@ -162,17 +165,38 @@
                 {{#each additionalTime}}
                   {{> additional}}
                 {{else}}
-                  <div class="container-fluid"> <p> You do not have any additional times that you are busy. </p></div>
+                  <div class="container-fluid"> <p> You do not have any additional busy times. </p></div>
                 {{/each}}
               </div>
               <form>
-                <label>Start
-                  <input id="datetime-start" type="datetime-local">
-                </label>
-                <label>End
-                  <input id="datetime-end" type="datetime-local">
-                </label>
-                <input type = "submit" value = "submit" id = "submit-extra-times" class="btn-primary">
+                <div class="form-group">
+                  <div class="container-fluid"> <p> Add a new busy time: </p></div>
+                  <div class="col-md-10 datetimepicker">
+                    <input id="datetime-start" class="set-start-date form-control" type="text" placeholder="Start Time"/>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datetime-start').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
+                    });
+                </script>
+                <div class="form-group">
+                  <div class="col-md-10 datetimepicker">
+                    <input id="datetime-end" class="set-end-date form-control" type="text" placeholder="End Time"/>
+                  </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datetime-end').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
+                    });
+                </script>
+                <button type = "button" class="btn btn-primary" id = "submit-extra-times">Submit</button>
               </form>
             </div>
         </div>
@@ -180,7 +204,6 @@
 
         <!-- Right column start -->
         <div class="col-sm-7" id="dashboardRightCol">
-        <hr/>
           <div id="events-calendar"></div>
         </div>
          <!-- Right column end -->
