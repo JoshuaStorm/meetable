@@ -245,7 +245,7 @@ Template.invite.helpers({
       }
     });
     // an incoming meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a two person meeting
-    if (thisMeeting.readyToFinalize && thisMeeting.participants.length == 2) {
+    if (thisMeeting.readyToFinalize && thisMeeting.participants.length === 2) {
       Template.instance().currentInviteType.set('readyToFinalize');
     }
     else {
@@ -300,7 +300,7 @@ Template.incoming.helpers({
     // NOTE: Switch this to check all users, I don't think we should assume the first participant is always the creator. May get us into trouble later
     for (var i = 0; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
-      if (currUser.id == Meteor.userId()) { // current user found
+      if (currUser.id === Meteor.userId()) { // current user found
         return currUser.accepted;
       }
     }
@@ -318,8 +318,8 @@ Template.readyToFinalize.helpers({
     // start with index 1 because you can skip the first participant ( creator)
     for (var i = 1; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
-      if (currUser.id == Meteor.userId()) { // current user found
-        if (currUser.selector == true) {
+      if (currUser.id === Meteor.userId()) { // current user found
+        if (currUser.selector) {
           Template.instance().currentFinalizeType.set('selector');
         }
         else {
@@ -511,3 +511,11 @@ Template.finalizedMeeting.helpers({
   }
 });
 
+Template.finalizedMeeting.events({
+  'click #pushEvent': function(e) {
+     //add code below to push the event to gcal
+     Meteor.call('addMeetingToUserCalendar', this.toString(), function(error, result) {
+       if (error) console.log('addMeetingToUserCalendar: ' + error);
+     });
+   }
+});

@@ -17,8 +17,13 @@ Meteor.methods({
         console.log("Error in getFullCalendarFinalized: Meeting Id exists on user but now in Meetings");
         return;
       }
-      // Do not include events added to GCal to avoid presenting them twice to user
-      if (thisMeeting.addedToGCal) continue;
+
+      for (var j = 0; j < thisMeeting.participants.length; j++) {
+        var thisParticipant = thisMeeting.participants[j];
+        // Do not include events added to GCal to avoid presenting them twice to user
+        if (thisParticipant.id === this.userId && thisParticipant.addedToGCal) continue;
+      }
+
       var thisEvent = {
         title: thisMeeting.title,
         start: thisMeeting.selectedBlock.startTime,
@@ -55,10 +60,18 @@ Meteor.methods({
   // meetingId (String): The meetingId
   addMeetingToUserCalendar: function(meetingId) {
     var thisMeeting = Meetings.findOne(meetingId);
-    Meteor.call('addGCalEvent', thisMeeting.title, thisMeeting.selectedBlock.startTime, thisMeeting.selectedBlock.endTime, thisMeeting.participants);
-    // Mark this as added to GCal
-    Meetings.update({_id:meetingId}, {
-      $set: { 'addedToGCal': true }
-    });
+    Meteor.call('addGCalEvent', thisMeeting.title, thisMeeting.selectedBlock.startTime, thisMeeting.selectedBlock.endTime);
+    // Mark this as added to GCal for the current user in the participant array of this meeting
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
+      var thisParticipant = thisMeeting.participants[i];
+      if (thisParticipant.id === this.userId) {
+        var setModifier = {};
+        setModifier['participants.' + i + '.addedToGCal'] = true;
+        Meetings.update(meetingId, {
+          $set: setModifier
+        });
+        break;
+      }
+    }
   },
 });

@@ -117,14 +117,10 @@ Meteor.methods({
   // title (String): Name of the event
   // start (Date): The start time for the event
   // end (Date): The end time for the event
-  // participants ([Emails]): A list of participant emails
-  addGCalEvent: function(title, start, end, participants) {
+  addGCalEvent: function(title, start, end) {
     var timeZone = Meteor.users.findOne(this.userId).timeZone;
-
-    var objectifiedEmails = [];
-    for (var i = 0; i < participants.length; i++) {
-      objectifiedEmails.push({ 'email': participants[i].email });
-    }
+    var email = Meteor.users.findOne(this.userId).services.google.email
+    var objectifiedEmail = { 'email': email };
 
     var event = {
       'summary': title,
@@ -136,7 +132,7 @@ Meteor.methods({
         'dateTime': end,
         'timeZone': timeZone,
       },
-      'attendees': objectifiedEmails,
+      'attendees': [objectifiedEmail],
     };
     var params = {
       calendarId: 'primary',
