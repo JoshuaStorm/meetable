@@ -62,6 +62,9 @@ Meteor.methods({
       Meteor.users.update(userId, {
         $pull: { 'profile.meetingInvitesReceived': meetingId }
       });
+      Meteor.users.update(userId, {
+        $pull: { 'profile.finalizedMeetings': meetingId }
+      });
     }
     // Remove the event itself
     Meetings.remove(meetingId);
