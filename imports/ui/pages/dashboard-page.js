@@ -30,6 +30,9 @@ Template.dashboard_page.helpers({
       if (user) {
         return user.services.google.email;
       }
+      else {
+        return "user that's not logged in"
+      }
     },
     currentUser: function() {
       return Meteor.userId();
