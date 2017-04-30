@@ -224,12 +224,14 @@
 <template name="incoming">
   <!-- user already accepted invite, now waiting on other participants to accept -->
   {{#if acceptedInvite}}
+  <div class="conatiner-fluid">
     <span class="label label-primary">Accepted, waiting for host to finalize time.</span>
     <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
+  </div>
   <!-- user has not accepted invite -->
   {{else}}
    <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
-    <div class="row">
+    <div class = "container-fluid">
       <button type="button" class="btn btn-default btn-sm" id="declineInvite">Decline</button>
       <button type="save" class="btn btn-primary btn-sm" id="acceptInvite">Accept</button>
     </div>
