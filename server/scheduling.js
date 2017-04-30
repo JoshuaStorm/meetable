@@ -516,6 +516,13 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   for (var i = 0; i < calendarTimes.length; i++) {
     var start = calendarTimes[i].start;
     var end = calendarTimes[i].end;
+    // All day events need to be reformatted so JS data doesn't timezone shift them extranouesly
+    if (calendarTimes[i].allDay) {
+      var splitStart = start.split("-");
+      var splitEnd = end.split("-");
+      var start = new Date(splitStart[0], splitStart[1], splitStart[2], 0, 0, 0, 0);
+      var end = new Date(splitEnd[0], splitEnd[1], splitEnd[2], 0, 0, 0, 0);
+    }
     // Slight deviations in how we store Dates, ensure they're consistent here.
     // TODO: Store our data consistently such that we don't need to do this.
     if (!(start instanceof Date)) start = new Date(start);
