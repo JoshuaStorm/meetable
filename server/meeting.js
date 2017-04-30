@@ -48,4 +48,22 @@ Meteor.methods({
     }
     return events;
   },
+
+  deleteMeeting: function(meetingId) {
+    var meeting = Meetings.findOne(meetingId);
+    var participants = meeting.participants;
+    // Remove from each user in this meeting
+    for (var i = 0; i < participants.length; i++) {
+      var userId = Meteor.users.findOne(participants[i].id);
+      // Remove from the users sent and and received
+      Meteor.users.update(userId, {
+        $pull: { 'profile.meetingInvitesSent': meetingId }
+      });
+      Meteor.users.update(userId, {
+        $pull: { 'profile.meetingInvitesReceived': meetingId }
+      });
+    }
+    // Remove the event itself
+    Meetings.remove(meetingId);
+  }
 });
