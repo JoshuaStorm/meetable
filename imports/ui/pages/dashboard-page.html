@@ -162,7 +162,7 @@
                 {{#each additionalTime}}
                   {{> additional}}
                 {{else}}
-                  <div class="container-fluid"> <p> You do not have any additional busy times. </p></div>
+                  <div class="container-fluid"><p> You do not have any additional busy times. </p></div>
                 {{/each}}
               </div>
               <form>
@@ -252,6 +252,9 @@
             {{startTime}} - {{endTime}}
           </label>
         </div>
+      {{else}}
+        <div class="container-fluid"> <p> You are not meetable for this time window. Please reschedule!</p></div>
+        <button type="delete" class="btn btn-primary" id="deleteMeeting">Delete</button>
       {{/each}}
       <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
       </form>
