@@ -52,7 +52,10 @@
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#chooseWindowStart').datetimepicker();
+                        $('#chooseWindowStart').datetimepicker({
+                          format: 'DD-MM-YYYY 09:00:00',
+                          minDate: new Date(),
+                        });
                     });
                 </script>
                 <div class="form-group">
@@ -62,7 +65,10 @@
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#chooseWindowEnd').datetimepicker();
+                        $('#chooseWindowEnd').datetimepicker({
+                           format: 'DD-MM-YYYY 22:00:00',
+                          minDate: new Date(),
+                        });
                     });
                 </script>
 
