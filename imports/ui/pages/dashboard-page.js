@@ -395,10 +395,10 @@ Template.outgoing.helpers({
     var peopleList = Meetings.findOne({_id:this.toString()}).participants;
     var participants = "";
     var comma = ", ";
-    for (var i = 1; i < peopleList.length; i++) {
+    participants = participants.concat(peopleList[1].email);
+    for (var i = 2; i < peopleList.length; i++) {
+      participants = participants.concat(comma);
       participants = participants.concat(peopleList[i].email);
-      if (i > 1)
-        participants = participants.concat(comma);
     }
     return participants;
   },
@@ -442,10 +442,10 @@ Template.outgoingFinalize.helpers({
     var peopleList = Meetings.findOne({_id:this.toString()}).participants;
     var participants = "";
     var comma = ", ";
-    for (var i = 1; i < peopleList.length; i++) {
+    participants = participants.concat(peopleList[1].email);
+    for (var i = 2; i < peopleList.length; i++) {
+      participants = participants.concat(comma);
       participants = participants.concat(peopleList[i].email);
-      if (i > 1)
-        participants = participants.concat(comma);
     }
     return participants;
   }
