@@ -119,6 +119,10 @@ Template.dashboard_page.events({
     var cleanEmails = [];
     for (var i = 0; i < emails.length; i++) {
       // TODO: Prompt user when they pass a non-email?
+      if (emails[i].trim() === Meteor.users.findOne(Meteor.userId()).services.google.email) {
+        Bert.alert( 'Cannot schedule meeting with yourself', 'danger', 'growl-bottom-left' );
+        return;
+      }
       if (emails[i].trim().match(regex)) cleanEmails.push(emails[i].trim());
       else console.log("Non-email passed in; removed from invitees list.")
     }
