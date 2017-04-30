@@ -52,7 +52,10 @@
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#chooseWindowStart').datetimepicker();
+                        $('#chooseWindowStart').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
                     });
                 </script>
                 <div class="form-group">
@@ -62,7 +65,10 @@
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#chooseWindowEnd').datetimepicker();
+                        $('#chooseWindowEnd').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
                     });
                 </script>
 
@@ -169,22 +175,28 @@
                 <div class="form-group">
                   <div class="container-fluid"> <p> Add a new busy time: </p></div>
                   <div class="col-md-10 datetimepicker">
-                    <input id="datetime-start" class="set-start-date form-control" type="text" placeholder="Scheduling Window Start"/>
+                    <input id="datetime-start" class="set-start-date form-control" type="text" placeholder="Start Time"/>
                     </div>
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#datetime-start').datetimepicker();
+                        $('#datetime-start').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
                     });
                 </script>
                 <div class="form-group">
                   <div class="col-md-10 datetimepicker">
-                    <input id="datetime-end" class="set-end-date form-control" type="text" placeholder="Scheduling Window End"/>
+                    <input id="datetime-end" class="set-end-date form-control" type="text" placeholder="End Time"/>
                   </div>
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#datetime-end').datetimepicker();
+                        $('#datetime-end').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
                     });
                 </script>
                 <button type = "button" class="btn btn-primary" id = "submit-extra-times">Submit</button>

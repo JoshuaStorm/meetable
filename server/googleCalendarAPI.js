@@ -85,29 +85,29 @@ Meteor.methods({
       for (var j = 0; j < gCalEvents.items.length; j++) {
         var thisGCalEvent = gCalEvents.items[j];
         // Per the GCal spec, if start has a date property, it's a full day event
+        var thisFullCalEvent = {};
         if (thisGCalEvent.start.hasOwnProperty('date')) {
-          var thisFullCalEvent = {
+          thisFullCalEvent = {
             allDay: true,
             title: thisGCalEvent.summary,
             start: thisGCalEvent.start.date,
             end: thisGCalEvent.end.date,
             timeZone: thisGCalEvent.start.timeZone
           };
-          fullCalEvents.push(thisFullCalEvent);
         } else if (thisGCalEvent.start.hasOwnProperty('dateTime')) {
-          var thisFullCalEvent = {
+          thisFullCalEvent = {
             title: thisGCalEvent.summary,
             start: thisGCalEvent.start.dateTime,
             end: thisGCalEvent.end.dateTime,
             timeZone: thisGCalEvent.start.timeZone
           };
-          // Events that are "transparent" are set to "available" (ie. shouldn't be considered for our busy times)
-          if (thisGCalEvent.hasOwnProperty('transparency') && thisGCalEvent.transparency === "transparent") {
-            thisFullCalEvent.color = '#00ba3e';
-            availableEvents.push(thisFullCalEvent);
-          } else {
-            busyEvents.push(thisFullCalEvent);
-          }
+        }
+        // Events that are "transparent" are set to "available" (ie. shouldn't be considered for our busy times)
+        if (thisGCalEvent.hasOwnProperty('transparency') && thisGCalEvent.transparency === "transparent") {
+          thisFullCalEvent.color = '#00ba3e'; // Green
+          availableEvents.push(thisFullCalEvent);
+        } else {
+          busyEvents.push(thisFullCalEvent);
         }
       }
     }
