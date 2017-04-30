@@ -2,8 +2,21 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+# April 29, 2017 (Group Meeting)
+- Reviewed our progress so far as a team
+- should we add the meet during lunch thing?
+- Assignments for the week:
+    - David - continue with OAuth, settings tab, make login screen nicer
+    - Shayan - filtered calendar backend; convert to minutes; name for people with no emails
+    - Josh - recalculate availability accepting; delete meetings backend
+    - Casey - A bunch of UI stuff
+
 ## April 29, 2017 (Josh)
 - Stop considering events labeled as "available" (or as gCal confusingly calls it, "transparent") as busy times in our calculations. Still show them on the displayed calendar as a different color.
+
+## April 28, 2017 (David)
+- Switched to new Google API client to make logging in work on all browsers and mobile
+- Made navbar display properly on small devices
 
 ## April 28, 2017 (Josh)
 - Finished adding gCal events to user calendars.
@@ -19,7 +32,7 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Cleaned up `findBusyTimes()` and made it consider our `finalizedMeetings` collection.
 - Fixed a longstanding bug where hitting the back button made is add calendar events again (like it would pile events on top of events).
 
-## April 26, 2017 (Group Meeting)
+## April 26, 2017 (TA Meeting)
 - Review status on the 4 big things we were supposed to do last week
 - Consider letting people add unavailable times even if they don't have a Google Calendar
 - Prioritization orders - extra unavailability times, group meetings, filter calendars, fix login on mobile, consider checking if people are available within a specific time within the window (are you meetable for dinner this week?)
