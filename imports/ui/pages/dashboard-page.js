@@ -387,6 +387,9 @@ Template.selector.events({
           });
         }
       });
+    },
+    'click #cancelInvite': function(event){
+      // change isReadytoFinalize
     }
 });
 
@@ -468,6 +471,9 @@ Template.outgoingFinalize.events({
 
         }
       });
+    },
+    'click #cancel': function(event){
+      // call function to set 'readytofinalize' to flase
     }
 });
 
