@@ -1,9 +1,9 @@
 // include Google's node packages (same syntax as meteor imports)
-import google from 'googleapis';
+import GoogleApis from 'googleapis';
 import googleAuth from 'google-auth-library';
 
 // Setup Google API libraries
-var gCalendar = google.calendar('v3'); // wrapper to HTTP module ot make requests
+var gCalendarApi = GoogleApis.calendar('v3'); // wrapper to HTTP module ot make requests
 var auth = new googleAuth(); // used to authentication requests sent by gCalendar
 
 // TODO: save these client secrets in a Meteor settings file (google it)
@@ -16,33 +16,75 @@ var oauth2Client = new auth.OAuth2(
 );
 
 // set auth for all Google requests; instead of doing it for each request function
-google.options({
+GoogleApis.options({
   auth: oauth2Client
 });
 
 Meteor.methods({
 
-    // Get auth info from the Meteor.users DB and setup oauth2Client to use it
-    getAuthInfo : function() {
-      try {
-        // get authentication info, which was retrieved from Meteor.loginWithGoogle()
-        var user = Meteor.users.findOne(this.userId);
-        var googleService = Meteor.users.findOne(this.userId).services.google;
-        var accessToken = googleService.accessToken;
-        var refreshToken = googleService.refreshToken;
-        var expiryDate =  googleService.expiresAt;
+  // source: http://stackoverflow.com/questions/32764769/meteor-accounts-google-token-expires
+  getAccessToken: function(user) {
+    const googleService = user.services.google;
+    // is token still valid for the next minute ?
+    if (googleService.expiresAt < Date.now() + 60 * 1000) {
+      // then just return the currently stored token
+      return {
+        access_token: googleService.accessToken,
+        token_type: 'Bearer',
+        id_token: googleService.idToken,
+        expiry_date: googleService.expiresAt,
+        refresh_token: googleService.refreshToken,
+      };
+    }
+    // fetch google service configuration
+    const googleServiceConfig = Accounts.loginServiceConfiguration.findOne({
+      service: 'google',
+    });
+    // declare an Oauth2 client
+    const oauth2Client = new GoogleApis.auth.OAuth2(googleServiceConfig.clientId, googleServiceConfig.secret);
+    // set the Oauth2 client credentials from the user refresh token
+    oauth2Client.setCredentials({
+      refresh_token: user.services.google.refreshToken,
+    });
+    // declare a synchronous version of the oauth2Client method refreshing access tokens
+    const refreshAccessTokenSync = Meteor.wrapAsync(oauth2Client.refreshAccessToken, oauth2Client);
+    // refresh tokens
+    const tokens = refreshAccessTokenSync();
+    // update the user document with the fresh token
+    Meteor.users.update(user._id, {
+      $set: {
+        'services.google.accessToken': tokens.access_token,
+        'services.google.idToken': tokens.id_token,
+        'services.google.expiresAt': tokens.expiry_date,
+        'services.google.refreshToken': tokens.refresh_token,
+      },
+    });
 
-        // TODO add a way to manuarlly refresh the token if it expires
-        oauth2Client.setCredentials({
-          access_token: accessToken,
-          refresh_token: refreshToken,
-          expiry_date: expiryDate
-        });
-      } catch(e) {
-        console.log(e);
-        return null;
-      }
+    // return the newly refreshed access token
+    return tokens;
   },
+
+  // Get auth info from the Meteor.users DB and setup oauth2Client to use it
+  getAuthInfo : function() {
+    try {
+      // get authentication info, which was retrieved from Meteor.loginWithGoogle()
+      var user = Meteor.users.findOne(this.userId);
+      var googleService = Meteor.users.findOne(this.userId).services.google;
+      var accessToken = googleService.accessToken;
+      var refreshToken = googleService.refreshToken;
+      var expiryDate =  googleService.expiresAt;
+
+      // TODO add a way to manuarlly refresh the token if it expires
+      oauth2Client.setCredentials({
+        access_token: accessToken,
+        refresh_token: refreshToken,
+        expiry_date: expiryDate
+      });
+    } catch(e) {
+      console.log(e);
+      return null;
+    }
+},
 
   // Get an array of all calendars for the current user
   // return data format: https://developers.google.com/google-apps/calendar/v3/reference/calendarList#resource
@@ -136,7 +178,7 @@ Meteor.methods({
 
 // Wrapping up async function for Meteor fibers. Confused? See:
 // https://github.com/JoshuaStorm/meetable/wiki/Meteor-Async
-var wrappedGetCalendarsList = Meteor.wrapAsync(gCalendar.calendarList.list);
-var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendar.freebusy.query);
-var wrappedGetEventList = Meteor.wrapAsync(gCalendar.events.list);
+var wrappedGetCalendarsList = Meteor.wrapAsync(gCalendarApi.calendarList.list);
+var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendarApi.freebusy.query);
+var wrappedGetEventList = Meteor.wrapAsync(gCalendarApi.events.list);
 var wrappedGetRefreshTokens = Meteor.wrapAsync(oauth2Client.refreshAccessToken);
