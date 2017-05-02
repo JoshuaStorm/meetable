@@ -50,7 +50,7 @@ Meteor.methods({
   getCalendarList: function() {
     var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
     var user = Meteor.users.findOne(this.userId);
-    var userCalendars = user.calendars;
+    var userCalendars = user.profile.calendars;
     if (!userCalendars) userCalendars = {};
     // If we find any new calendars we don't recognize, add to considered
     var gCalIds = [];
