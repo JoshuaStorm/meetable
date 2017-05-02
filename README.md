@@ -2,6 +2,9 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+# May 1, 2017 (David)
+- Finally fixed the issue where we weren't automatically refreshing access tokens when possible
+
 # May Day, 2017 (Josh)
 - Pushed the backend stuff for calendar considerations (whether or not a user actually wants us to use a specific calendar from GCal). Need backup on doing the front-end templating stuff for the checkboxes, but it should be pretty straightforward.
 
