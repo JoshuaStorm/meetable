@@ -488,14 +488,31 @@ function getFinalizedMeetingTimes(userId) {
   return times;
 }
 
+
+// Helper function to remove all the events from calendars users said not to consider
+function removeUnconsideredEvents(events, considerations) {
+  var consideredEvents = [];
+  for (var i = 0; i < events.length; i++) {
+    var thisId = events[i].calendarId;
+    // If this event is in a calendar marked as considered, add to consideredEvents
+    if (considerations[thisId].considered) consideredEvents.push(events[i]);
+  }
+  return consideredEvents;
+}
+
 // Find users busy times using calendar info and additional busy times and stores them
 // chronologically in easy to use format from windowStart to windowEnd
 function findUserBusyTimes(userId, windowStart, windowEnd) {
   var user = Meteor.users.findOne(userId);
+  var calendarConsiderations = user.profile.calendars;
+
   var calendarTimes = user.profile.calendarEvents;
+  if (!calendarTimes) calendarTimes = [];
+  calendarTimes = removeUnconsideredEvents(calendarTimes, calendarConsiderations);
   var additionalBusyTimes = Meteor.users.findOne(userId).profile.additionalBusyTimes;
   if (!additionalBusyTimes) additionalBusyTimes = [];
   var meetingTimes = getFinalizedMeetingTimes(userId);
+  if (!meetingTimes) meetingTimes = [];
 
   calendarTimes = calendarTimes.concat(meetingTimes);
   calendarTimes = calendarTimes.concat(additionalBusyTimes);

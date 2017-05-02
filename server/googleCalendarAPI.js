@@ -79,31 +79,29 @@ Meteor.methods({
   },
 
   // Get current users gCal events in the FullCalendar format
-  // Return format is a { busy: [arrayOfFullCalEvents], available: [arrayOfFullCalEvents] }
+  // Return format is a {calendarId: { busy: [arrayOfFullCalEvents], available: [arrayOfFullCalEvents] }}
   getFullCalendarEvents: function() {
     var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
     var calendarConsiderations = Meteor.users.findOne(this.userId).profile.calendars;
-    // Many users have multiple calendars, let's use them all for now
-    // TODO: Include a preference to not include a certain calendar
-    var busyEvents = [];
-    var availableEvents = [];
 
+    // NOTE: Grabbing up to four weeks in to the future.
+    // TODO: Make this grab more if a user views beyond 4 weeks into the future.
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
     var nextWeek = new Date();
-    // NOTE: Grabbing up to four weeks in to the future.
-    // TODO: Make this grab more if a user views beyond 4 weeks into the future.
     nextWeek.setDate(nextWeek.getDate() + 28);
+
+    var idToBusyAvailable = {};
     for (var i = 0; i < calendarList.items.length; i++) {
+      var busyEvents = [];
+      var availableEvents = [];
       // Holiday list creates SERIOUS problems for GoogleAPI (ironically), just avoid at all cost.
       // This seems to be a known problem, oddly enough. Regexp to the rescue!
       var holidayRE = new RegExp('.*holiday@group.v.calendar.google.com');
       if (holidayRE.test(calendarList.items[i].id)) continue;
 
       var calendarId = calendarList.items[i].id;
-      var strippedDots = calendarId.split('.').join();
-      // console.log(calendarConsiderations);
-      if (!calendarConsiderations[strippedDots].considered) continue;
+      var strippedDots = calendarId.split('.').join(); // CalendarId without dots so we can store it in Mongo
 
       var gCalEvents = wrappedGetEventList({
           'calendarId': calendarId,
@@ -126,14 +124,16 @@ Meteor.methods({
             title: thisGCalEvent.summary,
             start: thisGCalEvent.start.date,
             end: thisGCalEvent.end.date,
-            timeZone: thisGCalEvent.start.timeZone
+            timeZone: thisGCalEvent.start.timeZone,
+            calendarId: strippedDots
           };
         } else if (thisGCalEvent.start.hasOwnProperty('dateTime')) {
           thisFullCalEvent = {
             title: thisGCalEvent.summary,
             start: thisGCalEvent.start.dateTime,
             end: thisGCalEvent.end.dateTime,
-            timeZone: thisGCalEvent.start.timeZone
+            timeZone: thisGCalEvent.start.timeZone,
+            calendarId: strippedDots
           };
         }
         // Events that are "transparent" are set to "available" (ie. shouldn't be considered for our busy times)
@@ -144,21 +144,27 @@ Meteor.methods({
           busyEvents.push(thisFullCalEvent);
         }
       }
+      idToBusyAvailable[strippedDots] = { 'busy': busyEvents, 'available': availableEvents };
     }
-    return { 'busy': busyEvents, 'available': availableEvents };
+    return idToBusyAvailable;
   },
 
   // Updates datebase with 'busy' gCalEvents in the fullCal format for current user
   updateEventsInDB: function() {
     try {
-      var events = Meteor.call("getFullCalendarEvents");
+      var idToEvents = Meteor.call('getFullCalendarEvents');
+      var busyEvents = [];
+      for (var id in idToEvents) {
+        busyEvents = busyEvents.concat(idToEvents[id].busy);
+      }
+
       Meteor.users.update(this.userId, {
         $set: {
-          "profile.calendarEvents": events.busy
+          'profile.calendarEvents': busyEvents
         }
       });
     } catch(e) {
-      throw "Error in updateEventsInDB" + e;
+      throw 'Error in updateEventsInDB' + e;
     }
   },
 

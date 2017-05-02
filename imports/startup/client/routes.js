@@ -62,10 +62,17 @@ loggedIn.route('/dashboard', {
         Meteor.call("getFullCalendarEvents", false, function(error, result) {
           if (error) console.log(error);
           if (result) {
-            $( '#events-calendar' ).fullCalendar('removeEventSource', 'gCalBusy');
-            $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'gCal', events: result.busy });
-            $( '#events-calendar' ).fullCalendar('removeEventSource', 'gCalAvailable');
-            $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'gCal', events: result.available });
+            for (var id in result) {
+              var events = result[id];
+              // Remove dots to make this easily accessible with just our .profile.calendars data
+              var busyId = 'gCalBusy' + id;
+              var availableId = 'gCalAvailable' + id;
+
+              $( '#events-calendar' ).fullCalendar('removeEventSource', busyId);
+              $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
+              $( '#events-calendar' ).fullCalendar('addEventSource', { id: busyId, events: events.busy });
+              $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: events.available });
+            }
           }
           Meteor.call("updateEventsInDB", function(error, result) {});
         });
