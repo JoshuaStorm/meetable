@@ -1,9 +1,9 @@
 // include Google's node packages (same syntax as meteor imports)
-import google from 'googleapis';
+import GoogleApis from 'googleapis';
 import googleAuth from 'google-auth-library';
 
 // Setup Google API libraries
-var gCalendar = google.calendar('v3'); // wrapper to HTTP module ot make requests
+var gCalendarApi = GoogleApis.calendar('v3'); // wrapper to HTTP module ot make requests
 var auth = new googleAuth(); // used to authentication requests sent by gCalendar
 
 // TODO: save these client secrets in a Meteor settings file (google it)
@@ -16,33 +16,32 @@ var oauth2Client = new auth.OAuth2(
 );
 
 // set auth for all Google requests; instead of doing it for each request function
-google.options({
+GoogleApis.options({
   auth: oauth2Client
 });
 
 Meteor.methods({
 
-    // Get auth info from the Meteor.users DB and setup oauth2Client to use it
-    getAuthInfo : function() {
-      try {
-        // get authentication info, which was retrieved from Meteor.loginWithGoogle()
-        var user = Meteor.users.findOne(this.userId);
-        var googleService = Meteor.users.findOne(this.userId).services.google;
-        var accessToken = googleService.accessToken;
-        var refreshToken = googleService.refreshToken;
-        var expiryDate =  googleService.expiresAt;
+  // Get auth info from the Meteor.users DB and setup oauth2Client to use it
+  getAuthInfo : function() {
+    try {
+      // get authentication info, which was retrieved from Meteor.loginWithGoogle()
+      const user = Meteor.users.findOne(this.userId);
+      const googleService = Meteor.users.findOne(this.userId).services.google;
 
-        // TODO add a way to manuarlly refresh the token if it expires
-        oauth2Client.setCredentials({
-          access_token: accessToken,
-          refresh_token: refreshToken,
-          expiry_date: expiryDate
-        });
-      } catch(e) {
-        console.log(e);
-        return null;
-      }
-  },
+      const clientId = "940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com";
+      const secret = "mKa01x_C9W_MnlIuHVJRupb3";
+
+      // declare oauth2 client and set credentials
+      const oauth2Client = new GoogleApis.auth.OAuth2(clientId, secret);
+      // get user access token
+      const tokens = getAccessToken(user);
+      oauth2Client.setCredentials(tokens);
+    } catch(e) {
+      console.log(e);
+      return null;
+    }
+},
 
   // Get an array of all calendars for the current user
   // return data format: https://developers.google.com/google-apps/calendar/v3/reference/calendarList#resource
@@ -53,6 +52,11 @@ Meteor.methods({
   // Get current users gCal events in the FullCalendar format
   // Return format is a { busy: [arrayOfFullCalEvents], available: [arrayOfFullCalEvents] }
   getFullCalendarEvents: function() {
+    // make sure we have a working access token
+    const user = Meteor.users.findOne(this.userId);
+    const tokens = getAccessToken(user);
+    oauth2Client.setCredentials(tokens);
+
     var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
     // Many users have multiple calendars, let's use them all for now
     // TODO: Include a preference to not include a certain calendar
@@ -136,6 +140,11 @@ Meteor.methods({
   // start (Date): The start time for the event
   // end (Date): The end time for the event
   addGCalEvent: function(title, start, end) {
+    // make sure we have a working access token
+    const user = Meteor.users.findOne(this.userId);
+    const tokens = getAccessToken(user);
+    oauth2Client.setCredentials(tokens);
+
     var timeZone = Meteor.users.findOne(this.userId).timeZone;
     var email = Meteor.users.findOne(this.userId).services.google.email
     var objectifiedEmail = { 'email': email };
@@ -166,10 +175,52 @@ Meteor.methods({
   },
 });
 
+// source: http://stackoverflow.com/questions/32764769/meteor-accounts-google-token-expires
+// given a user Meteor object, return an object to pass into the oauth2client as credentials
+// will refresh tokens if the saved one is expired
+// needs to be called before every gCalendarApi call
+function getAccessToken(user) {
+  // get data saved in DB about google auth
+  const googleService = user.services.google;
+
+  // if token won't expire in the next minute, use it
+  if (googleService.expiresAt > Date.now() + 60 * 1000) {
+    // then just return the currently stored token
+    return {
+      access_token: googleService.accessToken,
+      token_type: 'Bearer',
+      id_token: googleService.idToken,
+      expiry_date: googleService.expiresAt,
+      refresh_token: googleService.refreshToken,
+    };
+  }
+
+  const oauth2Client = new GoogleApis.auth.OAuth2("940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com", "mKa01x_C9W_MnlIuHVJRupb3");
+  // set the Oauth2 client credentials from the user refresh token
+  oauth2Client.setCredentials({
+    refresh_token: user.services.google.refreshToken,
+  });
+  // declare a synchronous version of the oauth2Client method refreshing access tokens
+  const refreshAccessTokenSync = Meteor.wrapAsync(oauth2Client.refreshAccessToken, oauth2Client);
+  // refresh tokens
+  const tokens = refreshAccessTokenSync();
+  // update the user document with the fresh token
+  Meteor.users.update(user._id, {
+    $set: {
+      'services.google.accessToken': tokens.access_token,
+      'services.google.idToken': tokens.id_token,
+      'services.google.expiresAt': tokens.expiry_date,
+      'services.google.refreshToken': tokens.refresh_token,
+    },
+  });
+
+  // return the newly refreshed access token
+  return tokens;
+}
+
 // Wrapping up async function for Meteor fibers. Confused? See:
 // https://github.com/JoshuaStorm/meetable/wiki/Meteor-Async
-var wrappedGetCalendarsList = Meteor.wrapAsync(gCalendar.calendarList.list);
-var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendar.freebusy.query);
-var wrappedGetEventList = Meteor.wrapAsync(gCalendar.events.list);
-var wrappedGetRefreshTokens = Meteor.wrapAsync(oauth2Client.refreshAccessToken);
-var wrappedPutEvent = Meteor.wrapAsync(gCalendar.events.insert);
+var wrappedGetCalendarsList = Meteor.wrapAsync(gCalendarApi.calendarList.list);
+var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendarApi.freebusy.query);
+var wrappedGetEventList = Meteor.wrapAsync(gCalendarApi.events.list);
+var wrappedPutEvent = Meteor.wrapAsync(gCalendarApi.events.insert);
