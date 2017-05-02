@@ -22,64 +22,23 @@ GoogleApis.options({
 
 Meteor.methods({
 
-  // source: http://stackoverflow.com/questions/32764769/meteor-accounts-google-token-expires
-  getAccessToken: function(user) {
-    const googleService = user.services.google;
-    // is token still valid for the next minute ?
-    if (googleService.expiresAt < Date.now() + 60 * 1000) {
-      // then just return the currently stored token
-      return {
-        access_token: googleService.accessToken,
-        token_type: 'Bearer',
-        id_token: googleService.idToken,
-        expiry_date: googleService.expiresAt,
-        refresh_token: googleService.refreshToken,
-      };
-    }
-    // fetch google service configuration
-    const googleServiceConfig = Accounts.loginServiceConfiguration.findOne({
-      service: 'google',
-    });
-    // declare an Oauth2 client
-    const oauth2Client = new GoogleApis.auth.OAuth2(googleServiceConfig.clientId, googleServiceConfig.secret);
-    // set the Oauth2 client credentials from the user refresh token
-    oauth2Client.setCredentials({
-      refresh_token: user.services.google.refreshToken,
-    });
-    // declare a synchronous version of the oauth2Client method refreshing access tokens
-    const refreshAccessTokenSync = Meteor.wrapAsync(oauth2Client.refreshAccessToken, oauth2Client);
-    // refresh tokens
-    const tokens = refreshAccessTokenSync();
-    // update the user document with the fresh token
-    Meteor.users.update(user._id, {
-      $set: {
-        'services.google.accessToken': tokens.access_token,
-        'services.google.idToken': tokens.id_token,
-        'services.google.expiresAt': tokens.expiry_date,
-        'services.google.refreshToken': tokens.refresh_token,
-      },
-    });
-
-    // return the newly refreshed access token
-    return tokens;
-  },
-
   // Get auth info from the Meteor.users DB and setup oauth2Client to use it
   getAuthInfo : function() {
     try {
       // get authentication info, which was retrieved from Meteor.loginWithGoogle()
-      var user = Meteor.users.findOne(this.userId);
-      var googleService = Meteor.users.findOne(this.userId).services.google;
-      var accessToken = googleService.accessToken;
-      var refreshToken = googleService.refreshToken;
-      var expiryDate =  googleService.expiresAt;
+      const user = Meteor.users.findOne(this.userId);
+      const googleService = Meteor.users.findOne(this.userId).services.google;
 
-      // TODO add a way to manuarlly refresh the token if it expires
-      oauth2Client.setCredentials({
-        access_token: accessToken,
-        refresh_token: refreshToken,
-        expiry_date: expiryDate
-      });
+      const expiryDate =  googleService.expiresAt;
+      console.log("get auth info expiry: " + expiryDate);
+      const clientId = "940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com";
+      const secret = "mKa01x_C9W_MnlIuHVJRupb3";
+
+      // declare oauth2 client and set credentials
+      const oauth2Client = new GoogleApis.auth.OAuth2(clientId, secret);
+      // get user access token
+      const tokens = getAccessToken(user);
+      oauth2Client.setCredentials(tokens);
     } catch(e) {
       console.log(e);
       return null;
@@ -95,6 +54,10 @@ Meteor.methods({
   // Get current users gCal events in the FullCalendar format
   // Return format is a { busy: [arrayOfFullCalEvents], available: [arrayOfFullCalEvents] }
   getFullCalendarEvents: function() {
+    const user = Meteor.users.findOne(this.userId);
+    const tokens = getAccessToken(user);
+    oauth2Client.setCredentials(tokens);
+
     var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
     // Many users have multiple calendars, let's use them all for now
     // TODO: Include a preference to not include a certain calendar
@@ -178,6 +141,10 @@ Meteor.methods({
   // start (Date): The start time for the event
   // end (Date): The end time for the event
   addGCalEvent: function(title, start, end) {
+    const user = Meteor.users.findOne(this.userId);
+    const tokens = getAccessToken(user);
+    oauth2Client.setCredentials(tokens);
+
     var timeZone = Meteor.users.findOne(this.userId).timeZone;
     var email = Meteor.users.findOne(this.userId).services.google.email
     var objectifiedEmail = { 'email': email };
@@ -208,10 +175,64 @@ Meteor.methods({
   },
 });
 
+// source: http://stackoverflow.com/questions/32764769/meteor-accounts-google-token-expires
+function getAccessToken(user) {
+  const googleService = user.services.google;
+  // is token still valid for the next minute ?
+
+  console.log("getAccessToken: expiresat: " + googleService.expiresAt);
+  console.log("getAccessToken: dateNow: " + Date.now())
+
+  // if toekn won't expire for the next minute, use it
+  if (false){
+  //if (googleService.expiresAt > Date.now() + 60 * 1000) {
+    // then just return the currently stored token
+    console.log("current tokens work!!: expires on: ");
+    return {
+      access_token: googleService.accessToken,
+      token_type: 'Bearer',
+      id_token: googleService.idToken,
+      expiry_date: googleService.expiresAt,
+      refresh_token: googleService.refreshToken,
+    };
+  }
+  // // fetch google service configuration
+  // const googleServiceConfig = Accounts.loginServiceConfiguration.findOne({
+  //   service: 'google',
+  // });
+  // declare an Oauth2 client
+
+  console.log("we know the old stuff is expired.");
+  console.log("refresh token: " + user.services.google.refreshToken);
+  const oauth2Client = new GoogleApis.auth.OAuth2("940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com", "mKa01x_C9W_MnlIuHVJRupb3");
+  // set the Oauth2 client credentials from the user refresh token
+  oauth2Client.setCredentials({
+    refresh_token: user.services.google.refreshToken,
+  });
+  // declare a synchronous version of the oauth2Client method refreshing access tokens
+  const refreshAccessTokenSync = Meteor.wrapAsync(oauth2Client.refreshAccessToken, oauth2Client);
+  // refresh tokens
+  const tokens = refreshAccessTokenSync();
+  // update the user document with the fresh token
+  Meteor.users.update(user._id, {
+    $set: {
+      'services.google.accessToken': tokens.access_token,
+      'services.google.idToken': tokens.id_token,
+      'services.google.expiresAt': tokens.expiry_date,
+      'services.google.refreshToken': tokens.refresh_token,
+    },
+  });
+
+  console.log("made new tokens:");
+  console.log(tokens);
+
+  // return the newly refreshed access token
+  return tokens;
+}
+
 // Wrapping up async function for Meteor fibers. Confused? See:
 // https://github.com/JoshuaStorm/meetable/wiki/Meteor-Async
 var wrappedGetCalendarsList = Meteor.wrapAsync(gCalendarApi.calendarList.list);
 var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendarApi.freebusy.query);
 var wrappedGetEventList = Meteor.wrapAsync(gCalendarApi.events.list);
-var wrappedGetRefreshTokens = Meteor.wrapAsync(oauth2Client.refreshAccessToken);
-var wrappedPutEvent = Meteor.wrapAsync(gCalendar.events.insert);
+var wrappedPutEvent = Meteor.wrapAsync(gCalendarApi.events.insert);
