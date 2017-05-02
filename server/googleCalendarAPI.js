@@ -29,8 +29,6 @@ Meteor.methods({
       const user = Meteor.users.findOne(this.userId);
       const googleService = Meteor.users.findOne(this.userId).services.google;
 
-      const expiryDate =  googleService.expiresAt;
-      console.log("get auth info expiry: " + expiryDate);
       const clientId = "940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com";
       const secret = "mKa01x_C9W_MnlIuHVJRupb3";
 
@@ -54,6 +52,7 @@ Meteor.methods({
   // Get current users gCal events in the FullCalendar format
   // Return format is a { busy: [arrayOfFullCalEvents], available: [arrayOfFullCalEvents] }
   getFullCalendarEvents: function() {
+    // make sure we have a working access token
     const user = Meteor.users.findOne(this.userId);
     const tokens = getAccessToken(user);
     oauth2Client.setCredentials(tokens);
@@ -141,6 +140,7 @@ Meteor.methods({
   // start (Date): The start time for the event
   // end (Date): The end time for the event
   addGCalEvent: function(title, start, end) {
+    // make sure we have a working access token
     const user = Meteor.users.findOne(this.userId);
     const tokens = getAccessToken(user);
     oauth2Client.setCredentials(tokens);
@@ -176,18 +176,16 @@ Meteor.methods({
 });
 
 // source: http://stackoverflow.com/questions/32764769/meteor-accounts-google-token-expires
+// given a user Meteor object, return an object to pass into the oauth2client as credentials
+// will refresh tokens if the saved one is expired
+// needs to be called before every gCalendarApi call
 function getAccessToken(user) {
+  // get data saved in DB about google auth
   const googleService = user.services.google;
-  // is token still valid for the next minute ?
 
-  console.log("getAccessToken: expiresat: " + googleService.expiresAt);
-  console.log("getAccessToken: dateNow: " + Date.now())
-
-  // if toekn won't expire for the next minute, use it
-  if (false){
-  //if (googleService.expiresAt > Date.now() + 60 * 1000) {
+  // if token won't expire in the next minute, use it
+  if (googleService.expiresAt > Date.now() + 60 * 1000) {
     // then just return the currently stored token
-    console.log("current tokens work!!: expires on: ");
     return {
       access_token: googleService.accessToken,
       token_type: 'Bearer',
@@ -196,14 +194,7 @@ function getAccessToken(user) {
       refresh_token: googleService.refreshToken,
     };
   }
-  // // fetch google service configuration
-  // const googleServiceConfig = Accounts.loginServiceConfiguration.findOne({
-  //   service: 'google',
-  // });
-  // declare an Oauth2 client
 
-  console.log("we know the old stuff is expired.");
-  console.log("refresh token: " + user.services.google.refreshToken);
   const oauth2Client = new GoogleApis.auth.OAuth2("940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com", "mKa01x_C9W_MnlIuHVJRupb3");
   // set the Oauth2 client credentials from the user refresh token
   oauth2Client.setCredentials({
@@ -222,9 +213,6 @@ function getAccessToken(user) {
       'services.google.refreshToken': tokens.refresh_token,
     },
   });
-
-  console.log("made new tokens:");
-  console.log(tokens);
 
   // return the newly refreshed access token
   return tokens;

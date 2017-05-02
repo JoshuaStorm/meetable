@@ -9,7 +9,7 @@ Template.login_page.events({
 		e.preventDefault();
 		var googleLoginOptions = {
 			requestOfflineToken: true, 
-			forceApprovalPrompt: true,
+			forceApprovalPrompt: true, // TODO: we may be able to remove this, unclear
 			requestPermissions: ['https://www.googleapis.com/auth/calendar'],
 			loginStyle: 'popup'
 	  };
