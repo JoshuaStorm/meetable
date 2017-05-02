@@ -128,6 +128,38 @@ Meteor.methods({
     }
   },
 
+  // Adds the input event to data into a gCal event on the current user primary calendar.
+  // Only adds to the current user since we NEVER want to add to another users calendar without their DIRECT consent.
+  // NOTE: I put this here to keep it separate from our user data handling.
+  //       hence why we have addMeetingToUserCalendar and this.
+  // title (String): Name of the event
+  // start (Date): The start time for the event
+  // end (Date): The end time for the event
+  addGCalEvent: function(title, start, end) {
+    var timeZone = Meteor.users.findOne(this.userId).timeZone;
+    var email = Meteor.users.findOne(this.userId).services.google.email
+    var objectifiedEmail = { 'email': email };
+
+    var event = {
+      'summary': title,
+      'start': {
+        'dateTime': start,
+        'timeZone': timeZone, // TODO: Actually set timezone
+      },
+      'end': {
+        'dateTime': end,
+        'timeZone': timeZone,
+      },
+      'attendees': [objectifiedEmail],
+    };
+    var params = {
+      calendarId: 'primary',
+      resource: event
+    };
+
+    wrappedPutEvent(params);
+  },
+
   // Okay, actually I'll leave this function, it's useful for debugging
   printFromDB: function() {
     console.log(Meteor.users.findOne(this.userId).profile.calendarEvents);
@@ -140,3 +172,4 @@ var wrappedGetCalendarsList = Meteor.wrapAsync(gCalendar.calendarList.list);
 var wrappedGetFreeBusy = Meteor.wrapAsync(gCalendar.freebusy.query);
 var wrappedGetEventList = Meteor.wrapAsync(gCalendar.events.list);
 var wrappedGetRefreshTokens = Meteor.wrapAsync(oauth2Client.refreshAccessToken);
+var wrappedPutEvent = Meteor.wrapAsync(gCalendar.events.insert);
