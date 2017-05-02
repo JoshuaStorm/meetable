@@ -58,15 +58,17 @@ loggedIn.route('/dashboard', {
     // TODO: Should only need to attach Temp data if new signup but our current routing doesn't seem to expose signup vs. signin
     Meteor.call('getAuthInfo', function() {
       Meteor.call('attachTempUser', function(error, result) {});
-      Meteor.call("getFullCalendarEvents", false, function(error, result) {
-        if (error) console.log(error);
-        if (result) {
-          $( '#events-calendar' ).fullCalendar('removeEventSource', 'gCalBusy');
-          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'gCal', events: result.busy });
-          $( '#events-calendar' ).fullCalendar('removeEventSource', 'gCalAvailable');
-          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'gCal', events: result.available });
-        }
-        Meteor.call("updateEventsInDB", function(error, result) {});
+      Meteor.call('getCalendarList', function(error, result) {
+        Meteor.call("getFullCalendarEvents", false, function(error, result) {
+          if (error) console.log(error);
+          if (result) {
+            $( '#events-calendar' ).fullCalendar('removeEventSource', 'gCalBusy');
+            $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'gCal', events: result.busy });
+            $( '#events-calendar' ).fullCalendar('removeEventSource', 'gCalAvailable');
+            $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'gCal', events: result.available });
+          }
+          Meteor.call("updateEventsInDB", function(error, result) {});
+        });
       });
       Meteor.call('getFullCalendarFinalized', function(error, result) {
         if (error) console.log(error);

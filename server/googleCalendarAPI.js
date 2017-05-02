@@ -45,15 +45,44 @@ Meteor.methods({
   },
 
   // Get an array of all calendars for the current user
+  // Update the users calendars collection
   // return data format: https://developers.google.com/google-apps/calendar/v3/reference/calendarList#resource
   getCalendarList: function() {
-    return wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
+    var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
+    var user = Meteor.users.findOne(this.userId);
+    var userCalendars = user.calendars;
+    if (!userCalendars) userCalendars = {};
+    // If we find any new calendars we don't recognize, add to considered
+    var gCalIds = [];
+    for (var i = 0; i < calendarList.items.length; i++) {
+      // NOTE: Need to remove dots from ids to store them in Mongo
+      var thisId = calendarList.items[i].id.split('.').join();
+      gCalIds.push(thisId);
+      if (!userCalendars[thisId]) {
+        userCalendars[thisId] = {
+          'title': calendarList.items[i].summary,
+          'considered': true
+        };
+      }
+    }
+    // Make sure we remove calendars that a user may have removed
+    var updatedUserCalendars = {};
+    for (var id in userCalendars) {
+      if (gCalIds.indexOf(id) !== -1) updatedUserCalendars[id] = userCalendars[id];
+    }
+
+    Meteor.users.update(this.userId, {
+      $set: { 'profile.calendars': updatedUserCalendars }
+    });
+
+    return calendarList;
   },
 
   // Get current users gCal events in the FullCalendar format
   // Return format is a { busy: [arrayOfFullCalEvents], available: [arrayOfFullCalEvents] }
   getFullCalendarEvents: function() {
     var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
+    var calendarConsiderations = Meteor.users.findOne(this.userId).profile.calendars;
     // Many users have multiple calendars, let's use them all for now
     // TODO: Include a preference to not include a certain calendar
     var busyEvents = [];
@@ -71,12 +100,17 @@ Meteor.methods({
       var holidayRE = new RegExp('.*holiday@group.v.calendar.google.com');
       if (holidayRE.test(calendarList.items[i].id)) continue;
 
+      var calendarId = calendarList.items[i].id;
+      var strippedDots = calendarId.split('.').join();
+      // console.log(calendarConsiderations);
+      if (!calendarConsiderations[strippedDots].considered) continue;
+
       var gCalEvents = wrappedGetEventList({
-          calendarId: calendarList.items[i].id,
-          timeMin: lastWeek.toISOString(),
-          timeMax: nextWeek.toISOString(),
-          singleEvents: true,
-          orderBy: 'startTime'
+          'calendarId': calendarId,
+          'timeMin': lastWeek.toISOString(),
+          'timeMax': nextWeek.toISOString(),
+          'singleEvents': true,
+          'orderBy': 'startTime'
       });
       // Need to skip calendars that Google makes but aren't actually event holding
       if (gCalEvents === "Not Found")     continue;

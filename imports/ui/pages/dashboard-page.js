@@ -49,6 +49,9 @@ Template.dashboard_page.helpers({
     numOutgoing:function() { // for badge
       return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesSent.length;
     },
+    calendarIds: function() {
+      return Object.keys(Meteor.users.findOne(Meteor.userId()).profile.calendars);
+    },
     final: function() {
         return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings;
     },

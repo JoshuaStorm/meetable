@@ -667,7 +667,6 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
     }
   }
 
-  console.log(availableTimes);
   return availableTimes;
 }
 
