@@ -510,6 +510,8 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
     return 0;
   });
 
+  console.log(calendarTimes);
+
   var busyTimes = [];
 
   // Add all the busy times in a proper format, ensure within the window
@@ -556,6 +558,7 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
     }
     busyTimes.push(busyTime);
   }
+  console.log("busyTimes", busyTimes);
   return busyTimes;
 }
 
@@ -601,6 +604,7 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
     availableTimes.push(availableTime);
   }
 
+  console.log("availableTimes", availableTimes);
   return availableTimes;
 }
 
@@ -630,14 +634,14 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
         };
         // This if statement says "if availableTimes does not contain an availableTime with the current availableTime startTime,
         // add the current availableTime". Basically if this availableTime is not a duplicate.
-        if (availableTimes.filter(e => e.startTime == availableTime.startTime).length === 0) availableTimes.push(availableTime);
+        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
       }
       else if ((otherStart.getTime() >= userStart.getTime() && otherStart.getTime() <= userEnd.getTime()) && otherEnd.getTime() >= userEnd.getTime()) {
         var availableTime = {
           startTime: otherStart,
           endTime: userEnd
         };
-        if (availableTimes.filter(e => e.startTime == availableTime.startTime).length === 0) availableTimes.push(availableTime);
+        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
       }
     }
   }
@@ -655,14 +659,14 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
           startTime: userStart,
           endTime: userEnd
         };
-        if (availableTimes.filter(e => e.startTime == availableTime.startTime).length === 0) availableTimes.push(availableTime);
+        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
       }
       else if ((userStart.getTime() >= otherStart.getTime() && userStart.getTime() <= otherEnd.getTime()) && userEnd.getTime() >= otherEnd.getTime()) {
         var availableTime = {
           startTime: userStart,
           endTime: otherEnd
         };
-        if (availableTimes.filter(e => e.startTime == availableTime.startTime).length === 0) availableTimes.push(availableTime);
+        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
       }
     }
   }
