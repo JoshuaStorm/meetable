@@ -315,7 +315,7 @@ addRecurringBusyTimes: function(busyTime, windowStart, windowEnd, type) {
   //add times to additional busyTimes database
   addBusyTimes(times);
 
-}
+},
 
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
