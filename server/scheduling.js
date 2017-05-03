@@ -215,19 +215,25 @@ Meteor.methods({
   // Add an additional busy time to the users additional collection.
   addBusyTimes: function(busyTime) {
     var user = this.userId;
+    
+    // We make the busyTime an array so we can use the mongo modifier $each, which adds
+    // each nonrecurring element of the array passed to. Makes processing for recurring busyTimes much easier.
+    if (!(busyTime instanceof Array)) busyTime = [busyTime];
 
     var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
     // Create a new set if necessary
     if (!busy) {
       Meteor.users.update(user, { // Now set the values again
         $set: {
-          "profile.additionalBusyTimes": [busyTime]
+          "profile.additionalBusyTimes": busyTime
         }
       });
     } else {
       Meteor.users.update(user, { // Now set the values again
         $addToSet: {
-          "profile.additionalBusyTimes": busyTime
+          "profile.additionalBusyTimes": {
+            $each: busyTime
+          }
         }
       });
     }
@@ -264,17 +270,50 @@ addRecurringBusyTimes: function(busyTime, windowStart, windowEnd, type) {
   }
    type = type || "daily";
 
-   var startHours = busyTime
-
+   //split the start and end time to get hours, minutes and seconds
+   var start = busyTime.startTime.split(":");
+   var end = busyTime.startTime.split(":");
+   var times = [];
   
   if (type === "daily") {
-    var busyTimes = [];
-
+    
     var startTime = new Date();
-    sta
+    startTime.setHours(start[0], start[1], start[2]);
+    var endTime = new Date();
+    startTime.setHours(start[0], start[1], start[2]);
 
+    //the start and end time can not be equal
+    if (endTime.getTime() === startTime.getTime()) throw "Start time and end time cannot be the same";
+    
+    //if endTime is less than startTime, that means it must be the next day
+    // i.e. startTime = 22:00, endTime = 8:00. EndTime is 8:00 the next day not the current day!
+    if (endTime.getTime() < startTime.getTime()) {
+      endTime.setDate(endTime.getDate() + 1);
+    }
+
+    var time = {startTime: startTime, endTime: endTime};
+    times.push(time);
+
+    // Increment the busyTime and add it to the busyTime array until it reaches windowEnd
+    var incrementedTime = {startTime: new Date(time.startTime.getTime()), endTime: new Date(time.endTime.getTime())};
+    while (incrementedTime.startTime.getTime() < windowEnd.getTime()) {
+      incrementedTime.startTime.setDate(incrementedTime.startTime.getDate() + 1);
+      incrementedTime.endTime.setDate(incrementedTime.endTime.getDate() + 1);
+      times.push(incrementedTime);
+    }
+
+    // decrement the busyTime and add it to the busyTime array until it reaches windowEnd
+    var decrementedTime = {startTime: new Date(time.startTime.getTime()), endTime: new Date(time.endTime.getTime())};
+    while (decrementedTime.startTime.getTime() > windowStart.getTime()) {
+      decrementedTime.startTime.setDate(decrementedTime.startTime.getDate() - 1);
+      decrementedTime.endTime.setDate(decrementedTime.endTime.getDate() - 1);
+      times.push(decrementedTime);
+    }
   }
-  else throw "Type must be of type 'daily'"
+  else throw "Type must be of type 'daily'";
+
+  //add times to additional busyTimes database
+  addBusyTimes(times);
 
 }
 
