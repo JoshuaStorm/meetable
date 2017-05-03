@@ -248,6 +248,36 @@ deleteBusyTimes: function(busyTime) {
 
 },
 
+// Adds the busyTime multiple times based on type inside windowStart and windowEnd. 
+// Type can be: "daily." If windowStart is null, it is automatically set to 1 week
+// before the current date. WindowEnd === null, automatically 4 weeks ahead of date.
+// type === null, automatically daily.
+// IMPORTANT: BUSYTIME MUST ONLY CONTAIN A START TIME AND ENDTIME NOT A DATE
+addRecurringBusyTimes: function(busyTime, windowStart, windowEnd, type) {
+  if (windowStart === undefined) {
+    windowStart = new Date();
+    windowStart.setDate(windowStart.getDate() - 7);
+  }
+  if (windowEnd === undefined) {
+    windowEnd = new Date();
+    windowStart.setDate(windowStart.getDate() + 28)
+  }
+   type = type || "daily";
+
+   var startHours = busyTime
+
+  
+  if (type === "daily") {
+    var busyTimes = [];
+
+    var startTime = new Date();
+    sta
+
+  }
+  else throw "Type must be of type 'daily'"
+
+}
+
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
     console.log(meetingId);
