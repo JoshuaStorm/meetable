@@ -53,13 +53,16 @@ Template.dashboard_page.helpers({
       return Object.keys(Meteor.users.findOne(Meteor.userId()).profile.calendars);
     },
     final: function() {
-        return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings;
+      return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings;
     },
     numFinalized:function() { // for badge
       return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings.length;
     },
     additionalTime: function() {
-        return Meteor.users.findOne(Meteor.userId()).profile.additionalBusyTimes;
+      return Meteor.users.findOne(Meteor.userId()).profile.additionalBusyTimes;
+    },
+    userCalendars: function() {
+      return Object.keys(Meteor.users.findOne(Meteor.userId()).profile.calendars);
     }
 });
 
@@ -517,5 +520,12 @@ Template.finalizedMeeting.helpers({
     var end = Meetings.findOne({_id:this.toString()}).selectedBlock.endTime;
     var time=new Date(end).toLocaleString();
     return time;
+  }
+});
+
+Template.calendar.helpers({
+  calendarTitle: function() {
+    var cal = Meteor.users.findOne(Meteor.userID()).profile.calendars.;
+    console.log(cal.findOne(this.toString()).title);
   }
 });

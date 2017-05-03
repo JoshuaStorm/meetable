@@ -144,10 +144,9 @@
             </div>
             <div class="container-fluid dashboardDropdownContent" id="hideCalendars">
               <form>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString0">Courses</label>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString1">Activities</label>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString2">Office Hours</label>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString3">Basketball Practices</label>
+                {{#each userCalendars}}
+                  {{> calendar}}
+                {{/each}}
               </form>
             </div>
 
@@ -310,4 +309,9 @@
   <p> Participants: {{participants}}<br/>
   Start: {{selectedStart}} <br/>
   End: {{selectedEnd}}</p>
+</template>
+
+<!-- checkbox for choosing whether to display calendar -->
+<template name="calendar">
+ <label> <input type="checkbox" name="salutation" value="longCalendarString0">{{calendarTitle}}</label>
 </template>
