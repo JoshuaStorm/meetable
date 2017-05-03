@@ -221,7 +221,7 @@ Template.dashboard_page.events({
       throw 'No before greater or equal to no after';
     }
 
-    var busyTime = {startTime: beforeTime, endTime: afterTime};
+    var busyTime = {startTime: afterTime, endTime: beforeTime};
 
     Meteor.call('addRecurringBusyTimes', busyTime, function(error, result) {
         if (error) {
