@@ -101,9 +101,6 @@ Template.dashboard_page.onRendered( () => {
   $("#meetingsButton").click(function(){
     $("#finalizedMeetings").slideToggle(100);
   });
-  $("#hideCalendarsButton").click(function(){
-    $("#hideCalendars").slideToggle(100);
-  });
   $("#extraBusyTimesButton").click(function(){
     $("#extraBusyTimes").slideToggle(100);
   });
