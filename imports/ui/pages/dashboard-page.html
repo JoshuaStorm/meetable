@@ -81,7 +81,7 @@
                 <div class="text-left">
                    Incoming
                   <span class="badge">{{numIncoming}}</span>
-                </div> 
+                </div>
               </button>
             </div>
             <div id="incomingInvites" class="container-fluid dashboardDropdownContent">
@@ -268,6 +268,7 @@
   <span class="label label-warning">Waiting for responses...</span>
     <p><h5>{{meetingTitle}}</h5> ({{meetingDuration}})</p>
     <p>Participants: {{meetingParticipants}}</p>
+    <button type="cancel" class="btn btn-default" id="deleteOutgoing">Delete</button>
   {{/if}}
 </template>
 
@@ -293,7 +294,7 @@
           </label>
         </div>
       {{/each}}
-      <button type="cancel" class="btn btn-default" id="cancel">Cancel</button>
+      <button type="cancel" class="btn btn-default" id="deleteInvite">Delete</button>
       <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
       </form>
 </template>

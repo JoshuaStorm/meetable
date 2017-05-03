@@ -97,7 +97,6 @@ Template.dashboard_page.onRendered( () => {
 
   // hide the meeting creation section when user cancels creation
   $("#cancelCreateMeeting").click(function() {
-    console.log("PLEASADS")
     $("#scheduleMeeting").slideUp(100);
   });
 });
@@ -427,6 +426,16 @@ Template.outgoing.helpers({
   }
 });
 
+Template.outgoing.events({
+  'click #deleteOutgoing': function(event) {
+    event.preventDefault();
+    console.log("UNCOMMENT THIS METEOR CALL ONCE WE HAVE THE OTHER PR MERGE. IM TOO LAZY TO MERGE THE TWO PRS TO ONE");
+    // Meteor.call('deleteMeeting', this.toString(), function(error, result) {
+    //   if (error) console.log(error);
+    // });
+  }
+})
+
 Template.outgoingFinalize.helpers({
   inviterName() {
       return Meetings.findOne({_id:this.toString()}).participants[0].email;
@@ -474,10 +483,12 @@ Template.outgoingFinalize.events({
         }
       });
     },
-    'click #cancel': function(event) {
-      Meteor.call('setNotReadyToFinalize', this.toString(), function(error, result) {
-        if (error) console.log(error);
-      });
+    'click #deleteInvite': function(event) {
+      event.preventDefault();
+      console.log("UNCOMMENT THIS METEOR CALL ONCE WE HAVE THE OTHER PR MERGE. IM TOO LAZY TO MERGE THE TWO PRS TO ONE");
+      // Meteor.call('deleteMeeting', this.toString(), function(error, result) {
+      //   if (error) console.log(error);
+      // });
     }
 });
 
