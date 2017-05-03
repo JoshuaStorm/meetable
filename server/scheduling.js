@@ -6,7 +6,7 @@ Meteor.methods({
 
   // TODO: currently assumes meetings must be within 24 hours of clicking create meeting
   // invitedemails (array of strings): list of email addresses to invite
-  // duration (float): length of the meeting in hours
+  // duration (float): length of the meeting in minutes
   // windowStart (Moment.js object): earliest possible time to meet
   // windowEnd (Moment.js object): latest possible time to meet
 
@@ -63,7 +63,7 @@ Meteor.methods({
       isFinalized: false,
       availableTimes: availableTimes,
       participants: participants,
-      duration: duration * 3600 * 1000,
+      duration: duration * 60 * 1000,
       windowStart: windowStart,
       windowEnd: windowEnd,
       selectedStartTime: null, // will be calculated when all participants have accepted
