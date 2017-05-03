@@ -389,7 +389,9 @@ Template.selector.events({
       });
     },
     'click #cancelInvite': function(event){
-      // change isReadytoFinalize
+      Meteor.call('setNotReadyToFinalize', this.toString(), function(error, result) {
+        if (error) console.log(error);
+      });
     }
 });
 
@@ -472,8 +474,10 @@ Template.outgoingFinalize.events({
         }
       });
     },
-    'click #cancel': function(event){
-      // call function to set 'readytofinalize' to flase
+    'click #cancel': function(event) {
+      Meteor.call('setNotReadyToFinalize', this.toString(), function(error, result) {
+        if (error) console.log(error);
+      });
     }
 });
 
