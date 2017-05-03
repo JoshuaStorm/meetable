@@ -525,7 +525,37 @@ Template.finalizedMeeting.helpers({
 
 Template.calendar.helpers({
   calendarTitle: function() {
-    var cal = Meteor.users.findOne(Meteor.userID()).profile.calendars.;
-    console.log(cal.findOne(this.toString()).title);
+    var cal = Meteor.users.findOne(Meteor.userId()).profile.calendars;
+    // TODO: I am doing this dumb thing to add a space so it doesn't look weird. Fix this
+    return ' ' + cal[this.toString()].title + ' ';
+  }
+});
+
+Template.calendar.events({
+  'click input': function(event) {
+    var id = this.toString();
+    Meteor.call('setCalendarConsideration', id, function(error, result) {
+      if (error) console.log(error);
+      var busyId = 'gCalBusy' + id;
+      var availableId = 'gCalAvailable' + id;
+      $( '#events-calendar' ).fullCalendar('removeEventSource', busyId);
+      $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
+      if (result[id].considered) {
+        // OKAY THIS IS INEFFICIENT BUT BETTER THAN PULLING FROM GCAL SO SUE ME
+        var busyEvents = Meteor.users.findOne(Meteor.userId()).profile.calendarEvents;
+        var availableEvents = Meteor.users.findOne(Meteor.userId()).profile.availableEvents;
+        var addedBusy = [];
+        var addedAvailable = [];
+
+        for (var i = 0; i < busyEvents.length; i++) {
+          if (busyEvents[i].calendarId === id) addedBusy.push(busyEvents[i]);
+        }
+        for (i = 0; i < availableEvents.length; i++) {
+          if (availableEvents[i].calendarId === id) addedAvailable.push(availableEvents[i]);
+        }
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: busyId, events: addedBusy });
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: addedAvailable });
+      }
+    });
   }
 });

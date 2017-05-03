@@ -56,6 +56,9 @@ Meteor.methods({
     var gCalIds = [];
     for (var i = 0; i < calendarList.items.length; i++) {
       // NOTE: Need to remove dots from ids to store them in Mongo
+      var holidayRE = new RegExp('.*holiday@group.v.calendar.google.com');
+      if (holidayRE.test(calendarList.items[i].id)) continue;
+
       var thisId = calendarList.items[i].id.split('.').join();
       gCalIds.push(thisId);
       if (!userCalendars[thisId]) {
@@ -76,6 +79,27 @@ Meteor.methods({
     });
 
     return calendarList;
+  },
+
+  // Flip the considered boolean of the given calendarId, return the updated calendars
+  setCalendarConsideration: function(calendarId) {
+    var user = Meteor.users.findOne(this.userId);
+    var userCalendars = user.profile.calendars;
+    if (!userCalendars) {
+      console.log('Error in userCalendars: somehow trying to flip consideration of no calendars');
+      return;
+    }
+    console.log(userCalendars[calendarId].considered);
+    userCalendars[calendarId].considered = !userCalendars[calendarId].considered;
+    console.log(userCalendars[calendarId].considered);
+
+    Meteor.users.update(this.userId, {
+      $set: { 'profile.calendars': userCalendars }
+    });
+
+    console.log(Meteor.users.findOne(this.userId).profile.calendars);
+
+    return Meteor.users.findOne(this.userId).profile.calendars;
   },
 
   // Get current users gCal events in the FullCalendar format
@@ -149,19 +173,38 @@ Meteor.methods({
     return idToBusyAvailable;
   },
 
+  // Same as `getFullCalendarEvents` but only for calendars that are marked `considered` for this user
+  // NOTE: Must call `getCalendarList` to populate considerations first
+  // Get current users gCal events in the FullCalendar format
+  // Return format is a {calendarId: { busy: [arrayOfFullCalEvents], available: [arrayOfFullCalEvents] }}
+  getFullCalendarConsidered: function() {
+    var idToEvents = Meteor.call('getFullCalendarEvents');
+    var calendarConsiderations = Meteor.users.findOne(this.userId).profile.calendars;
+
+    var idToConsidered = {};
+    for (var id in idToEvents) {
+      if (calendarConsiderations[id].considered) idToConsidered[id] = idToEvents[id];
+    }
+
+    return idToConsidered;
+  },
+
   // Updates datebase with 'busy' gCalEvents in the fullCal format for current user
   updateEventsInDB: function() {
     try {
       var idToEvents = Meteor.call('getFullCalendarEvents');
       var busyEvents = [];
+      var availableEvents = [];
       for (var id in idToEvents) {
         busyEvents = busyEvents.concat(idToEvents[id].busy);
+        availableEvents = availableEvents.concat(idToEvents[id].available);
       }
 
       Meteor.users.update(this.userId, {
-        $set: {
-          'profile.calendarEvents': busyEvents
-        }
+        $set: { 'profile.calendarEvents': busyEvents }
+      });
+      Meteor.users.update(this.userId, {
+        $set: { 'profile.availableEvents': availableEvents }
       });
     } catch(e) {
       throw 'Error in updateEventsInDB' + e;

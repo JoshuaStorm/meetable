@@ -59,12 +59,11 @@ loggedIn.route('/dashboard', {
     Meteor.call('getAuthInfo', function() {
       Meteor.call('attachTempUser', function(error, result) {});
       Meteor.call('getCalendarList', function(error, result) {
-        Meteor.call("getFullCalendarEvents", false, function(error, result) {
+        Meteor.call('getFullCalendarConsidered', false, function(error, result) {
           if (error) console.log(error);
           if (result) {
             for (var id in result) {
               var events = result[id];
-              // Remove dots to make this easily accessible with just our .profile.calendars data
               var busyId = 'gCalBusy' + id;
               var availableId = 'gCalAvailable' + id;
 
