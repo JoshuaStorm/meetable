@@ -526,8 +526,11 @@ Template.finalizedMeeting.helpers({
 Template.calendar.helpers({
   calendarTitle: function() {
     var cal = Meteor.users.findOne(Meteor.userId()).profile.calendars;
-    // TODO: I am doing this dumb thing to add a space so it doesn't look weird. Fix this
-    return ' ' + cal[this.toString()].title + ' ';
+    return cal[this.toString()].title;
+  },
+  isChecked: function() {
+    var cal = Meteor.users.findOne(Meteor.userId()).profile.calendars;
+    return cal[this.toString()].considered;
   }
 });
 

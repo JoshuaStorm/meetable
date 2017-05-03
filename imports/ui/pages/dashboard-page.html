@@ -313,5 +313,9 @@
 
 <!-- checkbox for choosing whether to display calendar -->
 <template name="calendar">
- <label> <input type="checkbox" name="salutation" value="longCalendarString0">{{calendarTitle}}</label>
+  <div class="container-fluid">
+  <label>
+    <input type="checkbox" checked={{isChecked}}> {{calendarTitle}}
+  </label>
+  </div>
 </template>
