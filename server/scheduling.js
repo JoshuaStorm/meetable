@@ -388,7 +388,6 @@ deleteBusyTimes: function(busyTime) {
 
   // Set readyToFinalize to false, set the current users accepted to false
   setNotReadyToFinalize: function(meetingId) {
-    console.log("CALLING this shit");
     var thisMeeting = Meetings.findOne(meetingId);
     var participants = thisMeeting.participants
     for (var i = 0; i < participants.length; i++) {
