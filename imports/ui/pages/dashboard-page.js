@@ -107,6 +107,9 @@ Template.dashboard_page.onRendered( () => {
   $("#extraBusyTimesButton").click(function(){
     $("#extraBusyTimes").slideToggle(100);
   });
+  $("#settingsButton").click(function(){
+    $("#settings").slideToggle(100);
+  });
 
   // hide the meeting creation section when user cancels creation
   $("#cancelCreateMeeting").click(function() {
@@ -154,6 +157,7 @@ Template.dashboard_page.events({
       }
     });
   },
+
   'click .navbar-brand': function(e) {
     FlowRouter.go('/');
   },
@@ -193,7 +197,45 @@ Template.dashboard_page.events({
         });
       }
     });
+  },
+
+  'click #submit-no-meetings-times': function(e) {
+    e.preventDefault();
+
+    var beforeTime = $('#no-meetings-before').val();
+    var afterTime = $('#no-meetings-after').val();
+
+    // I don't know how datepicker could return an invalid time but let me know
+    // if it can
+
+    // if (isNaN(beforeTime.getTime())) {
+    //   Bert.alert( "Please enter a valid earliest meeting time.", 'danger', 'fixed-bottom');
+    //   throw 'Invalid Before';
+    // }
+    // else if (isNaN(afterTime.getTime())) {
+    //   Bert.alert( 'Please enter a valid latest meeting time.', 'danger', 'fixed-bottom');
+    //   throw 'Invalid After';
+    // }
+
+
+    // depends on ASCII values of strings in HH:MM format, which is probably fine #AMERICA
+    if (afterTime <= beforeTime) {
+      Bert.alert("You must have some time you're available. ", 'danger', 'fixed-bottom');
+      throw 'No before greater or equal to no after';
+    }
+
+    var busyTime = {startTime: beforeTime, endTime: afterTime};
+
+    Meteor.call('addRecurringBusyTimes', busyTime, function(error, result) {
+        if (error) {
+          console.log("Error in addRecurringBusyTimes: " + error);
+        } 
+        else {
+          console.log("added a recurring busy time for no before and after");
+        }
+      });
   }
+  
 });
 
 /////////////////////////////////////////////

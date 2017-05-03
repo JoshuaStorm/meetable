@@ -25,58 +25,58 @@
               </button>
             </div>
             <div id="scheduleMeeting" class="container-fluid dashboardDropdownContent">
-            <form>
-              <fieldset>
-                <div class="form-group">
-                  <div class="col-md-10">
-                    <input type="text" class="form-control" id="meetingInvitee" placeholder="Participant Email(s), comma separated">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-md-10">
-                    <input type="text" class="form-control" id="meetingTitle" placeholder="Title">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-md-10">
-                    <input type="number" class="form-control" id="meetingLength" placeholder="Length (hrs)">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-md-10 datetimepicker">
-                    <input id="chooseWindowStart" class="set-start-date form-control" type="text" placeholder="Scheduling Window Start"/>
+              <form>
+                <fieldset>
+                  <div class="form-group">
+                    <div class="col-md-10">
+                      <input type="text" class="form-control" id="meetingInvitee" placeholder="Participant Email(s), comma separated">
                     </div>
-                </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#chooseWindowStart').datetimepicker({
-                          format: 'MM-DD-YYYY h:mm A',
-                          minDate: new Date(),
-                        });
-                    });
-                </script>
-                <div class="form-group">
-                  <div class="col-md-10 datetimepicker">
-                    <input id="chooseWindowEnd" class="set-end-date form-control" type="text" placeholder="Scheduling Window End"/>
                   </div>
-                </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#chooseWindowEnd').datetimepicker({
-                          format: 'MM-DD-YYYY h:mm A',
-                          minDate: new Date(),
-                        });
-                    });
-                </script>
+                  <div class="form-group">
+                    <div class="col-md-10">
+                      <input type="text" class="form-control" id="meetingTitle" placeholder="Title">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-10">
+                      <input type="number" class="form-control" id="meetingLength" placeholder="Length (hrs)">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-10 datetimepicker">
+                      <input id="chooseWindowStart" class="set-start-date form-control" type="text" placeholder="Scheduling Window Start"/>
+                      </div>
+                  </div>
+                  <script type="text/javascript">
+                      $(function () {
+                          $('#chooseWindowStart').datetimepicker({
+                            format: 'MM-DD-YYYY h:mm A',
+                            minDate: new Date(),
+                          });
+                      });
+                  </script>
+                  <div class="form-group">
+                    <div class="col-md-10 datetimepicker">
+                      <input id="chooseWindowEnd" class="set-end-date form-control" type="text" placeholder="Scheduling Window End"/>
+                    </div>
+                  </div>
+                  <script type="text/javascript">
+                      $(function () {
+                          $('#chooseWindowEnd').datetimepicker({
+                            format: 'MM-DD-YYYY h:mm A',
+                            minDate: new Date(),
+                          });
+                      });
+                  </script>
 
-                <div class="form-group">
-                  <div class="col-md-10 col-md-offset-2">
-                    <button type="button" class="btn btn-default" id="cancelCreateMeeting">Cancel</button>
-                    <button type="save" class="btn btn-primary" id="save">Save</button>
+                  <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                      <button type="button" class="btn btn-default" id="cancelCreateMeeting">Cancel</button>
+                      <button type="save" class="btn btn-primary" id="save">Save</button>
+                    </div>
                   </div>
-                </div>
-              </fieldset>
-            </form>
+                </fieldset>
+              </form>
             </div>
 
             <div class="row">
@@ -152,6 +152,7 @@
               </form>
             </div>
 
+            
             <div class="row">
               <button id="extraBusyTimesButton" type="button" class="btn btn-block btn-lg">
                 <div class="text-left">
@@ -199,6 +200,53 @@
                 <button type = "button" class="btn btn-primary" id = "submit-extra-times">Submit</button>
               </form>
             </div>
+
+            <!-- Start Settings button and content -->
+            <div class="row">
+              <button id="settingsButton" type="button" class="btn btn-block btn-lg">
+                <div class="text-left">Settings</div>
+              </button>
+            </div>
+            <div class="container-fluid dashboardDropdownContent" id="settings">
+              <div class="col">
+                Datepickers and calendars here!
+                  <form>
+                  <div class="form-group">
+                    <div class="container-fluid"> <p> Add a new busy time: </p></div>
+                    <div class="col-md-10 datetimepicker">
+                      <!-- TODO: this lavel text is blue probably because of the datetimepicker class on the div, Not sure if the datetimepicker class is necessary? if it is, then we can assign the label a class and change its font color -->
+                      <label>
+                        I don't want to meet before:
+                        <input id="no-meetings-before" class="set-start-date form-control" type="text" placeholder="09:00"/>
+                      </label>
+                      </div>
+                  </div>
+                  <script type="text/javascript">
+                      $(function () {
+                          $('#no-meetings-before').datetimepicker({
+                            format: 'HH:mm'
+                          });
+                      });
+                  </script>
+                  <div class="form-group">
+                    <div class="col-md-10 datetimepicker">
+                      <label>I don't want to meet after:
+                        <input id="no-meetings-after" class="set-end-date form-control" type="text" placeholder="10:00"/>
+                      </label>
+                    </div>
+                  </div>
+                  <script type="text/javascript">
+                      $(function () {
+                          $('#no-meetings-after').datetimepicker({
+                            format: 'HH:mm'
+                          });
+                      });
+                  </script>
+                  <button type = "button" class="btn btn-primary" id = "submit-no-meetings-times">Submit</button>
+                </form>
+              </div>
+            </div>
+            <!-- End Settings button and content -->
         </div>
         <!--left column end -->
 
