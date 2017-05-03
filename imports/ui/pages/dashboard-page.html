@@ -3,7 +3,7 @@
   <body>
 <nav class="navbar navbar-dark bg-primary">
             <div >
-              <a class="navbar-brand" href="#">Meetable</a>
+              <a class="navbar-brand" id="meetable-name" href="#">Meetable</a>
               <ul class="navbar-nav navbar-right pull-right">
                   {{> atNavButton}}
               </ul>
@@ -14,10 +14,7 @@
       <div class="row">
         <!-- Left column start -->
         <div class="col-sm-5" id="dashboardLeftCol">
-        <hr/>
-            {{#if currentUser}}
-                <h3> Welcome {{firstName}}, this is your dashboard.</h3>
-            {{/if}}
+          <h4> Welcome, {{email}}!</h4>
 
             <!-- Start schedule meeting block -->
             <div class="row">
@@ -52,7 +49,10 @@
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#chooseWindowStart').datetimepicker();
+                        $('#chooseWindowStart').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
                     });
                 </script>
                 <div class="form-group">
@@ -62,7 +62,10 @@
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#chooseWindowEnd').datetimepicker();
+                        $('#chooseWindowEnd').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
                     });
                 </script>
 
@@ -169,22 +172,28 @@
                 <div class="form-group">
                   <div class="container-fluid"> <p> Add a new busy time: </p></div>
                   <div class="col-md-10 datetimepicker">
-                    <input id="datetime-start" class="set-start-date form-control" type="text" placeholder="Scheduling Window Start"/>
+                    <input id="datetime-start" class="set-start-date form-control" type="text" placeholder="Start Time"/>
                     </div>
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#datetime-start').datetimepicker();
+                        $('#datetime-start').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
                     });
                 </script>
                 <div class="form-group">
                   <div class="col-md-10 datetimepicker">
-                    <input id="datetime-end" class="set-end-date form-control" type="text" placeholder="Scheduling Window End"/>
+                    <input id="datetime-end" class="set-end-date form-control" type="text" placeholder="End Time"/>
                   </div>
                 </div>
                 <script type="text/javascript">
                     $(function () {
-                        $('#datetime-end').datetimepicker();
+                        $('#datetime-end').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
                     });
                 </script>
                 <button type = "button" class="btn btn-primary" id = "submit-extra-times">Submit</button>
@@ -195,7 +204,6 @@
 
         <!-- Right column start -->
         <div class="col-sm-7" id="dashboardRightCol">
-        <hr/>
           <div id="events-calendar"></div>
         </div>
          <!-- Right column end -->
@@ -306,4 +314,10 @@
   <p> Participants: {{participants}}<br/>
   Start: {{selectedStart}} <br/>
   End: {{selectedEnd}}</p>
+  <!-- only display the push to Gcal button once. After being pushed, take away the button and display label confirming push has already occurred -->
+  {{#if addedToGCal}}
+    <span class="label label-default">Event pushed to Google calendar</span>
+  {{else}}
+    <a href="javascript:void(0)" class="btn btn-raised btn-primary btn-xs" id="pushEvent">Push to Google calendar</a>
+  {{/if}}
 </template>

@@ -1,30 +1,29 @@
-    "google" : {
-        "accessToken" : "ya29.Gls5BJ5igP2_aSt8048UzhkVrrTf_b9c1Ih1Hn_hhDi30B05JLnsld7wiGWqTicUz5hbqAhNQcZi9jPGTBCz1p4H2f3WnRfJCyjag3gVEWUINrfPmXmWtcEXGZUe",
-        "idToken" : "eyJhbGciOiJSUzI1NiIsImtpZCI6IjIwNjRmMDkxODNiODA0OGY4ODFlYTZmMDMzNmJkOGE5OGVkYmFlOWQifQ.eyJhenAiOiI5NDA5NTUyMzEzODgtOWQxZ3Q0bm5zZnRybm40c3U4bDFqa3I0ZDI3Y29vZW8uYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI5NDA5NTUyMzEzODgtOWQxZ3Q0bm5zZnRybm40c3U4bDFqa3I0ZDI3Y29vZW8uYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTEyNjkzMTU2MDMwOTEzNjAwNjMiLCJlbWFpbCI6InRpbWV3YXJwdHJpbzExQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoibFZBN2RybkZ0WkNhN1pBTEkxekcxdyIsImlzcyI6ImFjY291bnRzLmdvb2dsZS5jb20iLCJpYXQiOjE0OTMzMjQ0NDcsImV4cCI6MTQ5MzMyODA0N30.G5ZQ_81Z4aDNlkzFfa1W1MsDwfYZlpZRplUzrQSV_AOZISYfEKh8Ce-DLzxf764JBJ0OITtrb73M0BedbT0oge_zSvCWguNThIqXwrKbcfCa_GA462iyho09rjNBuroWFPjZFRUN0pfiTWp9S3msJqjA7K3dTDBBzqStcjPYoZzAAw4u6stO6gGL8OIJZoqD5NNkrn-VT0TkHalNz9-bP9jXUJASAdheGyWVhEjFHQt5h-RtOZ0-SEFUIw1hOjq1eXi63B94HgO821SBov0WJktPKPsTXUeUUZ-Bn1SOZww72CQUgFOGgECeUezFSNqOZ1EtLWuxhtR0CPfFWp5rdA",
-        "expiresAt" : 1493328046138,
-        "scope" : [
-            "https://www.googleapis.com/auth/calendar",
-            "https://www.googleapis.com/auth/userinfo.email",
-            "https://www.googleapis.com/auth/plus.me"
-        ],
-        "id" : "111269315603091360063",
-        "email" : "timewarptrio11@gmail.com",
-        "verified_email" : true,
-        "name" : "David Melvin",
-        "given_name" : "David",
-        "family_name" : "Melvin",
-        "picture" : "https://lh6.googleusercontent.com/-RWZurCCGvns/AAAAAAAAAAI/AAAAAAAAFJQ/kkOnHxB8rUU/photo.jpg",
-        "refreshToken" : "1/z4WYheepvGLDBxqpDE-hQVwurD64H_VXL9D3d2EvymkLYaxmszuWuCRN4Pduwk3I"
+    "_id" : "vfgJBQ2tKaqLgRx65",
+    "createdAt" : ISODate("2017-04-30T01:16:17.988Z"),
+    "services" : {
+        "google" : {
+            "accessToken" : "ya29.Glw-BJdwHHoNpS829anph_7uuQDcEc0s5MIk9t7WhkS8WDcmtVUb_yN6yGOtBE_Lh2kchEZkbPHxsU79mtO9GD8V9f26BKfFU-TTS9loh3yD9wPX52mPsrPQKIhVlg",
+            "idToken" : "eyJhbGciOiJSUzI1NiIsImtpZCI6IjM5MGI4M2I1MjBmMTBlYmIzMDE2MTM4NzUyNzcxMmJkYjFlMTM1ZjYifQ.eyJhenAiOiI5NDA5NTUyMzEzODgtOWQxZ3Q0bm5zZnRybm40c3U4bDFqa3I0ZDI3Y29vZW8uYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI5NDA5NTUyMzEzODgtOWQxZ3Q0bm5zZnRybm40c3U4bDFqa3I0ZDI3Y29vZW8uYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMTEyNjkzMTU2MDMwOTEzNjAwNjMiLCJlbWFpbCI6InRpbWV3YXJwdHJpbzExQGdtYWlsLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJhdF9oYXNoIjoiUU9yeWt4S0FCWnFVVXprZTBMcGxZdyIsImlzcyI6ImFjY291bnRzLmdvb2dsZS5jb20iLCJpYXQiOjE0OTM3MDEyNzgsImV4cCI6MTQ5MzcwNDg3OH0.EETOEF7XA9qKMLEQt4V_rcPeo4i7b0X3eNyKW9_oPesVvVc32t6jOrHtyoMZXFAPtISUS5TKzFJn18-K_mST2z3JfxWpEDcFjy02eKmiuROg4clwLSzI9oH_yIufrUtRc2q3F-TCUYEj4fwCl5pPoG7QQfpIZGUZ46bSGWWImYp7Gi7-qtAmG6QAcqam5G-mmD0_TOID7hSUBTziw-ASiAYYI3Yrr7_itGLT08B-TqhUkwB4bovpql2P00X7uZPosE-ryA5LVRiQtUhkN96Yd3N5Dry5nAuxXWksXeXRPv1yNKEHdZpUOLBLPAL5KvR4c84yTtovFmvZcHYZrvI91Q",
+            "expiresAt" : 1493704877047,
+            "scope" : [
+                "https://www.googleapis.com/auth/calendar",
+                "https://www.googleapis.com/auth/userinfo.email",
+                "https://www.googleapis.com/auth/plus.me"
+            ],
+            "id" : "111269315603091360063",
+            "email" : "timewarptrio11@gmail.com",
+            "verified_email" : true,
+            "name" : "David Melvin",
+            "given_name" : "David",
+            "family_name" : "Melvin",
+            "picture" : "https://lh6.googleusercontent.com/-RWZurCCGvns/AAAAAAAAAAI/AAAAAAAAFJQ/kkOnHxB8rUU/photo.jpg"
+        },
+        "resume" : {
+            "loginTokens" : [
+                {
+                    "when" : ISODate("2017-05-02T05:01:18.362Z"),
+                    "hashedToken" : "AD12SRSwNTEjhd8FLiaveUW0g0hlXD2VhCvdaj49U+o="
+                }
+            ]
+        }
     },
-    "resume" : {
-        "loginTokens" : [
-            {
-                "when" : ISODate("2017-04-27T20:20:47.487Z"),
-                "hashedToken" : "McfyXFXQtv0XbPS2tKHaONXd0nDL8Sj0ICfx8qDsQC8="
-            }
-        ]
-    }
-}
-
-original: 4/27/2017, 5:20:46 PM GMT-4:00 DST
-new date: 4/27/2017, 6:26:34 PM GMT-4:00 DST
