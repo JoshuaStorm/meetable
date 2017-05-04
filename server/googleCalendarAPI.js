@@ -47,8 +47,12 @@ Meteor.methods({
   // Update the users calendars collection
   // return data format: https://developers.google.com/google-apps/calendar/v3/reference/calendarList#resource
   getCalendarList: function() {
+    // make sure we have a working access token
+    const user = Meteor.users.findOne(this.userId);
+    const tokens = getAccessToken(user);
+    oauth2Client.setCredentials(tokens);
+
     var calendarList = wrappedGetCalendarsList({minAccessRole: "freeBusyReader"});
-    var user = Meteor.users.findOne(this.userId);
     var userCalendars = user.profile.calendars;
     if (!userCalendars) userCalendars = {};
     // If we find any new calendars we don't recognize, add to considered
