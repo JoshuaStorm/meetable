@@ -27,6 +27,7 @@ Meteor.methods({
         accepted: true, // creator automatically accepts event??
         selector: false, // creator is  not always the one who picks the final date
         creator: true,
+        addedToGCal: false
       }];
 
     // Add the rest of the participants
@@ -150,7 +151,7 @@ Meteor.methods({
         if (participants[j].email === email) {
           // Set this this user as a participant in the meetings ID
           var setModifier = {};
-          setModifier['participants.' + j + '.id'] = this.userId
+          setModifier['participants.' + j + '.id'] = this.userId;
           Meetings.update(received[i], {
             $set: setModifier
           });
@@ -248,6 +249,7 @@ Meteor.methods({
 
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
+    console.log(meetingId);
     var thisMeeting = Meetings.findOne({_id:meetingId});
     // iterate through all meeting participants to find index in array for the current user
     for (var i = 0; i < thisMeeting.participants.length; i++) {
@@ -400,6 +402,7 @@ function addInvitedParticipants(currentUserEmail, participants, invitedEmails, e
         accepted: false,
         selector: false,
         creator: false,
+        addedToGCal: false
       };
 
       // TODO: why is name missing sometimes?
@@ -487,14 +490,31 @@ function getFinalizedMeetingTimes(userId) {
   return times;
 }
 
+
+// Helper function to remove all the events from calendars users said not to consider
+function removeUnconsideredEvents(events, considerations) {
+  var consideredEvents = [];
+  for (var i = 0; i < events.length; i++) {
+    var thisId = events[i].calendarId;
+    // If this event is in a calendar marked as considered, add to consideredEvents
+    if (considerations[thisId].considered) consideredEvents.push(events[i]);
+  }
+  return consideredEvents;
+}
+
 // Find users busy times using calendar info and additional busy times and stores them
 // chronologically in easy to use format from windowStart to windowEnd
 function findUserBusyTimes(userId, windowStart, windowEnd) {
   var user = Meteor.users.findOne(userId);
+  var calendarConsiderations = user.profile.calendars;
+
   var calendarTimes = user.profile.calendarEvents;
+  if (!calendarTimes) calendarTimes = [];
+  calendarTimes = removeUnconsideredEvents(calendarTimes, calendarConsiderations);
   var additionalBusyTimes = Meteor.users.findOne(userId).profile.additionalBusyTimes;
   if (!additionalBusyTimes) additionalBusyTimes = [];
   var meetingTimes = getFinalizedMeetingTimes(userId);
+  if (!meetingTimes) meetingTimes = [];
 
   calendarTimes = calendarTimes.concat(meetingTimes);
   calendarTimes = calendarTimes.concat(additionalBusyTimes);
@@ -515,6 +535,13 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   for (var i = 0; i < calendarTimes.length; i++) {
     var start = calendarTimes[i].start;
     var end = calendarTimes[i].end;
+    // All day events need to be reformatted so JS data doesn't timezone shift them extranouesly
+    if (calendarTimes[i].allDay) {
+      var splitStart = start.split("-");
+      var splitEnd = end.split("-");
+      var start = new Date(splitStart[0], splitStart[1], splitStart[2], 0, 0, 0, 0);
+      var end = new Date(splitEnd[0], splitEnd[1], splitEnd[2], 0, 0, 0, 0);
+    }
     // Slight deviations in how we store Dates, ensure they're consistent here.
     // TODO: Store our data consistently such that we don't need to do this.
     if (!(start instanceof Date)) start = new Date(start);
@@ -659,7 +686,6 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
     }
   }
 
-  console.log(availableTimes);
   return availableTimes;
 }
 
