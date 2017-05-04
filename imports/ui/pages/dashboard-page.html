@@ -293,6 +293,7 @@
       <h4>{{inviterName}}</h4> <p> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
       <br/>Please select a time for the meeting:</p>
       <form>
+
       {{#if suggestedTimes.count}}
         {{#each suggestedTimes}}
           <div class="radio">
@@ -320,6 +321,7 @@
   <span class="label label-warning">Waiting for responses...</span>
     <p><h5>{{meetingTitle}}</h5> ({{meetingDuration}})</p>
     <p>Participants: {{meetingParticipants}}</p>
+    <button type="cancel" class="btn btn-default" id="deleteOutgoing">Delete</button>
   {{/if}}
 </template>
 
@@ -345,6 +347,7 @@
           </label>
         </div>
       {{/each}}
+      <button type="cancel" class="btn btn-default" id="deleteInvite">Delete</button>
       <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
       </form>
 </template>

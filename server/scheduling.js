@@ -311,6 +311,25 @@ Meteor.methods({
   },
   readyToFinalize: function(meetingId) {
     return checkMeetingReadyToFinalize(meetingId);
+  },
+
+  // Set readyToFinalize to false, set the current users accepted to false
+  setNotReadyToFinalize: function(meetingId) {
+    var thisMeeting = Meetings.findOne(meetingId);
+    var participants = thisMeeting.participants
+    for (var i = 0; i < participants.length; i++) {
+      if (participants[i].id === this.userId) {
+        participants[i].accepted = false;
+        break;
+      }
+    }
+
+    Meetings.update(meetingId, { // Now set the values again
+      $set: { 'participants': participants }
+    });
+    Meetings.update(meetingId, { // Now set the values again
+      $set: { 'readyToFinalize': false }
+    });
   }
 });
 
@@ -666,12 +685,15 @@ function checkMeetingReadyToFinalize(meetingId) {
   // iterate through all meeting participants and check if all have accepted
   for (var i = 0; i < thisMeeting.participants.length; i++) {
     var currUser = thisMeeting.participants[i];
-    if (currUser.accepted == false) { // current user found
+    if (!currUser.accepted) {
       finalized = false;
+      break;
     }
   }
-  if (finalized == true) {
-    Meetings.update(meetingId, { // Now set the values again
+
+  // console.log(finalized);
+  if (finalized) {
+    Meetings.update({_id:meetingId}, { // Now set the values again
       $set: { "readyToFinalize": true }
     });
   }
