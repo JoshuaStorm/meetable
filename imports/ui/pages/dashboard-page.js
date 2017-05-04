@@ -459,10 +459,9 @@ Template.outgoing.helpers({
 Template.outgoing.events({
   'click #deleteOutgoing': function(event) {
     event.preventDefault();
-    console.log("UNCOMMENT THIS METEOR CALL ONCE WE HAVE THE OTHER PR MERGE. IM TOO LAZY TO MERGE THE TWO PRS TO ONE");
-    // Meteor.call('deleteMeeting', this.toString(), function(error, result) {
-    //   if (error) console.log(error);
-    // });
+    Meteor.call('deleteMeeting', this.toString(), function(error, result) {
+      if (error) console.log(error);
+    });
   }
 })
 
@@ -515,10 +514,9 @@ Template.outgoingFinalize.events({
     },
     'click #deleteInvite': function(event) {
       event.preventDefault();
-      console.log("UNCOMMENT THIS METEOR CALL ONCE WE HAVE THE OTHER PR MERGE. IM TOO LAZY TO MERGE THE TWO PRS TO ONE");
-      // Meteor.call('deleteMeeting', this.toString(), function(error, result) {
-      //   if (error) console.log(error);
-      // });
+      Meteor.call('deleteMeeting', this.toString(), function(error, result) {
+        if (error) console.log(error);
+      });
     }
 });
 
@@ -601,7 +599,7 @@ Template.calendar.events({
       }
     });
   }
-}); 
+});
 
 Template.finalizedMeeting.events({
   'click #pushEvent': function(e) {
