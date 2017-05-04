@@ -389,8 +389,8 @@ Template.selector.helpers({
       return hour + "hr " + minute + "min";
     },
   suggestedTimes() {
-      return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
-    },
+    return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
+  },
 });
 
 Template.selector.events({
