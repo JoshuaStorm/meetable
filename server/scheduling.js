@@ -27,6 +27,7 @@ Meteor.methods({
         accepted: true, // creator automatically accepts event??
         selector: false, // creator is  not always the one who picks the final date
         creator: true,
+        addedToGCal: false
       }];
 
     // Add the rest of the participants
@@ -150,7 +151,7 @@ Meteor.methods({
         if (participants[j].email === email) {
           // Set this this user as a participant in the meetings ID
           var setModifier = {};
-          setModifier['participants.' + j + '.id'] = this.userId
+          setModifier['participants.' + j + '.id'] = this.userId;
           Meetings.update(received[i], {
             $set: setModifier
           });
@@ -249,6 +250,7 @@ deleteBusyTimes: function(busyTime) {
 
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
+    console.log(meetingId);
     var thisMeeting = Meetings.findOne({_id:meetingId});
     // iterate through all meeting participants to find index in array for the current user
     for (var i = 0; i < thisMeeting.participants.length; i++) {
@@ -401,6 +403,7 @@ function addInvitedParticipants(currentUserEmail, participants, invitedEmails, e
         accepted: false,
         selector: false,
         creator: false,
+        addedToGCal: false
       };
 
       // TODO: why is name missing sometimes?

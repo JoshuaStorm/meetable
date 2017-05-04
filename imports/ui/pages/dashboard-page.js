@@ -74,6 +74,7 @@ Template.dashboard_page.onRendered( () => {
     },
   });
 
+
   // initialize the date time picker
   this.$('.datetimepicker').datetimepicker();
 
@@ -85,7 +86,7 @@ Template.dashboard_page.onRendered( () => {
   $('#datetime-start').val(isoStrStart.substring(0,isoStrStart.length-5));
   $('#datetime-end').val(isoStrEnd.substring(0,isoStrEnd.length-5));
 
-    // toggle main tabs
+  // toggle main tabs
   // must be in this function because jQuery can only run on DOM after
   // the DOM is rendered (which is when this function is called)
 
@@ -115,7 +116,6 @@ Template.dashboard_page.onRendered( () => {
 
   // hide the meeting creation section when user cancels creation
   $("#cancelCreateMeeting").click(function() {
-    console.log("PLEASADS")
     $("#scheduleMeeting").slideUp(100);
   });
 });
@@ -261,14 +261,13 @@ Template.invite.helpers({
     var thisMeeting = Meetings.findOne({_id:this.toString()});
     // iterate through all meeting participants to find index in array for the current user
     // start with index 1 because you can skip the first participant ( creator)
-    Session.set("ready", false);
     Meteor.call('readyToFinalize', this.toString(), function(error, result) {
       if (error) {
         console.log("readyToFinalize: " + error);
       }
     });
     // an incoming meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a two person meeting
-    if (thisMeeting.readyToFinalize && thisMeeting.participants.length == 2) {
+    if (thisMeeting.readyToFinalize && thisMeeting.participants.length === 2) {
       Template.instance().currentInviteType.set('readyToFinalize');
     }
     else {
@@ -323,7 +322,7 @@ Template.incoming.helpers({
     // NOTE: Switch this to check all users, I don't think we should assume the first participant is always the creator. May get us into trouble later
     for (var i = 0; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
-      if (currUser.id == Meteor.userId()) { // current user found
+      if (currUser.id === Meteor.userId()) { // current user found
         return currUser.accepted;
       }
     }
@@ -341,8 +340,8 @@ Template.readyToFinalize.helpers({
     // start with index 1 because you can skip the first participant ( creator)
     for (var i = 1; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
-      if (currUser.id == Meteor.userId()) { // current user found
-        if (currUser.selector == true) {
+      if (currUser.id === Meteor.userId()) { // current user found
+        if (currUser.selector) {
           Template.instance().currentFinalizeType.set('selector');
         }
         else {
@@ -513,13 +512,24 @@ Template.finalizedMeeting.helpers({
   },
   selectedStart() {
     var start = Meetings.findOne({_id:this.toString()}).selectedBlock.startTime;
-    var time=new Date(start).toLocaleString();
+    var time = new Date(start).toLocaleString();
     return time;
   },
   selectedEnd() {
     var end = Meetings.findOne({_id:this.toString()}).selectedBlock.endTime;
-    var time=new Date(end).toLocaleString();
+    var time = new Date(end).toLocaleString();
     return time;
+  },
+  addedToGCal: function() {
+    var thisMeeting = Meetings.findOne({_id:this.toString()});
+    // iterate through all meeting participants to find index in array for the current user
+    // NOTE: Switch this to check all users, I don't think we should assume the first participant is always the creator. May get us into trouble later
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
+      var currUser = thisMeeting.participants[i];
+      if (currUser.id == Meteor.userId()) { // current user found
+        return currUser.addedToGCal;
+      }
+    }
   }
 });
 
@@ -560,5 +570,14 @@ Template.calendar.events({
         $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: addedAvailable });
       }
     });
+  }
+}); 
+
+Template.finalizedMeeting.events({
+  'click #pushEvent': function(e) {
+     //add code below to push the event to gcal
+     Meteor.call('addMeetingToUserCalendar', this.toString(), function(error, result) {
+       if (error) console.log('addMeetingToUserCalendar: ' + error);
+     });
   }
 });

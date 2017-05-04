@@ -78,14 +78,18 @@ loggedIn.route('/dashboard', {
       });
       Meteor.call('getFullCalendarFinalized', function(error, result) {
         if (error) console.log(error);
-        $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
-        $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
+        if (result) {
+          $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
+          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
+        }
       });
       Meteor.call("getFullCalendarAdditional", function(error, result) {
-          if (error) console.log(error);
+        if (error) console.log(error);
+        if (result) {
           $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
           $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
-        });
+        }
+      });
     });
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
   },

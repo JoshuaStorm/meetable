@@ -309,6 +309,12 @@
   <p> Participants: {{participants}}<br/>
   Start: {{selectedStart}} <br/>
   End: {{selectedEnd}}</p>
+  <!-- only display the push to Gcal button once. After being pushed, take away the button and display label confirming push has already occurred -->
+  {{#if addedToGCal}}
+    <span class="label label-default">Event pushed to Google calendar</span>
+  {{else}}
+    <a href="javascript:void(0)" class="btn btn-raised btn-primary btn-xs" id="pushEvent">Push to Google calendar</a>
+  {{/if}}
 </template>
 
 <!-- checkbox for choosing whether to display calendar -->
