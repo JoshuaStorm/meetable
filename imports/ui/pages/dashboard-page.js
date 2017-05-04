@@ -202,37 +202,31 @@ Template.dashboard_page.events({
     var beforeTime = $('#no-meetings-before').val();
     var afterTime = $('#no-meetings-after').val();
 
+    var timeRegex = new RegExp(/^([01]\d|2[0-3]):?([0-5]\d)$/);
     // I don't know how datepicker could return an invalid time but let me know
-    // if it can
-
-    // if (isNaN(beforeTime.getTime())) {
-    //   Bert.alert( "Please enter a valid earliest meeting time.", 'danger', 'fixed-bottom');
-    //   throw 'Invalid Before';
-    // }
-    // else if (isNaN(afterTime.getTime())) {
-    //   Bert.alert( 'Please enter a valid latest meeting time.', 'danger', 'fixed-bottom');
-    //   throw 'Invalid After';
-    // }
-
+    // I'm just gonna put these here as an extra precaution. No reason not to, right?
+    if (!timeRegex.test(beforeTime)) {
+      Bert.alert( "Please enter a valid earliest meeting time.", 'danger', 'fixed-bottom');
+      throw 'Invalid Before';
+    } else if (!timeRegex.test(afterTime)) {
+      Bert.alert( 'Please enter a valid latest meeting time.', 'danger', 'fixed-bottom');
+      throw 'Invalid After';
+    }
 
     // depends on ASCII values of strings in HH:MM format, which is probably fine #AMERICA
     if (afterTime <= beforeTime) {
       Bert.alert("You must have some time you're available. ", 'danger', 'fixed-bottom');
-      throw 'No before greater or equal to no after';
+      throw 'Before time greater than or equal after time';
     }
 
-    var busyTime = {startTime: afterTime, endTime: beforeTime};
+    console.log(beforeTime);
+    console.log(afterTime);
 
-    Meteor.call('addRecurringBusyTimes', busyTime, function(error, result) {
-        if (error) {
-          console.log("Error in addRecurringBusyTimes: " + error);
-        } 
-        else {
-          console.log("added a recurring busy time for no before and after");
-        }
-      });
+    Meteor.call('setMeetRange', beforeTime, afterTime, function(error, result) {
+      if (error) console.log("Error in addRecurringBusyTimes: " + error);
+    });
   }
-  
+
 });
 
 /////////////////////////////////////////////

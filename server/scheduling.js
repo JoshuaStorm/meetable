@@ -56,6 +56,8 @@ Meteor.methods({
 
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
     var availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
+    console.log("AVAILABLE AVAILABLE  AVAILABLE  AVAILABLE  AVAILABLE  AVAILABLE  AVAILABLE ");
+    console.log(availableTimes);
 
     // CREATE THE MEETINGS COLLECTION using information above.
     // MeetingId = unique meeting id to be associated with each user in meeting
@@ -70,7 +72,6 @@ Meteor.methods({
       selectedStartTime: null, // will be calculated when all participants have accepted
       readyToFinalize: false
     });
-
 
     var sent = Meteor.users.findOne(this.userId).profile.meetingInvitesSent;
 
@@ -90,7 +91,6 @@ Meteor.methods({
       });
     }
 
-
     // Associate meetingId with all participants involved
     for (var i = 0; i < participants.length; i++) {
       // The creater sent the invite, therefore is not being invited!
@@ -99,7 +99,7 @@ Meteor.methods({
       if (participants[i].id == null) {
         updateTempUser(participants[i].email, meetingId);
         continue; // Skip rest of this for loop
-    }
+      }
 
       var received = Meteor.users.findOne(participants[i].id).profile.meetingInvitesReceived;
       // Create a new set if necessary
@@ -130,6 +130,19 @@ Meteor.methods({
       console.log("Error in attachTempUser: userId has no email");
       return;
     }
+
+    // TODO: Put this somewhere more logical. Perhaps a "checkForNewUser" function
+    // If a user does not have a meetingRange
+    if (!user.profile.meetRange) {
+      // Default to 9am-10pm
+      var range = { 'earliest': '09:00', 'latest': '22:00' };
+      Meteor.users.update(user, {
+        // TODO: Better name for this lol?
+        $set: { "profile.meetRange": range }
+      });
+    }
+
+
     var tempUser = Temp.findOne({ 'email': email });
     // If there is a tempUser, attach it. Otherwise do nothing :)
     if (!tempUser) return;
@@ -163,167 +176,6 @@ Meteor.methods({
     }
   },
 
-  // DEPRECATED: I am just leaving this here cus it has good boilerplate code
-  // Feel free to delete later.
-  inviteToMeeting: function(userEmails, title, duration) {
-    console.log("inviteToMeeting is DEPRECATED, don't use it!");
-    // The email of the person inviting others to meeting
-    var inviterEmail = Meteor.user().services.google.email;
-    var invitation = {
-      inviter: inviterEmail,
-      invited: userEmails,
-      title: title,
-      length: duration
-    };
-
-    // Update the inviters sent invites in the DB
-    var invites = Meteor.users.findOne(this.userId).profile.meetingInvitesSent; // Pull their meeting invitations
-    if (invites === undefined) invites = [];
-    invites.push(invitation); // Append
-    Meteor.users.update(this.userId, { // Now set the values again
-      $set: {
-        "profile.meetingInvitesSent": invites
-      }
-    });
-
-    for (var i = 0; i < userEmails.length; i++) {
-      // The user being invited
-      var user = Meteor.users.findOne({"services.google.email": userEmails[i]});
-      // If the user DNE, invite them! :)
-      if (user === undefined) {
-        // TODO: Perhaps we should have a modal confirmation saying
-        // "This user doesn't seem to have an account, would you like to invite them?"
-        sendInvitationEmail(inviterEmail, userEmails[i], title);
-
-        // TODO: PROBLEM!!!!!! We need to associate this event with an account that DOES NOT YET EXIST
-        // Not TOO hard to handle, just need to create a new collection.
-      } else {
-        sendNewMeetingEmail(inviterEmail, userEmails[i], title);
-        // Also need to add this invitation to their DB point so they can actually schedule it
-        invites = Meteor.users.findOne(user._id).profile.meetingInvitesReceived // Pull their meeting invitations
-        if (invites === undefined) invites = [];
-        invites.push(invitation); // Append
-        Meteor.users.update(user._id, { // Now set the values again
-          $set: {
-            "profile.meetingInvitesReceived": invites
-          }
-        });
-      }
-    }
-  },
-
-  // Add an additional busy time to the users additional collection.
-  addBusyTimes: function(busyTime) {
-    var user = this.userId;
-    
-    // We make the busyTime an array so we can use the mongo modifier $each, which adds
-    // each nonrecurring element of the array passed to. Makes processing for recurring busyTimes much easier.
-    if (!(busyTime instanceof Array)) busyTime = [busyTime];
-
-    var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
-    // Create a new set if necessary
-    if (!busy) {
-      Meteor.users.update(user, { // Now set the values again
-        $set: {
-          "profile.additionalBusyTimes": busyTime
-        }
-      });
-    } else {
-      Meteor.users.update(user, { // Now set the values again
-        $addToSet: {
-          "profile.additionalBusyTimes": {
-            $each: busyTime
-          }
-        }
-      });
-    }
-},
-
-// Delete the given busyTime from the additionalBusyTimes collection
-deleteBusyTimes: function(busyTime) {
-  var user = this.userId;
-
-  var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
-  if (!busy) throw error;
-
-  Meteor.users.update(user, {
-    $pull: {
-      "profile.additionalBusyTimes": busyTime
-    }
-  });
-
-},
-
-// Adds the busyTime multiple times based on type inside windowStart and windowEnd. 
-// Type can be: "daily." If windowStart is null, it is automatically set to 1 week
-// before the current date. WindowEnd === null, automatically 4 weeks ahead of date.
-// type === null, automatically daily.
-// IMPORTANT: BUSYTIME MUST ONLY CONTAIN A START TIME AND ENDTIME NOT A DATE
-addRecurringBusyTimes: function(busyTime, windowStart, windowEnd, type) {
-  if (windowStart === undefined) {
-    windowStart = new Date();
-    windowStart.setDate(windowStart.getDate() - 7);
-  }
-  if (windowEnd === undefined) {
-    windowEnd = new Date();
-    windowEnd.setDate(windowEnd.getDate() + 28)
-  }
-  console.log(windowStart);
-   type = type || "daily";
-
-   //split the start and end time to get hours, minutes and seconds
-   var start = busyTime.startTime.split(":");
-   var end = busyTime.endTime.split(":");
-   var times = [];
-  
-  if (type === "daily") {
-    console.log(type);
-    var startTime = new Date();
-    startTime.setHours(start[0], start[1]);
-    var endTime = new Date();
-    endTime.setHours(end[0], end[1]);
-    console.log("hello");
-
-    //the start and end time can not be equal
-    //if (endTime.getTime() == startTime.getTime()) throw "Start time and end time cannot be the same";
-    console.log("hello2");
-    //if endTime is less than startTime, that means it must be the next day
-    // i.e. startTime = 22:00, endTime = 8:00. EndTime is 8:00 the next day not the current day!
-    if (endTime.getTime() < startTime.getTime()) {
-      endTime.setDate(endTime.getDate() + 1);
-    }
-
-
-    var time = {start: startTime, end: endTime};
-    times.push(time);
-    console.log(time);
-
-    // Increment the busyTime and add it to the busyTime array until it reaches windowEnd
-    var incrementedTime = {start: new Date(time.start.getTime()), end: new Date(time.end.getTime())};
-    while (incrementedTime.start.getTime() < windowEnd.getTime()) {
-      incrementedTime.start.setDate(incrementedTime.start.getDate() + 1);
-      incrementedTime.end.setDate(incrementedTime.end.getDate() + 1);
-      times.push(incrementedTime);
-      var incrementedTime = {start: new Date(incrementedTime.start.getTime()), end: new Date(incrementedTime.end.getTime())};
-    }
-
-    // decrement the busyTime and add it to the busyTime array until it reaches windowEnd
-    var decrementedTime = {start: new Date(time.start.getTime()), end: new Date(time.end.getTime())};
-    while (decrementedTime.start.getTime() > windowStart.getTime()) {
-      decrementedTime.start.setDate(decrementedTime.start.getDate() - 1);
-      decrementedTime.end.setDate(decrementedTime.end.getDate() - 1);
-      times.push(decrementedTime);
-      var decrementedTime = {start: new Date(decrementedTime.start.getTime()), end: new Date(decrementedTime.end.getTime())};
-    }
-  }
-  else throw "Type must be of type 'daily'";
-  console.log(times);
-
-  //add times to additional busyTimes database
-  Meteor.call('addBusyTimes', times);
-
-},
-
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
     console.log(meetingId);
@@ -348,6 +200,8 @@ addRecurringBusyTimes: function(busyTime, windowStart, windowEnd, type) {
     });
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, thisMeeting.windowStart, thisMeeting.windowEnd);
     var availableTimes = findOverlap(thisMeeting.availableTimes, loggedInUserAvailableTimes);
+    console.log("ACCEPTED USER AVAILABLE");
+    console.log(availableTimes);
 
     Meetings.update({_id: meetingId}, {
       $set: {
@@ -575,9 +429,17 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   var additionalBusyTimes = Meteor.users.findOne(userId).profile.additionalBusyTimes;
   if (!additionalBusyTimes) additionalBusyTimes = [];
   var meetingTimes = getFinalizedMeetingTimes(userId);
+  var outsideMeetRange = getOutsideMeetRangeTimes(userId, windowStart, windowEnd);
+
+  // console.log("-------- COMPARE FORMAT --------")
+  // console.log(meetingTimes);
+  // console.log(outsideMeetRange);
 
   calendarTimes = calendarTimes.concat(meetingTimes);
   calendarTimes = calendarTimes.concat(additionalBusyTimes);
+  calendarTimes = calendarTimes.concat(outsideMeetRange);
+
+  // console.log(calendarTimes);
 
   // Sort the times based on startTime
   calendarTimes.sort(function(time1, time2) {
@@ -647,9 +509,11 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
   var lastEndTime = windowStart;
 
   // For loop runs to the last element of the array + 1
+  console.log('findUserAvailableTimes: ');
   for (var i = 0; i <= busyTimes.length; i++) {
     var availableTime = {startTime: 0, endTime: 0};
     var busy = busyTimes[i];
+    console.log(busy);
     // If lastEndTime is undefined, this is the first element of the array. Consequently, the start of
     // the available time should be from windowStart, or in the special case the first busy time starting
     // at windowStart, from the end of that first busyTime
@@ -660,17 +524,17 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
       }
     }
 
-    //If b is undefined, this means that the last b was the last element of the array and the last available
-    //time should be from that b's endTime to windowEnd.
+    // If b is undefined, this means that the last b was the last element of the array and the last available
+    // time should be from that b's endTime to windowEnd.
     if (!busy) {
-      //If the end of the last time = the end of the window, then the last available time is the final one
+      // If the end of the last time = the end of the window, then the last available time is the final one
       if (lastEndTime.getTime() === windowEnd.getTime()) continue;
 
       availableTime.startTime = lastEndTime;
       availableTime.endTime = windowEnd;
     }
     else {
-      //Available times is from the last busyTime's endtime to the current busyTimes startTime
+      // Available times is from the last busyTime's endtime to the current busyTimes startTime
       availableTime.startTime = lastEndTime;
       availableTime.endTime = busy.startTime;
 
@@ -679,8 +543,45 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
 
     availableTimes.push(availableTime);
   }
-
   return availableTimes;
+}
+
+// Use a given userId's meetRange to produce busy times outside the meetrange within the input window
+function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
+  var range = Meteor.users.findOne(userId).profile.meetRange;
+  var earliestHour = parseInt(range.earliest.split(':')[0]);
+  var earliestMin = parseInt(range.earliest.split(':')[1]);
+  var latestHour = parseInt(range.latest.split(':')[0]);
+  var latestMin = parseInt(range.latest.split(':')[1]);
+
+  var MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
+
+  // Millisecond time
+  var current = new Date();
+  var trueEnd = new Date();
+  // Go back and ahead an extra day just to be safe (saves more annoying handling)
+  current.setTime(windowStart.getTime() - MILLISECONDS_IN_DAY);
+  trueEnd.setTime(windowEnd.getTime() + MILLISECONDS_IN_DAY);
+
+  var busyTimes = [];
+  while (current < trueEnd) {
+    var start = new Date(current);
+    start.setHours(latestHour);
+    start.setMinutes(latestMin);
+
+    var end = new Date();
+    end.setTime(current.getTime() + MILLISECONDS_IN_DAY);
+    end.setHours(earliestHour);
+    end.setMinutes(earliestMin);
+
+    busyTimes.push({
+      'start': start,
+      'end': end
+    });
+
+    current.setTime(current.getTime() + MILLISECONDS_IN_DAY);
+  }
+  return busyTimes;
 }
 
 // Given the available times in the meetings collection, and the availableTimes
@@ -746,7 +647,6 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
     }
   }
 
-  console.log(availableTimes);
   return availableTimes;
 }
 
@@ -765,11 +665,9 @@ function checkMeetingReadyToFinalize(meetingId) {
     }
   }
   if (finalized == true) {
-    Meetings.update({_id:meetingId}, { // Now set the values again
-      $set: {
-        "readyToFinalize": true
-      }
-    })
+    Meetings.update(meetingId, { // Now set the values again
+      $set: { "readyToFinalize": true }
+    });
   }
   return finalized;
 }
@@ -810,7 +708,7 @@ function findDurationLongMeetingTimes(meetingId) {
     }
   }
 
-  Meetings.update({_id:meetingId},{
+  Meetings.update(meetingId ,{
     $set: {
       //"durationLongAvailableTimes" : [{"startTime": 2, "endTime": 2}]
       "durationLongAvailableTimes" : durationLongBlocks
@@ -826,9 +724,7 @@ function findDurationLongMeetingTimes(meetingId) {
 // save what we will present as meeting times to the user
 // currently the first 5 meeting times chronologically
 function saveSuggestedMeetingTimes(meetingId, durationLongBlocks) {
-  Meetings.update({_id:meetingId}, {
-      $set: {
-        "suggestedMeetingTimes": durationLongBlocks.slice(0, 5)
-      }
-    });
+  Meetings.update(meetingId, {
+      $set: { "suggestedMeetingTimes": durationLongBlocks.slice(0, 5) }
+  });
 }
