@@ -144,11 +144,9 @@
             </div>
             <div class="container-fluid dashboardDropdownContent" id="hideCalendars">
               <form>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString0">Courses</label>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString1">Activities</label>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString2">Office Hours</label>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString3">Basketball Practices</label>
-                <input type = "submit" value = "calendar-select" class="btn-primary">
+                {{#each userCalendars}}
+                  {{> calendar}}
+                {{/each}}
               </form>
             </div>
 
@@ -165,7 +163,7 @@
                 {{#each additionalTime}}
                   {{> additional}}
                 {{else}}
-                  <div class="container-fluid"> <p> You do not have any additional busy times. </p></div>
+                  <div class="container-fluid"><p> You do not have any additional busy times. </p></div>
                 {{/each}}
               </div>
               <form>
@@ -253,16 +251,21 @@
       <h4>{{inviterName}}</h4> <p> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
       <br/>Please select a time for the meeting:</p>
       <form>
-      {{#each suggestedTimes}}
-        <div class="radio">
-          <label>
-            <input type="radio" name="myForm" value="{{@index}}" checked="">
-            {{startTime}} - {{endTime}}
-          </label>
-        </div>
-      {{/each}}
-      <button type="button" class="btn btn-primary" id="cancelInvite">Cancel</button>
-      <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
+
+      {{#if suggestedTimes.count}}
+        {{#each suggestedTimes}}
+          <div class="radio">
+            <label>
+              <input type="radio" name="myForm" value="{{@index}}" checked="">
+              {{startTime}} - {{endTime}}
+            </label>
+          </div>
+        {{/each}}
+        <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
+      {{else}}
+        <div class="container-fluid"> <p> You are not meetable for this time window. Please reschedule!</p></div>
+        <button type="delete" class="btn btn-primary btn-sm" id="deleteMeeting">Delete</button>
+      {{/if}}
       </form>
     </div>
   </div>
@@ -320,4 +323,13 @@
   {{else}}
     <a href="javascript:void(0)" class="btn btn-raised btn-primary btn-xs" id="pushEvent">Push to Google calendar</a>
   {{/if}}
+</template>
+
+<!-- checkbox for choosing whether to display calendar -->
+<template name="calendar">
+  <div class="container-fluid">
+  <label>
+    <input type="checkbox" checked={{isChecked}}> {{calendarTitle}}
+  </label>
+  </div>
 </template>
