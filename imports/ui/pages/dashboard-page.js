@@ -49,14 +49,20 @@ Template.dashboard_page.helpers({
     numOutgoing:function() { // for badge
       return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesSent.length;
     },
+    calendarIds: function() {
+      return Object.keys(Meteor.users.findOne(Meteor.userId()).profile.calendars);
+    },
     final: function() {
-        return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings;
+      return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings;
     },
     numFinalized:function() { // for badge
       return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings.length;
     },
     additionalTime: function() {
-        return Meteor.users.findOne(Meteor.userId()).profile.additionalBusyTimes;
+      return Meteor.users.findOne(Meteor.userId()).profile.additionalBusyTimes;
+    },
+    userCalendars: function() {
+      return Object.keys(Meteor.users.findOne(Meteor.userId()).profile.calendars);
     }
 });
 
@@ -527,11 +533,51 @@ Template.finalizedMeeting.helpers({
   }
 });
 
+Template.calendar.helpers({
+  calendarTitle: function() {
+    var cal = Meteor.users.findOne(Meteor.userId()).profile.calendars;
+    return cal[this.toString()].title;
+  },
+  isChecked: function() {
+    var cal = Meteor.users.findOne(Meteor.userId()).profile.calendars;
+    return cal[this.toString()].considered;
+  }
+});
+
+Template.calendar.events({
+  'click input': function(event) {
+    var id = this.toString();
+    Meteor.call('setCalendarConsideration', id, function(error, result) {
+      if (error) console.log(error);
+      var busyId = 'gCalBusy' + id;
+      var availableId = 'gCalAvailable' + id;
+      $( '#events-calendar' ).fullCalendar('removeEventSource', busyId);
+      $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
+      if (result[id].considered) {
+        // OKAY THIS IS INEFFICIENT BUT BETTER THAN PULLING FROM GCAL SO SUE ME
+        var busyEvents = Meteor.users.findOne(Meteor.userId()).profile.calendarEvents;
+        var availableEvents = Meteor.users.findOne(Meteor.userId()).profile.availableEvents;
+        var addedBusy = [];
+        var addedAvailable = [];
+
+        for (var i = 0; i < busyEvents.length; i++) {
+          if (busyEvents[i].calendarId === id) addedBusy.push(busyEvents[i]);
+        }
+        for (i = 0; i < availableEvents.length; i++) {
+          if (availableEvents[i].calendarId === id) addedAvailable.push(availableEvents[i]);
+        }
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: busyId, events: addedBusy });
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: addedAvailable });
+      }
+    });
+  }
+}); 
+
 Template.finalizedMeeting.events({
   'click #pushEvent': function(e) {
      //add code below to push the event to gcal
      Meteor.call('addMeetingToUserCalendar', this.toString(), function(error, result) {
        if (error) console.log('addMeetingToUserCalendar: ' + error);
      });
-   }
+  }
 });

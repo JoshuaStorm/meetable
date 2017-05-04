@@ -144,11 +144,9 @@
             </div>
             <div class="container-fluid dashboardDropdownContent" id="hideCalendars">
               <form>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString0">Courses</label>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString1">Activities</label>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString2">Office Hours</label>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString3">Basketball Practices</label>
-                <input type = "submit" value = "calendar-select" class="btn-primary">
+                {{#each userCalendars}}
+                  {{> calendar}}
+                {{/each}}
               </form>
             </div>
 
@@ -317,4 +315,13 @@
   {{else}}
     <a href="javascript:void(0)" class="btn btn-raised btn-primary btn-xs" id="pushEvent">Push to Google calendar</a>
   {{/if}}
+</template>
+
+<!-- checkbox for choosing whether to display calendar -->
+<template name="calendar">
+  <div class="container-fluid">
+  <label>
+    <input type="checkbox" checked={{isChecked}}> {{calendarTitle}}
+  </label>
+  </div>
 </template>
