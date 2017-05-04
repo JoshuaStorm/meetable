@@ -2,6 +2,9 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## May 4, 2017 (Group Meeting)
+- David - display dates in a better way, sanitize inputs, make mobile devices see only "day" view in fullCalendar, login page
+
 ## May 1, 2017 (David)
 - Finally fixed the issue where we weren't automatically refreshing access tokens when possible
 
