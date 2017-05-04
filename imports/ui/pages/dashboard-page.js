@@ -149,6 +149,7 @@ Template.dashboard_page.events({
     // currently using 24 hours after time button was pressed
     Meteor.call('createMeeting', title, emails, length, windowStart, windowEnd, function(error, result) {
       if (error) {
+        Bert.alert( 'Meeting invite could not be sent.', 'danger', 'growl-bottom-left' );
         console.log("createMeeting: " + error);
       } else{
         var resetTitle = document.getElementById('meetingTitle').value ="";
