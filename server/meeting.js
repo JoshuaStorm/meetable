@@ -4,7 +4,7 @@ import Meetings from '/collections/meetings.js';
 
 Meteor.methods({
   // Return an array of the current users finalized events in the FullCalendar format
-  // Return null if user does not have any finalized
+  // NOTE: This will NOT return the finalized meetings pushed to GCal.
   getFullCalendarFinalized: function() {
     var finalizedIds = Meteor.users.findOne(this.userId).profile.finalizedMeetings;
     // A user may not have any finalized meetings
@@ -17,6 +17,13 @@ Meteor.methods({
         console.log("Error in getFullCalendarFinalized: Meeting Id exists on user but now in Meetings");
         return;
       }
+
+      for (var j = 0; j < thisMeeting.participants.length; j++) {
+        var thisParticipant = thisMeeting.participants[j];
+        // Do not include events added to GCal to avoid presenting them twice to user
+        if (thisParticipant.id === this.userId && thisParticipant.addedToGCal) continue;
+      }
+
       var thisEvent = {
         title: thisMeeting.title,
         start: thisMeeting.selectedBlock.startTime,
@@ -47,5 +54,45 @@ Meteor.methods({
       events.push(thisEvent);
     }
     return events;
+  },
+
+  deleteMeeting: function(meetingId) {
+    var meeting = Meetings.findOne(meetingId);
+    var participants = meeting.participants;
+    // Remove from each user in this meeting
+    for (var i = 0; i < participants.length; i++) {
+      var userId = Meteor.users.findOne(participants[i].id);
+      // Remove from the users sent and and received
+      Meteor.users.update(userId, {
+        $pull: { 'profile.meetingInvitesSent': meetingId }
+      });
+      Meteor.users.update(userId, {
+        $pull: { 'profile.meetingInvitesReceived': meetingId }
+      });
+      Meteor.users.update(userId, {
+        $pull: { 'profile.finalizedMeetings': meetingId }
+      });
+    }
+    // Remove the event itself
+    Meetings.remove(meetingId);
+  },
+  
+  // Add the given meeting ID to the curren users calendar, mark it as added to GCal
+  // meetingId (String): The meetingId
+  addMeetingToUserCalendar: function(meetingId) {
+    var thisMeeting = Meetings.findOne(meetingId);
+    Meteor.call('addGCalEvent', thisMeeting.title, thisMeeting.selectedBlock.startTime, thisMeeting.selectedBlock.endTime);
+    // Mark this as added to GCal for the current user in the participant array of this meeting
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
+      var thisParticipant = thisMeeting.participants[i];
+      if (thisParticipant.id === this.userId) {
+        var setModifier = {};
+        setModifier['participants.' + i + '.addedToGCal'] = true;
+        Meetings.update(meetingId, {
+          $set: setModifier
+        });
+        break;
+      }
+    }
   },
 });

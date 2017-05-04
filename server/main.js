@@ -24,7 +24,6 @@ Meteor.startup(() => {
       // Let other method calls from the same client start running,
       // without waiting for the email sending to complete.
       this.unblock();
-      console.log("Shoulda sent an email to " + to);
       Email.send({
         to: to,
         from: from,
