@@ -412,7 +412,9 @@ Template.selector.events({
     'click #cancelInvite': function(event){
       Meteor.call('setNotReadyToFinalize', this.toString(), function(error, result) {
         if (error) console.log(error);
-      },
+      });
+    },
+
     'click #deleteMeeting': function(e) {
       e.preventDefault();
       Meteor.call('deleteMeeting', Meetings.findOne({_id:this.toString()}), function(error, result) {
