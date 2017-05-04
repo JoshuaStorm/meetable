@@ -71,25 +71,19 @@ Meteor.methods({
       readyToFinalize: false
     });
 
-
     var sent = Meteor.users.findOne(this.userId).profile.meetingInvitesSent;
 
     // Associate creator with meetingId
     // Create a new set if necessary
     if (!sent) {
       Meteor.users.update(this.userId, { // Now set the values again
-        $set: {
-          "profile.meetingInvitesSent": [meetingId]
-        }
+        $set: { "profile.meetingInvitesSent": [meetingId] }
       });
     } else {
       Meteor.users.update(this.userId, { // Now set the values again
-        $addToSet: {
-          "profile.meetingInvitesSent": meetingId
-        }
+        $addToSet: { "profile.meetingInvitesSent": meetingId }
       });
     }
-
 
     // Associate meetingId with all participants involved
     for (var i = 0; i < participants.length; i++) {
@@ -99,7 +93,7 @@ Meteor.methods({
       if (participants[i].id == null) {
         updateTempUser(participants[i].email, meetingId);
         continue; // Skip rest of this for loop
-    }
+      }
 
       var received = Meteor.users.findOne(participants[i].id).profile.meetingInvitesReceived;
       // Create a new set if necessary
@@ -249,7 +243,6 @@ Meteor.methods({
 
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
-    console.log(meetingId);
     var thisMeeting = Meetings.findOne({_id:meetingId});
     // iterate through all meeting participants to find index in array for the current user
     for (var i = 0; i < thisMeeting.participants.length; i++) {
@@ -650,8 +643,7 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
   // hold available times that work for all users
   var availableTimes = [];
 
-  //each availableTimes array has a start time and end time, both in unix
-
+  // each availableTimes array has a start time and end time, both in unix
   // First double for loop finds the searches for slots of length otherAvailableTimes in user availabeTimes
   for (var i = 0; i < otherAvailableTimes.length; i++) {
     var otherStart = otherAvailableTimes[i].startTime;
@@ -726,10 +718,9 @@ function checkMeetingReadyToFinalize(meetingId) {
     }
   }
 
-  // console.log(finalized);
   if (finalized) {
-    Meetings.update({_id:meetingId}, { // Now set the values again
-      $set: { "readyToFinalize": true }
+    Meetings.update(meetingId, { // Now set the values again
+      $set: { 'readyToFinalize': true }
     });
   }
   return finalized;
@@ -738,7 +729,7 @@ function checkMeetingReadyToFinalize(meetingId) {
 // given a meetingId, look through the availableTimes and find duration long meeting times
 // return that new list and also save it to the meeting document
 function findDurationLongMeetingTimes(meetingId) {
-  var thisMeeting = Meetings.findOne({_id:meetingId});
+  var thisMeeting = Meetings.findOne(meetingId);
   var duration = thisMeeting.duration;
   var allAvailableBlocks = thisMeeting.availableTimes;
 
@@ -771,7 +762,7 @@ function findDurationLongMeetingTimes(meetingId) {
     }
   }
 
-  Meetings.update({_id:meetingId},{
+  Meetings.update(meetingId, {
     $set: {
       //"durationLongAvailableTimes" : [{"startTime": 2, "endTime": 2}]
       "durationLongAvailableTimes" : durationLongBlocks
@@ -788,8 +779,6 @@ function findDurationLongMeetingTimes(meetingId) {
 // currently the first 5 meeting times chronologically
 function saveSuggestedMeetingTimes(meetingId, durationLongBlocks) {
   Meetings.update({_id:meetingId}, {
-      $set: {
-        "suggestedMeetingTimes": durationLongBlocks.slice(0, 5)
-      }
+      $set: { "suggestedMeetingTimes": durationLongBlocks.slice(0, 5) }
     });
 }
