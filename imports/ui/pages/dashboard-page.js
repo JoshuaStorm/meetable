@@ -408,6 +408,12 @@ Template.selector.events({
           });
         }
       });
+    },
+    'click #deleteMeeting': function(e) {
+      e.preventDefault();
+      Meteor.call('deleteMeeting', Meetings.findOne({_id:this.toString()}), function(error, result) {
+        if (error) console.log('deleteMeeting: ' + error);
+      });
     }
 });
 

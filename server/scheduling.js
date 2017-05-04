@@ -231,22 +231,21 @@ Meteor.methods({
         }
       });
     }
-},
+  },
 
-// Delete the given busyTime from the additionalBusyTimes collection
-deleteBusyTimes: function(busyTime) {
-  var user = this.userId;
+  // Delete the given busyTime from the additionalBusyTimes collection
+  deleteBusyTimes: function(busyTime) {
+    var user = this.userId;
 
-  var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
-  if (!busy) throw error;
+    var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
+    if (!busy) throw error;
 
-  Meteor.users.update(user, {
-    $pull: {
-      "profile.additionalBusyTimes": busyTime
-    }
-  });
-
-},
+    Meteor.users.update(user, {
+      $pull: {
+        "profile.additionalBusyTimes": busyTime
+      }
+    });
+  },
 
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
@@ -696,6 +695,8 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
 // return and set flag for whether the meeting has been finalized
 function checkMeetingReadyToFinalize(meetingId) {
   var thisMeeting = Meetings.findOne({_id:meetingId});
+  // Meeting may be deleted
+  if (!thisMeeting) return false;
   var finalized = true;
   // iterate through all meeting participants and check if all have accepted
   for (var i = 0; i < thisMeeting.participants.length; i++) {
