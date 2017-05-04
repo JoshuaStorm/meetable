@@ -56,8 +56,6 @@ Meteor.methods({
 
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
     var availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
-    console.log("AVAILABLE AVAILABLE  AVAILABLE  AVAILABLE  AVAILABLE  AVAILABLE  AVAILABLE ");
-    console.log(availableTimes);
 
     // CREATE THE MEETINGS COLLECTION using information above.
     // MeetingId = unique meeting id to be associated with each user in meeting
@@ -178,7 +176,6 @@ Meteor.methods({
 
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
-    console.log(meetingId);
     var thisMeeting = Meetings.findOne({_id:meetingId});
     // iterate through all meeting participants to find index in array for the current user
     for (var i = 0; i < thisMeeting.participants.length; i++) {
@@ -200,8 +197,6 @@ Meteor.methods({
     });
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, thisMeeting.windowStart, thisMeeting.windowEnd);
     var availableTimes = findOverlap(thisMeeting.availableTimes, loggedInUserAvailableTimes);
-    console.log("ACCEPTED USER AVAILABLE");
-    console.log(availableTimes);
 
     Meetings.update({_id: meetingId}, {
       $set: {
@@ -431,15 +426,9 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   var meetingTimes = getFinalizedMeetingTimes(userId);
   var outsideMeetRange = getOutsideMeetRangeTimes(userId, windowStart, windowEnd);
 
-  // console.log("-------- COMPARE FORMAT --------")
-  // console.log(meetingTimes);
-  // console.log(outsideMeetRange);
-
   calendarTimes = calendarTimes.concat(meetingTimes);
   calendarTimes = calendarTimes.concat(additionalBusyTimes);
   calendarTimes = calendarTimes.concat(outsideMeetRange);
-
-  // console.log(calendarTimes);
 
   // Sort the times based on startTime
   calendarTimes.sort(function(time1, time2) {
@@ -509,11 +498,9 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
   var lastEndTime = windowStart;
 
   // For loop runs to the last element of the array + 1
-  console.log('findUserAvailableTimes: ');
   for (var i = 0; i <= busyTimes.length; i++) {
     var availableTime = {startTime: 0, endTime: 0};
     var busy = busyTimes[i];
-    console.log(busy);
     // If lastEndTime is undefined, this is the first element of the array. Consequently, the start of
     // the available time should be from windowStart, or in the special case the first busy time starting
     // at windowStart, from the end of that first busyTime

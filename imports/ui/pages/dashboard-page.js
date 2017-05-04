@@ -219,9 +219,6 @@ Template.dashboard_page.events({
       throw 'Before time greater than or equal after time';
     }
 
-    console.log(beforeTime);
-    console.log(afterTime);
-
     Meteor.call('setMeetRange', beforeTime, afterTime, function(error, result) {
       if (error) console.log("Error in addRecurringBusyTimes: " + error);
     });
