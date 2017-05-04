@@ -410,6 +410,12 @@ Template.selector.events({
         }
       });
     },
+    'click #cancelInvite': function(event){
+      Meteor.call('setNotReadyToFinalize', this.toString(), function(error, result) {
+        if (error) console.log(error);
+      });
+    },
+
     'click #deleteMeeting': function(e) {
       e.preventDefault();
       Meteor.call('deleteMeeting', Meetings.findOne({_id:this.toString()}), function(error, result) {
@@ -449,6 +455,15 @@ Template.outgoing.helpers({
     return readyOutgoing;
   }
 });
+
+Template.outgoing.events({
+  'click #deleteOutgoing': function(event) {
+    event.preventDefault();
+    Meteor.call('deleteMeeting', this.toString(), function(error, result) {
+      if (error) console.log(error);
+    });
+  }
+})
 
 Template.outgoingFinalize.helpers({
   inviterName() {
@@ -495,6 +510,12 @@ Template.outgoingFinalize.events({
           });
 
         }
+      });
+    },
+    'click #deleteInvite': function(event) {
+      event.preventDefault();
+      Meteor.call('deleteMeeting', this.toString(), function(error, result) {
+        if (error) console.log(error);
       });
     }
 });
@@ -578,7 +599,7 @@ Template.calendar.events({
       }
     });
   }
-}); 
+});
 
 Template.finalizedMeeting.events({
   'click #pushEvent': function(e) {
