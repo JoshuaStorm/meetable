@@ -2,6 +2,10 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## May 5, 2017 (Josh)
+- Finally have don't meet before/after merged in, mixed effort for getting that done.
+- Casey noticed bugs when using Safari... Will need to look into that.
+
 ## May 4, 2017 (Josh)
 - Make events expire after their windowEnd (for invites) passed or their meetingEnd time has passed.
 - Fixed bug with all day events as well as deleting events.
