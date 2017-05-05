@@ -494,7 +494,7 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   var calendarTimes = user.profile.calendarEvents;
   if (!calendarTimes) calendarTimes = [];
   calendarTimes = removeUnconsideredEvents(calendarTimes, calendarConsiderations);
-  calendarTimes = formatAllDayEvents(calendarTimes);
+  calendarTimes = formatAllDayEvents(userId, calendarTimes);
   var additionalBusyTimes = Meteor.users.findOne(userId).profile.additionalBusyTimes;
   if (!additionalBusyTimes) additionalBusyTimes = [];
   var meetingTimes = getFinalizedMeetingTimes(userId);
@@ -608,15 +608,11 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
   var user = Meteor.users.findOne(userId);
   var range = user.profile.meetRange;
   var offsetMillisec = user.profile.timeZoneOffset * 60 * 1000; // Client side offset
-  console.log(" ------- TIME ZONE OFFSET ------- ");
-  console.log(user.profile.timeZoneOffset);
 
   var earliestHour = parseInt(range.earliest.split(':')[0]);
   var earliestMin = parseInt(range.earliest.split(':')[1]);
   var latestHour = parseInt(range.latest.split(':')[0]);
   var latestMin = parseInt(range.latest.split(':')[1]);
-  console.log(" ------- MEET RANGE ------- ");
-  console.log(range);
 
   var MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
 
@@ -653,8 +649,6 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
     current.setTime(current.getTime() + MILLISECONDS_IN_DAY);
   }
 
-  console.log(" ------- BUSYTIMES ------- ");
-  console.log(busyTimes);
   return busyTimes;
 }
 
@@ -808,7 +802,11 @@ function saveSuggestedMeetingTimes(meetingId, durationLongBlocks) {
 
 // Look through the input events array for allDay events
 // Format them to match generic events
-function formatAllDayEvents(events) {
+function formatAllDayEvents(userId, events) {
+  var user = Meteor.users.findOne(userId);
+  var clientOffset = user.profile.timeZoneOffset * 60 * 1000;
+  var serverOffset = new Date().getTimezoneOffset() * 60 * 1000;
+
   for (var i = 0; i < events.length; i++) {
     if (events[i].allDay) {
       var splitStart = events[i].start.split("-");
@@ -816,6 +814,9 @@ function formatAllDayEvents(events) {
       // NOTE: month - 1 because string is such that January is 01, whereas new Date wants January = 00
       events[i].start = new Date(parseInt(splitStart[0]), parseInt(splitStart[1]) - 1, parseInt(splitStart[2]), 0, 0, 0, 0);
       events[i].end = new Date(parseInt(splitEnd[0]), parseInt(splitEnd[1]) - 1, parseInt(splitEnd[2]), 0, 0, 0, 0);
+      // Ensure we don't get timezone offsetting issues
+      events[i].start.setTime(events[i].start.getTime() + clientOffset - serverOffset);
+      events[i].end.setTime(events[i].end.getTime() + clientOffset - serverOffset);
     }
   }
   return events;
