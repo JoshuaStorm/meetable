@@ -11,8 +11,7 @@ var auth = new googleAuth(); // used to authentication requests sent by gCalenda
 
 var oauth2Client = new auth.OAuth2(
   "940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com",
-  "mKa01x_C9W_MnlIuHVJRupb3",
-  "http://localhost:3000"
+  "mKa01x_C9W_MnlIuHVJRupb3"
 );
 
 // set auth for all Google requests; instead of doing it for each request function
@@ -41,7 +40,8 @@ Meteor.methods({
       console.log(e);
       return null;
     }
-},
+  },
+
 
   // Get an array of all calendars for the current user
   // Update the users calendars collection
