@@ -71,25 +71,19 @@ Meteor.methods({
       readyToFinalize: false
     });
 
-
     var sent = Meteor.users.findOne(this.userId).profile.meetingInvitesSent;
 
     // Associate creator with meetingId
     // Create a new set if necessary
     if (!sent) {
       Meteor.users.update(this.userId, { // Now set the values again
-        $set: {
-          "profile.meetingInvitesSent": [meetingId]
-        }
+        $set: { "profile.meetingInvitesSent": [meetingId] }
       });
     } else {
       Meteor.users.update(this.userId, { // Now set the values again
-        $addToSet: {
-          "profile.meetingInvitesSent": meetingId
-        }
+        $addToSet: { "profile.meetingInvitesSent": meetingId }
       });
     }
-
 
     // Associate meetingId with all participants involved
     for (var i = 0; i < participants.length; i++) {
@@ -99,7 +93,7 @@ Meteor.methods({
       if (participants[i].id == null) {
         updateTempUser(participants[i].email, meetingId);
         continue; // Skip rest of this for loop
-    }
+      }
 
       var received = Meteor.users.findOne(participants[i].id).profile.meetingInvitesReceived;
       // Create a new set if necessary
@@ -249,7 +243,6 @@ Meteor.methods({
 
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
-    console.log(meetingId);
     var thisMeeting = Meetings.findOne({_id:meetingId});
     // iterate through all meeting participants to find index in array for the current user
     for (var i = 0; i < thisMeeting.participants.length; i++) {
@@ -385,6 +378,25 @@ Meteor.methods({
   },
   readyToFinalize: function(meetingId) {
     return checkMeetingReadyToFinalize(meetingId);
+  },
+
+  // Set readyToFinalize to false, set the current users accepted to false
+  setNotReadyToFinalize: function(meetingId) {
+    var thisMeeting = Meetings.findOne(meetingId);
+    var participants = thisMeeting.participants
+    for (var i = 0; i < participants.length; i++) {
+      if (participants[i].id === this.userId) {
+        participants[i].accepted = false;
+        break;
+      }
+    }
+
+    Meetings.update(meetingId, { // Now set the values again
+      $set: { 'participants': participants }
+    });
+    Meetings.update(meetingId, { // Now set the values again
+      $set: { 'readyToFinalize': false }
+    });
   }
 });
 
@@ -511,6 +523,7 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   var calendarTimes = user.profile.calendarEvents;
   if (!calendarTimes) calendarTimes = [];
   calendarTimes = removeUnconsideredEvents(calendarTimes, calendarConsiderations);
+  calendarTimes = formatAllDayEvents(calendarTimes);
   var additionalBusyTimes = Meteor.users.findOne(userId).profile.additionalBusyTimes;
   if (!additionalBusyTimes) additionalBusyTimes = [];
   var meetingTimes = getFinalizedMeetingTimes(userId);
@@ -537,13 +550,7 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   for (var i = 0; i < calendarTimes.length; i++) {
     var start = calendarTimes[i].start;
     var end = calendarTimes[i].end;
-    // All day events need to be reformatted so JS data doesn't timezone shift them extranouesly
-    if (calendarTimes[i].allDay) {
-      var splitStart = start.split("-");
-      var splitEnd = end.split("-");
-      var start = new Date(splitStart[0], splitStart[1], splitStart[2], 0, 0, 0, 0);
-      var end = new Date(splitEnd[0], splitEnd[1], splitEnd[2], 0, 0, 0, 0);
-    }
+
     // Slight deviations in how we store Dates, ensure they're consistent here.
     // TODO: Store our data consistently such that we don't need to do this.
     if (!(start instanceof Date)) start = new Date(start);
@@ -635,8 +642,7 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
   // hold available times that work for all users
   var availableTimes = [];
 
-  //each availableTimes array has a start time and end time, both in unix
-
+  // each availableTimes array has a start time and end time, both in unix
   // First double for loop finds the searches for slots of length otherAvailableTimes in user availabeTimes
   for (var i = 0; i < otherAvailableTimes.length; i++) {
     var otherStart = otherAvailableTimes[i].startTime;
@@ -705,16 +711,16 @@ function checkMeetingReadyToFinalize(meetingId) {
   // iterate through all meeting participants and check if all have accepted
   for (var i = 0; i < thisMeeting.participants.length; i++) {
     var currUser = thisMeeting.participants[i];
-    if (currUser.accepted == false) { // current user found
+    if (!currUser.accepted) {
       finalized = false;
+      break;
     }
   }
-  if (finalized == true) {
-    Meetings.update({_id:meetingId}, { // Now set the values again
-      $set: {
-        "readyToFinalize": true
-      }
-    })
+
+  if (finalized) {
+    Meetings.update(meetingId, { // Now set the values again
+      $set: { 'readyToFinalize': true }
+    });
   }
   return finalized;
 }
@@ -722,7 +728,7 @@ function checkMeetingReadyToFinalize(meetingId) {
 // given a meetingId, look through the availableTimes and find duration long meeting times
 // return that new list and also save it to the meeting document
 function findDurationLongMeetingTimes(meetingId) {
-  var thisMeeting = Meetings.findOne({_id:meetingId});
+  var thisMeeting = Meetings.findOne(meetingId);
   var duration = thisMeeting.duration;
   var allAvailableBlocks = thisMeeting.availableTimes;
 
@@ -755,7 +761,7 @@ function findDurationLongMeetingTimes(meetingId) {
     }
   }
 
-  Meetings.update({_id:meetingId},{
+  Meetings.update(meetingId, {
     $set: {
       //"durationLongAvailableTimes" : [{"startTime": 2, "endTime": 2}]
       "durationLongAvailableTimes" : durationLongBlocks
@@ -772,8 +778,21 @@ function findDurationLongMeetingTimes(meetingId) {
 // currently the first 5 meeting times chronologically
 function saveSuggestedMeetingTimes(meetingId, durationLongBlocks) {
   Meetings.update({_id:meetingId}, {
-      $set: {
-        "suggestedMeetingTimes": durationLongBlocks.slice(0, 5)
-      }
+      $set: { "suggestedMeetingTimes": durationLongBlocks.slice(0, 5) }
     });
+}
+
+// Look through the input events array for allDay events
+// Format them to match generic events
+function formatAllDayEvents(events) {
+  for (var i = 0; i < events.length; i++) {
+    if (events[i].allDay) {
+      var splitStart = events[i].start.split("-");
+      var splitEnd = events[i].end.split("-");
+      // NOTE: month - 1 because string is such that January is 01, whereas new Date wants January = 00
+      events[i].start = new Date(parseInt(splitStart[0]), parseInt(splitStart[1]) - 1, parseInt(splitStart[2]), 0, 0, 0, 0);
+      events[i].end = new Date(parseInt(splitEnd[0]), parseInt(splitEnd[1]) - 1, parseInt(splitEnd[2]), 0, 0, 0, 0);
+    }
+  }
+  return events;
 }
