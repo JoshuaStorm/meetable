@@ -6,7 +6,7 @@ Meteor.methods({
 
   // TODO: currently assumes meetings must be within 24 hours of clicking create meeting
   // invitedemails (array of strings): list of email addresses to invite
-  // duration (float): length of the meeting in hours
+  // duration (float): length of the meeting in minutes
   // windowStart (Moment.js object): earliest possible time to meet
   // windowEnd (Moment.js object): latest possible time to meet
 
@@ -64,7 +64,7 @@ Meteor.methods({
       isFinalized: false,
       availableTimes: availableTimes,
       participants: participants,
-      duration: duration * 3600 * 1000,
+      duration: duration * 60 * 1000,
       windowStart: windowStart,
       windowEnd: windowEnd,
       selectedStartTime: null, // will be calculated when all participants have accepted
@@ -542,6 +542,8 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
     return 0;
   });
 
+  console.log(calendarTimes);
+
   var busyTimes = [];
 
   // Add all the busy times in a proper format, ensure within the window
@@ -582,6 +584,7 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
     }
     busyTimes.push(busyTime);
   }
+  console.log("busyTimes", busyTimes);
   return busyTimes;
 }
 
@@ -627,6 +630,7 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
     availableTimes.push(availableTime);
   }
 
+  console.log("availableTimes", availableTimes);
   return availableTimes;
 }
 
@@ -655,14 +659,14 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
         };
         // This if statement says "if availableTimes does not contain an availableTime with the current availableTime startTime,
         // add the current availableTime". Basically if this availableTime is not a duplicate.
-        if (availableTimes.filter(e => e.startTime == availableTime.startTime).length === 0) availableTimes.push(availableTime);
+        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
       }
       else if ((otherStart.getTime() >= userStart.getTime() && otherStart.getTime() <= userEnd.getTime()) && otherEnd.getTime() >= userEnd.getTime()) {
         var availableTime = {
           startTime: otherStart,
           endTime: userEnd
         };
-        if (availableTimes.filter(e => e.startTime == availableTime.startTime).length === 0) availableTimes.push(availableTime);
+        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
       }
     }
   }
@@ -680,14 +684,14 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
           startTime: userStart,
           endTime: userEnd
         };
-        if (availableTimes.filter(e => e.startTime == availableTime.startTime).length === 0) availableTimes.push(availableTime);
+        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
       }
       else if ((userStart.getTime() >= otherStart.getTime() && userStart.getTime() <= otherEnd.getTime()) && userEnd.getTime() >= otherEnd.getTime()) {
         var availableTime = {
           startTime: userStart,
           endTime: otherEnd
         };
-        if (availableTimes.filter(e => e.startTime == availableTime.startTime).length === 0) availableTimes.push(availableTime);
+        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
       }
     }
   }
