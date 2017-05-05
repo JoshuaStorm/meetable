@@ -622,7 +622,7 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
 
   // Millisecond time
   var current = new Date();
-  var serverOffset = 0 // current.getTimezoneOffset() * 60 * 1000;
+  var serverOffset = current.getTimezoneOffset() * 60 * 1000;
   var trueEnd = new Date();
   // Go back and ahead an extra day just to be safe (saves more annoying handling)
   current.setTime(windowStart.getTime() - MILLISECONDS_IN_DAY);
