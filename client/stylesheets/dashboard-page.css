@@ -20,11 +20,19 @@
 
   /* hacky way to make sure content doesn't have horizontal scroll bar*/
   width: 99%;
-}
+  }
   #dashboardLeftCol {
     /* hacky way to hide the scoll bar on the left colum on small screens */
     height: auto;
     overflow: visible;
   }
-  
+}
+
+#meetable-name {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+#events-calendar {
+  margin-top: 10px;
 }

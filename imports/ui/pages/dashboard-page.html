@@ -3,7 +3,7 @@
   <body>
 <nav class="navbar navbar-dark bg-primary">
             <div >
-              <a class="navbar-brand" href="#">Meetable</a>
+              <a class="navbar-brand" id="meetable-name" href="#">Meetable</a>
               <ul class="navbar-nav navbar-right pull-right">
                   {{> atNavButton}}
               </ul>
@@ -14,10 +14,7 @@
       <div class="row">
         <!-- Left column start -->
         <div class="col-sm-5" id="dashboardLeftCol">
-        <hr/>
-            {{#if currentUser}}
-                <h3> Welcome {{firstName}}, this is your dashboard.</h3>
-            {{/if}}
+          <h4> Welcome, {{email}}!</h4>
 
             <!-- Start schedule meeting block -->
             <div class="row">
@@ -28,52 +25,59 @@
               </button>
             </div>
             <div id="scheduleMeeting" class="container-fluid dashboardDropdownContent">
-            <form>
-              <fieldset>
-                <div class="form-group">
-                  <div class="col-md-10">
-                    <input type="text" class="form-control" id="meetingInvitee" placeholder="Participant Email(s), comma separated">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-md-10">
-                    <input type="text" class="form-control" id="meetingTitle" placeholder="Title">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-md-10">
-                    <input type="number" class="form-control" id="meetingLength" placeholder="Length (hrs)">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <div class="col-md-10 datetimepicker">
-                    <input id="chooseWindowStart" class="set-start-date form-control" type="text" placeholder="Scheduling Window Start"/>
+              <form>
+                <fieldset>
+                  <div class="form-group">
+                    <div class="col-md-10">
+                      <input type="text" class="form-control" id="meetingInvitee" placeholder="Participant Email(s), comma separated">
                     </div>
-                </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#chooseWindowStart').datetimepicker();
-                    });
-                </script>
-                 <div class="form-group">
-                  <div class="col-md-10 datetimepicker">
-                    <input id="chooseWindowEnd" class="set-end-date form-control" type="text" placeholder="Scheduling Window End"/>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-md-10">
+                      <input type="text" class="form-control" id="meetingTitle" placeholder="Title">
                     </div>
+                  </div>
+                
+                <div class="form-group">
+                  <div class="col-md-10">
+                    <input type="number" class="form-control" id="meetingLength" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Meeting Duration (minutes)">
+                  </div>
                 </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#chooseWindowEnd').datetimepicker();
-                    });
-                </script>
+                  <div class="form-group">
+                    <div class="col-md-10 datetimepicker">
+                      <input id="chooseWindowStart" class="set-start-date form-control" type="text" placeholder="Scheduling Window Start"/>
+                    </div>
+                  </div>
+                  <script type="text/javascript">
+                      $(function () {
+                          $('#chooseWindowStart').datetimepicker({
+                            format: 'MM-DD-YYYY h:mm A',
+                            minDate: new Date(),
+                          });
+                      });
+                  </script>
+                  <div class="form-group">
+                    <div class="col-md-10 datetimepicker">
+                      <input id="chooseWindowEnd" class="set-end-date form-control" type="text" placeholder="Scheduling Window End"/>
+                    </div>
+                  </div>
+                  <script type="text/javascript">
+                      $(function () {
+                          $('#chooseWindowEnd').datetimepicker({
+                            format: 'MM-DD-YYYY h:mm A',
+                            minDate: new Date(),
+                          });
+                      });
+                  </script>
 
-                <div class="form-group">
-                  <div class="col-md-10 col-md-offset-2">
-                    <button type="button" class="btn btn-default" id="cancelCreateMeeting">Cancel</button>
-                    <button type="save" class="btn btn-primary" id="save">Save</button>
+                  <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                      <button type="button" class="btn btn-default" id="cancelCreateMeeting">Cancel</button>
+                      <button type="save" class="btn btn-primary" id="save">Save</button>
+                    </div>
                   </div>
-                </div>
-              </fieldset>
-            </form>
+                </fieldset>
+              </form>
             </div>
 
             <div class="row">
@@ -81,7 +85,7 @@
                 <div class="text-left">
                    Incoming
                   <span class="badge">{{numIncoming}}</span>
-                </div> 
+                </div>
               </button>
             </div>
             <div id="incomingInvites" class="container-fluid dashboardDropdownContent">
@@ -133,24 +137,7 @@
             </div>
 
             <div class="row">
-              <button id="hideCalendarsButton" type="button" class="btn btn-block btn-lg">
-                <div class="text-left">
-                  Hide Certain Calendars
-                </div>
-              </button>
-            </div>
-            <div class="container-fluid dashboardDropdownContent" id="hideCalendars">
-              <form>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString0">Courses</label>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString1">Activities</label>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString2">Office Hours</label>
-                <label> <input type="checkbox" name="salutation" value="longCalendarString3">Basketball Practices</label>
-                <input type = "submit" value = "calendar-select" class="btn-primary">
-              </form>
-            </div>
-
-            <div class="row">
-              <button id="extraBustyTimesButton" type="button" class="btn btn-block btn-lg">
+              <button id="extraBusyTimesButton" type="button" class="btn btn-block btn-lg">
                 <div class="text-left">
                   Add Extra Busy Times
                 </div>
@@ -162,25 +149,102 @@
                 {{#each additionalTime}}
                   {{> additional}}
                 {{else}}
-                  <div class="container-fluid"> <p> You do not have any additional times that you are busy. </p></div>
+                  <div class="container-fluid"><p> You do not have any additional busy times. </p></div>
                 {{/each}}
               </div>
               <form>
-                <label>Start
-                  <input id="datetime-start" type="datetime-local">
-                </label>
-                <label>End
-                  <input id="datetime-end" type="datetime-local">
-                </label>                
-                <input type = "submit" value = "submit" id = "submit-extra-times" class="btn-primary">
+                <div class="form-group">
+                  <div class="container-fluid"> <p> Add a new busy time: </p></div>
+                  <div class="col-md-10 datetimepicker">
+                    <input id="datetime-start" class="set-start-date form-control" type="text" placeholder="Start Time"/>
+                    </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datetime-start').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
+                    });
+                </script>
+                <div class="form-group">
+                  <div class="col-md-10 datetimepicker">
+                    <input id="datetime-end" class="set-end-date form-control" type="text" placeholder="End Time"/>
+                  </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#datetime-end').datetimepicker({
+                          format: 'MM-DD-YYYY h:mm A',
+                          minDate: new Date(),
+                        });
+                    });
+                </script>
+                <button type = "button" class="btn btn-primary" id = "submit-extra-times">Submit</button>
               </form>
             </div>
+
+            <!-- Start Settings button and content -->
+            <div class="row">
+              <button id="settingsButton" type="button" class="btn btn-block btn-lg">
+                <div class="text-left">Settings</div>
+              </button>
+            </div>
+            <div class="container-fluid dashboardDropdownContent" id="settings">
+              <div class="col">
+                <p>Uncheck the calendars you don't want to be considered</p>
+                <div class="container-fluid" id="hideCalendars">
+                  <form>
+                    {{#each userCalendars}}
+                      {{> calendar}}
+                    {{/each}}
+                  </form>
+                </div>
+
+                  <form>
+                  <div class="form-group">
+                    <div class="container-fluid">
+                      <p> We know you need to sleep. Let us know when you never want to have a meeting scheduled.</p>
+                      </div>
+                    <div class="col-md-10 datetimepicker">
+                      <!-- TODO: this lavel text is blue probably because of the datetimepicker class on the div, Not sure if the datetimepicker class is necessary? if it is, then we can assign the label a class and change its font color -->
+                      <label>
+                        I don't want to meet before:
+                        <input id="no-meetings-before" class="set-start-date form-control" type="text" placeholder="09:00"/>
+                      </label>
+                      </div>
+                  </div>
+                  <script type="text/javascript">
+                      $(function () {
+                          $('#no-meetings-before').datetimepicker({
+                            format: 'HH:mm'
+                          });
+                      });
+                  </script>
+                  <div class="form-group">
+                    <div class="col-md-10 datetimepicker">
+                      <label>I don't want to meet after:
+                        <input id="no-meetings-after" class="set-end-date form-control" type="text" placeholder="10:00"/>
+                      </label>
+                    </div>
+                  </div>
+                  <script type="text/javascript">
+                      $(function () {
+                          $('#no-meetings-after').datetimepicker({
+                            format: 'HH:mm'
+                          });
+                      });
+                  </script>
+                  <button type = "button" class="btn btn-primary" id = "submit-no-meetings-times">Submit</button>
+                </form>
+              </div>
+            </div>
+            <!-- End Settings button and content -->
         </div>
         <!--left column end -->
 
         <!-- Right column start -->
         <div class="col-sm-7" id="dashboardRightCol">
-        <hr/>
           <div id="events-calendar"></div>
         </div>
          <!-- Right column end -->
@@ -230,15 +294,21 @@
       <h4>{{inviterName}}</h4> <p> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
       <br/>Please select a time for the meeting:</p>
       <form>
-      {{#each suggestedTimes}}
-        <div class="radio">
-          <label>
-            <input type="radio" name="myForm" value="{{@index}}" checked="">
-            {{startTime}} - {{endTime}}
-          </label>
-        </div>
-      {{/each}}
-      <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
+
+      {{#if suggestedTimes}}
+        {{#each suggestedTimes}}
+          <div class="radio">
+            <label>
+              <input type="radio" name="myForm" value="{{@index}}" checked="">
+              {{formattedStart}} - {{formattedEnd}}
+            </label>
+          </div>
+        {{/each}}
+        <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
+      {{else}}
+        <div class="container-fluid"> <p> You are not meetable for this time window. Please reschedule!</p></div>
+        <button type="delete" class="btn btn-primary btn-sm" id="deleteMeeting">Delete</button>
+      {{/if}}
       </form>
     </div>
   </div>
@@ -252,6 +322,7 @@
   <span class="label label-warning">Waiting for responses...</span>
     <p><h5>{{meetingTitle}}</h5> ({{meetingDuration}})</p>
     <p>Participants: {{meetingParticipants}}</p>
+    <button type="cancel" class="btn btn-default" id="deleteOutgoing">Delete</button>
   {{/if}}
 </template>
 
@@ -270,13 +341,15 @@
       <br/> Please select a time for the meeting:</p>
       <form>
       {{#each suggestedTimes}}
+        {{> additional}}
         <div class="radio">
           <label>
             <input type="radio" name="myForm" value="{{@index}}" checked="">
-            {{startTime}} - {{endTime}}
+            {{timeStart}} - {{timeEnd}}
           </label>
         </div>
       {{/each}}
+      <button type="cancel" class="btn btn-default" id="deleteInvite">Delete</button>
       <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
       </form>
 </template>
@@ -288,4 +361,19 @@
   <p> Participants: {{participants}}<br/>
   Start: {{selectedStart}} <br/>
   End: {{selectedEnd}}</p>
+  <!-- only display the push to Gcal button once. After being pushed, take away the button and display label confirming push has already occurred -->
+  {{#if addedToGCal}}
+    <span class="label label-default">Event pushed to Google calendar</span>
+  {{else}}
+    <a href="javascript:void(0)" class="btn btn-raised btn-primary btn-xs" id="pushEvent">Push to Google calendar</a>
+  {{/if}}
+</template>
+
+<!-- checkbox for choosing whether to display calendar -->
+<template name="calendar">
+  <div class="container-fluid">
+  <label>
+    <input type="checkbox" checked={{isChecked}}> {{calendarTitle}}
+  </label>
+  </div>
 </template>

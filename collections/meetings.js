@@ -82,6 +82,10 @@ Schemas.Meetings = new SimpleSchema({
         type: Boolean,
         label: "has participant added their info?"
     },
+    "participants.$.addedToGCal": {
+        type: Boolean,
+        label: "has this event been added to the users gcal"
+    },
     "participants.$.selector": {
         type: Boolean,
         label: "Does this participant choose the final time?"

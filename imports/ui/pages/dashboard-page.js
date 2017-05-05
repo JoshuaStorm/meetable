@@ -21,6 +21,18 @@ Template.dashboard_page.helpers({
       if (user) {
         return user.services.google.given_name;
       }
+      else {
+        return "user that's not logged in"
+      }
+    },
+    email: function(){
+      var user = Meteor.user();
+      if (user) {
+        return user.services.google.email;
+      }
+      else {
+        return "user that's not logged in"
+      }
     },
     currentUser: function() {
       return Meteor.userId();
@@ -37,14 +49,20 @@ Template.dashboard_page.helpers({
     numOutgoing:function() { // for badge
       return Meteor.users.findOne(Meteor.userId()).profile.meetingInvitesSent.length;
     },
+    calendarIds: function() {
+      return Object.keys(Meteor.users.findOne(Meteor.userId()).profile.calendars);
+    },
     final: function() {
-        return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings;
+      return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings;
     },
     numFinalized:function() { // for badge
       return Meteor.users.findOne(Meteor.userId()).profile.finalizedMeetings.length;
     },
     additionalTime: function() {
-        return Meteor.users.findOne(Meteor.userId()).profile.additionalBusyTimes;
+      return Meteor.users.findOne(Meteor.userId()).profile.additionalBusyTimes;
+    },
+    userCalendars: function() {
+      return Object.keys(Meteor.users.findOne(Meteor.userId()).profile.calendars);
     }
 });
 
@@ -55,6 +73,7 @@ Template.dashboard_page.onRendered( () => {
       center: 'month,agendaWeek,agendaDay' // buttons for switching between views
     },
   });
+
 
   // initialize the date time picker
   this.$('.datetimepicker').datetimepicker();
@@ -67,7 +86,7 @@ Template.dashboard_page.onRendered( () => {
   $('#datetime-start').val(isoStrStart.substring(0,isoStrStart.length-5));
   $('#datetime-end').val(isoStrEnd.substring(0,isoStrEnd.length-5));
 
-    // toggle main tabs
+  // toggle main tabs
   // must be in this function because jQuery can only run on DOM after
   // the DOM is rendered (which is when this function is called)
 
@@ -88,16 +107,15 @@ Template.dashboard_page.onRendered( () => {
   $("#meetingsButton").click(function(){
     $("#finalizedMeetings").slideToggle(100);
   });
-  $("#hideCalendarsButton").click(function(){
-    $("#hideCalendars").slideToggle(100);
-  });
-  $("#extraBustyTimesButton").click(function(){
+  $("#extraBusyTimesButton").click(function(){
     $("#extraBusyTimes").slideToggle(100);
+  });
+  $("#settingsButton").click(function(){
+    $("#settings").slideToggle(100);
   });
 
   // hide the meeting creation section when user cancels creation
   $("#cancelCreateMeeting").click(function() {
-    console.log("PLEASADS")
     $("#scheduleMeeting").slideUp(100);
   });
 });
@@ -119,6 +137,10 @@ Template.dashboard_page.events({
     var cleanEmails = [];
     for (var i = 0; i < emails.length; i++) {
       // TODO: Prompt user when they pass a non-email?
+      if (emails[i].trim() === Meteor.users.findOne(Meteor.userId()).services.google.email) {
+        Bert.alert( 'Cannot schedule meeting with yourself', 'danger', 'growl-bottom-left' );
+        return;
+      }
       if (emails[i].trim().match(regex)) cleanEmails.push(emails[i].trim());
       else console.log("Non-email passed in; removed from invitees list.")
     }
@@ -127,6 +149,7 @@ Template.dashboard_page.events({
     // currently using 24 hours after time button was pressed
     Meteor.call('createMeeting', title, emails, length, windowStart, windowEnd, function(error, result) {
       if (error) {
+        Bert.alert( 'Meeting invite could not be sent.', 'danger', 'growl-bottom-left' );
         console.log("createMeeting: " + error);
       } else{
         var resetTitle = document.getElementById('meetingTitle').value ="";
@@ -138,6 +161,7 @@ Template.dashboard_page.events({
       }
     });
   },
+
   'click .navbar-brand': function(e) {
     FlowRouter.go('/');
   },
@@ -151,16 +175,16 @@ Template.dashboard_page.events({
     endTime = new Date(endTime);
 
     if (isNaN(startTime.getTime())) {
-      Bert.alert( 'Please enter a valid start time.', 'danger', 'fixed-bottom');
+      Bert.alert( 'Please enter a valid start time.', 'danger', 'growl-bottom-left');
       throw 'Invalid Start';
     }
     else if (isNaN(endTime.getTime())) {
-      Bert.alert( 'Please enter a valid end time.', 'danger', 'fixed-bottom');
+      Bert.alert( 'Please enter a valid end time.', 'danger', 'growl-bottom-left');
       throw 'Invalid End';
     }
 
     if (endTime.getTime() <= startTime.getTime()) {
-      Bert.alert( 'End time must be after start time. ', 'danger', 'fixed-bottom');
+      Bert.alert( 'End time must be after start time. ', 'danger', 'growl-bottom-left');
       throw 'EndTime greater than startTime';
     }
 
@@ -175,9 +199,44 @@ Template.dashboard_page.events({
           $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
           $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
         });
+        Meteor.call('updateMeetableTimes', function(error, result) {
+          if (error) console.log('updateBusyTimes: ' + error);
+        });
       }
     });
+  },
+
+  'click #submit-no-meetings-times': function(e) {
+    e.preventDefault();
+
+    var beforeTime = $('#no-meetings-before').val();
+    var afterTime = $('#no-meetings-after').val();
+
+    var timeRegex = new RegExp(/^([01]\d|2[0-3]):?([0-5]\d)$/);
+    // I don't know how datepicker could return an invalid time but let me know
+    // I'm just gonna put these here as an extra precaution. No reason not to, right?
+    if (!timeRegex.test(beforeTime)) {
+      Bert.alert( "Please enter a valid earliest meeting time.", 'danger', 'fixed-bottom');
+      throw 'Invalid Before';
+    } else if (!timeRegex.test(afterTime)) {
+      Bert.alert( 'Please enter a valid latest meeting time.', 'danger', 'fixed-bottom');
+      throw 'Invalid After';
+    }
+
+    // depends on ASCII values of strings in HH:MM format, which is probably fine #AMERICA
+    if (afterTime <= beforeTime) {
+      Bert.alert("You must have some time you're available. ", 'danger', 'fixed-bottom');
+      throw 'Before time greater than or equal after time';
+    }
+
+    Meteor.call('setMeetRange', beforeTime, afterTime, function(error, result) {
+      if (error) console.log("Error in addRecurringBusyTimes: " + error);
+      Meteor.call('updateMeetableTimes', function(error, result) {
+        if (error) console.log('updateBusyTimes: ' + error);
+      });
+    });
   }
+
 });
 
 /////////////////////////////////////////////
@@ -221,10 +280,13 @@ Template.additional.events({
     Meteor.call('deleteBusyTimes', this, function(error, result) {
       if (error) throw "there are no additional busyTimes for some reason!";
       Meteor.call("getFullCalendarAdditional", function(error, result) {
-          if (error) console.log(error);
-          $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
-          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
-        });
+        if (error) console.log(error);
+        $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
+      });
+      Meteor.call('updateMeetableTimes', function(error, result) {
+        if (error) console.log('updateBusyTimes: ' + error);
+      });
     });
   }
 });
@@ -239,14 +301,13 @@ Template.invite.helpers({
     var thisMeeting = Meetings.findOne({_id:this.toString()});
     // iterate through all meeting participants to find index in array for the current user
     // start with index 1 because you can skip the first participant ( creator)
-    Session.set("ready", false);
     Meteor.call('readyToFinalize', this.toString(), function(error, result) {
       if (error) {
         console.log("readyToFinalize: " + error);
       }
     });
     // an incoming meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a two person meeting
-    if (thisMeeting.readyToFinalize && thisMeeting.participants.length == 2) {
+    if (thisMeeting.readyToFinalize && thisMeeting.participants.length === 2) {
       Template.instance().currentInviteType.set('readyToFinalize');
     }
     else {
@@ -265,9 +326,7 @@ Template.invite.events({
   // call function to change this user's 'accepted' value to true for the given meeting
   'click #acceptInvite': function(event, template) {
     Meteor.call('acceptInvite', this.toString(), Meteor.userId(), function(error, result) {
-      if (error) {
-        console.log("acceptInvite: " + error);
-      }
+      if (error) console.log("acceptInvite: " + error);
     });
   },
   'click #declineInvite': function(event, template) {
@@ -291,8 +350,8 @@ Template.incoming.helpers({
     },
   meetingDuration() {
       var length = Meetings.findOne({_id:this.toString()}).duration;
-      var hour = length / (1000 * 60 * 60);
-      var minute = length % (1000 * 60 * 60);
+      var hour = Math.floor(length / (1000 * 60 * 60));
+      var minute = (length / (1000 * 60)) % 60;
       return hour + "hr " + minute + "min";
     },
   acceptedInvite() {
@@ -301,7 +360,7 @@ Template.incoming.helpers({
     // NOTE: Switch this to check all users, I don't think we should assume the first participant is always the creator. May get us into trouble later
     for (var i = 0; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
-      if (currUser.id == Meteor.userId()) { // current user found
+      if (currUser.id === Meteor.userId()) { // current user found
         return currUser.accepted;
       }
     }
@@ -319,8 +378,8 @@ Template.readyToFinalize.helpers({
     // start with index 1 because you can skip the first participant ( creator)
     for (var i = 1; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
-      if (currUser.id == Meteor.userId()) { // current user found
-        if (currUser.selector == true) {
+      if (currUser.id === Meteor.userId()) { // current user found
+        if (currUser.selector) {
           Template.instance().currentFinalizeType.set('selector');
         }
         else {
@@ -347,8 +406,8 @@ Template.notSelector.helpers({
     },
   meetingDuration() {
       var length = Meetings.findOne({_id:this.toString()}).duration;
-      var hour = length / (1000 * 60 * 60);
-      var minute = length % (1000 * 60 * 60);
+      var hour = Math.floor(length / (1000 * 60 * 60));
+      var minute = (length / (1000 * 60)) % 60;
       return hour + "hr " + minute + "min";
     },
 });
@@ -362,13 +421,51 @@ Template.selector.helpers({
     },
   meetingDuration() {
       var length = Meetings.findOne({_id:this.toString()}).duration;
-      var hour = length / (1000 * 60 * 60);
-      var minute = length % (1000 * 60 * 60);
+      var hour = Math.floor(length / (1000 * 60 * 60));
+      var minute = (length / (1000 * 60)) % 60;
       return hour + "hr " + minute + "min";
     },
   suggestedTimes() {
-      return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
-    },
+    return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
+  },
+  formattedStart() {
+    var startDate = new Date(this.startTime);
+    var pm = "AM";
+    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    var day = weekday[startDate.getDay()];
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var month = months[startDate.getMonth()];
+    var date = startDate.getDate();
+    var year = startDate.getFullYear();
+    var hour = startDate.getHours();
+    if (hour > 12) {
+      hour = hour - 12;
+      pm = "PM";
+    }
+    if (hour < 10) hour = "0" + hour;
+    var min = startDate.getMinutes();
+    if (min < 10) min = "0" + min;
+    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + pm);
+  },
+  formattedEnd() {
+    var endDate = new Date(this.endTime);
+    var pm = "AM";
+    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    var day = weekday[endDate.getDay()];
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var month = months[endDate.getMonth()];
+    var date = endDate.getDate();
+    var year = endDate.getFullYear();
+    var hour = endDate.getHours();
+    if (hour > 12) {
+      hour = hour - 12;
+      pm = "PM";
+    }
+    if (hour < 10) hour = "0" + hour;
+    var min = endDate.getMinutes();
+    if (min < 10) min = "0" + min;
+    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + pm);
+  }
 });
 
 Template.selector.events({
@@ -385,7 +482,26 @@ Template.selector.events({
             $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
             $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
           });
+
+          Meteor.call('updateMeetableTimes', function(error, result) {
+            if (error) console.log('updateBusyTimes: ' + error);
+          });
         }
+      });
+    },
+    'click #cancelInvite': function(event){
+      Meteor.call('setNotReadyToFinalize', this.toString(), function(error, result) {
+        if (error) console.log(error);
+      });
+    },
+
+    'click #deleteMeeting': function(e) {
+      e.preventDefault();
+      Meteor.call('deleteMeeting', Meetings.findOne({_id:this.toString()}), function(error, result) {
+        if (error) console.log('deleteMeeting: ' + error);
+        Meteor.call('updateMeetableTimes', function(error, result) {
+          if (error) console.log('updateBusyTimes: ' + error);
+        });
       });
     }
 });
@@ -395,10 +511,10 @@ Template.outgoing.helpers({
     var peopleList = Meetings.findOne({_id:this.toString()}).participants;
     var participants = "";
     var comma = ", ";
-    for (var i = 1; i < peopleList.length; i++) {
+    participants = participants.concat(peopleList[1].email);
+    for (var i = 2; i < peopleList.length; i++) {
+      participants = participants.concat(comma);
       participants = participants.concat(peopleList[i].email);
-      if (i > 1)
-        participants = participants.concat(comma);
     }
     return participants;
   },
@@ -407,8 +523,8 @@ Template.outgoing.helpers({
   },
   meetingDuration() {
     var length = Meetings.findOne({_id:this.toString()}).duration;
-    var hour = length / (1000 * 60 * 60);
-    var minute = length % (1000 * 60 * 60);
+    var hour = Math.floor(length / (1000 * 60 * 60));
+    var minute = (length / (1000 * 60)) % 60;
     return hour + "hr " + minute + "min";
   },
   readyToFinalize() {
@@ -422,6 +538,15 @@ Template.outgoing.helpers({
   }
 });
 
+Template.outgoing.events({
+  'click #deleteOutgoing': function(event) {
+    event.preventDefault();
+    Meteor.call('deleteMeeting', this.toString(), function(error, result) {
+      if (error) console.log(error);
+    });
+  }
+})
+
 Template.outgoingFinalize.helpers({
   inviterName() {
       return Meetings.findOne({_id:this.toString()}).participants[0].email;
@@ -431,8 +556,8 @@ Template.outgoingFinalize.helpers({
     },
   meetingDuration() {
       var length = Meetings.findOne({_id:this.toString()}).duration;
-      var hour = length / (1000 * 60 * 60);
-      var minute = length % (1000 * 60 * 60);
+      var hour = Math.floor(length / (1000 * 60 * 60));
+      var minute = (length / (1000 * 60)) % 60;
       return hour + "hr " + minute + "min";
     },
   suggestedTimes:function() {
@@ -442,10 +567,10 @@ Template.outgoingFinalize.helpers({
     var peopleList = Meetings.findOne({_id:this.toString()}).participants;
     var participants = "";
     var comma = ", ";
-    for (var i = 1; i < peopleList.length; i++) {
+    participants = participants.concat(peopleList[1].email);
+    for (var i = 2; i < peopleList.length; i++) {
+      participants = participants.concat(comma);
       participants = participants.concat(peopleList[i].email);
-      if (i > 1)
-        participants = participants.concat(comma);
     }
     return participants;
   }
@@ -468,6 +593,12 @@ Template.outgoingFinalize.events({
 
         }
       });
+    },
+    'click #deleteInvite': function(event) {
+      event.preventDefault();
+      Meteor.call('deleteMeeting', this.toString(), function(error, result) {
+        if (error) console.log(error);
+      });
     }
 });
 
@@ -479,10 +610,10 @@ Template.finalizedMeeting.helpers({
     var peopleList = Meetings.findOne({_id:this.toString()}).participants;
     var participants = "";
     var comma = ", ";
-    for (var i = 1; i < peopleList.length; i++) {
+    participants = participants.concat(peopleList[1].email);
+    for (var i = 2; i < peopleList.length; i++) {
+      participants = participants.concat(comma);
       participants = participants.concat(peopleList[i].email);
-      if (i > 1)
-        participants = participants.concat(comma);
     }
     return participants;
   },
@@ -491,12 +622,76 @@ Template.finalizedMeeting.helpers({
   },
   selectedStart() {
     var start = Meetings.findOne({_id:this.toString()}).selectedBlock.startTime;
-    var time=new Date(start).toLocaleString();
+    var time = new Date(start).toLocaleString();
     return time;
   },
   selectedEnd() {
     var end = Meetings.findOne({_id:this.toString()}).selectedBlock.endTime;
-    var time=new Date(end).toLocaleString();
+    var time = new Date(end).toLocaleString();
     return time;
+  },
+  addedToGCal: function() {
+    var thisMeeting = Meetings.findOne({_id:this.toString()});
+    // iterate through all meeting participants to find index in array for the current user
+    // NOTE: Switch this to check all users, I don't think we should assume the first participant is always the creator. May get us into trouble later
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
+      var currUser = thisMeeting.participants[i];
+      if (currUser.id == Meteor.userId()) { // current user found
+        return currUser.addedToGCal;
+      }
+    }
+  }
+});
+
+Template.calendar.helpers({
+  calendarTitle: function() {
+    var cal = Meteor.users.findOne(Meteor.userId()).profile.calendars;
+    return cal[this.toString()].title;
+  },
+  isChecked: function() {
+    var cal = Meteor.users.findOne(Meteor.userId()).profile.calendars;
+    return cal[this.toString()].considered;
+  }
+});
+
+Template.calendar.events({
+  'click input': function(event) {
+    var id = this.toString();
+    Meteor.call('setCalendarConsideration', id, function(error, result) {
+      if (error) console.log(error);
+      var busyId = 'gCalBusy' + id;
+      var availableId = 'gCalAvailable' + id;
+      $( '#events-calendar' ).fullCalendar('removeEventSource', busyId);
+      $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
+      if (result[id].considered) {
+        // OKAY THIS IS INEFFICIENT BUT BETTER THAN PULLING FROM GCAL SO SUE ME
+        var busyEvents = Meteor.users.findOne(Meteor.userId()).profile.calendarEvents;
+        var availableEvents = Meteor.users.findOne(Meteor.userId()).profile.availableEvents;
+        var addedBusy = [];
+        var addedAvailable = [];
+
+        for (var i = 0; i < busyEvents.length; i++) {
+          if (busyEvents[i].calendarId === id) addedBusy.push(busyEvents[i]);
+        }
+        for (i = 0; i < availableEvents.length; i++) {
+          if (availableEvents[i].calendarId === id) addedAvailable.push(availableEvents[i]);
+        }
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: busyId, events: addedBusy });
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: addedAvailable });
+      }
+
+      Meteor.call('updateMeetableTimes', function(error, result) {
+        if (error) console.log('updateBusyTimes: ' + error);
+      });
+    });
+  }
+});
+
+Template.finalizedMeeting.events({
+  'click #pushEvent': function(e) {
+     //add code below to push the event to gcal
+     Meteor.call('addMeetingToUserCalendar', this.toString(), function(error, result) {
+       if (error) console.log('addMeetingToUserCalendar: ' + error);
+     });
   }
 });
