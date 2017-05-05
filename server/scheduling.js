@@ -610,6 +610,8 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
   var earliestMin = parseInt(range.earliest.split(':')[1]);
   var latestHour = parseInt(range.latest.split(':')[0]);
   var latestMin = parseInt(range.latest.split(':')[1]);
+  console.log(" ------- MEET RANGE ------- ");
+  console.log(range);
 
   var MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
 
@@ -623,13 +625,17 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
   var busyTimes = [];
   while (current < trueEnd) {
     var start = new Date(current);
+    var end = new Date(start);
+
     start.setHours(latestHour);
     start.setMinutes(latestMin);
 
-    var end = new Date();
+    // start = new Date(start.getYear(), start.getMonth(), start.getDay(), latestHour, latestMin);
+
     end.setTime(current.getTime() + MILLISECONDS_IN_DAY);
     end.setHours(earliestHour);
     end.setMinutes(earliestMin);
+    // end = new Date(end.getYear(), end.getMonth(), end.getDay(), earliestHour, earliestMin);
 
     busyTimes.push({
       'start': start,
@@ -638,6 +644,9 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
 
     current.setTime(current.getTime() + MILLISECONDS_IN_DAY);
   }
+
+  console.log(" ------- BUSYTIMES ------- ");
+  console.log(busyTimes);
   return busyTimes;
 }
 
