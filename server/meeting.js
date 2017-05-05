@@ -76,7 +76,7 @@ Meteor.methods({
     // Remove the event itself
     Meetings.remove(meetingId);
   },
-  
+
   // Add the given meeting ID to the curren users calendar, mark it as added to GCal
   // meetingId (String): The meetingId
   addMeetingToUserCalendar: function(meetingId) {
