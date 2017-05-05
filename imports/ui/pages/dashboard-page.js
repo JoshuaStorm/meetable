@@ -175,16 +175,16 @@ Template.dashboard_page.events({
     endTime = new Date(endTime);
 
     if (isNaN(startTime.getTime())) {
-      Bert.alert( 'Please enter a valid start time.', 'danger', 'fixed-bottom');
+      Bert.alert( 'Please enter a valid start time.', 'danger', 'growl-bottom-left');
       throw 'Invalid Start';
     }
     else if (isNaN(endTime.getTime())) {
-      Bert.alert( 'Please enter a valid end time.', 'danger', 'fixed-bottom');
+      Bert.alert( 'Please enter a valid end time.', 'danger', 'growl-bottom-left');
       throw 'Invalid End';
     }
 
     if (endTime.getTime() <= startTime.getTime()) {
-      Bert.alert( 'End time must be after start time. ', 'danger', 'fixed-bottom');
+      Bert.alert( 'End time must be after start time. ', 'danger', 'growl-bottom-left');
       throw 'EndTime greater than startTime';
     }
 
@@ -343,8 +343,8 @@ Template.incoming.helpers({
     },
   meetingDuration() {
       var length = Meetings.findOne({_id:this.toString()}).duration;
-      var hour = length / (1000 * 60 * 60);
-      var minute = length % (1000 * 60 * 60);
+      var hour = Math.floor(length / (1000 * 60 * 60));
+      var minute = (length / (1000 * 60)) % 60;
       return hour + "hr " + minute + "min";
     },
   acceptedInvite() {
@@ -399,8 +399,8 @@ Template.notSelector.helpers({
     },
   meetingDuration() {
       var length = Meetings.findOne({_id:this.toString()}).duration;
-      var hour = length / (1000 * 60 * 60);
-      var minute = length % (1000 * 60 * 60);
+      var hour = Math.floor(length / (1000 * 60 * 60));
+      var minute = (length / (1000 * 60)) % 60;
       return hour + "hr " + minute + "min";
     },
 });
@@ -414,13 +414,13 @@ Template.selector.helpers({
     },
   meetingDuration() {
       var length = Meetings.findOne({_id:this.toString()}).duration;
-      var hour = length / (1000 * 60 * 60);
-      var minute = length % (1000 * 60 * 60);
+      var hour = Math.floor(length / (1000 * 60 * 60));
+      var minute = (length / (1000 * 60)) % 60;
       return hour + "hr " + minute + "min";
     },
   suggestedTimes() {
-      return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
-    },
+    return Meetings.findOne({_id:this.toString()}).suggestedMeetingTimes;
+  },
 });
 
 Template.selector.events({
@@ -471,8 +471,8 @@ Template.outgoing.helpers({
   },
   meetingDuration() {
     var length = Meetings.findOne({_id:this.toString()}).duration;
-    var hour = length / (1000 * 60 * 60);
-    var minute = length % (1000 * 60 * 60);
+    var hour = Math.floor(length / (1000 * 60 * 60));
+    var minute = (length / (1000 * 60)) % 60;
     return hour + "hr " + minute + "min";
   },
   readyToFinalize() {
@@ -504,8 +504,8 @@ Template.outgoingFinalize.helpers({
     },
   meetingDuration() {
       var length = Meetings.findOne({_id:this.toString()}).duration;
-      var hour = length / (1000 * 60 * 60);
-      var minute = length % (1000 * 60 * 60);
+      var hour = Math.floor(length / (1000 * 60 * 60));
+      var minute = (length / (1000 * 60)) % 60;
       return hour + "hr " + minute + "min";
     },
   suggestedTimes:function() {
