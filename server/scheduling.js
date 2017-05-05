@@ -86,9 +86,9 @@ Meteor.methods({
     // Associate meetingId with all participants involved
     for (var i = 0; i < participants.length; i++) {
       // The creater sent the invite, therefore is not being invited!
-      if (participants[i].creator == true) continue;
+      if (participants[i].creator) continue;
       // Associate this email with a temporary user if they don't have an account
-      if (participants[i].id == null) {
+      if (!participants[i].id) {
         updateTempUser(participants[i].email, meetingId);
         continue; // Skip rest of this for loop
       }
@@ -174,7 +174,7 @@ Meteor.methods({
     // iterate through all meeting participants to find index in array for the current user
     for (var i = 0; i < thisMeeting.participants.length; i++) {
       var currUser = thisMeeting.participants[i];
-      if (currUser.id == userId) { // current user found
+      if (currUser.id === userId) { // current user found
         var setModifier = {};
         setModifier['participants.' + i + '.accepted'] = true;
         Meetings.update({_id:meetingId}, {$set:setModifier});
@@ -573,7 +573,7 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
     // If lastEndTime is undefined, this is the first element of the array. Consequently, the start of
     // the available time should be from windowStart, or in the special case the first busy time starting
     // at windowStart, from the end of that first busyTime
-    if (i == 0 && busy) {
+    if (i === 0 && busy) {
       if (busy.startTime.getTime() === windowStart.getTime()) {
         lastEndTime = busy.endTime;
         continue;
