@@ -25,11 +25,12 @@
               </button>
             </div>
             <div id="scheduleMeeting" class="container-fluid dashboardDropdownContent">
+              <!--
               <form>
                 <fieldset>
                   <div class="form-group">
                     <div class="col-md-10">
-                      <input type="text" class="form-control" id="meetingInvitee" placeholder="Participant Email(s), comma separated">
+                      <input type="text" class="form-control" id="meetingInvitee" placeholder="Participant Email(s), comma separated" required>
                     </div>
                   </div>
                   <div class="form-group">
@@ -38,11 +39,12 @@
                     </div>
                   </div>
                 
-                <div class="form-group">
-                  <div class="col-md-10">
-                    <input type="number" class="form-control" id="meetingLength" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Meeting Duration (minutes)">
+                  <div class="form-group">
+                    <div class="col-md-10">
+                      <input type="number" class="form-control" id="meetingLength" onkeypress="return event.charCode >= 48 && event.charCode <= 57" placeholder="Meeting Duration (minutes)" required>
+                    </div>
                   </div>
-                </div>
+
                   <div class="form-group">
                     <div class="col-md-10 datetimepicker">
                       <input id="chooseWindowStart" class="set-start-date form-control" type="text" placeholder="Scheduling Window Start"/>
@@ -69,17 +71,31 @@
                           });
                       });
                   </script>
-
+                  
                   <div class="form-group">
                     <div class="col-md-10 col-md-offset-2">
                       <button type="button" class="btn btn-default" id="cancelCreateMeeting">Cancel</button>
-                      <button type="save" class="btn btn-primary" id="save">Save</button>
+                      <input type="submit" class="btn btn-primary" id="save">
                     </div>
                   </div>
                 </fieldset>
               </form>
-            </div>
+              -->
+              <form>
+                <label>Email addresses <input type="text" id="meetingInvitee" placeholder="johndoe@gmail.com, suzie@gmail.com" required></label>
+                <label>Title <input type="text" placeholder="math study session" required></label>
+                <label>Duration (minutes) <input type="text" placeholder="60" required></label>
+                <label>Meeting Window Start <input type="text" id="windowStartInput" class="windowDatepicker" required></label>
+                <label>Meeting Window End <input id="windowEndInput" class="windowDatepicker" type="text" required></label>
+                
+                <div><input type="submit"></div>
+              </form>
 
+            </div>
+            
+            <!-- End schedule meeting block -->
+
+            <!-- Start incoming block -->
             <div class="row">
               <button id="invitesButton" type="button" class="btn btn-block btn-lg">
                 <div class="text-left">

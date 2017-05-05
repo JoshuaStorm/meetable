@@ -76,7 +76,29 @@ Template.dashboard_page.onRendered( () => {
 
 
   // initialize the date time picker
-  this.$('.datetimepicker').datetimepicker();
+  //this.$('.datetimepicker').datetimepicker();
+
+
+  // initialize all windows datepickers together
+  //$('.windowDatepicker').datetimepicker();
+
+  // initialize and control window datepickers separately
+  let sartOfCurrentHour = moment().startOf('hour');
+
+  $('#windowStartInput').datetimepicker({
+        format: 'ddd, MMM Do, h:mm a',
+        minDate: sartOfCurrentHour
+
+        // we need to make sure you can't select
+  });
+
+  // source: http://stackoverflow.com/questions/17691202/round-up-round-down-a-momentjs-moment-to-nearest-minute
+  $('#windowEndInput').datetimepicker({
+        format: 'ddd, MMM Do, h:mm a',
+        defaultDate: sartOfCurrentHour.add(1, 'hour') // make this one hour later than the default start
+
+  });
+
 
   //autopopulates the start field with an ISOstring of current time (which is readable by the html datetime-local)
   //the tzoffset is to get the ISO from UTC time to current timezone
@@ -144,10 +166,10 @@ Template.dashboard_page.events({
       // if (emails[i].trim().match(regex)) cleanEmails.push(emails[i].trim());
       // else console.log("Non-email passed in; removed from invitees list.")
 
-      if (!emails[i].trim().match(regex)) {
-        Bert.alert("Meeting invite not sent: invalid email detected.", "danger", "growl-bottom-left");
-        return;
-      }
+      // if (!emails[i].trim().match(regex)) {
+      //   Bert.alert("Meeting invite not sent: invalid email detected.", "danger", "growl-bottom-left");
+      //   return;
+      // }
     }
 
     // TODO: add fields to set the window of time to schedule the time
