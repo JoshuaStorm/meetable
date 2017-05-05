@@ -300,7 +300,7 @@
           <div class="radio">
             <label>
               <input type="radio" name="myForm" value="{{@index}}" checked="">
-              {{startTime}} - {{endTime}}
+              {{formattedStart}} - {{formattedEnd}}
             </label>
           </div>
         {{/each}}
@@ -341,10 +341,11 @@
       <br/> Please select a time for the meeting:</p>
       <form>
       {{#each suggestedTimes}}
+        {{> additional}}
         <div class="radio">
           <label>
             <input type="radio" name="myForm" value="{{@index}}" checked="">
-            {{startTime}} - {{endTime}}
+            {{timeStart}} - {{timeEnd}}
           </label>
         </div>
       {{/each}}
