@@ -141,8 +141,13 @@ Template.dashboard_page.events({
         Bert.alert( 'Cannot schedule meeting with yourself', 'danger', 'growl-bottom-left' );
         return;
       }
-      if (emails[i].trim().match(regex)) cleanEmails.push(emails[i].trim());
-      else console.log("Non-email passed in; removed from invitees list.")
+      // if (emails[i].trim().match(regex)) cleanEmails.push(emails[i].trim());
+      // else console.log("Non-email passed in; removed from invitees list.")
+
+      if (!emails[i].trim().match(regex)) {
+        Bert.alert("Meeting invite not sent: invalid email detected.", "danger", "growl-bottom-left");
+        return;
+      }
     }
 
     // TODO: add fields to set the window of time to schedule the time
