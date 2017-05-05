@@ -231,6 +231,9 @@ Template.dashboard_page.events({
 
     Meteor.call('setMeetRange', beforeTime, afterTime, function(error, result) {
       if (error) console.log("Error in addRecurringBusyTimes: " + error);
+      Meteor.call('updateMeetableTimes', function(error, result) {
+        if (error) console.log('updateBusyTimes: ' + error);
+      });
     });
   }
 
