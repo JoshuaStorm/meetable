@@ -203,6 +203,7 @@ Meteor.methods({
       var idToEvents = Meteor.call('getFullCalendarEvents');
       var busyEvents = [];
       var availableEvents = [];
+      // Parse the idToEvents to just a big ol' list of events
       for (var id in idToEvents) {
         busyEvents = busyEvents.concat(idToEvents[id].busy);
         availableEvents = availableEvents.concat(idToEvents[id].available);
