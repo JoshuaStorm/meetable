@@ -26,7 +26,7 @@ var loggedIn = FlowRouter.group({ /* routes only for loggedIn users */
   ]
 })
 
-function checkLoggedIn (ctx, redirect) {  /* check if user is logged in */
+function checkLoggedIn(ctx, redirect) {  /* check if user is logged in */
   if (!Meteor.userId()) {
     redirect('/')
   }
@@ -42,6 +42,9 @@ public.route('/', {
         FlowRouter.go('/dashboard');
       }
     });
+  },
+  waitOn: function() {
+    Accounts.loginServicesConfigured();
   }
 });
 
