@@ -122,6 +122,19 @@ Meteor.methods({
       console.log("Error in attachTempUser: userId has no email");
       return;
     }
+
+    // TODO: Put this somewhere more logical. Perhaps a "checkForNewUser" function
+    // If a user does not have a meetingRange
+    if (!user.profile.meetRange) {
+      // Default to 9am-10pm
+      var range = { 'earliest': '09:00', 'latest': '22:00' };
+      Meteor.users.update(user, {
+        // TODO: Better name for this lol?
+        $set: { "profile.meetRange": range }
+      });
+    }
+
+
     var tempUser = Temp.findOne({ 'email': email });
     // If there is a tempUser, attach it. Otherwise do nothing :)
     if (!tempUser) return;
@@ -153,90 +166,6 @@ Meteor.methods({
       // Destroy Temp element for this user.
       Temp.remove({ 'email' : email });
     }
-  },
-
-  // DEPRECATED: I am just leaving this here cus it has good boilerplate code
-  // Feel free to delete later.
-  inviteToMeeting: function(userEmails, title, duration) {
-    console.log("inviteToMeeting is DEPRECATED, don't use it!");
-    // The email of the person inviting others to meeting
-    var inviterEmail = Meteor.user().services.google.email;
-    var invitation = {
-      inviter: inviterEmail,
-      invited: userEmails,
-      title: title,
-      length: duration
-    };
-
-    // Update the inviters sent invites in the DB
-    var invites = Meteor.users.findOne(this.userId).profile.meetingInvitesSent; // Pull their meeting invitations
-    if (invites === undefined) invites = [];
-    invites.push(invitation); // Append
-    Meteor.users.update(this.userId, { // Now set the values again
-      $set: {
-        "profile.meetingInvitesSent": invites
-      }
-    });
-
-    for (var i = 0; i < userEmails.length; i++) {
-      // The user being invited
-      var user = Meteor.users.findOne({"services.google.email": userEmails[i]});
-      // If the user DNE, invite them! :)
-      if (user === undefined) {
-        // TODO: Perhaps we should have a modal confirmation saying
-        // "This user doesn't seem to have an account, would you like to invite them?"
-        sendInvitationEmail(inviterEmail, userEmails[i], title);
-
-        // TODO: PROBLEM!!!!!! We need to associate this event with an account that DOES NOT YET EXIST
-        // Not TOO hard to handle, just need to create a new collection.
-      } else {
-        sendNewMeetingEmail(inviterEmail, userEmails[i], title);
-        // Also need to add this invitation to their DB point so they can actually schedule it
-        invites = Meteor.users.findOne(user._id).profile.meetingInvitesReceived // Pull their meeting invitations
-        if (invites === undefined) invites = [];
-        invites.push(invitation); // Append
-        Meteor.users.update(user._id, { // Now set the values again
-          $set: {
-            "profile.meetingInvitesReceived": invites
-          }
-        });
-      }
-    }
-  },
-
-  // Add an additional busy time to the users additional collection.
-  addBusyTimes: function(busyTime) {
-    var user = this.userId;
-
-    var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
-    // Create a new set if necessary
-    if (!busy) {
-      Meteor.users.update(user, { // Now set the values again
-        $set: {
-          "profile.additionalBusyTimes": [busyTime]
-        }
-      });
-    } else {
-      Meteor.users.update(user, { // Now set the values again
-        $addToSet: {
-          "profile.additionalBusyTimes": busyTime
-        }
-      });
-    }
-  },
-
-  // Delete the given busyTime from the additionalBusyTimes collection
-  deleteBusyTimes: function(busyTime) {
-    var user = this.userId;
-
-    var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
-    if (!busy) throw error;
-
-    Meteor.users.update(user, {
-      $pull: {
-        "profile.additionalBusyTimes": busyTime
-      }
-    });
   },
 
   // accept a meeting invitation; change the participant's 'accepted' value to true
@@ -570,9 +499,11 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   if (!additionalBusyTimes) additionalBusyTimes = [];
   var meetingTimes = getFinalizedMeetingTimes(userId);
   if (!meetingTimes) meetingTimes = [];
+  var outsideMeetRange = getOutsideMeetRangeTimes(userId, windowStart, windowEnd);
 
   calendarTimes = calendarTimes.concat(meetingTimes);
   calendarTimes = calendarTimes.concat(additionalBusyTimes);
+  calendarTimes = calendarTimes.concat(outsideMeetRange);
 
   // Sort the times based on startTime
   calendarTimes.sort(function(time1, time2) {
@@ -649,17 +580,17 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
       }
     }
 
-    //If b is undefined, this means that the last b was the last element of the array and the last available
-    //time should be from that b's endTime to windowEnd.
+    // If b is undefined, this means that the last b was the last element of the array and the last available
+    // time should be from that b's endTime to windowEnd.
     if (!busy) {
-      //If the end of the last time = the end of the window, then the last available time is the final one
+      // If the end of the last time = the end of the window, then the last available time is the final one
       if (lastEndTime.getTime() === windowEnd.getTime()) continue;
 
       availableTime.startTime = lastEndTime;
       availableTime.endTime = windowEnd;
     }
     else {
-      //Available times is from the last busyTime's endtime to the current busyTimes startTime
+      // Available times is from the last busyTime's endtime to the current busyTimes startTime
       availableTime.startTime = lastEndTime;
       availableTime.endTime = busy.startTime;
 
@@ -670,6 +601,44 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
   }
 
   return availableTimes;
+}
+
+// Use a given userId's meetRange to produce busy times outside the meetrange within the input window
+function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
+  var range = Meteor.users.findOne(userId).profile.meetRange;
+  var earliestHour = parseInt(range.earliest.split(':')[0]);
+  var earliestMin = parseInt(range.earliest.split(':')[1]);
+  var latestHour = parseInt(range.latest.split(':')[0]);
+  var latestMin = parseInt(range.latest.split(':')[1]);
+
+  var MILLISECONDS_IN_DAY = 1000 * 60 * 60 * 24;
+
+  // Millisecond time
+  var current = new Date();
+  var trueEnd = new Date();
+  // Go back and ahead an extra day just to be safe (saves more annoying handling)
+  current.setTime(windowStart.getTime() - MILLISECONDS_IN_DAY);
+  trueEnd.setTime(windowEnd.getTime() + MILLISECONDS_IN_DAY);
+
+  var busyTimes = [];
+  while (current < trueEnd) {
+    var start = new Date(current);
+    start.setHours(latestHour);
+    start.setMinutes(latestMin);
+
+    var end = new Date();
+    end.setTime(current.getTime() + MILLISECONDS_IN_DAY);
+    end.setHours(earliestHour);
+    end.setMinutes(earliestMin);
+
+    busyTimes.push({
+      'start': start,
+      'end': end
+    });
+
+    current.setTime(current.getTime() + MILLISECONDS_IN_DAY);
+  }
+  return busyTimes;
 }
 
 // Given the available times in the meetings collection, and the availableTimes
@@ -815,9 +784,9 @@ function findDurationLongMeetingTimes(meetingId) {
 // save what we will present as meeting times to the user
 // currently the first 5 meeting times chronologically
 function saveSuggestedMeetingTimes(meetingId, durationLongBlocks) {
-  Meetings.update({_id:meetingId}, {
+  Meetings.update(meetingId, {
       $set: { "suggestedMeetingTimes": durationLongBlocks.slice(0, 5) }
-    });
+  });
 }
 
 // Look through the input events array for allDay events
