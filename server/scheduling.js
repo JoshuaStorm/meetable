@@ -523,6 +523,7 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   var calendarTimes = user.profile.calendarEvents;
   if (!calendarTimes) calendarTimes = [];
   calendarTimes = removeUnconsideredEvents(calendarTimes, calendarConsiderations);
+  calendarTimes = formatAllDayEvents(calendarTimes);
   var additionalBusyTimes = Meteor.users.findOne(userId).profile.additionalBusyTimes;
   if (!additionalBusyTimes) additionalBusyTimes = [];
   var meetingTimes = getFinalizedMeetingTimes(userId);
@@ -547,13 +548,7 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   for (var i = 0; i < calendarTimes.length; i++) {
     var start = calendarTimes[i].start;
     var end = calendarTimes[i].end;
-    // All day events need to be reformatted so JS data doesn't timezone shift them extranouesly
-    if (calendarTimes[i].allDay) {
-      var splitStart = start.split("-");
-      var splitEnd = end.split("-");
-      var start = new Date(splitStart[0], splitStart[1], splitStart[2], 0, 0, 0, 0);
-      var end = new Date(splitEnd[0], splitEnd[1], splitEnd[2], 0, 0, 0, 0);
-    }
+
     // Slight deviations in how we store Dates, ensure they're consistent here.
     // TODO: Store our data consistently such that we don't need to do this.
     if (!(start instanceof Date)) start = new Date(start);
@@ -781,4 +776,19 @@ function saveSuggestedMeetingTimes(meetingId, durationLongBlocks) {
   Meetings.update({_id:meetingId}, {
       $set: { "suggestedMeetingTimes": durationLongBlocks.slice(0, 5) }
     });
+}
+
+// Look through the input events array for allDay events
+// Format them to match generic events
+function formatAllDayEvents(events) {
+  for (var i = 0; i < events.length; i++) {
+    if (events[i].allDay) {
+      var splitStart = events[i].start.split("-");
+      var splitEnd = events[i].end.split("-");
+      // NOTE: month - 1 because string is such that January is 01, whereas new Date wants January = 00
+      events[i].start = new Date(parseInt(splitStart[0]), parseInt(splitStart[1]) - 1, parseInt(splitStart[2]), 0, 0, 0, 0);
+      events[i].end = new Date(parseInt(splitEnd[0]), parseInt(splitEnd[1]) - 1, parseInt(splitEnd[2]), 0, 0, 0, 0);
+    }
+  }
+  return events;
 }
