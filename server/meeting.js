@@ -1,6 +1,7 @@
 // File for our server functions for serving OUR meetings/events to client.
 // As opposed to scheduling meetings (scheduling.js) or pulling from Google (googleCalendarApi.js)
 import Meetings from '/collections/meetings.js';
+import Temp from '/collections/temp.js';
 
 Meteor.methods({
   // Return an array of the current users finalized events in the FullCalendar format
@@ -61,17 +62,24 @@ Meteor.methods({
     var participants = meeting.participants;
     // Remove from each user in this meeting
     for (var i = 0; i < participants.length; i++) {
-      var userId = Meteor.users.findOne(participants[i].id);
-      // Remove from the users sent and and received
-      Meteor.users.update(userId, {
-        $pull: { 'profile.meetingInvitesSent': meetingId }
-      });
-      Meteor.users.update(userId, {
-        $pull: { 'profile.meetingInvitesReceived': meetingId }
-      });
-      Meteor.users.update(userId, {
-        $pull: { 'profile.finalizedMeetings': meetingId }
-      });
+      // The user isn't temp
+      if (participants[i].id) {
+        Meteor.users.update(participants[i].id, {
+          $pull: { 'profile.meetingInvitesSent': meetingId }
+        });
+        Meteor.users.update(participants[i].id, {
+          $pull: { 'profile.meetingInvitesReceived': meetingId }
+        });
+        Meteor.users.update(participants[i].id, {
+          $pull: { 'profile.finalizedMeetings': meetingId }
+        });
+      } else { // Remove from temp user
+        var tempUser = Temp.findOne({ email: participants[i].email });
+        Temp.update(tempUser._id, {
+          $pull: { 'meetingInvitesReceived': meetingId }
+        });
+      }
+
     }
     // Remove the event itself
     Meetings.remove(meetingId);
@@ -95,4 +103,34 @@ Meteor.methods({
       }
     }
   },
+
+  // Check all meetings associated with this user, if they're expired delete them.
+  deleteOldMeetings: function() {
+    var user = Meteor.users.findOne(this.userId);
+    var receivedIds = user.profile.meetingInvitesReceived;
+    if (!receivedIds) receivedIds = [];
+    var sentIds = user.profile.meetingInvitesSent;
+    if (!sentIds) sentIds = [];
+    var finalizedIds = user.profile.finalizedMeetings;
+    if (!finalizedIds) finalizedIds = [];
+
+    var meetingIdsToDelete = [];
+    // Add to a delete array, otherwise array would change length during iteration === bad
+    for (var i = 0; i < receivedIds.length; i++) {
+      var thisMeeting = Meetings.findOne(receivedIds[i]);
+      if (thisMeeting.windowEnd < Date.now()) meetingIdsToDelete.push(receivedIds[i]);
+    }
+    for (i = 0; i < sentIds.length; i++) {
+      var thisMeeting = Meetings.findOne(sentIds[i]);
+      if (thisMeeting.windowEnd < Date.now()) meetingIdsToDelete.push(sentIds[i]);
+    }
+    for (i = 0; i < finalizedIds.length; i++) {
+      var thisMeeting = Meetings.findOne(finalizedIds[i]);
+      if (thisMeeting.selectedBlock.endTime < Date.now()) meetingIdsToDelete.push(finalizedIds[i]);
+    }
+    // EXTERMINATE
+    for (i = 0; i < meetingIdsToDelete.length; i++) {
+      Meteor.call('deleteMeeting', meetingIdsToDelete[i]);
+    }
+  }
 });
