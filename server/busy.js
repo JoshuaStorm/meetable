@@ -62,7 +62,6 @@ Meteor.methods({
       windowEnd = new Date();
       windowEnd.setDate(windowEnd.getDate() + 28)
     }
-    console.log(windowStart);
      type = type || "daily";
 
      //split the start and end time to get hours, minutes and seconds
@@ -71,16 +70,13 @@ Meteor.methods({
      var times = [];
 
     if (type === "daily") {
-      console.log(type);
       var startTime = new Date();
       startTime.setHours(start[0], start[1]);
       var endTime = new Date();
       endTime.setHours(end[0], end[1]);
-      console.log("hello");
 
       //the start and end time can not be equal
       //if (endTime.getTime() == startTime.getTime()) throw "Start time and end time cannot be the same";
-      console.log("hello2");
       //if endTime is less than startTime, that means it must be the next day
       // i.e. startTime = 22:00, endTime = 8:00. EndTime is 8:00 the next day not the current day!
       if (endTime.getTime() < startTime.getTime()) {
@@ -90,7 +86,6 @@ Meteor.methods({
 
       var time = {start: startTime, end: endTime};
       times.push(time);
-      console.log(time);
 
       // Increment the busyTime and add it to the busyTime array until it reaches windowEnd
       var incrementedTime = {start: new Date(time.start.getTime()), end: new Date(time.end.getTime())};
@@ -111,7 +106,6 @@ Meteor.methods({
       }
     }
     else throw "Type must be of type 'daily'";
-    console.log(times);
 
     //add times to additional busyTimes database
     Meteor.call('addBusyTimes', times);
