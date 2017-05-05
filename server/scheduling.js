@@ -605,7 +605,12 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
 
 // Use a given userId's meetRange to produce busy times outside the meetrange within the input window
 function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
-  var range = Meteor.users.findOne(userId).profile.meetRange;
+  var user = Meteor.users.findOne(userId);
+  var range = user.profile.meetRange;
+  var offsetMillisec = user.profile.timeZoneOffset * 60 * 1000; // Client side offset
+  console.log(" ------- TIME ZONE OFFSET ------- ");
+  console.log(user.profile.timeZoneOffset);
+
   var earliestHour = parseInt(range.earliest.split(':')[0]);
   var earliestMin = parseInt(range.earliest.split(':')[1]);
   var latestHour = parseInt(range.latest.split(':')[0]);
@@ -617,6 +622,7 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
 
   // Millisecond time
   var current = new Date();
+  var serverOffset = current.getTimezoneOffset() * 60 * 1000;
   var trueEnd = new Date();
   // Go back and ahead an extra day just to be safe (saves more annoying handling)
   current.setTime(windowStart.getTime() - MILLISECONDS_IN_DAY);
@@ -625,16 +631,18 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
   var busyTimes = [];
   while (current < trueEnd) {
     var start = new Date(current);
-    var end = new Date(start);
+    var end = new Date(current);
 
     start.setHours(latestHour);
     start.setMinutes(latestMin);
+    start.setTime(start.getTime() + offsetMillisec - serverOffset)
 
     // start = new Date(start.getYear(), start.getMonth(), start.getDay(), latestHour, latestMin);
 
     end.setTime(current.getTime() + MILLISECONDS_IN_DAY);
     end.setHours(earliestHour);
     end.setMinutes(earliestMin);
+    end.setTime(end.getTime() + offsetMillisec - serverOffset);
     // end = new Date(end.getYear(), end.getMonth(), end.getDay(), earliestHour, earliestMin);
 
     busyTimes.push({
