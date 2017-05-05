@@ -198,6 +198,9 @@ Template.dashboard_page.events({
           $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
           $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
         });
+        Meteor.call('updateMeetableTimes', function(error, result) {
+          if (error) console.log('updateBusyTimes: ' + error);
+        });
       }
     });
   }
@@ -244,10 +247,13 @@ Template.additional.events({
     Meteor.call('deleteBusyTimes', this, function(error, result) {
       if (error) throw "there are no additional busyTimes for some reason!";
       Meteor.call("getFullCalendarAdditional", function(error, result) {
-          if (error) console.log(error);
-          $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
-          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
-        });
+        if (error) console.log(error);
+        $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
+      });
+      Meteor.call('updateMeetableTimes', function(error, result) {
+        if (error) console.log('updateBusyTimes: ' + error);
+      });
     });
   }
 });
@@ -287,9 +293,7 @@ Template.invite.events({
   // call function to change this user's 'accepted' value to true for the given meeting
   'click #acceptInvite': function(event, template) {
     Meteor.call('acceptInvite', this.toString(), Meteor.userId(), function(error, result) {
-      if (error) {
-        console.log("acceptInvite: " + error);
-      }
+      if (error) console.log("acceptInvite: " + error);
     });
   },
   'click #declineInvite': function(event, template) {
@@ -407,6 +411,10 @@ Template.selector.events({
             $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
             $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
           });
+
+          Meteor.call('updateMeetableTimes', function(error, result) {
+            if (error) console.log('updateBusyTimes: ' + error);
+          });
         }
       });
     },
@@ -420,6 +428,9 @@ Template.selector.events({
       e.preventDefault();
       Meteor.call('deleteMeeting', Meetings.findOne({_id:this.toString()}), function(error, result) {
         if (error) console.log('deleteMeeting: ' + error);
+        Meteor.call('updateMeetableTimes', function(error, result) {
+          if (error) console.log('updateBusyTimes: ' + error);
+        });
       });
     }
 });
@@ -597,6 +608,10 @@ Template.calendar.events({
         $( '#events-calendar' ).fullCalendar('addEventSource', { id: busyId, events: addedBusy });
         $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: addedAvailable });
       }
+
+      Meteor.call('updateMeetableTimes', function(error, result) {
+        if (error) console.log('updateBusyTimes: ' + error);
+      });
     });
   }
 });

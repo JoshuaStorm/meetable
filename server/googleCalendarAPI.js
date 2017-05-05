@@ -92,15 +92,12 @@ Meteor.methods({
       console.log('Error in userCalendars: somehow trying to flip consideration of no calendars');
       return;
     }
-    console.log(userCalendars[calendarId].considered);
     userCalendars[calendarId].considered = !userCalendars[calendarId].considered;
-    console.log(userCalendars[calendarId].considered);
 
     Meteor.users.update(this.userId, {
       $set: { 'profile.calendars': userCalendars }
     });
 
-    console.log(Meteor.users.findOne(this.userId).profile.calendars);
 
     return Meteor.users.findOne(this.userId).profile.calendars;
   },

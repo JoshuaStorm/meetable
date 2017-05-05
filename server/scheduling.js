@@ -49,13 +49,11 @@ Meteor.methods({
     var busyTimes = findUserBusyTimes(this.userId, windowStart, windowEnd);
 
     Meteor.users.upsert(this.userId, {
-      $set: {
-        "profile.busyTimes": busyTimes
-      }
+      $set: { "profile.busyTimes": busyTimes }
     });
 
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, windowStart, windowEnd);
-    var availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
+    availableTimes = findOverlap(availableTimes, loggedInUserAvailableTimes);
 
     // CREATE THE MEETINGS COLLECTION using information above.
     // MeetingId = unique meeting id to be associated with each user in meeting
@@ -265,10 +263,8 @@ Meteor.methods({
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, thisMeeting.windowStart, thisMeeting.windowEnd);
     var availableTimes = findOverlap(thisMeeting.availableTimes, loggedInUserAvailableTimes);
 
-    Meetings.update({_id: meetingId}, {
-      $set: {
-        "availableTimes" : availableTimes
-      }
+    Meetings.update(meetingId, {
+      $set: { 'availableTimes' : availableTimes }
     });
 
     // Check if meeting is ready to finalize
@@ -397,8 +393,54 @@ Meteor.methods({
     Meetings.update(meetingId, { // Now set the values again
       $set: { 'readyToFinalize': false }
     });
-  }
+  },
+
+  // Update a user's busy times so we don't accidentally double schedule
+  // NOTE: This should be called anyplace that changes a users availability
+  updateMeetableTimes: function() {
+    var receivedIds = Meteor.users.findOne(this.userId).profile.meetingInvitesReceived;
+    if (!receivedIds) receivedIds = [];
+    var sentIds = Meteor.users.findOne(this.userId).profile.meetingInvitesSent;
+    if (!sentIds) sentIds = [];
+    // ITERATE OVER ALL THE IDS AND UPDATE EACH ONES BUSY-NESS...
+    for (var i = 0; i < receivedIds.length; i++) {
+      updateBusyTimes(receivedIds[i]);
+    }
+    for (i = 0; i < sentIds.length; i++) {
+      updateBusyTimes(sentIds[i]);
+    }
+  },
 });
+
+// Update the busy and therefore available times of all users within the input meeting
+// Update the meetings durationLongBlock and suggestedMeetingTimes
+function updateBusyTimes(meetingId) {
+  var meeting = Meetings.findOne(meetingId);
+  var participants = meeting.participants;
+
+  var availableTimes = [{
+    startTime: meeting.windowStart,
+    endTime: meeting.windowEnd
+  }];
+  // Recalculate the available times based off every participant who has accepted
+  for (var i = 0; i < participants.length; i++) {
+    var thisParticipant = participants[i];
+    if (thisParticipant.accepted) {
+      var thisBusyTimes = findUserBusyTimes(thisParticipant.id, meeting.windowStart, meeting.windowEnd);
+      Meteor.users.upsert(thisParticipant.id, {
+        $set: { 'profile.busyTimes': thisBusyTimes }
+      });
+      var thisAvailableTimes = findUserAvailableTimes(thisBusyTimes, meeting.windowStart, meeting.windowEnd);
+      availableTimes = findOverlap(availableTimes, thisAvailableTimes);
+    }
+  }
+
+  Meetings.update(meetingId, {
+    $set: { 'availableTimes' : availableTimes }
+  });
+
+  if (checkMeetingReadyToFinalize(meetingId)) findDurationLongMeetingTimes(meetingId);
+}
 
 // Adds the participants indicated by array of emails, invitedEmails, to the the participants array
 // (which will later be added to the correct meetings collection).
@@ -542,8 +584,6 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
     return 0;
   });
 
-  console.log(calendarTimes);
-
   var busyTimes = [];
 
   // Add all the busy times in a proper format, ensure within the window
@@ -584,7 +624,6 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
     }
     busyTimes.push(busyTime);
   }
-  console.log("busyTimes", busyTimes);
   return busyTimes;
 }
 
@@ -630,7 +669,6 @@ function findUserAvailableTimes(busyTimes, windowStart, windowEnd) {
     availableTimes.push(availableTime);
   }
 
-  console.log("availableTimes", availableTimes);
   return availableTimes;
 }
 
