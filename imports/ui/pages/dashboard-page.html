@@ -82,12 +82,15 @@
               </form>
               -->
               <form>
-                <label>Email addresses <input type="text" id="meetingInvitee" placeholder="johndoe@gmail.com, suzie@gmail.com" required></label>
+                <label>Email addresses (comma separated)<input type="text" id="meetingInvitee" placeholder="johndoe@gmail.com, suzie@gmail.com" required></label>
                 <label>Title <input type="text" placeholder="math study session" required></label>
-                <label>Duration (minutes) <input type="text" placeholder="60" required></label>
-                <label>Meeting Window Start <input type="text" id="windowStartInput" class="windowDatepicker" required></label>
-                <label>Meeting Window End <input id="windowEndInput" class="windowDatepicker" type="text" required></label>
+                <label>Duration (minutes) <input type="text" value="60" required></label>
+
+                <!-- TODO: decide if datepickers should be required -->
+                <label>Meeting Window Start <input type="text" id="windowStartInput" class="windowDatepicker"></label>
+                <label>Meeting Window End <input id="windowEndInput" class="windowDatepicker" type="text"></label>
                 
+                <!-- pls don't refresh !!!>
                 <div><input type="submit"></div>
               </form>
 
