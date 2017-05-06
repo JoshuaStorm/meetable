@@ -6,41 +6,35 @@ import '../../ui/layouts/app-body.js';
 import '../../ui/pages/login-page.js';
 import '../../ui/pages/error-page.js';
 import '../../ui/pages/dashboard-page.js';
-// View calendar template
-import '../../ui/pages/calViewPage.js';
-
-/*FlowRouter.route('/', {
-  name: 'App.home',
-  action() {
-    BlazeLayout.render('App_body', { main: 'login_page' });
-  },
-});
-*/
 
 var public = FlowRouter.group({}) /* routes that are public */
 
 var loggedIn = FlowRouter.group({ /* routes only for loggedIn users */
   name: 'loggedIn',
-  triggersEnter: [
-    checkLoggedIn
-  ]
+  triggersEnter: [checkLoggedIn]
 });
 
 function checkLoggedIn(ctx, redirect) {  /* check if user is logged in */
   if (!Meteor.userId() || Meteor.loggingIn()) {
-    redirect('/')
+    redirect('/');
   }
 }
+
+function redirectIfLoggedIn(ctx, redirect) {
+  if (Meteor.userId()) {
+    redirect('/dashboard')
+  }
+}
+
+Accounts.onLogin(function () {
+  FlowRouter.go('/dashboard');
+});
 
 public.route('/', {
   name: 'App.home',
   action: function(params) {
     Tracker.autorun(function() {
-      if (!Meteor.userId()) {
-        BlazeLayout.render('App_body', { main: 'login_page' });
-      } else {
-        FlowRouter.go('/dashboard');
-      }
+      BlazeLayout.render('App_body', { main: 'login_page' });
     });
   },
   waitOn: function() {
@@ -48,18 +42,10 @@ public.route('/', {
   }
 });
 
-public.route('/error', {
-  name: 'App.error',
-  action() {
-    BlazeLayout.render('App_body', { main: 'error_page' });
-  },
-});
-
 loggedIn.route('/dashboard', {
   name: 'App.dashboard',
+  triggersEnter: [checkLoggedIn],
   action: function() {
-    checkLoggedIn();
-
     // TODO: Should only need to attach Temp data if new signup but our current routing doesn't seem to expose signup vs. signin
     Meteor.call('getAuthInfo', function() {
       Meteor.call('attachTempUser', function(error, result) {});
@@ -98,6 +84,13 @@ loggedIn.route('/dashboard', {
       });
     });
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
+  },
+});
+
+public.route('/error', {
+  name: 'App.error',
+  action() {
+    BlazeLayout.render('App_body', { main: 'error_page' });
   },
 });
 
