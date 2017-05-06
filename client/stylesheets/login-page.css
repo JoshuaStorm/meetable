@@ -87,7 +87,7 @@ span.glyphicon {
   font-size: 2rem;
   margin-left: 5px;
 }
-p {
+p.card-text {
   font-size: 1.9rem;
   padding-top: 10px;
 }
