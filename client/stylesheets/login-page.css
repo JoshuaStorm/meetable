@@ -1,11 +1,10 @@
 html, body {
   height: 100%;
-  background-color: #22313F;
 }
 #__blaze-root, #content-container {
   height:100%;
 }
-.container-fluid {
+#login-container {
   margin: 0 0;
   height: 100%;
 
@@ -19,9 +18,9 @@ html, body {
   background-position: right center;
 
   -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 #landing-steps {
