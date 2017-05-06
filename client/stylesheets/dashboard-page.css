@@ -4,8 +4,8 @@
   height: 88vh;
 }
 .navbar {
-  /* give only a little breathing froom between navbar and the content */
-  margin-bottom: 1px;
+  /* make navbar and content touch */
+  margin-bottom: 0px;
 }
 #dashboardLeftCol {
   /* show a vertical scroll bar on the left column */
