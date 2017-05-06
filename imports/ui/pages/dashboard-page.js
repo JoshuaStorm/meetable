@@ -497,7 +497,7 @@ Template.selector.events({
 
     'click #deleteMeeting': function(e) {
       e.preventDefault();
-      Meteor.call('deleteMeeting', Meetings.findOne({_id:this.toString()}), function(error, result) {
+      Meteor.call('deleteMeeting', this.toString(), function(error, result) {
         if (error) console.log('deleteMeeting: ' + error);
         Meteor.call('updateMeetableTimes', function(error, result) {
           if (error) console.log('updateBusyTimes: ' + error);

@@ -558,7 +558,6 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   return busyTimes;
 }
 
-
 // given a userId, find the available times of the person based on their
 // google calendar stored in database and additional busy times (both are stored in database)
 // TODO: Seems to have some issue? This needs error handling.
