@@ -21,12 +21,16 @@ html, body {
   background-position: right center;
   height: 61%;
 }
+
+#landing-steps {
+  padding-top: 20px;
+}
 span.landing-emphasis {
   font-style: italic;
 }
 h1.landing-main  {
   color: white;
-  font-size: 8rem;
+  font-size: 10rem;
   font-weight: bold;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
 
@@ -37,7 +41,19 @@ h2.landing-main  {
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
   margin: 0 0 0px 0;
 }
+h3.landing-main {
+  display: inline;
+  font-size: 4rem;
+}
 #at-google {
   text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
   margin: 20px 0 0 0;
+}
+span.glyphicon {
+  font-size: 2rem;
+  margin-left: 5px;
+}
+p {
+  font-size: 1.6rem;
+  padding-top: 10px;
 }
