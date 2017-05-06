@@ -2,6 +2,9 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## May 5, 2017 (David)
+- Major overhaul to login page
+
 ## May 5, 2017 (Josh)
 - Finally have don't meet before/after merged in, mixed effort for getting that done.
 - Casey noticed bugs when using Safari... Will need to look into that.
@@ -9,6 +12,9 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 ## May 4, 2017 (Josh)
 - Make events expire after their windowEnd (for invites) passed or their meetingEnd time has passed.
 - Fixed bug with all day events as well as deleting events.
+
+## May 4, 2017 (David)
+- Fix OAuth tokens for get calendar list function
 
 ## May 4, 2017 (Group Meeting)
 - David - display dates in a better way, sanitize inputs, make mobile devices see only "day" view in fullCalendar, login page
