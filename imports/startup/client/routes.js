@@ -24,10 +24,10 @@ var loggedIn = FlowRouter.group({ /* routes only for loggedIn users */
   triggersEnter: [
     checkLoggedIn
   ]
-})
+});
 
 function checkLoggedIn(ctx, redirect) {  /* check if user is logged in */
-  if (!Meteor.userId()) {
+  if (!Meteor.userId() || Meteor.loggingIn()) {
     redirect('/')
   }
 }
@@ -58,6 +58,8 @@ public.route('/error', {
 loggedIn.route('/dashboard', {
   name: 'App.dashboard',
   action: function() {
+    checkLoggedIn();
+
     // TODO: Should only need to attach Temp data if new signup but our current routing doesn't seem to expose signup vs. signin
     Meteor.call('getAuthInfo', function() {
       Meteor.call('attachTempUser', function(error, result) {});
@@ -96,13 +98,6 @@ loggedIn.route('/dashboard', {
       });
     });
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
-  },
-});
-
-loggedIn.route('/cal', {
-  name: 'App.calendar',
-  action() {
-    BlazeLayout.render('App_body', {main: 'calViewPage'});
   },
 });
 
