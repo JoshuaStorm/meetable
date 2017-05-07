@@ -133,12 +133,16 @@ Template.dashboard_page.onRendered( () => {
 
   $('#chooseWindowStart').datetimepicker({
     format: 'ddd, MMM Do, h:mm a',
+    useCurrent: false,
+    defaultDate: roundUp,
     minDate: roundUp,
   });
 
   $('#chooseWindowEnd').datetimepicker({
     format: 'ddd, MMM Do, h:mm a',
-    minDate: moment(roundUp).add(2, "weeks")
+    useCurrent: false,
+    defaultDate: moment(roundUp).add(2, "weeks"),
+    minDate: roundUp
   });
 
   // datetime-start and end are for busy times
@@ -174,7 +178,6 @@ Template.dashboard_page.events({
     // get Date objects from the datepickers
     let windowStart = $('#chooseWindowStart').data("DateTimePicker").date().toDate();
     let windowEnd = $('#chooseWindowEnd').data("DateTimePicker").date().toDate();
-    console.log(windowStart);
     
     // Remove all non-emails from this list
     // ReGex check email field. This is the 99.9% working email ReGex
@@ -200,8 +203,14 @@ Template.dashboard_page.events({
         var resetTitle = document.getElementById('meetingTitle').value ="";
         var resetInvitee = document.getElementById('meetingInvitee').value ="";
         var resetLength = document.getElementById('meetingLength').value ="";
-        var resetWindowStart = document.getElementById('chooseWindowStart').value ="";
-        var resetWindowEnd = document.getElementById('chooseWindowEnd').value ="";
+
+        // round up to the nearest 30 minutes of the hour
+        let currentTime = moment();
+        let remainder = 15 - currentTime.minute() % 15;
+        let roundUp = moment(currentTime).add(remainder, "minutes");
+
+        var resetWindowStart = document.getElementById('chooseWindowStart').value =roundUp.format('ddd, MMM Do, h:mm a');
+        var resetWindowEnd = document.getElementById('chooseWindowEnd').value =moment(roundUp).add(2, "weeks").format('ddd, MMM Do, h:mm a');
         Bert.alert( 'Success! Meeting invite sent.', 'success', 'growl-bottom-left' );
       }
     });
