@@ -280,10 +280,12 @@
   {{#if readyToFinalize}}
     {{> outgoingFinalize}}
   {{else}}
-  <span class="label label-warning">Waiting for responses...</span>
+  <div class="row container-fluid">
+    <span class="label label-warning">Waiting for responses...</span>
     <p><h5>{{meetingTitle}}</h5> ({{meetingDuration}})</p>
     <p>Participants: {{meetingParticipants}}</p>
-    <button type="cancel" class="btn btn-default" id="deleteOutgoing">Delete</button>
+    <button type="cancel" class="btn btn-default btn-sm" id="deleteOutgoing">Delete</button>
+  </div>
   {{/if}}
 </template>
 
