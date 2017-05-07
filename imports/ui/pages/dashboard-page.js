@@ -158,11 +158,18 @@ Template.dashboard_page.onRendered( () => {
   });
 
   $('#no-meetings-before').datetimepicker({
-    format: 'h:mm a'
+    format: 'h:mm a',
+    defaultDate: moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest, "hh:mm")
   });
 
+  console.log("database:");
+  console.log(Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest, "hh:mm");
+  console.log("moment:");
+  console.log(moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest, "hh:mm"));
+
   $('#no-meetings-after').datetimepicker({
-    format: 'h:mm a'
+    format: 'h:mm a',
+    defaultDate: moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest, "hh:mm")
   });
 });
 
@@ -263,21 +270,26 @@ Template.dashboard_page.events({
   'click #submit-no-meetings-times': function(e) {
     e.preventDefault();
 
-    let beforeTime = $('#no-meetings-before').data("DateTimePicker").date();
-    let afterTime = $('#no-meetings-after').data("DateTimePicker").date();
+    // I think doing moment().format() inside of moment fixes stuff but i don't know why
+    let beforeTime = moment($('#no-meetings-before').data("DateTimePicker").date().format());
+    let afterTime = moment($('#no-meetings-after').data("DateTimePicker").date().format());
 
-    if (afterTime.isAfter(beforeTime)) {
+    if (afterTime.isBefore(beforeTime)) {
       Bert.alert("You must have some time you're available. ", 'danger', 'fixed-bottom');
       throw 'Before time greater than or equal after time';
     }
-
-    Meteor.call('setMeetRange', beforeTime.format("hh:mm"), afterTime.format("hh:mm"), function(error, result) {
+    
+    Meteor.call('setMeetRange', beforeTime.format("HH:mm"), afterTime.format("HH:mm"), function(error, result) {
       if (error) console.log("Error in addRecurringBusyTimes: " + error);
       Meteor.call('updateMeetableTimes', function(error, result) {
         if (error) console.log('updateBusyTimes: ' + error);
         else {
-          var resetEarliest = document.getElementById('no-meetings-before').value ="";
-          var resetLatest = document.getElementById('no-meetings-after').value ="";
+          // reset datepickers to their (new) database values
+          let earliest = moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest, "hh:mm")
+          let latest = moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest, "hh:mm");
+          // $('#no-meetings-before').data("DateTimePicker").date(earliest);
+          // $('#no-meetings-after').data("DateTimePicker").date(latest);
+
           Bert.alert( 'Settings saved', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
         }
       });
