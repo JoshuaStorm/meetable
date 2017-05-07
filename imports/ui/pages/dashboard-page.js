@@ -63,6 +63,12 @@ Template.dashboard_page.helpers({
     },
     userCalendars: function() {
       return Object.keys(Meteor.users.findOne(Meteor.userId()).profile.calendars);
+    },
+    earliestTime: function() {
+      return Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest;
+    },
+    latestTime: function() {
+      return Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest;
     }
 });
 
