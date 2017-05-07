@@ -257,7 +257,13 @@
 <!-- template for displaying an invite ready to finalize if you are not the selector -->
 <template name="notSelector">
   <div class="row container-fluid">
-      Waiting on <h4>{{inviterName}}</h4> to select a time for <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
+    <div class="card invite-card">
+      <div class="card-block invite-card-block">
+        <div class="col-md-12">
+          Waiting on <h4>{{inviterName}}</h4> to select a time for <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -315,9 +321,17 @@
 </template>
 
 <template name="additional">
-  <p> - {{timeStart}} - {{timeEnd}}
-  <button type="button" class="btn link-btn" id="delete-button">delete</button>
-  </p>
+  <div class="row container-fluid">
+    <div class="card invite-card">
+      <div class="card-block invite-card-block">
+        <div class="col-md-12">
+          <p> - {{timeStart}} - {{timeEnd}}
+          <button type="button" class="btn link-btn" id="delete-button">delete</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 
@@ -351,17 +365,25 @@
 
 <!-- template for displaying a finalized meeting -->
 <template name="finalizedMeeting">
-  <h5><mark>{{meetingTitle}}</mark></h5>
-  <p><b>{{meetingHost}}</b></p>
-  <p> Participants: {{participants}}<br/>
-  Start: {{selectedStart}} <br/>
-  End: {{selectedEnd}}</p>
-  <!-- only display the push to Gcal button once. After being pushed, take away the button and display label confirming push has already occurred -->
-  {{#if addedToGCal}}
-    <span class="label label-default">Event pushed to Google calendar</span>
-  {{else}}
-    <a href="javascript:void(0)" class="btn btn-raised btn-primary btn-xs" id="pushEvent">Push to Google calendar</a>
-  {{/if}}
+  <div class="row container-fluid">
+    <div class="card invite-card">
+      <div class="card-block invite-card-block">
+        <div class="col-md-12">
+          <h5><mark>{{meetingTitle}}</mark></h5>
+          <p><b>{{meetingHost}}</b></p>
+          <p> Participants: {{participants}}<br/>
+          Start: {{selectedStart}} <br/>
+          End: {{selectedEnd}}</p>
+          <!-- only display the push to Gcal button once. After being pushed, take away the button and display label confirming push has already occurred -->
+          {{#if addedToGCal}}
+            <span class="label label-default">Event pushed to Google calendar</span>
+          {{else}}
+            <a href="javascript:void(0)" class="btn btn-raised btn-primary btn-xs" id="pushEvent">Push to Google calendar</a>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <!-- checkbox for choosing whether to display calendar -->
