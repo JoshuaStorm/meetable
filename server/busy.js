@@ -29,8 +29,8 @@ Meteor.methods({
   },
 
   // Delete the given busyTime from the additionalBusyTimes collection
-  deleteBusyTimes: function(busyTime) {
-    var busy = Meteor.users.findOne(user).profile.additionalBusyTimes;
+  deleteBusyTime: function(busyTime) {
+    var busy = Meteor.users.findOne(this.userId).profile.additionalBusyTimes;
     if (!busy) throw 'deleteBusyTimes error';
 
     Meteor.users.update(this.userId, {
@@ -43,8 +43,7 @@ Meteor.methods({
     // TODO: REFORMAT IF NECESSARY?
     var range = { 'earliest': before, 'latest': after };
     Meteor.users.update(this.userId, {
-      // TODO: Better name for this lol?
-      $set: { "profile.meetRange": range }
+      $set: { 'profile.meetRange': range }
     });
   },
 
