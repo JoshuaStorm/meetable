@@ -269,14 +269,16 @@
 
 <!-- template for displaying an invite ready to finalize if you are the selector -->
 <template name="selector">
-    <div class="row container-fluid">
-      <div class="card invite-card">
-        <div class="card-block invite-card-block">
-          <div class="col-md-12">
-          <h4>{{inviterName}}</h4> <p> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
-          <br/>Please select a time for the meeting:</p>
+  <div class="row container-fluid">
+    <div class="card invite-card">
+      <div class="card-block invite-card-block">
+        <div class="col-md-10">
+          <h4>{{inviterName}}</h4> <p> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})</p>
+          </div>
           <form>
           {{#if suggestedTimes}}
+                  <div class="col-md-12">
+                  <p>Please select a time for the meeting:</p>
             {{#each suggestedTimes}}
               <div class="radio">
                 <label>
@@ -286,14 +288,18 @@
               </div>
             {{/each}}
             <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
+            </div>
           {{else}}
-            <div class="container-fluid"> <p> You are not meetable for this time window. Please reschedule!</p></div>
-            <button type="delete" class="btn btn-primary btn-sm" id="deleteMeeting">Delete</button>
+            <button type="delete" class="close" id="deleteMeeting" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="col-md-8">
+              <p> You are not meetable for this time window. Please reschedule!</p>
+            </div>
           {{/if}}
           </form>
-          </div>
-        </div>
       </div>
+    </div>
   </div>
 </template>
 
