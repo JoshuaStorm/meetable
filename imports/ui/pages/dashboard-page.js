@@ -127,25 +127,24 @@ Template.dashboard_page.onRendered( () => {
 
   $('#chooseWindowStart').datetimepicker({
     format: 'ddd, MMM Do, h:mm a',
-
     minDate: roundUp,
   });
 
   $('#chooseWindowEnd').datetimepicker({
     format: 'ddd, MMM Do, h:mm a',
-    minDate: roundUp.add(2, "weeks")
+    minDate: moment(roundUp).add(2, "weeks")
   });
 
   // datetime-start and end are for busy times
 
   $('#datetime-start').datetimepicker({
     format: 'ddd, MMM Do, h:mm a',
-    minDate: new Date(),
+    minDate: moment().startOf("hour"),
   });
 
   $('#datetime-end').datetimepicker({
     format: 'ddd, MMM Do, h:mm a',
-    defaultDate: new Date(),
+    minDate: moment().startOf("hour"),
   });
 
   $('#no-meetings-before').datetimepicker({
