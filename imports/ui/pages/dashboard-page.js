@@ -122,22 +122,22 @@ Template.dashboard_page.onRendered( () => {
 
 
   $('#chooseWindowStart').datetimepicker({
-    format: 'MM-DD-YYYY h:mm A',
+    format: 'MM/DD/YYYY h:mm A',
     minDate: new Date(),
   });
 
   $('#chooseWindowEnd').datetimepicker({
-      format: 'MM-DD-YYYY h:mm A',
+      format: 'MM/DD/YYYY h:mm A',
       minDate: new Date(),
     });
 
   $('#datetime-end').datetimepicker({
-    format: 'MM-DD-YYYY h:mm A',
+    format: 'MM/DD/YYYY h:mm A',
     minDate: new Date(),
   });
 
   $('#datetime-start').datetimepicker({
-    format: 'MM-DD-YYYY h:mm A',
+    format: 'MM/DD/YYYY h:mm A',
     minDate: new Date(),
   });
 
