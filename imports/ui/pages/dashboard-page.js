@@ -231,7 +231,7 @@ Template.dashboard_page.events({
 
     if (!endTime.isAfter(startTime)) {
       Bert.alert( 'End time must be after start time. ', 'danger', 'growl-bottom-left');
-      throw 'EndTime greater than startTime';
+      //throw 'EndTime greater than startTime';
     }
 
     // convert moment object to js Date object
