@@ -63,6 +63,12 @@ Template.dashboard_page.helpers({
     },
     userCalendars: function() {
       return Object.keys(Meteor.users.findOne(Meteor.userId()).profile.calendars);
+    },
+    earliestTime: function() {
+      return Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest;
+    },
+    latestTime: function() {
+      return Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest;
     }
 });
 
@@ -263,6 +269,11 @@ Template.dashboard_page.events({
       if (error) console.log("Error in addRecurringBusyTimes: " + error);
       Meteor.call('updateMeetableTimes', function(error, result) {
         if (error) console.log('updateBusyTimes: ' + error);
+        else {
+          var resetEarliest = document.getElementById('no-meetings-before').value ="";
+          var resetLatest = document.getElementById('no-meetings-after').value ="";
+          Bert.alert( 'Settings saved', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
+        }
       });
     });
   }

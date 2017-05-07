@@ -168,7 +168,9 @@
             </div>
             <div class="container-fluid dashboardDropdownContent" id="settings">
               <div class="col">
-                <p>Uncheck the calendars you don't want to be considered</p>
+                <div class="container-fluid">
+                  <p>Choose which calendars you want us to consider:</p>
+                </div>
                 <div class="container-fluid" id="hideCalendars">
                   <form>
                     {{#each userCalendars}}
@@ -180,18 +182,18 @@
                   <form>
                   <div class="form-group">
                     <div class="container-fluid">
-                      <p> We know you need to sleep. Let us know when you never want to have a meeting scheduled.</p>
-                      </div>
+                      <p> We know you need to sleep. Let us know when you never want to have a meeting scheduled:</p>
+                    </div>
                     <div class="col-md-10 datetimepicker">
                       <!-- TODO: this lavel text is blue probably because of the datetimepicker class on the div, Not sure if the datetimepicker class is necessary? if it is, then we can assign the label a class and change its font color -->
-                      <label for="no-meetings-before">No meetings before:</label>
-                      <input id="no-meetings-before" class="set-start-date form-control" type="text"/>
+                      <label for="no-meetings-before">No meetings before</label>
+                      <input id="no-meetings-before" class="set-start-date form-control" type="text" placeholder={{earliestTime}}>
                       </div>
                   </div>
                   <div class="form-group">
                     <div class="col-md-10 datetimepicker">
                       <label for="no-meetings-after">No meetings after</label>
-                      <input id="no-meetings-after" class="set-end-date form-control" type="text"/>
+                      <input id="no-meetings-after" class="set-end-date form-control" type="text" placeholder={{latestTime}}>
                     </div>
                   </div>
                   <button type = "button" class="btn btn-primary" id = "submit-no-meetings-times">Submit</button>
