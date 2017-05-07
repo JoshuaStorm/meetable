@@ -178,7 +178,6 @@ Template.dashboard_page.events({
     // get Date objects from the datepickers
     let windowStart = $('#chooseWindowStart').data("DateTimePicker").date().toDate();
     let windowEnd = $('#chooseWindowEnd').data("DateTimePicker").date().toDate();
-    console.log(windowStart);
     
     // Remove all non-emails from this list
     // ReGex check email field. This is the 99.9% working email ReGex
