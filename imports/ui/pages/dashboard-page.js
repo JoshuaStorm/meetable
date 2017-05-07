@@ -133,6 +133,8 @@ Template.dashboard_page.onRendered( () => {
 
   $('#chooseWindowStart').datetimepicker({
     format: 'ddd, MMM Do, h:mm a',
+    useCurrent: false,
+    defaultDate: roundUp,
     minDate: roundUp,
   });
 
@@ -202,8 +204,14 @@ Template.dashboard_page.events({
         var resetTitle = document.getElementById('meetingTitle').value ="";
         var resetInvitee = document.getElementById('meetingInvitee').value ="";
         var resetLength = document.getElementById('meetingLength').value ="";
-        var resetWindowStart = document.getElementById('chooseWindowStart').value ="";
-        var resetWindowEnd = document.getElementById('chooseWindowEnd').value ="";
+
+        // round up to the nearest 30 minutes of the hour
+        let currentTime = moment();
+        let remainder = 15 - currentTime.minute() % 15;
+        let roundUp = moment(currentTime).add(remainder, "minutes");
+
+        var resetWindowStart = document.getElementById('chooseWindowStart').value =roundUp.format('ddd, MMM Do, h:mm a');
+        var resetWindowEnd = document.getElementById('chooseWindowEnd').value =moment(roundUp).add(2, "weeks").format('ddd, MMM Do, h:mm a');
         Bert.alert( 'Success! Meeting invite sent.', 'success', 'growl-bottom-left' );
       }
     });
