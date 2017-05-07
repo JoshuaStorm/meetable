@@ -119,6 +119,7 @@ Template.dashboard_page.onRendered( () => {
     $("#scheduleMeeting").slideUp(100);
   });
 
+
   $('#chooseWindowStart').datetimepicker({
     format: 'MM-DD-YYYY h:mm A',
     minDate: new Date(),
@@ -128,6 +129,16 @@ Template.dashboard_page.onRendered( () => {
       format: 'MM-DD-YYYY h:mm A',
       minDate: new Date(),
     });
+
+  $('#datetime-end').datetimepicker({
+    format: 'MM-DD-YYYY h:mm A',
+    minDate: new Date(),
+  });
+
+  $('#datetime-start').datetimepicker({
+    format: 'MM-DD-YYYY h:mm A',
+    minDate: new Date(),
+  });
 });
 
 Template.dashboard_page.events({
