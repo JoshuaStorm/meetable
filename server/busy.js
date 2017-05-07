@@ -83,7 +83,6 @@ Meteor.methods({
         endTime.setDate(endTime.getDate() + 1);
       }
 
-
       var time = {start: startTime, end: endTime};
       times.push(time);
 
@@ -109,7 +108,14 @@ Meteor.methods({
 
     //add times to additional busyTimes database
     Meteor.call('addBusyTimes', times);
-
   },
+
+  // Set the user's timezone offset.
+  // NOTE: THIS NEEDS TO COME FROM CLIENT SIDE SO IT'S THE USERS OFFSET, NOT THE SERVERS
+  setUserTimeZoneOffset: function(offset) {
+    Meteor.users.update(this.userId, { // Now set the values again
+      $set: { 'profile.timeZoneOffset': offset }
+    });
+  }
 
 });

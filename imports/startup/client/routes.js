@@ -48,9 +48,12 @@ loggedIn.route('/dashboard', {
   action: function() {
     // TODO: Should only need to attach Temp data if new signup but our current routing doesn't seem to expose signup vs. signin
     Meteor.call('getAuthInfo', function() {
-      Meteor.call('attachTempUser', function(error, result) {});
-      Meteor.call('deleteOldMeetings', function(error, result) {});
+      var timeZoneOffset = new Date().getTimezoneOffset();
+      Meteor.call('setUserTimeZoneOffset', timeZoneOffset, function(error, result) { if (error) console.log('setUserTimeZoneOffset: ' + error)});
+      Meteor.call('attachTempUser', function(error, result) { if (error) console.log('attachTempUser: ' + error)});
+      Meteor.call('deleteOldMeetings', function(error, result) { if (error) console.log('deleteOldMeetings: ' + error)});
       Meteor.call('getCalendarList', function(error, result) {
+        if (error) console.log('getCalendarList: ' + error);
         Meteor.call('getFullCalendarConsidered', false, function(error, result) {
           if (error) console.log(error);
           if (result) {
