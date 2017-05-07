@@ -150,7 +150,7 @@
                     <input id="datetime-start" class="set-start-date form-control" type="text" placeholder="Start Time"/>
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                   <div class="col-md-10 datetimepicker">
                     <label for="datetime-end">End</label>
@@ -185,33 +185,16 @@
                       </div>
                     <div class="col-md-10 datetimepicker">
                       <!-- TODO: this lavel text is blue probably because of the datetimepicker class on the div, Not sure if the datetimepicker class is necessary? if it is, then we can assign the label a class and change its font color -->
-                      <label>
-                        I don't want to meet before:
-                        <input id="no-meetings-before" class="set-start-date form-control" type="text" placeholder="09:00"/>
-                      </label>
+                      <label for="no-meetings-before">No meetings before:</label>
+                      <input id="no-meetings-before" class="set-start-date form-control" type="text"/>
                       </div>
                   </div>
-                  <script type="text/javascript">
-                      $(function () {
-                          $('#no-meetings-before').datetimepicker({
-                            format: 'HH:mm'
-                          });
-                      });
-                  </script>
                   <div class="form-group">
                     <div class="col-md-10 datetimepicker">
-                      <label>I don't want to meet after:
-                        <input id="no-meetings-after" class="set-end-date form-control" type="text" placeholder="10:00"/>
-                      </label>
+                      <label for="no-meetings-after">No meetings after</label>
+                      <input id="no-meetings-after" class="set-end-date form-control" type="text"/>
                     </div>
                   </div>
-                  <script type="text/javascript">
-                      $(function () {
-                          $('#no-meetings-after').datetimepicker({
-                            format: 'HH:mm'
-                          });
-                      });
-                  </script>
                   <button type = "button" class="btn btn-primary" id = "submit-no-meetings-times">Submit</button>
                 </form>
               </div>

@@ -139,6 +139,14 @@ Template.dashboard_page.onRendered( () => {
     format: 'MM-DD-YYYY h:mm A',
     minDate: new Date(),
   });
+
+  $('#no-meetings-before').datetimepicker({
+    format: 'HH:mm'
+  });
+
+  $('#no-meetings-after').datetimepicker({
+    format: 'HH:mm'
+  });
 });
 
 Template.dashboard_page.events({
