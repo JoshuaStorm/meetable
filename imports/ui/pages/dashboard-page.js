@@ -118,6 +118,35 @@ Template.dashboard_page.onRendered( () => {
   $("#cancelCreateMeeting").click(function() {
     $("#scheduleMeeting").slideUp(100);
   });
+
+
+  $('#chooseWindowStart').datetimepicker({
+    format: 'MM-DD-YYYY h:mm A',
+    minDate: new Date(),
+  });
+
+  $('#chooseWindowEnd').datetimepicker({
+      format: 'MM-DD-YYYY h:mm A',
+      minDate: new Date(),
+    });
+
+  $('#datetime-end').datetimepicker({
+    format: 'MM-DD-YYYY h:mm A',
+    minDate: new Date(),
+  });
+
+  $('#datetime-start').datetimepicker({
+    format: 'MM-DD-YYYY h:mm A',
+    minDate: new Date(),
+  });
+
+  $('#no-meetings-before').datetimepicker({
+    format: 'HH:mm'
+  });
+
+  $('#no-meetings-after').datetimepicker({
+    format: 'HH:mm'
+  });
 });
 
 Template.dashboard_page.events({
