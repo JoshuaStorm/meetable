@@ -1,21 +1,66 @@
 <template name="login_page">
   <body>
-    <div class="page-header">
-        <h1 class="text-center">Meetable</h1>
-        </div>
+    
 
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6 col-md-offset-3">
-              
-              <button name="google" class="btn at-social-btn" id="at-google" > 
-                Google Sign-In
+    <div class="container-fluid" id="login-container">
+      <div class="row" id="main-login-row">
+          <div class="col-lg-6 col-md-offset-3">
+            <h1 class="landing-main text-center">Meetable</h1>
+            <h2 class="landing-main text-center">Schedule meetings, <span class="landing-emphasis">effortlessly</span>.
+            </h2>
+            <div class="col-lg-6 col-lg-offset-3 text-center"> 
+              <button name="google" class="btn at-social-btn" id="at-google" >  Sign in with Google
               </button>
+            </div>
 
-              
+          </div>
+      </div>
+      <div class="row landing-how-to">
+        <div class="col">
+          <h2 class="landing-how-to">Are you <span class="landing-emphasis">Meetable</span>?</h2>
+        </div>
+      </div>
+
+      <div class="row" id="landing-steps">
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-block">
+              <h3 class="landing-main card-title">Step 1</h3>
+              <span class="glyphicon glyphicon-calendar glyphicon-home" aria-hidden="true"></span>
+              <p class="card-text">Tell us who you want to meet with, and what days are best for you.</p>
             </div>
           </div>
         </div>
-   </body>
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-block">
+              <h3 class="landing-main card-title">Step 2</h3>
+              <span class="glyphicon glyphicon-user glyphicon-home" aria-hidden="true"></span>
+              <p class="card-text">Your peers receive your invitation via email and log in to accept.</p>
+            </div>
+          </div>
+          
+        </div>
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-block">
+              <h3 class="landing-main card-title">Step 3</h3>
+              <span class="glyphicon glyphicon-flash glyphicon-home" aria-hidden="true"></span>
+              <p class="card-text">We work our magic to find when you're all <span class="landing-emphasis">meetable</span>.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-3">
+          <div class="card">
+            <div class="card-block">
+              <h3 class="landing-main card-title">Step 4</h3>
+              <span class="glyphicon glyphicon-ok glyphicon-home" aria-hidden="true"></span>
+              <p class="card-text">Select a meeting time that you know will work for everyone. Have a great meeting!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 </template>
 

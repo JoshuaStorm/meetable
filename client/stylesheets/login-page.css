@@ -1,0 +1,95 @@
+html, body {
+  height: 100%;
+}
+#__blaze-root, #content-container {
+  height:100%;
+}
+#login-container {
+  margin: 0 0;
+  height: 100%;
+
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+
+  background-image: url('img/notebook-table.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: right center;
+
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+#landing-steps {
+  padding-top: 20px;
+  padding-left: 65px;
+  padding-right: 65px;
+}
+
+div.landing-how-to {
+  padding-top: 30px;
+}
+/* hacky way to make all blocks the same size. */
+/*better way: use boostrap card deck; */
+.card {
+  min-height: 250px;
+  
+}
+
+@media (max-width: 768px) { 
+  .card {
+    min-height: 0;
+  }
+}
+.card-block {
+  padding: 10px 20px;
+}
+span.landing-emphasis {
+  font-style: italic;
+}
+h1.landing-main  {
+  color: white;
+  font-size: 12rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+
+  margin: 20px 0 0px 0;
+}
+@media (max-width: 480px) {
+  h1.landing-main {
+    font-size: 8rem;
+  }
+}
+h2.landing-main  {
+  font-size: 4rem;
+  color: white;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+  margin: 0 0 0px 0;
+}
+h3.landing-main {
+  display: inline;
+  font-size: 4rem;
+}
+h2.landing-how-to {
+  color: white;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
+  font-size: 4rem;
+  padding-left: 80px;
+}
+
+#at-google {
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.4);
+  margin: 20px 0 0 0;
+  font-size: 2rem;
+}
+span.glyphicon-home {
+  font-size: 3rem;
+  margin-left: 5px;
+}
+p.card-text {
+  font-size: 1.9rem;
+  padding-top: 10px;
+}
