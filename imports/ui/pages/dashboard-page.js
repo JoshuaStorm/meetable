@@ -118,6 +118,16 @@ Template.dashboard_page.onRendered( () => {
   $("#cancelCreateMeeting").click(function() {
     $("#scheduleMeeting").slideUp(100);
   });
+
+  $('#chooseWindowStart').datetimepicker({
+    format: 'MM-DD-YYYY h:mm A',
+    minDate: new Date(),
+  });
+
+  $('#chooseWindowEnd').datetimepicker({
+      format: 'MM-DD-YYYY h:mm A',
+      minDate: new Date(),
+    });
 });
 
 Template.dashboard_page.events({
