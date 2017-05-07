@@ -157,14 +157,36 @@ Template.dashboard_page.onRendered( () => {
     minDate: moment().startOf("hour"),
   });
 
+  let earliest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest;
+  // if the earliest string is not found in DB or it is an empty string
+  if (!earliest || 0 === earliest.length) {
+    throw "Missing value for no meetings before."
+  }
+
+  let latest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest;
+  // if the latest string is not found in DB or it is an empty string
+  if (!latest || 0 === latest.length) {
+    throw "Missing value for no meetings after."
+  }
+
+  console.log("earliest from DB");
+  console.log(earliest);
+  console.log("latest from DB");
+  console.log(latest);
+
+  console.log("earliest format");
+  console.log(moment(earliest, "hh:mm"));
+  console.log("latest format");
+  console.log(moment(latest, "hh:mm"));
+
   $('#no-meetings-before').datetimepicker({
     format: 'h:mm a',
-    defaultDate: moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest, "hh:mm")
+    defaultDate: moment(earliest, "hh:mm")
   });
 
   $('#no-meetings-after').datetimepicker({
     format: 'h:mm a',
-    defaultDate: moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest, "hh:mm")
+    defaultDate: moment(latest, "hh:mm")
   });
 });
 
