@@ -373,11 +373,13 @@ Template.invite.onCreated( function() {
 Template.invite.events({
   // call function to change this user's 'accepted' value to true for the given meeting
   'click #acceptInvite': function(event, template) {
+    event.preventDefault();
     Meteor.call('acceptInvite', this.toString(), Meteor.userId(), function(error, result) {
       if (error) console.log("acceptInvite: " + error);
     });
   },
   'click #declineInvite': function(event, template) {
+    event.preventDefault();
     Meteor.call('declineInvite', this.toString(), Meteor.userId(), function(error, result) {
       if (error){
         console.log("declineInvite: " + error);
@@ -493,7 +495,7 @@ Template.selector.helpers({
     if (hour < 10) hour = "0" + hour;
     var min = startDate.getMinutes();
     if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + pm);
+    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
   },
   formattedEnd() {
     var endDate = new Date(this.endTime);
@@ -512,12 +514,12 @@ Template.selector.helpers({
     if (hour < 10) hour = "0" + hour;
     var min = endDate.getMinutes();
     if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + pm);
+    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
   }
 });
 
 Template.selector.events({
-   'submit form': function(event){
+   'click #acceptInvite': function(event){
       event.preventDefault();
       var radioValue = event.target.myForm.value;
       Meteor.call('selectFinalTime', this.toString(), radioValue, function(error, result) {
@@ -538,11 +540,11 @@ Template.selector.events({
       });
     },
     'click #cancelInvite': function(event){
+      event.preventDefault();
       Meteor.call('setNotReadyToFinalize', this.toString(), function(error, result) {
         if (error) console.log(error);
       });
     },
-
     'click #deleteMeeting': function(e) {
       e.preventDefault();
       Meteor.call('deleteMeeting', this.toString(), function(error, result) {
@@ -621,6 +623,44 @@ Template.outgoingFinalize.helpers({
       participants = participants.concat(peopleList[i].email);
     }
     return participants;
+  },
+  formattedStart() {
+    var startDate = new Date(this.startTime);
+    var pm = "AM";
+    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    var day = weekday[startDate.getDay()];
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var month = months[startDate.getMonth()];
+    var date = startDate.getDate();
+    var year = startDate.getFullYear();
+    var hour = startDate.getHours();
+    if (hour > 12) {
+      hour = hour - 12;
+      pm = "PM";
+    }
+    if (hour < 10) hour = "0" + hour;
+    var min = startDate.getMinutes();
+    if (min < 10) min = "0" + min;
+    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
+  },
+  formattedEnd() {
+    var endDate = new Date(this.endTime);
+    var pm = "AM";
+    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    var day = weekday[endDate.getDay()];
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var month = months[endDate.getMonth()];
+    var date = endDate.getDate();
+    var year = endDate.getFullYear();
+    var hour = endDate.getHours();
+    if (hour > 12) {
+      hour = hour - 12;
+      pm = "PM";
+    }
+    if (hour < 10) hour = "0" + hour;
+    var min = endDate.getMinutes();
+    if (min < 10) min = "0" + min;
+    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
   }
 });
 

@@ -222,15 +222,29 @@
 <template name="incoming">
   <!-- user already accepted invite, now waiting on other participants to accept -->
   {{#if acceptedInvite}}
-    <span class="label label-primary">Accepted, waiting for host to finalize time.</span>
-    <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
+  <div class="row container-fluid">
+  <div class="card invite-card">
+  <div class="card-block invite-card-block">
+        <span class="label label-primary">Accepted, waiting for host to finalize time.</span>
+    <div class="col-md-12">
+      <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
+    </div>
+    </div>
+    </div>
+  </div>
   <!-- user has not accepted invite -->
   {{else}}
-   <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
-    <div class="row">
-      <button type="button" class="btn btn-default btn-sm" id="declineInvite">Decline</button>
-      <button type="save" class="btn btn-primary btn-sm" id="acceptInvite">Accept</button>
+  <div class="row container-fluid">
+    <div class="card invite-card">
+      <div class="card-block invite-card-block">
+        <div class="col-md-6">
+          <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}}) 
+        </div>
+        <button type="button" class="btn btn-default pull-right" id="declineInvite">Decline</button>
+        <button type="save" class="btn btn-primary pull-right" id="acceptInvite">Accept</button>
+      </div>
     </div>
+  </div>
   {{/if}}
 </template>
 
@@ -241,36 +255,50 @@
 
 <!-- template for displaying an invite ready to finalize if you are not the selector -->
 <template name="notSelector">
-  <!-- <div class="row"> -->
-    <!-- <div class="col-sm-6 col-sm-offset-3" style ='background-color:#f9ecd1;'> -->
-      Waiting on <h4>{{inviterName}}</h4> to select a time for <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
-    <!-- </div> -->
-  <!-- </div> -->
+  <div class="row container-fluid">
+    <div class="card invite-card">
+      <div class="card-block invite-card-block">
+        <div class="col-md-12">
+          Waiting on <h4>{{inviterName}}</h4> to select a time for <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <!-- template for displaying an invite ready to finalize if you are the selector -->
 <template name="selector">
-  <div class="row">
-    <div class="container-fluid">
-      <h4>{{inviterName}}</h4> <p> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
-      <br/>Please select a time for the meeting:</p>
-      <form>
-
-      {{#if suggestedTimes}}
-        {{#each suggestedTimes}}
-          <div class="radio">
-            <label>
-              <input type="radio" name="myForm" value="{{@index}}" checked="">
-              {{formattedStart}} - {{formattedEnd}}
-            </label>
+  <div class="row container-fluid">
+    <div class="card invite-card">
+      <div class="card-block invite-card-block">
+        <div class="col-md-10">
+          <h4>{{inviterName}}</h4> <p> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})</p>
           </div>
-        {{/each}}
-        <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
-      {{else}}
-        <div class="container-fluid"> <p> You are not meetable for this time window. Please reschedule!</p></div>
-        <button type="delete" class="btn btn-primary btn-sm" id="deleteMeeting">Delete</button>
-      {{/if}}
-      </form>
+          <form>
+          {{#if suggestedTimes}}
+                  <div class="col-md-12">
+                  <p>Please select a time for the meeting:</p>
+            {{#each suggestedTimes}}
+              <div class="radio">
+                <label>
+                  <input type="radio" name="myForm" value="{{@index}}" checked="">
+                  {{formattedStart}} - {{formattedEnd}}
+                </label>
+              </div>
+            {{/each}}
+            <button type="cancel" class="btn" id="cancelInvite">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
+            </div>
+          {{else}}
+            <button type="delete" class="close" id="deleteMeeting" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="col-md-8">
+              <p> You are not meetable for this time window. Please reschedule!</p>
+            </div>
+          {{/if}}
+          </form>
+      </div>
     </div>
   </div>
 </template>
@@ -280,54 +308,88 @@
   {{#if readyToFinalize}}
     {{> outgoingFinalize}}
   {{else}}
-  <span class="label label-warning">Waiting for responses...</span>
-    <p><h5>{{meetingTitle}}</h5> ({{meetingDuration}})</p>
-    <p>Participants: {{meetingParticipants}}</p>
-    <button type="cancel" class="btn btn-default" id="deleteOutgoing">Delete</button>
+  <div class="row container-fluid">
+    <div class="card invite-card">
+      <div class="card-block invite-card-block">
+        <div class="col-md-6">
+            <span class="label label-warning">Waiting for responses...</span>
+
+          <h5>{{meetingTitle}} ({{meetingDuration}})</h5>
+          <p>Participants: {{meetingParticipants}}</p>
+        </div>
+        <button type="cancel" class="close" id="deleteOutgoing" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+    </div>
+  </div>
   {{/if}}
 </template>
 
 <template name="additional">
-  <p> - {{timeStart}} - {{timeEnd}}
-  <button type="button" class="btn link-btn" id="delete-button">delete</button>
-  </p>
+  <div class="row container-fluid">
+    <div class="card invite-card">
+      <div class="card-block invite-card-block">
+        <div class="col-md-12">
+          <p> - {{timeStart}} - {{timeEnd}}
+          <button type="button" class="btn link-btn" id="delete-button">delete</button>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 
 <!-- template for displaying an outgoing meeting that's ready to finalize -->
 <template name="outgoingFinalize">
-  <span class="label label-primary">Ready to finalize</span>
-      <h4><b>{{meetingTitle}}</b></h4> ({{meetingDuration}})
-      <p>Participants: {{meetingParticipants}}
-      <br/> Please select a time for the meeting:</p>
-      <form>
-      {{#each suggestedTimes}}
-        {{> additional}}
-        <div class="radio">
-          <label>
-            <input type="radio" name="myForm" value="{{@index}}" checked="">
-            {{timeStart}} - {{timeEnd}}
-          </label>
+  <div class="row container-fluid">
+      <div class="card invite-card">
+        <div class="card-block invite-card-block">
+          <div class="col-md-12">
+            <span class="label label-primary">Ready to finalize</span>
+            <h4><b>{{meetingTitle}}</b></h4> ({{meetingDuration}})
+            <p>Participants: {{meetingParticipants}}
+            <br/> Please select a time for the meeting:</p>
+            <form>
+              {{#each suggestedTimes}}
+                <div class="radio">
+                  <label>
+                    <input type="radio" name="myForm" value="{{@index}}" checked="">
+                    {{formattedStart}} - {{formattedEnd}}
+                  </label>
+                </div>
+              {{/each}}
+              <button type="cancel" class="btn btn-default" id="deleteInvite">Delete</button>
+              <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
+            </form>
+          </div>
         </div>
-      {{/each}}
-      <button type="cancel" class="btn btn-default" id="deleteInvite">Delete</button>
-      <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
-      </form>
+      </div>
+  </div>
 </template>
 
 <!-- template for displaying a finalized meeting -->
 <template name="finalizedMeeting">
-  <h5><mark>{{meetingTitle}}</mark></h5>
-  <p><b>{{meetingHost}}</b></p>
-  <p> Participants: {{participants}}<br/>
-  Start: {{selectedStart}} <br/>
-  End: {{selectedEnd}}</p>
-  <!-- only display the push to Gcal button once. After being pushed, take away the button and display label confirming push has already occurred -->
-  {{#if addedToGCal}}
-    <span class="label label-default">Event pushed to Google calendar</span>
-  {{else}}
-    <a href="javascript:void(0)" class="btn btn-raised btn-primary btn-xs" id="pushEvent">Push to Google calendar</a>
-  {{/if}}
+  <div class="row container-fluid">
+    <div class="card invite-card">
+      <div class="card-block invite-card-block">
+        <div class="col-md-12">
+          <h5><mark>{{meetingTitle}}</mark></h5>
+          <p><b>{{meetingHost}}</b></p>
+          <p> Participants: {{participants}}<br/>
+          Start: {{selectedStart}} <br/>
+          End: {{selectedEnd}}</p>
+          <!-- only display the push to Gcal button once. After being pushed, take away the button and display label confirming push has already occurred -->
+          {{#if addedToGCal}}
+            <span class="label label-default">Event pushed to Google calendar</span>
+          {{else}}
+            <a href="javascript:void(0)" class="btn btn-raised btn-primary btn-xs" id="pushEvent">Push to Google calendar</a>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <!-- checkbox for choosing whether to display calendar -->
