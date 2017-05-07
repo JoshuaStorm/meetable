@@ -138,7 +138,9 @@ Template.dashboard_page.onRendered( () => {
 
   $('#chooseWindowEnd').datetimepicker({
     format: 'ddd, MMM Do, h:mm a',
-    defaultDate: moment(roundUp).add(2, "weeks")
+    useCurrent: false,
+    defaultDate: moment(roundUp).add(2, "weeks"),
+    minDate: roundUp
   });
 
   // datetime-start and end are for busy times
