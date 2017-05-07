@@ -114,19 +114,26 @@ Meteor.methods({
     var finalizedIds = user.profile.finalizedMeetings;
     if (!finalizedIds) finalizedIds = [];
 
+    var now = new Date();
     var meetingIdsToDelete = [];
     // Add to a delete array, otherwise array would change length during iteration === bad
     for (var i = 0; i < receivedIds.length; i++) {
       var thisMeeting = Meetings.findOne(receivedIds[i]);
-      if (thisMeeting.windowEnd < Date.now()) meetingIdsToDelete.push(receivedIds[i]);
+      if (thisMeeting.windowEnd.getTime() < now.getTime()) {
+        meetingIdsToDelete.push(receivedIds[i]);
+      }
     }
     for (i = 0; i < sentIds.length; i++) {
       var thisMeeting = Meetings.findOne(sentIds[i]);
-      if (thisMeeting.windowEnd < Date.now()) meetingIdsToDelete.push(sentIds[i]);
+      if (thisMeeting.windowEnd.getTime() < now.getTime()) {
+        meetingIdsToDelete.push(sentIds[i]);
+      }
     }
     for (i = 0; i < finalizedIds.length; i++) {
       var thisMeeting = Meetings.findOne(finalizedIds[i]);
-      if (thisMeeting.selectedBlock.endTime < Date.now()) meetingIdsToDelete.push(finalizedIds[i]);
+      if (thisMeeting.selectedBlock.endTime.getTime() < now.getTime()) {
+        meetingIdsToDelete.push(finalizedIds[i]);
+      }
     }
     // EXTERMINATE
     for (i = 0; i < meetingIdsToDelete.length; i++) {

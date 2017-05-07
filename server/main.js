@@ -24,12 +24,13 @@ Meteor.startup(() => {
       // Let other method calls from the same client start running,
       // without waiting for the email sending to complete.
       this.unblock();
-      Email.send({
-        to: to,
-        from: from,
-        subject: subject,
-        text: text
-      });
+      console.log("PRETENDING TO EMAIL");
+      // Email.send({
+      //   to: to,
+      //   from: from,
+      //   subject: subject,
+      //   text: text
+      // });
     },
   });
 });
