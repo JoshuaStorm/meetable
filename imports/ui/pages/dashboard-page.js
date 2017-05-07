@@ -157,27 +157,18 @@ Template.dashboard_page.onRendered( () => {
     minDate: moment().startOf("hour"),
   });
 
-  let earliest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest;
-  // if the earliest string is not found in DB or it is an empty string
-  if (!earliest || 0 === earliest.length) {
-    throw "Missing value for no meetings before."
-  }
-
-  let latest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest;
+  var earliest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest;
   // if the latest string is not found in DB or it is an empty string
-  if (!latest || 0 === latest.length) {
-    throw "Missing value for no meetings after."
+  if (!earliest || 0 === earliest.length) {
+    console.log( 'Missing value for no meetings before. setting it to 12:00 am');
+    earliest = "12:00 am";
   }
-
-  console.log("earliest from DB");
-  console.log(earliest);
-  console.log("latest from DB");
-  console.log(latest);
-
-  console.log("earliest format");
-  console.log(moment(earliest, "hh:mm"));
-  console.log("latest format");
-  console.log(moment(latest, "hh:mm"));
+  var latest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest;
+  //if the latest string is not found in DB or it is an empty string
+  if (!latest || 0 === latest.length) {
+    console.log( 'Missing value for no meetings after. setting it to 12:00 am');
+    latest = "12:00 am";
+  }
 
   $('#no-meetings-before').datetimepicker({
     format: 'h:mm a',
@@ -289,6 +280,7 @@ Template.dashboard_page.events({
 
     Meteor.call('setMeetRange', beforeTime.format("HH:mm"), afterTime.format("HH:mm"), function(error, result) {
       if (error) console.log("Error in addRecurringBusyTimes: " + error);
+      
       Meteor.call('updateMeetableTimes', function(error, result) {
         if (error) console.log('updateBusyTimes: ' + error);
         else {
