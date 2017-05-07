@@ -7,6 +7,11 @@
   /* make navbar and content touch */
   margin-bottom: 0px;
 }
+
+#dashboard-main-row {
+  padding-top: 10px;
+}
+
 #dashboardLeftCol {
   /* show a vertical scroll bar on the left column */
   overflow: hidden;

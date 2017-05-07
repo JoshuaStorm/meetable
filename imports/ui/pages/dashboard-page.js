@@ -172,8 +172,11 @@ Template.dashboard_page.events({
     // TODO: User dynamic fields instead of just comma separating emails
     var emails = $('#meetingInvitee').val().split(",");
     var length = $('#meetingLength').val();
-    var windowStart = new Date($('#chooseWindowStart').val());
-    var windowEnd = new Date($('#chooseWindowEnd').val());
+
+    // get Date objects from the datepickers
+    let windowStart = $('#chooseWindowStart').data("DateTimePicker").date().toDate();
+    let windowEnd = $('#chooseWindowEnd').data("DateTimePicker").date().toDate();
+    console.log(windowStart);
     
     // Remove all non-emails from this list
     // ReGex check email field. This is the 99.9% working email ReGex
