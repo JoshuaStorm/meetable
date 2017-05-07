@@ -2,6 +2,19 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## May 7, 2017 (Casey)
+- Light UI changes: centering the logo on login page, narrowing down the containers for instruction labels, adding 10px padding to the top of dashboard for breathing room between nav bar and content
+- Changes to date formatting from ISO code to natural language throughout the app (i.e. May 5, 2018 5:15pm)
+- Finish UI work on the settings tab: 
+    - Default placeholders for earliest/latest fime fields reflect what we currently have saved in the database
+    - Fix alignment for settings tab prompts so that all div's use container-fluid
+    - Slight modifications to the descriptive texts above form fields
+    - Add green bert alert on successfully saving settings, and clear the fields to their default placeholders again
+- 'Create a Meeting' changed form design
+    - add labels to be above the fields
+- for mobile display, change the calendar default display to be in 'day', not 'week'
+- add warning Bert Alert if 'Create a Meeting' fails
+
 ## May 5, 2017 (David)
 - Major overhaul to login page
 
