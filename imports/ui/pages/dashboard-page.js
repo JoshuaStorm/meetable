@@ -269,6 +269,11 @@ Template.dashboard_page.events({
       if (error) console.log("Error in addRecurringBusyTimes: " + error);
       Meteor.call('updateMeetableTimes', function(error, result) {
         if (error) console.log('updateBusyTimes: ' + error);
+        else {
+          var resetEarliest = document.getElementById('no-meetings-before').value ="";
+          var resetLatest = document.getElementById('no-meetings-after').value ="";
+          Bert.alert( 'Settings saved', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
+        }
       });
     });
   }
