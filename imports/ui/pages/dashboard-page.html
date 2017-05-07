@@ -168,7 +168,9 @@
             </div>
             <div class="container-fluid dashboardDropdownContent" id="settings">
               <div class="col">
-                <p>Uncheck the calendars you don't want to be considered</p>
+                <div class="container-fluid">
+                  <p>Uncheck the calendars you don't want to be considered</p>
+                </div>
                 <div class="container-fluid" id="hideCalendars">
                   <form>
                     {{#each userCalendars}}
@@ -181,7 +183,7 @@
                   <div class="form-group">
                     <div class="container-fluid">
                       <p> We know you need to sleep. Let us know when you never want to have a meeting scheduled.</p>
-                      </div>
+                    </div>
                     <div class="col-md-10 datetimepicker">
                       <!-- TODO: this lavel text is blue probably because of the datetimepicker class on the div, Not sure if the datetimepicker class is necessary? if it is, then we can assign the label a class and change its font color -->
                       <label for="no-meetings-before">No meetings before:</label>
