@@ -25,6 +25,8 @@ html, body {
 
 #landing-steps {
   padding-top: 20px;
+  padding-left: 65px;
+  padding-right: 65px;
 }
 
 div.landing-how-to {
@@ -75,7 +77,7 @@ h2.landing-how-to {
   color: white;
   text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.9);
   font-size: 4rem;
-  padding-left: 15px;
+  padding-left: 80px;
 }
 
 #at-google {
@@ -83,8 +85,8 @@ h2.landing-how-to {
   margin: 20px 0 0 0;
   font-size: 2rem;
 }
-span.glyphicon {
-  font-size: 2rem;
+span.glyphicon-home {
+  font-size: 3rem;
   margin-left: 5px;
 }
 p.card-text {
