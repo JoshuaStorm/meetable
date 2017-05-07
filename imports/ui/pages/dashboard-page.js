@@ -120,33 +120,40 @@ Template.dashboard_page.onRendered( () => {
     $("#scheduleMeeting").slideUp(100);
   });
 
+  // round up to the nearest 30 minutes of the hour
+  let currentTime = moment();
+  let remainder = 15 - currentTime.minute() % 15;
+  let roundUp = moment(currentTime).add(remainder, "minutes");
 
   $('#chooseWindowStart').datetimepicker({
-    format: 'MM/DD/YYYY h:mm A',
-    minDate: new Date(),
+    format: 'ddd, MMM Do, h:mm a',
+
+    minDate: roundUp,
   });
 
   $('#chooseWindowEnd').datetimepicker({
-      format: 'MM/DD/YYYY h:mm A',
-      minDate: new Date(),
+      format: 'ddd, MMM Do, h:mm a',
+      minDate: roundUp.add(2, "weeks")
     });
 
-  $('#datetime-end').datetimepicker({
-    format: 'MM/DD/YYYY h:mm A',
+  // datetime-start and end are for busy times
+
+  $('#datetime-start').datetimepicker({
+    format: 'ddd, MMM Do, h:mm a',
     minDate: new Date(),
   });
 
-  $('#datetime-start').datetimepicker({
-    format: 'MM/DD/YYYY h:mm A',
-    minDate: new Date(),
+  $('#datetime-end').datetimepicker({
+    format: 'ddd, MMM Do, h:mm a',
+    defaultDate: new Date(),
   });
 
   $('#no-meetings-before').datetimepicker({
-    format: 'HH:mm'
+    format: 'h:mm a'
   });
 
   $('#no-meetings-after').datetimepicker({
-    format: 'HH:mm'
+    format: 'h:mm a'
   });
 });
 
