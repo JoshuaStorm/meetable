@@ -157,12 +157,27 @@ Template.dashboard_page.onRendered( () => {
     minDate: moment().startOf("hour"),
   });
 
+  var earliest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest;
+  // if the latest string is not found in DB or it is an empty string
+  if (!earliest || 0 === earliest.length) {
+    console.log("Missing value for no meetings before. setting it to 00:00");
+    earliest = "00:00";
+  }
+  var latest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest;
+  //if the latest string is not found in DB or it is an empty string
+  if (!latest || 0 === latest.length) {
+    console.log( 'Missing value for no meetings after. setting it to 00:00');
+    latest = "00:00";
+  }
+
   $('#no-meetings-before').datetimepicker({
-    format: 'h:mm a'
+    format: 'h:mm a',
+    defaultDate: moment(earliest, "hh:mm")
   });
 
   $('#no-meetings-after').datetimepicker({
-    format: 'h:mm a'
+    format: 'h:mm a',
+    defaultDate: moment(latest, "hh:mm")
   });
 });
 
@@ -223,26 +238,17 @@ Template.dashboard_page.events({
   'click #submit-extra-times': function(e) {
     e.preventDefault();
 
-    var startTime = $('#datetime-start').val();
-    startTime = new Date(startTime);
-    var endTime = $('#datetime-end').val();
-    endTime = new Date(endTime);
+    // I think doing moment().format() inside of moment fixes stuff but i don't know why
+    let startTime = moment($('#datetime-start').data("DateTimePicker").date().format());
+    let endTime = moment($('#datetime-end').data("DateTimePicker").date().format());
 
-    if (isNaN(startTime.getTime())) {
-      Bert.alert( 'Please enter a valid start time.', 'danger', 'growl-bottom-left');
-      throw 'Invalid Start';
-    }
-    else if (isNaN(endTime.getTime())) {
-      Bert.alert( 'Please enter a valid end time.', 'danger', 'growl-bottom-left');
-      throw 'Invalid End';
-    }
-
-    if (endTime.getTime() <= startTime.getTime()) {
+    if (!endTime.isAfter(startTime)) {
       Bert.alert( 'End time must be after start time. ', 'danger', 'growl-bottom-left');
-      throw 'EndTime greater than startTime';
+      //throw 'EndTime greater than startTime';
     }
 
-    var busyTime = {start: startTime, end: endTime};
+    // convert moment object to js Date object
+    var busyTime = {start: startTime.toDate(), end: endTime.toDate()};
 
     Meteor.call('addBusyTimes', busyTime, function(error, result) {
       if (error) {
@@ -263,22 +269,27 @@ Template.dashboard_page.events({
   'click #submit-no-meetings-times': function(e) {
     e.preventDefault();
 
-    var beforeTime = $('#no-meetings-before').val();
-    var afterTime = $('#no-meetings-after').val();
+    // I think doing moment().format() inside of moment fixes stuff but i don't know why
+    let beforeTime = moment($('#no-meetings-before').data("DateTimePicker").date().format());
+    let afterTime = moment($('#no-meetings-after').data("DateTimePicker").date().format());
 
-    // depends on ASCII values of strings in HH:MM format, which is probably fine #AMERICA
-    if (afterTime <= beforeTime) {
+    if (!afterTime.isAfter(beforeTime)) {
       Bert.alert("You must have some time you're available. ", 'danger', 'fixed-bottom');
       throw 'Before time greater than or equal after time';
     }
 
-    Meteor.call('setMeetRange', beforeTime, afterTime, function(error, result) {
+    Meteor.call('setMeetRange', beforeTime.format("HH:mm"), afterTime.format("HH:mm"), function(error, result) {
       if (error) console.log("Error in addRecurringBusyTimes: " + error);
+      
       Meteor.call('updateMeetableTimes', function(error, result) {
         if (error) console.log('updateBusyTimes: ' + error);
         else {
-          var resetEarliest = document.getElementById('no-meetings-before').value ="";
-          var resetLatest = document.getElementById('no-meetings-after').value ="";
+          // reset datepickers to their (new) database values
+          let earliest = moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest, "hh:mm")
+          let latest = moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest, "hh:mm");
+          $('#no-meetings-before').data("DateTimePicker").date(earliest);
+          $('#no-meetings-after').data("DateTimePicker").date(latest);
+
           Bert.alert( 'Settings saved', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
         }
       });
