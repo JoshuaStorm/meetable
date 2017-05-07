@@ -263,16 +263,15 @@ Template.dashboard_page.events({
   'click #submit-no-meetings-times': function(e) {
     e.preventDefault();
 
-    var beforeTime = $('#no-meetings-before').val();
-    var afterTime = $('#no-meetings-after').val();
+    let beforeTime = $('#no-meetings-before').data("DateTimePicker").date();
+    let afterTime = $('#no-meetings-after').data("DateTimePicker").date();
 
-    // depends on ASCII values of strings in HH:MM format, which is probably fine #AMERICA
-    if (afterTime <= beforeTime) {
+    if (afterTime.isAfter(beforeTime)) {
       Bert.alert("You must have some time you're available. ", 'danger', 'fixed-bottom');
       throw 'Before time greater than or equal after time';
     }
 
-    Meteor.call('setMeetRange', beforeTime, afterTime, function(error, result) {
+    Meteor.call('setMeetRange', beforeTime.format("hh:mm"), afterTime.format("hh:mm"), function(error, result) {
       if (error) console.log("Error in addRecurringBusyTimes: " + error);
       Meteor.call('updateMeetableTimes', function(error, result) {
         if (error) console.log('updateBusyTimes: ' + error);
