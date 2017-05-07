@@ -230,9 +230,6 @@ Template.dashboard_page.events({
     let endTime = moment($('#datetime-end').data("DateTimePicker").date().format());
 
     if (!endTime.isAfter(startTime)) {
-      $('#datetime-start').data("DateTimePicker").date(moment().startOf("hour"));
-      $('#datetime-end').data("DateTimePicker").date(moment().startOf("hour"));
-
       Bert.alert( 'End time must be after start time. ', 'danger', 'growl-bottom-left');
       throw 'EndTime greater than startTime';
     }
@@ -264,11 +261,6 @@ Template.dashboard_page.events({
     let afterTime = moment($('#no-meetings-after').data("DateTimePicker").date().format());
 
     if (!afterTime.isAfter(beforeTime)) {
-      let earliest = moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest, "HH:mm")
-      let latest = moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest, "HH:mm");
-      $('#no-meetings-before').data("DateTimePicker").date(earliest);
-      $('#no-meetings-after').data("DateTimePicker").date(latest);
-
       Bert.alert("You must have some time you're available. ", 'danger', 'fixed-bottom');
       throw 'Before time greater than or equal after time';
     }
