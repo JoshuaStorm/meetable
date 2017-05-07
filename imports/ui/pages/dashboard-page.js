@@ -126,33 +126,39 @@ Template.dashboard_page.onRendered( () => {
     $("#scheduleMeeting").slideUp(100);
   });
 
+  // round up to the nearest 30 minutes of the hour
+  let currentTime = moment();
+  let remainder = 15 - currentTime.minute() % 15;
+  let roundUp = moment(currentTime).add(remainder, "minutes");
 
   $('#chooseWindowStart').datetimepicker({
-    format: 'MM/DD/YYYY h:mm A',
-    minDate: new Date(),
+    format: 'ddd, MMM Do, h:mm a',
+    minDate: roundUp,
   });
 
   $('#chooseWindowEnd').datetimepicker({
-      format: 'MM/DD/YYYY h:mm A',
-      minDate: new Date(),
-    });
-
-  $('#datetime-end').datetimepicker({
-    format: 'MM/DD/YYYY h:mm A',
-    minDate: new Date(),
+    format: 'ddd, MMM Do, h:mm a',
+    minDate: moment(roundUp).add(2, "weeks")
   });
 
+  // datetime-start and end are for busy times
+
   $('#datetime-start').datetimepicker({
-    format: 'MM/DD/YYYY h:mm A',
-    minDate: new Date(),
+    format: 'ddd, MMM Do, h:mm a',
+    minDate: moment().startOf("hour"),
+  });
+
+  $('#datetime-end').datetimepicker({
+    format: 'ddd, MMM Do, h:mm a',
+    minDate: moment().startOf("hour"),
   });
 
   $('#no-meetings-before').datetimepicker({
-    format: 'HH:mm'
+    format: 'h:mm a'
   });
 
   $('#no-meetings-after').datetimepicker({
-    format: 'HH:mm'
+    format: 'h:mm a'
   });
 });
 
@@ -247,17 +253,6 @@ Template.dashboard_page.events({
 
     var beforeTime = $('#no-meetings-before').val();
     var afterTime = $('#no-meetings-after').val();
-
-    var timeRegex = new RegExp(/^([01]\d|2[0-3]):?([0-5]\d)$/);
-    // I don't know how datepicker could return an invalid time but let me know
-    // I'm just gonna put these here as an extra precaution. No reason not to, right?
-    if (!timeRegex.test(beforeTime)) {
-      Bert.alert( "Please enter a valid earliest meeting time.", 'danger', 'fixed-bottom');
-      throw 'Invalid Before';
-    } else if (!timeRegex.test(afterTime)) {
-      Bert.alert( 'Please enter a valid latest meeting time.', 'danger', 'fixed-bottom');
-      throw 'Invalid After';
-    }
 
     // depends on ASCII values of strings in HH:MM format, which is probably fine #AMERICA
     if (afterTime <= beforeTime) {
