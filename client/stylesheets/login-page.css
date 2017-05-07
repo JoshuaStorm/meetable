@@ -34,17 +34,17 @@ div.landing-how-to {
 }
 /* hacky way to make all blocks the same size. */
 /*better way: use boostrap card deck; */
-.card {
+.login-card {
   min-height: 250px;
   
 }
 
 @media (max-width: 768px) { 
-  .card {
+  .login-card {
     min-height: 0;
   }
 }
-.card-block {
+.login-card-block {
   padding: 10px 20px;
 }
 span.landing-emphasis {

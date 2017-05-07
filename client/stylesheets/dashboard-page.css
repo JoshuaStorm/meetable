@@ -8,6 +8,19 @@
   margin-bottom: 0px;
 }
 
+.invite-card {
+  padding-bottom: 10px;  
+  box-shadow: none;
+  background-color: inherit;
+  border-width: 5px;
+  border-color: #f9f9f9;
+}
+/*
+hr {
+  border-color: #c6c6c6 !important;
+  color: #c6c6c6 !important;
+}*/
+
 #dashboard-main-row {
   padding-top: 10px;
 }
