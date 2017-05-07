@@ -160,14 +160,14 @@ Template.dashboard_page.onRendered( () => {
   var earliest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest;
   // if the latest string is not found in DB or it is an empty string
   if (!earliest || 0 === earliest.length) {
-    console.log( 'Missing value for no meetings before. setting it to 12:00 am');
-    earliest = "12:00 am";
+    console.log("Missing value for no meetings before. setting it to 00:00");
+    earliest = "00:00";
   }
   var latest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest;
   //if the latest string is not found in DB or it is an empty string
   if (!latest || 0 === latest.length) {
-    console.log( 'Missing value for no meetings after. setting it to 12:00 am');
-    latest = "12:00 am";
+    console.log( 'Missing value for no meetings after. setting it to 00:00');
+    latest = "00:00";
   }
 
   $('#no-meetings-before').datetimepicker({
