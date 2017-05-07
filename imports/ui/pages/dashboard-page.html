@@ -226,7 +226,6 @@
   <div class="card invite-card">
   <div class="card-block invite-card-block">
         <span class="label label-primary">Accepted, waiting for host to finalize time.</span>
-
     <div class="col-md-12">
       <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
     </div>
@@ -287,6 +286,7 @@
                 </label>
               </div>
             {{/each}}
+            <button type="cancel" class="btn" id="cancelInvite">Cancel</button>
             <button type="submit" class="btn btn-primary" id="acceptInvite">Submit</button>
             </div>
           {{else}}

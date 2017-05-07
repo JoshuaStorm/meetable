@@ -373,11 +373,13 @@ Template.invite.onCreated( function() {
 Template.invite.events({
   // call function to change this user's 'accepted' value to true for the given meeting
   'click #acceptInvite': function(event, template) {
+    event.preventDefault();
     Meteor.call('acceptInvite', this.toString(), Meteor.userId(), function(error, result) {
       if (error) console.log("acceptInvite: " + error);
     });
   },
   'click #declineInvite': function(event, template) {
+    event.preventDefault();
     Meteor.call('declineInvite', this.toString(), Meteor.userId(), function(error, result) {
       if (error){
         console.log("declineInvite: " + error);
@@ -517,7 +519,7 @@ Template.selector.helpers({
 });
 
 Template.selector.events({
-   'submit form': function(event){
+   'click #acceptInvite': function(event){
       event.preventDefault();
       var radioValue = event.target.myForm.value;
       Meteor.call('selectFinalTime', this.toString(), radioValue, function(error, result) {
@@ -538,11 +540,11 @@ Template.selector.events({
       });
     },
     'click #cancelInvite': function(event){
+      event.preventDefault();
       Meteor.call('setNotReadyToFinalize', this.toString(), function(error, result) {
         if (error) console.log(error);
       });
     },
-
     'click #deleteMeeting': function(e) {
       e.preventDefault();
       Meteor.call('deleteMeeting', this.toString(), function(error, result) {
