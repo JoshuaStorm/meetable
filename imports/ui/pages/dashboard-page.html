@@ -376,9 +376,8 @@
         <div class="col-md-12">
           <h5><mark>{{meetingTitle}}</mark></h5>
           <p><b>{{meetingHost}}</b></p>
-          <p> Participants: {{participants}}<br/>
-          Start: {{selectedStart}} <br/>
-          End: {{selectedEnd}}</p>
+          <p> Participants: {{participants}}</p>
+          <p>{{selectedrange}}</p>
           <!-- only display the push to Gcal button once. After being pushed, take away the button and display label confirming push has already occurred -->
           {{#if addedToGCal}}
             <span class="label label-default">Event pushed to Google calendar</span>

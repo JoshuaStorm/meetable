@@ -3,6 +3,7 @@ import { Meteor } from 'meteor/meteor';
 import Meetings from '/collections/meetings.js'
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import moment from 'moment';
+import twix from 'twix';
 
 import './dashboard-page.html';
 
@@ -729,15 +730,15 @@ Template.finalizedMeeting.helpers({
   meetingTitle() {
     return Meetings.findOne(this.toString()).title;
   },
-  selectedStart() {
-    var start = Meetings.findOne(this.toString()).selectedBlock.startTime;
-    var time = new Date(start).toLocaleString();
-    return time;
-  },
-  selectedEnd() {
-    var end = Meetings.findOne(this.toString()).selectedBlock.endTime;
-    var time = new Date(end).toLocaleString();
-    return time;
+  selectedrange() {
+    let start = Meetings.findOne(this.toString()).selectedBlock.startTime;
+    let end = Meetings.findOne(this.toString()).selectedBlock.endTime;
+
+    return moment(start).twix(end).format({
+      showDayOfWeek: true,
+      weekdayFormat: "ddd,",
+      meridiemFormat: "a",
+    });
   },
   addedToGCal: function() {
     var thisMeeting = Meetings.findOne(this.toString());
