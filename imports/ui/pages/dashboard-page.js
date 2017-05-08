@@ -317,7 +317,8 @@ Template.dashboard_page.events({
 
     if (!afterTime.isAfter(beforeTime)) {
       Bert.alert("You must have some time you're available. ", 'danger', 'fixed-bottom');
-      throw 'Before time greater than or equal after time';
+
+      return;
     }
 
     Meteor.call('setMeetRange', beforeTime.format("HH:mm"), afterTime.format("HH:mm"), function(error, result) {
