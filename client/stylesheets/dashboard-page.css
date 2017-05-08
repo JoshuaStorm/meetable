@@ -49,6 +49,9 @@ hr {
 #meetable-name {
   font-size: 3rem;
   font-weight: bold;
+
+  display: inline-block;  /*so it will go on same line as rest of navbar*/
+  margin: 10px 0px auto 15px;
 }
 
 #events-calendar {
