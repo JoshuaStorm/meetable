@@ -93,10 +93,10 @@ Template.dashboard_page.onRendered( () => {
   });
 
   // Hacky fix but seems to work. The purpose this is that whenever the window resizes,
-  // we resize the 'contentHeight' of the full calendar (which is the part below the 
+  // we resize the 'contentHeight' of the full calendar (which is the part below the
   // toolbar). We set its height to the height of the dashboardRightCol - 80, where 80
   // is a bit more than the height of the toolbar. But if the window is larger than 525 pixels,
-  // the toolbar spreads out and is only 50 pixels. This seems to produxe the desired effect 
+  // the toolbar spreads out and is only 50 pixels. This seems to produxe the desired effect
   $(document).ready(function() {
     $(window).resize(function() {
       if ($('#events-calendar').width() > 525){
