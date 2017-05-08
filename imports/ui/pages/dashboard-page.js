@@ -112,7 +112,7 @@ Template.dashboard_page.onRendered( () => {
   // If this is a mobile screen, the calendar is 500 pixels tall (can change based on aesthetic)
   // Otherwise, set the contentHeight of the calendar to be equal to the height of the window - toolbar height
   if ($(window).width() <= 768) {
-    $('#events-calendar').fullCalendar('option', 'height', 500);
+    $('#events-calendar').fullCalendar('option', 'contentHeight', "auto");
   }
   else if ($('#events-calendar').width() > 525) $('#events-calendar').fullCalendar('option', 'contentHeight', $('#dashboardRightCol').height() - 50);
   else $('#events-calendar').fullCalendar('option', 'contentHeight', $('#dashboardRightCol').height() - 80);
