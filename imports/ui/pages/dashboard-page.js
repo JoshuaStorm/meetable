@@ -252,7 +252,9 @@ Template.dashboard_page.events({
 
     if (!endTime.isAfter(startTime)) {
       Bert.alert( 'End time must be after start time. ', 'danger', 'growl-bottom-left');
-      //throw 'EndTime greater than startTime';
+
+      // don't actually insert the busy time into the DB if it is invalid
+      return;
     }
 
     // convert moment object to js Date object
@@ -262,6 +264,10 @@ Template.dashboard_page.events({
       if (error) {
         console.log("Error in addBusyTimes: " + error);
       } else {
+
+        // not sure if we should only say success if the next two Meteor.call are successful
+        Bert.alert( 'Success! Extra busy time added.', 'success', 'growl-bottom-left' );
+
         Meteor.call("getFullCalendarAdditional", function(error, result) {
           if (error) console.log(error);
           $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
@@ -270,6 +276,7 @@ Template.dashboard_page.events({
         Meteor.call('updateMeetableTimes', function(error, result) {
           if (error) console.log('updateBusyTimes: ' + error);
         });
+
       }
     });
   },
