@@ -823,11 +823,8 @@ function formatAllDayEvents(userId, events) {
   return events;
 }
 
+// Get a busy block from the input 'then' to the current time. Return as an array for convenience in findUserBusyTimes
 function getBusyFromThenToNow(userId, then) {
-  var user = Meteor.users.findOne(userId);
-  var clientOffset = user.profile.timeZoneOffset * 60 * 1000;
-  var serverOffset = new Date().getTimezoneOffset() * 60 * 1000;
-
   var event = {
     start: then,
     end: new Date()
