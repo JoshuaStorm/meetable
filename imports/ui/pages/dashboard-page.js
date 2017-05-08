@@ -83,6 +83,7 @@ Template.dashboard_page.helpers({
 
 Template.dashboard_page.onRendered( () => {
   $( '#events-calendar' ).fullCalendar({
+    scrollTime: "09:00:00",
     // display day view on mobile devices (based on user agents not screen size)
     defaultView: window.mobilecheck() ? "agendaDay" : "agendaWeek",
     header: {
