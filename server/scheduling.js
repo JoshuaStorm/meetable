@@ -177,7 +177,7 @@ Meteor.methods({
       if (currUser.id === userId) { // current user found
         var setModifier = {};
         setModifier['participants.' + i + '.accepted'] = true;
-        Meetings.update({_id:meetingId}, {$set:setModifier});
+        Meetings.update(meetingId, {$set:setModifier});
         break;
       }
     }
@@ -185,9 +185,7 @@ Meteor.methods({
     // Find overlap between this user and the availableTimes and insert in collection
     var busyTimes = findUserBusyTimes(this.userId, thisMeeting.windowStart, thisMeeting.windowEnd);
     Meteor.users.upsert(this.userId, {
-      $set: {
-        "profile.busyTimes": busyTimes
-      }
+      $set: { "profile.busyTimes": busyTimes }
     });
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, thisMeeting.windowStart, thisMeeting.windowEnd);
     var availableTimes = findOverlap(thisMeeting.availableTimes, loggedInUserAvailableTimes);
@@ -338,6 +336,16 @@ Meteor.methods({
     for (i = 0; i < sentIds.length; i++) {
       updateBusyTimes(sentIds[i]);
     }
+  },
+
+  // Flip to the next page of duration long blocks available, set as suggested times
+  getMoreSuggestedTimes: function(meetingId) {
+    var meeting = Meetings.findOne(meetingId);
+    var available = meeting.durationLongAvailableTimes;
+    var index = meeting.suggestedRangeIndex;
+    if (!index) index = 1;
+    if (index > (available.length / 5)) index -= 1;
+    saveSuggestedMeetingTimes(meetingId, available, index);
   },
 });
 
@@ -779,23 +787,22 @@ function findDurationLongMeetingTimes(meetingId) {
   }
 
   Meetings.update(meetingId, {
-    $set: {
-      //"durationLongAvailableTimes" : [{"startTime": 2, "endTime": 2}]
-      "durationLongAvailableTimes" : durationLongBlocks
-    }
+    $set: { "durationLongAvailableTimes" : durationLongBlocks }
   });
 
-  saveSuggestedMeetingTimes(meetingId, durationLongBlocks);
+  saveSuggestedMeetingTimes(meetingId, durationLongBlocks, 0);
 
   return durationLongBlocks;
-
 }
 
 // save what we will present as meeting times to the user
 // currently the first 5 meeting times chronologically
-function saveSuggestedMeetingTimes(meetingId, durationLongBlocks) {
+function saveSuggestedMeetingTimes(meetingId, durationLongBlocks, range) {
   Meetings.update(meetingId, {
-      $set: { "suggestedMeetingTimes": durationLongBlocks.slice(0, 5) }
+    $set: { 'suggestedRangeIndex': range }
+  });
+  Meetings.update(meetingId, {
+    $set: { "suggestedMeetingTimes": durationLongBlocks.slice(range * 5, (range + 1) * 5) }
   });
 }
 
