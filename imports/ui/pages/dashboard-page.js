@@ -256,6 +256,10 @@ Template.dashboard_page.events({
       if (error) {
         console.log("Error in addBusyTimes: " + error);
       } else {
+
+        // not sure if we should only say success if the next two Meteor.call are successful
+        Bert.alert( 'Success! Extra busy time added.', 'success', 'growl-bottom-left' );
+
         Meteor.call("getFullCalendarAdditional", function(error, result) {
           if (error) console.log(error);
           $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
@@ -264,6 +268,7 @@ Template.dashboard_page.events({
         Meteor.call('updateMeetableTimes', function(error, result) {
           if (error) console.log('updateBusyTimes: ' + error);
         });
+
       }
     });
   },
