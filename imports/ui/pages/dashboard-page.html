@@ -219,13 +219,13 @@
   <!-- user already accepted invite, now waiting on other participants to accept -->
   {{#if acceptedInvite}}
   <div class="row container-fluid">
-  <div class="card invite-card">
-  <div class="card-block invite-card-block">
+    <div class="card invite-card">
+      <div class="card-block invite-card-block">
         <span class="label label-primary">Accepted, waiting for host to finalize time.</span>
-    <div class="col-md-12">
-      <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
-    </div>
-    </div>
+        <div class="col-md-12">
+          <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
+        </div>
+      </div>
     </div>
   </div>
   <!-- user has not accepted invite -->
@@ -269,31 +269,44 @@
       <div class="card-block invite-card-block">
         <div class="col-md-10">
           <h4>{{inviterName}}</h4> <p> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})</p>
+        </div>
+        <form>
+        {{#if suggestedTimes}}
+                <div class="col-md-12">
+                <p>Please select a time for the meeting:</p>
+          {{#each suggestedTimes}}
+            <div class="radio">
+              <label>
+                <input type="radio" name="myForm" value="{{@index}}" checked="">
+                {{formattedStart}} - {{formattedEnd}}
+              </label>
+            </div>
+          {{/each}}
+          <div class="pull-left">
+            <!-- left button is disabled by default, and we must remove this
+            attribute when they click right-->
+            <button type="button" class="btn" id="prevSuggestedTimes" disabled>
+              <span class="glyphicon glyphicon-arrow-left"></span>
+            </button>
+            <button type="button" class="btn" id="nextSuggestedTimes">
+              <span class="glyphicon glyphicon-arrow-right"></span>
+            </button>
           </div>
-          <form>
-          {{#if suggestedTimes}}
-                  <div class="col-md-12">
-                  <p>Please select a time for the meeting:</p>
-            {{#each suggestedTimes}}
-              <div class="radio">
-                <label>
-                  <input type="radio" name="myForm" value="{{@index}}" checked="">
-                  {{formattedStart}} - {{formattedEnd}}
-                </label>
-              </div>
-            {{/each}}
+          <div class="pull-right">
             <button type="cancel" class="btn" id="cancelInvite">Cancel</button>
             <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          {{else}}
-            <button type="delete" class="close" id="deleteMeeting" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <div class="col-md-8">
-              <p> You are not meetable for this time window. Please reschedule!</p>
-            </div>
-          {{/if}}
-          </form>
+          </div>
+
+          </div>
+        {{else}}
+          <button type="delete" class="close" id="deleteMeeting" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="col-md-8">
+            <p> You are not meetable for this time window. Please reschedule!</p>
+          </div>
+        {{/if}}
+        </form>
       </div>
     </div>
   </div>
@@ -356,6 +369,9 @@
                   </label>
                 </div>
               {{/each}}
+
+              
+              
               <button type="cancel" class="btn btn-default" id="deleteInvite">Delete</button>
               <button type="submit" class="btn btn-primary">Submit</button>
             </form>

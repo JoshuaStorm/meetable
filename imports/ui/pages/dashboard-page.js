@@ -607,7 +607,15 @@ Template.selector.events({
           if (error) console.log('updateBusyTimes: ' + error);
         });
       });
-    }
+    },
+    'click #prevSuggestedTimes' :function(e) {
+      e.preventDefault();
+
+    },
+    'click #nextSuggestedTimes' :function(e) {
+      e.preventDefault();
+
+    },
 });
 
 Template.outgoing.helpers({
