@@ -88,7 +88,34 @@ Template.dashboard_page.onRendered( () => {
     header: {
       center: 'month,agendaWeek,agendaDay' // buttons for switching between views
     },
+    height: $('#dashboardRightCol').height() - 30, // -30 seems to produce a desired effect
+
   });
+
+  // Hacky fix but seems to work. The purpose this is that whenever the window resizes,
+  // we resize the 'contentHeight' of the full calendar (which is the part below the 
+  // toolbar). We set its height to the height of the dashboardRightCol - 80, where 80
+  // is a bit more than the height of the toolbar. But if the window is larger than 525 pixels,
+  // the toolbar spreads out and is only 50 pixels. This seems to produxe the desired effect 
+  $(document).ready(function() {
+    $(window).resize(function() {
+      if ($('#events-calendar').width() > 525){
+        $('#events-calendar').fullCalendar('option', 'contentHeight', $('#dashboardRightCol').height() - 50);
+      }
+      else {
+        var contentHeight = $('#dashboardRightCol').height() - 80;
+        $('#events-calendar').fullCalendar('option', 'contentHeight', contentHeight);
+      }
+    });
+  });
+
+  // If this is a mobile screen, the calendar is 500 pixels tall (can change based on aesthetic)
+  // Otherwise, set the contentHeight of the calendar to be equal to the height of the window - toolbar height
+  if ($(window).width() <= 768) {
+    $('#events-calendar').fullCalendar('option', 'contentHeight', "auto");
+  }
+  else if ($('#events-calendar').width() > 525) $('#events-calendar').fullCalendar('option', 'contentHeight', $('#dashboardRightCol').height() - 50);
+  else $('#events-calendar').fullCalendar('option', 'contentHeight', $('#dashboardRightCol').height() - 80);
 
   // initialize the date time picker
   this.$('.datetimepicker').datetimepicker();
