@@ -481,6 +481,13 @@ Template.selector.helpers({
     },
   suggestedTimes() {
     return Meetings.findOne(this.toString()).suggestedMeetingTimes;
+  },
+  suggestedRange() {
+      return moment(this.startTime).twix(moment(this.endTime)).format({
+        showDayOfWeek: true,
+        weekdayFormat: "ddd,",
+        meridiemFormat: "a",
+      });
   }
 });
 
@@ -589,6 +596,13 @@ Template.outgoingFinalize.helpers({
       participants = participants.concat(peopleList[i].email);
     }
     return participants;
+  },
+  suggestedRange() {
+    return moment(this.startTime).twix(moment(this.endTime)).format({
+      showDayOfWeek: true,
+      weekdayFormat: "ddd,",
+      meridiemFormat: "a",
+    });
   },
 });
 
