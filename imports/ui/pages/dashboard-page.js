@@ -2,6 +2,7 @@ import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import Meetings from '/collections/meetings.js'
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import moment from 'moment';
 
 import './dashboard-page.html';
 
