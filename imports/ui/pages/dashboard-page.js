@@ -312,33 +312,15 @@ Template.dashboard_page.events({
 /////////  additional template  /////////////
 /////////////////////////////////////////////
 Template.additional.helpers({
-  timeStart() {
-    var startDate = new Date(this.start);
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[startDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[startDate.getMonth()];
-    var date = startDate.getDate();
-    var year = startDate.getFullYear();
-    var hour = startDate.getHours();
-    if (hour < 10) hour = "0" + hour;
-    var min = startDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min);
-  },
-  timeEnd() {
-    var endDate = new Date(this.end);
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[endDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[endDate.getMonth()];
-    var date = endDate.getDate();
-    var year = endDate.getFullYear();
-    var hour = endDate.getHours();
-    if (hour < 10) hour = "0" + hour;
-    var min = endDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min);
+  additionalRange() {
+    // let start = Meetings.findOne(this.toString()).selectedBlock.startTime;
+    // let end = Meetings.findOne(this.toString()).selectedBlock.endTime;
+
+    return moment(this.start).twix(moment(this.end)).format({
+      showDayOfWeek: true,
+      weekdayFormat: "ddd,",
+      meridiemFormat: "a",
+    });
   }
 });
 
@@ -499,44 +481,6 @@ Template.selector.helpers({
     },
   suggestedTimes() {
     return Meetings.findOne(this.toString()).suggestedMeetingTimes;
-  },
-  formattedStart() {
-    var startDate = new Date(this.startTime);
-    var pm = "AM";
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[startDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[startDate.getMonth()];
-    var date = startDate.getDate();
-    var year = startDate.getFullYear();
-    var hour = startDate.getHours();
-    if (hour > 12) {
-      hour = hour - 12;
-      pm = "PM";
-    }
-    if (hour < 10) hour = "0" + hour;
-    var min = startDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
-  },
-  formattedEnd() {
-    var endDate = new Date(this.endTime);
-    var pm = "AM";
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[endDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[endDate.getMonth()];
-    var date = endDate.getDate();
-    var year = endDate.getFullYear();
-    var hour = endDate.getHours();
-    if (hour > 12) {
-      hour = hour - 12;
-      pm = "PM";
-    }
-    if (hour < 10) hour = "0" + hour;
-    var min = endDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
   }
 });
 
@@ -646,44 +590,6 @@ Template.outgoingFinalize.helpers({
     }
     return participants;
   },
-  formattedStart() {
-    var startDate = new Date(this.startTime);
-    var pm = "AM";
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[startDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[startDate.getMonth()];
-    var date = startDate.getDate();
-    var year = startDate.getFullYear();
-    var hour = startDate.getHours();
-    if (hour > 12) {
-      hour = hour - 12;
-      pm = "PM";
-    }
-    if (hour < 10) hour = "0" + hour;
-    var min = startDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
-  },
-  formattedEnd() {
-    var endDate = new Date(this.endTime);
-    var pm = "AM";
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[endDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[endDate.getMonth()];
-    var date = endDate.getDate();
-    var year = endDate.getFullYear();
-    var hour = endDate.getHours();
-    if (hour > 12) {
-      hour = hour - 12;
-      pm = "PM";
-    }
-    if (hour < 10) hour = "0" + hour;
-    var min = endDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
-  }
 });
 
 Template.outgoingFinalize.events({
