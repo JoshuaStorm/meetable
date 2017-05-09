@@ -381,10 +381,32 @@
                 </div>
               {{/each}}
 
-
-
-              <button type="cancel" class="btn btn-default" id="deleteInvite">Delete</button>
-              <button type="submit" class="btn btn-primary">Submit</button>
+              <div class="pull-left">
+                <!-- left button is disabled by default, and we must remove this
+                attribute when they click right-->
+                {{#if noPrevSuggested}}
+                  <button type="button" class="btn" id="prevSuggestedTimes" disabled>
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                  </button>
+                {{else}}
+                  <button type="button" class="btn" id="prevSuggestedTimes">
+                    <span class="glyphicon glyphicon-arrow-left"></span>
+                  </button>
+                {{/if}}
+                {{#if noNextSuggested}}
+                  <button type="button" class="btn" id="nextSuggestedTimes" disabled>
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                  </button>
+                {{else}}
+                  <button type="button" class="btn" id="nextSuggestedTimes">
+                    <span class="glyphicon glyphicon-arrow-right"></span>
+                  </button>
+                {{/if}}
+              </div>
+              <div class="pull-right">
+                <button type="cancel" class="btn" id="deleteInvite">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
             </form>
           </div>
         </div>
