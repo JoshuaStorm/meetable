@@ -1,3 +1,7 @@
+html, body {
+  overflow-x: hidden;
+}
+
 #dashboardLeftCol, #dashboardRightCol {
   /* Very hacky way to get both divs to take the height under the nav bar */
   /* if we ever have vertical layout issues, this is probably why */
@@ -49,6 +53,9 @@ hr {
 #meetable-name {
   font-size: 3rem;
   font-weight: bold;
+
+  display: inline-block;  /*so it will go on same line as rest of navbar*/
+  margin: 10px 0px auto 15px;
 }
 
 #events-calendar {
