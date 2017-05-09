@@ -569,7 +569,23 @@ Template.selector.helpers({
     var min = endDate.getMinutes();
     if (min < 10) min = "0" + min;
     return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
-  }
+  },
+  noPrevSuggested() {
+    var meeting = Meetings.findOne(this.toString());
+    var available = meeting.durationLongAvailableTimes;
+    var index = meeting.suggestedRangeIndex;
+
+    if ((index - 1) < 0) return true;
+    return false;
+  },
+  noNextSuggested() {
+    var meeting = Meetings.findOne(this.toString());
+    var available = meeting.durationLongAvailableTimes;
+    var index = meeting.suggestedRangeIndex;
+
+    if ((index + 1) > (available.length / 5)) return true;
+    return false;
+  },
 });
 
 Template.selector.events({
@@ -610,11 +626,15 @@ Template.selector.events({
     },
     'click #prevSuggestedTimes' :function(e) {
       e.preventDefault();
-
+      Meteor.call('getPrevSuggestedTimes', this.toString(), function(error, result) {
+        if (error) console.log('getPrevSuggestedTimes: ' + error);
+      });
     },
     'click #nextSuggestedTimes' :function(e) {
       e.preventDefault();
-
+      Meteor.call('getNextSuggestedTimes', this.toString(), function(error, result) {
+        if (error) console.log('getNextSuggestedTimes: ' + error);
+      });
     },
 });
 

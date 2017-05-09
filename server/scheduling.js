@@ -339,12 +339,29 @@ Meteor.methods({
   },
 
   // Flip to the next page of duration long blocks available, set as suggested times
-  getMoreSuggestedTimes: function(meetingId) {
+  getPrevSuggestedTimes: function(meetingId) {
     var meeting = Meetings.findOne(meetingId);
     var available = meeting.durationLongAvailableTimes;
     var index = meeting.suggestedRangeIndex;
+
+    if (!index) index = 0;
+    else index--;
+
+    if (index < 0) index = 0;
+
+    saveSuggestedMeetingTimes(meetingId, available, index);
+  },
+
+  // Flip to the next page of duration long blocks available, set as suggested times
+  getNextSuggestedTimes: function(meetingId) {
+    var meeting = Meetings.findOne(meetingId);
+    var available = meeting.durationLongAvailableTimes;
+    var index = meeting.suggestedRangeIndex;
+
     if (!index) index = 1;
-    if (index > (available.length / 5)) index -= 1;
+    else index++;
+
+    if (index > (available.length / 5)) index--;
     saveSuggestedMeetingTimes(meetingId, available, index);
   },
 });
