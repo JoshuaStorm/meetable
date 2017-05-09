@@ -36,9 +36,6 @@ public.route('/', {
     Tracker.autorun(function() {
       if (!Meteor.loggingIn()) BlazeLayout.render('App_body', { main: 'login_page' });
     });
-  },
-  subscriptions: function(params) {
-    Accounts.loginServicesConfigured();
   }
 });
 
