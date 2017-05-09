@@ -362,7 +362,8 @@ Meteor.methods({
     if (!index) index = 1;
     else index++;
 
-    if (index > (available.length / 5)) index--;
+    if (index >= (available.length / 5)) index--;
+    
     saveSuggestedMeetingTimes(meetingId, available, index);
   },
 });
