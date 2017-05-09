@@ -224,6 +224,7 @@
         <span class="label label-primary">Accepted, waiting for host to finalize time.</span>
     <div class="col-md-12">
       <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
+      <p>{{incomingWindowRange}}</p>
     </div>
     </div>
     </div>
@@ -308,10 +309,10 @@
     <div class="card invite-card">
       <div class="card-block invite-card-block">
         <div class="col-md-6">
-            <span class="label label-warning">Waiting for responses...</span>
-
+          <span class="label label-warning">Waiting for responses...</span>
           <h5>{{meetingTitle}} ({{meetingDuration}})</h5>
           <p>Participants: {{meetingParticipants}}</p>
+          <p>{{outgoingWindowRange}}</p>
         </div>
         <button type="cancel" class="close" id="deleteOutgoing" aria-label="Close">
           <span aria-hidden="true">&times;</span>
