@@ -2,6 +2,8 @@ import { Template } from 'meteor/templating';
 import { Meteor } from 'meteor/meteor';
 import Meetings from '/collections/meetings.js'
 import { FlowRouter } from 'meteor/kadira:flow-router';
+import moment from 'moment';
+import twix from 'twix';
 
 import './dashboard-page.html';
 
@@ -280,8 +282,6 @@ Template.dashboard_page.events({
 
     if (!endTime.isAfter(startTime)) {
       Bert.alert( 'End time must be after start time. ', 'danger', 'growl-bottom-left');
-
-      // don't actually insert the busy time into the DB if it is invalid
       return;
     }
 
@@ -346,33 +346,15 @@ Template.dashboard_page.events({
 /////////  additional template  /////////////
 /////////////////////////////////////////////
 Template.additional.helpers({
-  timeStart() {
-    var startDate = new Date(this.start);
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[startDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[startDate.getMonth()];
-    var date = startDate.getDate();
-    var year = startDate.getFullYear();
-    var hour = startDate.getHours();
-    if (hour < 10) hour = "0" + hour;
-    var min = startDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min);
-  },
-  timeEnd() {
-    var endDate = new Date(this.end);
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[endDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[endDate.getMonth()];
-    var date = endDate.getDate();
-    var year = endDate.getFullYear();
-    var hour = endDate.getHours();
-    if (hour < 10) hour = "0" + hour;
-    var min = endDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min);
+  additionalRange() {
+    // let start = Meetings.findOne(this.toString()).selectedBlock.startTime;
+    // let end = Meetings.findOne(this.toString()).selectedBlock.endTime;
+
+    return moment(this.start).twix(moment(this.end)).format({
+      showDayOfWeek: true,
+      weekdayFormat: "ddd,",
+      meridiemFormat: "a",
+    });
   }
 });
 
@@ -534,43 +516,12 @@ Template.selector.helpers({
   suggestedTimes() {
     return Meetings.findOne(this.toString()).suggestedMeetingTimes;
   },
-  formattedStart() {
-    var startDate = new Date(this.startTime);
-    var pm = "AM";
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[startDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[startDate.getMonth()];
-    var date = startDate.getDate();
-    var year = startDate.getFullYear();
-    var hour = startDate.getHours();
-    if (hour > 12) {
-      hour = hour - 12;
-      pm = "PM";
-    }
-    if (hour < 10) hour = "0" + hour;
-    var min = startDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
-  },
-  formattedEnd() {
-    var endDate = new Date(this.endTime);
-    var pm = "AM";
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[endDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[endDate.getMonth()];
-    var date = endDate.getDate();
-    var year = endDate.getFullYear();
-    var hour = endDate.getHours();
-    if (hour > 12) {
-      hour = hour - 12;
-      pm = "PM";
-    }
-    if (hour < 10) hour = "0" + hour;
-    var min = endDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
+  suggestedRange() {
+      return moment(this.startTime).twix(moment(this.endTime)).format({
+        showDayOfWeek: true,
+        weekdayFormat: "ddd,",
+        meridiemFormat: "a",
+      });
   }
 });
 
@@ -680,44 +631,13 @@ Template.outgoingFinalize.helpers({
     }
     return participants;
   },
-  formattedStart() {
-    var startDate = new Date(this.startTime);
-    var pm = "AM";
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[startDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[startDate.getMonth()];
-    var date = startDate.getDate();
-    var year = startDate.getFullYear();
-    var hour = startDate.getHours();
-    if (hour > 12) {
-      hour = hour - 12;
-      pm = "PM";
-    }
-    if (hour < 10) hour = "0" + hour;
-    var min = startDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
+  suggestedRange() {
+    return moment(this.startTime).twix(moment(this.endTime)).format({
+      showDayOfWeek: true,
+      weekdayFormat: "ddd,",
+      meridiemFormat: "a",
+    });
   },
-  formattedEnd() {
-    var endDate = new Date(this.endTime);
-    var pm = "AM";
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[endDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[endDate.getMonth()];
-    var date = endDate.getDate();
-    var year = endDate.getFullYear();
-    var hour = endDate.getHours();
-    if (hour > 12) {
-      hour = hour - 12;
-      pm = "PM";
-    }
-    if (hour < 10) hour = "0" + hour;
-    var min = endDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
-  }
 });
 
 Template.outgoingFinalize.events({
@@ -764,15 +684,15 @@ Template.finalizedMeeting.helpers({
   meetingTitle() {
     return Meetings.findOne(this.toString()).title;
   },
-  selectedStart() {
-    var start = Meetings.findOne(this.toString()).selectedBlock.startTime;
-    var time = new Date(start).toLocaleString();
-    return time;
-  },
-  selectedEnd() {
-    var end = Meetings.findOne(this.toString()).selectedBlock.endTime;
-    var time = new Date(end).toLocaleString();
-    return time;
+  selectedrange() {
+    let start = Meetings.findOne(this.toString()).selectedBlock.startTime;
+    let end = Meetings.findOne(this.toString()).selectedBlock.endTime;
+
+    return moment(start).twix(end).format({
+      showDayOfWeek: true,
+      weekdayFormat: "ddd,",
+      meridiemFormat: "a",
+    });
   },
   addedToGCal: function() {
     var thisMeeting = Meetings.findOne(this.toString());
