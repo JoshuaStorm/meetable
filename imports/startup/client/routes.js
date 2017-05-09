@@ -37,7 +37,7 @@ public.route('/', {
       if (!Meteor.loggingIn()) BlazeLayout.render('App_body', { main: 'login_page' });
     });
   },
-  waitOn: function() {
+  subscriptions: function(params) {
     Accounts.loginServicesConfigured();
   }
 });
