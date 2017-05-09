@@ -567,7 +567,7 @@ Template.selector.helpers({
     var available = meeting.durationLongAvailableTimes;
     var index = meeting.suggestedRangeIndex;
 
-    if ((index + 1) > (available.length / 5)) return true;
+    if ((index + 1) >= (available.length / 5)) return true;
     return false;
   },
   suggestedRange() {
