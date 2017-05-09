@@ -34,7 +34,7 @@ public.route('/', {
   name: 'App.home',
   action: function(params) {
     Tracker.autorun(function() {
-      BlazeLayout.render('App_body', { main: 'login_page' });
+      if (!Meteor.loggingIn()) BlazeLayout.render('App_body', { main: 'login_page' });
     });
   },
   waitOn: function() {
