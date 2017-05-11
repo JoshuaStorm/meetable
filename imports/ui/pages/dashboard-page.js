@@ -96,10 +96,10 @@ Template.dashboard_page.onRendered( () => {
   });
 
   // Hacky fix but seems to work. The purpose this is that whenever the window resizes,
-  // we resize the 'contentHeight' of the full calendar (which is the part below the 
+  // we resize the 'contentHeight' of the full calendar (which is the part below the
   // toolbar). We set its height to the height of the dashboardRightCol - 80, where 80
   // is a bit more than the height of the toolbar. But if the window is larger than 525 pixels,
-  // the toolbar spreads out and is only 50 pixels. This seems to produxe the desired effect 
+  // the toolbar spreads out and is only 50 pixels. This seems to produxe the desired effect
   $(document).ready(function() {
     $(window).resize(function() {
       if ($('#events-calendar').width() > 525){
@@ -526,6 +526,60 @@ Template.selector.helpers({
   suggestedTimes() {
     return Meetings.findOne(this.toString()).suggestedMeetingTimes;
   },
+  formattedStart() {
+    var startDate = new Date(this.startTime);
+    var pm = "AM";
+    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    var day = weekday[startDate.getDay()];
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var month = months[startDate.getMonth()];
+    var date = startDate.getDate();
+    var year = startDate.getFullYear();
+    var hour = startDate.getHours();
+    if (hour > 12) {
+      hour = hour - 12;
+      pm = "PM";
+    }
+    if (hour < 10) hour = "0" + hour;
+    var min = startDate.getMinutes();
+    if (min < 10) min = "0" + min;
+    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
+  },
+  formattedEnd() {
+    var endDate = new Date(this.endTime);
+    var pm = "AM";
+    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    var day = weekday[endDate.getDay()];
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var month = months[endDate.getMonth()];
+    var date = endDate.getDate();
+    var year = endDate.getFullYear();
+    var hour = endDate.getHours();
+    if (hour > 12) {
+      hour = hour - 12;
+      pm = "PM";
+    }
+    if (hour < 10) hour = "0" + hour;
+    var min = endDate.getMinutes();
+    if (min < 10) min = "0" + min;
+    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
+  },
+  noPrevSuggested() {
+    var meeting = Meetings.findOne(this.toString());
+    var available = meeting.durationLongAvailableTimes;
+    var index = meeting.suggestedRangeIndex;
+
+    if ((index - 1) < 0) return true;
+    return false;
+  },
+  noNextSuggested() {
+    var meeting = Meetings.findOne(this.toString());
+    var available = meeting.durationLongAvailableTimes;
+    var index = meeting.suggestedRangeIndex;
+
+    if ((index + 1) >= (available.length / 5)) return true;
+    return false;
+  },
   suggestedRange() {
     return moment(this.startTime).twix(moment(this.endTime)).format({
       showDayOfWeek: true,
@@ -570,7 +624,19 @@ Template.selector.events({
           if (error) console.log('updateBusyTimes: ' + error);
         });
       });
-    }
+    },
+    'click #prevSuggestedTimes' :function(e) {
+      e.preventDefault();
+      Meteor.call('getPrevSuggestedTimes', this.toString(), function(error, result) {
+        if (error) console.log('getPrevSuggestedTimes: ' + error);
+      });
+    },
+    'click #nextSuggestedTimes' :function(e) {
+      e.preventDefault();
+      Meteor.call('getNextSuggestedTimes', this.toString(), function(error, result) {
+        if (error) console.log('getNextSuggestedTimes: ' + error);
+      });
+    },
 });
 
 Template.outgoing.helpers({
@@ -773,10 +839,10 @@ Template.calendar.events({
 
 Template.finalizedMeeting.events({
   'click #pushEvent': function(e) {
-     //add code below to push the event to gcal
-     Meteor.call('addMeetingToUserCalendar', this.toString(), function(error, result) {
-       if (error) console.log('addMeetingToUserCalendar: ' + error);
-     });
+   //add code below to push the event to gcal
+   Meteor.call('addMeetingToUserCalendar', this.toString(), function(error, result) {
+     if (error) console.log('addMeetingToUserCalendar: ' + error);
+   });
   }
 });
 
