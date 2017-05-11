@@ -2,6 +2,12 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## May 6-11, 2017 (Josh)
+- Add backend handling for showing more suggested times to the user.
+- Fix an issue where we were redirecting to ROOT then back to ROOT/dashboard_page upon refresh
+- Fix waitOns that should ahve been subscriptions.
+- Last second bug fixes for the presentation... Oops
+
 ## May 7, 2017 (Casey)
 - Light UI changes: centering the logo on login page, narrowing down the containers for instruction labels, adding 10px padding to the top of dashboard for breathing room between nav bar and content
 - Changes to date formatting from ISO code to natural language throughout the app (i.e. May 5, 2018 5:15pm)
