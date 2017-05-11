@@ -2,6 +2,12 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## May 11, 2017 (Casey)
+- Finalizing and merging PRs for:
+    - showing Scheduling Window Range on all outgoing and incoming invites (David)
+    - showing 'more' suggestedTimes (Josh)
+    - when pushing an event to GCal, remove it from our database and on refresh only display the blue Gcal event, not the red Meetable event on calendar display
+
 ## May 6-11, 2017 (Josh)
 - Add backend handling for showing more suggested times to the user.
 - Fix an issue where we were redirecting to ROOT then back to ROOT/dashboard_page upon refresh
