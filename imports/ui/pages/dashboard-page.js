@@ -452,6 +452,16 @@ Template.incoming.helpers({
         return currUser.accepted;
       }
     }
+  },
+  incomingWindowRange() {
+    let windowStart = Meetings.findOne(this.toString()).windowStart;
+    let windowEnd = Meetings.findOne(this.toString()).windowEnd;
+
+    return moment(windowStart).twix(moment(windowEnd)).format({
+      showDayOfWeek: true,
+      weekdayFormat: "ddd,",
+      meridiemFormat: "a",
+    });
   }
 });
 
@@ -571,11 +581,11 @@ Template.selector.helpers({
     return false;
   },
   suggestedRange() {
-      return moment(this.startTime).twix(moment(this.endTime)).format({
-        showDayOfWeek: true,
-        weekdayFormat: "ddd,",
-        meridiemFormat: "a",
-      });
+    return moment(this.startTime).twix(moment(this.endTime)).format({
+      showDayOfWeek: true,
+      weekdayFormat: "ddd,",
+      meridiemFormat: "a",
+    });
   }
 });
 
@@ -658,6 +668,16 @@ Template.outgoing.helpers({
       readyOutgoing = true;
     }
     return readyOutgoing;
+  },
+  outgoingWindowRange() {
+    let windowStart = Meetings.findOne(this.toString()).windowStart;
+    let windowEnd = Meetings.findOne(this.toString()).windowEnd;
+
+    return moment(windowStart).twix(moment(windowEnd)).format({
+      showDayOfWeek: true,
+      weekdayFormat: "ddd,",
+      meridiemFormat: "a",
+    });
   }
 });
 
