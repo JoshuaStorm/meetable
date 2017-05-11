@@ -223,8 +223,8 @@
   <div class="card-block invite-card-block">
         <span class="label label-primary">Accepted, waiting for host to finalize time.</span>
     <div class="col-md-12">
-      <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
-      <p>{{incomingWindowRange}}</p>
+      <h4>{{inviterName}}</h4> <p>invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})</p>
+      <p> Scheduling Window: <br> {{incomingWindowRange}}</p>
     </div>
     </div>
     </div>
@@ -234,8 +234,9 @@
   <div class="row container-fluid">
     <div class="card invite-card">
       <div class="card-block invite-card-block">
-        <div class="col-md-6">
-          <h4>{{inviterName}}</h4> invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})
+        <div class="col-md-8">
+          <h4>{{inviterName}}</h4> <p>invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})</p>
+          <p> Scheduling Window: <br> {{incomingWindowRange}}</p>
         </div>
         <button type="button" class="btn btn-default pull-right" id="declineInvite">Decline</button>
         <button type="save" class="btn btn-primary pull-right" id="acceptInvite">Accept</button>
