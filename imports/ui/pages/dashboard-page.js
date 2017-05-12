@@ -40,45 +40,45 @@ Template.dashboard_page.helpers({
       return Meteor.userId();
     },
     invites:function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.meetingInvitesReceived;
+      var user = Meteor.users.findOne(Meteor.userId());
+      if (user && user.profile) return user.profile.meetingInvitesReceived;
     },
     numIncoming:function() { // for badge
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.meetingInvitesReceived.length;
+      var user = Meteor.users.findOne(Meteor.userId());
+      if (user && user.profile) return user.profile.meetingInvitesReceived.length;
     },
     outgoingMeetings:function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.meetingInvitesSent;
+      var user = Meteor.users.findOne(Meteor.userId());
+      if (user && user.profile) return user.profile.meetingInvitesSent;
     },
     numOutgoing:function() { // for badge
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.meetingInvitesSent.length;
+      var user = Meteor.users.findOne(Meteor.userId());
+      if (user && user.profile) return user.profile.meetingInvitesSent.length;
     },
     final: function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.finalizedMeetings;
+      var user = Meteor.users.findOne(Meteor.userId());
+      if (user && user.profile) return user.profile.finalizedMeetings;
     },
     numFinalized:function() { // for badge
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.finalizedMeetings.length;
+      var user = Meteor.users.findOne(Meteor.userId());
+      if (user && user.profile) return user.profile.finalizedMeetings.length;
     },
     additionalTime: function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.additionalBusyTimes;
+      var user = Meteor.users.findOne(Meteor.userId());
+      if (user && user.profile) return user.profile.additionalBusyTimes;
     },
     userCalendars: function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return Object.keys(profile.calendars);
+      var user = Meteor.users.findOne(Meteor.userId());
+      if (user && user.profile) return Object.keys(user.profile.calendars);
     },
     earliestTime: function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.meetRange.earliest;
+      var user = Meteor.users.findOne(Meteor.userId());
+      if (user && user.profile) return user.profile.meetRange.earliest;
       return "09:00";
     },
     latestTime: function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.meetRange.latest;
+      var user = Meteor.users.findOne(Meteor.userId());
+      if (user && user.profile) return user.profile.meetRange.latest;
       return "22:00";
     }
 });
@@ -93,6 +93,47 @@ Template.dashboard_page.onRendered( () => {
     },
     height: $('#dashboardRightCol').height() - 30, // -30 seems to produce a desired effect
 
+  });
+
+  // TODO: Should only need to attach Temp data if new signup but our current routing doesn't seem to expose signup vs. signin
+  Meteor.call('getAuthInfo', function() {
+    var timeZoneOffset = new Date().getTimezoneOffset();
+    Meteor.call('setUserTimeZoneOffset', timeZoneOffset, function(error, result) { if (error) console.log('setUserTimeZoneOffset: ' + error)});
+    Meteor.call('attachTempUser', function(error, result) { if (error) console.log('attachTempUser: ' + error)});
+    Meteor.call('deleteOldMeetings', function(error, result) { if (error) console.log('deleteOldMeetings: ' + error)});
+    Meteor.call('getCalendarList', function(error, result) {
+      if (error) console.log('getCalendarList: ' + error);
+      Meteor.call('getFullCalendarConsidered', false, function(error, result) {
+        if (error) console.log(error);
+        if (result) {
+          for (var id in result) {
+            var events = result[id];
+            var busyId = 'gCalBusy' + id;
+            var availableId = 'gCalAvailable' + id;
+
+            $( '#events-calendar' ).fullCalendar('removeEventSource', busyId);
+            $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
+            $( '#events-calendar' ).fullCalendar('addEventSource', { id: busyId, events: events.busy });
+            $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: events.available });
+          }
+        }
+        Meteor.call("updateEventsInDB", function(error, result) {});
+      });
+    });
+    Meteor.call('getFullCalendarFinalized', function(error, result) {
+      if (error) console.log(error);
+      if (result) {
+        $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
+      }
+    });
+    Meteor.call("getFullCalendarAdditional", function(error, result) {
+      if (error) console.log(error);
+      if (result) {
+        $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
+      }
+    });
   });
 
   // Hacky fix but seems to work. The purpose this is that whenever the window resizes,
@@ -795,12 +836,12 @@ Template.finalizedMeeting.helpers({
 
 Template.calendar.helpers({
   calendarTitle: function() {
-    var profile = Meteor.users.findOne(Meteor.userId()).profile;
-    if (profile) return profile.calendars[this.toString()].title;
+    var user = Meteor.users.findOne(Meteor.userId());
+    if (user && user.profile) return user.profile.calendars[this.toString()].title;
   },
   isChecked: function() {
-    var profile = Meteor.users.findOne(Meteor.userId()).profile;
-    if (profile) return profile.calendars[this.toString()].considered;
+    var user = Meteor.users.findOne(Meteor.userId());
+    if (user && user.profile) return user.profile.calendars[this.toString()].considered;
   }
 });
 
