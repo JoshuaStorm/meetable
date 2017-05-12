@@ -135,7 +135,6 @@ Meteor.methods({
       var gCalEvents = wrappedGetEventList({
           'calendarId': calendarId,
           'timeMin': lastWeek.toISOString(),
-          'timeMax': nextWeek.toISOString(),
           'singleEvents': true,
           'orderBy': 'startTime'
       });
