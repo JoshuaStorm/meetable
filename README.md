@@ -1,8 +1,8 @@
 # Meetable
 
 ## Check out the app! 
-## [Deployed here](https://meetable-us.herokuapp.com/)
-## [Codebase here](https://github.com/JoshuaStorm/meetable)
+### [Deployed here](https://meetable-us.herokuapp.com/)
+### [Codebase here](https://github.com/JoshuaStorm/meetable)
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
