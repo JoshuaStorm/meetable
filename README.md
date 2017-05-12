@@ -1,5 +1,7 @@
 # Meetable
 
+## Check out the app! https://meetable-us.herokuapp.com/
+
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
 ## May 11, 2017 (Josh)
