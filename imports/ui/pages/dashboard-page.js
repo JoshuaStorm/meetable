@@ -117,7 +117,12 @@ Template.dashboard_page.onRendered( () => {
             $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: events.available });
           }
         }
-        Meteor.call("updateEventsInDB", function(error, result) {});
+        Meteor.call('updateEventsInDB', function(error, result) {
+          if (error) {
+            console.log("Why does this guy error so often?");
+            console.log('updateEventsInDB: ' + error);
+          }
+        });
       });
     });
     Meteor.call('getFullCalendarFinalized', function(error, result) {
@@ -385,9 +390,6 @@ Template.dashboard_page.events({
 /////////////////////////////////////////////
 Template.additional.helpers({
   additionalRange() {
-    // let start = Meetings.findOne(this.toString()).selectedBlock.startTime;
-    // let end = Meetings.findOne(this.toString()).selectedBlock.endTime;
-
     return moment(this.start).twix(moment(this.end)).format({
       showDayOfWeek: true,
       weekdayFormat: "ddd,",
@@ -423,6 +425,7 @@ Template.additional.events({
 Template.invite.helpers({
   inviteType: function() {
     var thisMeeting = Meetings.findOne(this.toString());
+    if (!thisMeeting) return;
     // iterate through all meeting participants to find index in array for the current user
     // start with index 1 because you can skip the first participant ( creator)
     Meteor.call('readyToFinalize', this.toString(), function(error, result) {
@@ -468,38 +471,45 @@ Template.invite.events({
 
 Template.incoming.helpers({
   inviterName() {
-      // This should show a list of users
-      return Meetings.findOne(this.toString()).participants[0].email;
-    },
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.participants) return meeting.participants[0].email;
+  },
   meetingTitle() {
-      return Meetings.findOne(this.toString()).title;
-    },
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) return meeting.title;
+  },
   meetingDuration() {
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) {
       var length = Meetings.findOne(this.toString()).duration;
       var hour = Math.floor(length / (1000 * 60 * 60));
       var minute = (length / (1000 * 60)) % 60;
       return hour + "hr " + minute + "min";
-    },
+    }
+  },
   acceptedInvite() {
-    var thisMeeting = Meetings.findOne(this.toString());
+    var meeting = Meetings.findOne(this.toString());
+    if (!meeting || !meeting.participants) return false;
     // iterate through all meeting participants to find index in array for the current user
-    // NOTE: Switch this to check all users, I don't think we should assume the first participant is always the creator. May get us into trouble later
-    for (var i = 0; i < thisMeeting.participants.length; i++) {
-      var currUser = thisMeeting.participants[i];
+    for (var i = 0; i < meeting.participants.length; i++) {
+      var currUser = meeting.participants[i];
       if (currUser.id === Meteor.userId()) { // current user found
         return currUser.accepted;
       }
     }
   },
   incomingWindowRange() {
-    let windowStart = Meetings.findOne(this.toString()).windowStart;
-    let windowEnd = Meetings.findOne(this.toString()).windowEnd;
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.windowStart && meeting.windowEnd) {
+      let windowStart = Meetings.findOne(this.toString()).windowStart;
+      let windowEnd = Meetings.findOne(this.toString()).windowEnd;
 
-    return moment(windowStart).twix(moment(windowEnd)).format({
-      showDayOfWeek: true,
-      weekdayFormat: "ddd,",
-      meridiemFormat: "a",
-    });
+      return moment(windowStart).twix(moment(windowEnd)).format({
+        showDayOfWeek: true,
+        weekdayFormat: "ddd,",
+        meridiemFormat: "a",
+      });
+    }
   }
 });
 
@@ -510,6 +520,7 @@ Template.incoming.helpers({
 Template.readyToFinalize.helpers({
   finalizeType: function() {
     var thisMeeting = Meetings.findOne(this.toString());
+    if (!thisMeeting) return;
     // iterate through all meeting participants to find index in array for the current user
     // start with index 1 because you can skip the first participant ( creator)
     for (var i = 1; i < thisMeeting.participants.length; i++) {
@@ -535,34 +546,45 @@ Template.readyToFinalize.onCreated( function() {
 
 Template.notSelector.helpers({
   inviterName() {
-      return Meetings.findOne(this.toString()).participants[0].email;
-    },
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.participants) return meeting.participants[0].email;
+  },
   meetingTitle() {
-      return Meetings.findOne(this.toString()).title;
-    },
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) return meeting.title;
+  },
   meetingDuration() {
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) {
       var length = Meetings.findOne(this.toString()).duration;
       var hour = Math.floor(length / (1000 * 60 * 60));
       var minute = (length / (1000 * 60)) % 60;
       return hour + "hr " + minute + "min";
-    },
+    }
+  },
 });
 
 Template.selector.helpers({
   inviterName() {
-      return Meetings.findOne(this.toString()).participants[0].email;
-    },
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.participants) return meeting.participants[0].email;
+  },
   meetingTitle() {
-      return Meetings.findOne(this.toString()).title;
-    },
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) meeting.title;
+  },
   meetingDuration() {
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) {
       var length = Meetings.findOne(this.toString()).duration;
       var hour = Math.floor(length / (1000 * 60 * 60));
       var minute = (length / (1000 * 60)) % 60;
       return hour + "hr " + minute + "min";
-    },
+    }
+  },
   suggestedTimes() {
-    return Meetings.findOne(this.toString()).suggestedMeetingTimes;
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) return meeting.suggestedMeetingTimes;
   },
   formattedStart() {
     var startDate = new Date(this.startTime);
@@ -604,19 +626,23 @@ Template.selector.helpers({
   },
   noPrevSuggested() {
     var meeting = Meetings.findOne(this.toString());
-    var available = meeting.durationLongAvailableTimes;
-    var index = meeting.suggestedRangeIndex;
+    if (meeting) {
+      var available = meeting.durationLongAvailableTimes;
+      var index = meeting.suggestedRangeIndex;
 
-    if ((index - 1) < 0) return true;
-    return false;
+      if ((index - 1) < 0) return true;
+      return false;
+    }
   },
   noNextSuggested() {
     var meeting = Meetings.findOne(this.toString());
-    var available = meeting.durationLongAvailableTimes;
-    var index = meeting.suggestedRangeIndex;
+    if (meeting) {
+      var available = meeting.durationLongAvailableTimes;
+      var index = meeting.suggestedRangeIndex;
 
-    if ((index + 1) >= (available.length / 5)) return true;
-    return false;
+      if ((index + 1) >= (available.length / 5)) return true;
+      return false;
+    }
   },
   suggestedRange() {
     return moment(this.startTime).twix(moment(this.endTime)).format({
@@ -679,43 +705,56 @@ Template.selector.events({
 
 Template.outgoing.helpers({
   meetingParticipants() {
-    var peopleList = Meetings.findOne(this.toString()).participants;
-    var participants = "";
-    var comma = ", ";
-    participants = participants.concat(peopleList[1].email);
-    for (var i = 2; i < peopleList.length; i++) {
-      participants = participants.concat(comma);
-      participants = participants.concat(peopleList[i].email);
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.participants) {
+      var peopleList = meeting.participants;
+      var participants = "";
+      var comma = ", ";
+      participants = participants.concat(peopleList[1].email);
+      for (var i = 2; i < peopleList.length; i++) {
+        participants = participants.concat(comma);
+        participants = participants.concat(peopleList[i].email);
+      }
+      return participants;
     }
-    return participants;
   },
   meetingTitle() {
-    return Meetings.findOne(this.toString()).title;
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) return meeting.title;
   },
   meetingDuration() {
-    var length = Meetings.findOne(this.toString()).duration;
-    var hour = Math.floor(length / (1000 * 60 * 60));
-    var minute = (length / (1000 * 60)) % 60;
-    return hour + "hr " + minute + "min";
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) {
+      var length = meeting.duration;
+      var hour = Math.floor(length / (1000 * 60 * 60));
+      var minute = (length / (1000 * 60)) % 60;
+      return hour + "hr " + minute + "min";
+    }
   },
   readyToFinalize() {
-    var readyOutgoing = false;
-    // an outgoing meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a group meeting
-    if (Meetings.findOne(this.toString()).readyToFinalize && Meetings.findOne(this.toString()).participants.length > 2)
-    {
-      readyOutgoing = true;
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) {
+      var readyOutgoing = false;
+      // an outgoing meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a group meeting
+      if (Meetings.findOne(this.toString()).readyToFinalize && Meetings.findOne(this.toString()).participants.length > 2)
+      {
+        readyOutgoing = true;
+      }
+      return readyOutgoing;
     }
-    return readyOutgoing;
   },
   outgoingWindowRange() {
-    let windowStart = Meetings.findOne(this.toString()).windowStart;
-    let windowEnd = Meetings.findOne(this.toString()).windowEnd;
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) {
+      let windowStart = Meetings.findOne(this.toString()).windowStart;
+      let windowEnd = Meetings.findOne(this.toString()).windowEnd;
 
-    return moment(windowStart).twix(moment(windowEnd)).format({
-      showDayOfWeek: true,
-      weekdayFormat: "ddd,",
-      meridiemFormat: "a",
-    });
+      return moment(windowStart).twix(moment(windowEnd)).format({
+        showDayOfWeek: true,
+        weekdayFormat: "ddd,",
+        meridiemFormat: "a",
+      });
+    }
   }
 });
 
@@ -730,30 +769,39 @@ Template.outgoing.events({
 
 Template.outgoingFinalize.helpers({
   inviterName() {
-      return Meetings.findOne(this.toString()).participants[0].email;
-    },
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.participants) return meeting.participants[0].email;
+  },
   meetingTitle() {
-      return Meetings.findOne(this.toString()).title;
-    },
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) return meeting.title;
+  },
   meetingDuration() {
-      var length = Meetings.findOne(this.toString()).duration;
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) {
+      var length = meeting.duration;
       var hour = Math.floor(length / (1000 * 60 * 60));
       var minute = (length / (1000 * 60)) % 60;
       return hour + "hr " + minute + "min";
-    },
+    }
+  },
   suggestedTimes:function() {
-        return Meetings.findOne(this.toString()).suggestedMeetingTimes;
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) return meeting.suggestedMeetingTimes;
     },
   participants() {
-    var peopleList = Meetings.findOne(this.toString()).participants;
-    var participants = "";
-    var comma = ", ";
-    participants = participants.concat(peopleList[1].email);
-    for (var i = 2; i < peopleList.length; i++) {
-      participants = participants.concat(comma);
-      participants = participants.concat(peopleList[i].email);
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.participants) {
+      var peopleList = Meetings.findOne(this.toString()).participants;
+      var participants = "";
+      var comma = ", ";
+      participants = participants.concat(peopleList[1].email);
+      for (var i = 2; i < peopleList.length; i++) {
+        participants = participants.concat(comma);
+        participants = participants.concat(peopleList[i].email);
+      }
+      return participants;
     }
-    return participants;
   },
   suggestedRange() {
     return moment(this.startTime).twix(moment(this.endTime)).format({
@@ -792,40 +840,50 @@ Template.outgoingFinalize.events({
 
 Template.finalizedMeeting.helpers({
   meetingHost() {
-    return Meetings.findOne(this.toString()).participants[0].email;
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.participants) return meeting.participants[0].email;
   },
   participants() {
-    var peopleList = Meetings.findOne(this.toString()).participants;
-    var participants = "";
-    var comma = ", ";
-    participants = participants.concat(peopleList[1].email);
-    for (var i = 2; i < peopleList.length; i++) {
-      participants = participants.concat(comma);
-      participants = participants.concat(peopleList[i].email);
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.participants) {
+      var peopleList = Meetings.findOne(this.toString()).participants;
+      var participants = "";
+      var comma = ", ";
+      participants = participants.concat(peopleList[1].email);
+      for (var i = 2; i < peopleList.length; i++) {
+        participants = participants.concat(comma);
+        participants = participants.concat(peopleList[i].email);
+      }
+      return participants;
     }
-    return participants;
   },
   meetingTitle() {
-    return Meetings.findOne(this.toString()).title;
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting) return meeting.title;
   },
   selectedrange() {
-    let start = Meetings.findOne(this.toString()).selectedBlock.startTime;
-    let end = Meetings.findOne(this.toString()).selectedBlock.endTime;
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.selectedBlock) {
+      let start = meeting.selectedBlock.startTime;
+      let end = meeting.selectedBlock.endTime;
 
-    return moment(start).twix(end).format({
-      showDayOfWeek: true,
-      weekdayFormat: "ddd,",
-      meridiemFormat: "a",
-    });
+      return moment(start).twix(end).format({
+        showDayOfWeek: true,
+        weekdayFormat: "ddd,",
+        meridiemFormat: "a",
+      });
+    }
   },
   addedToGCal: function() {
-    var thisMeeting = Meetings.findOne(this.toString());
-    // iterate through all meeting participants to find index in array for the current user
-    // NOTE: Switch this to check all users, I don't think we should assume the first participant is always the creator. May get us into trouble later
-    for (var i = 0; i < thisMeeting.participants.length; i++) {
-      var currUser = thisMeeting.participants[i];
-      if (currUser.id == Meteor.userId()) { // current user found
-        return currUser.addedToGCal;
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.participants) {
+      // iterate through all meeting participants to find index in array for the current user
+      // NOTE: Switch this to check all users, I don't think we should assume the first participant is always the creator. May get us into trouble later
+      for (var i = 0; i < meeting.participants.length; i++) {
+        var currUser = meeting.participants[i];
+        if (currUser.id == Meteor.userId()) { // current user found
+          return currUser.addedToGCal;
+        }
       }
     }
   }
