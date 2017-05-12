@@ -18,72 +18,76 @@ Date.prototype.toDateInputValue = (function() {
 /////////////////////////////////////////////
 
 Template.dashboard_page.helpers({
-    firstName: function(){
-      var user = Meteor.user();
-      if (user) {
-        return user.services.google.given_name;
-      }
-      else {
-        return "user that's not logged in"
-      }
-    },
-    email: function(){
-      var user = Meteor.user();
-      if (user) {
-        return user.services.google.email;
-      }
-      else {
-        return "user that's not logged in"
-      }
-    },
-    currentUser: function() {
-      return Meteor.userId();
-    },
-    invites:function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.meetingInvitesReceived;
-    },
-    numIncoming:function() { // for badge
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.meetingInvitesReceived.length;
-    },
-    outgoingMeetings:function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.meetingInvitesSent;
-    },
-    numOutgoing:function() { // for badge
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.meetingInvitesSent.length;
-    },
-    final: function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.finalizedMeetings;
-    },
-    numFinalized:function() { // for badge
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.finalizedMeetings.length;
-    },
-    additionalTime: function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.additionalBusyTimes;
-    },
-    userCalendars: function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return Object.keys(profile.calendars);
-    },
-    earliestTime: function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.meetRange.earliest;
-      return "09:00";
-    },
-    latestTime: function() {
-      var profile = Meteor.users.findOne(Meteor.userId()).profile;
-      if (profile) return profile.meetRange.latest;
-      return "22:00";
+  firstName: function(){
+    var user = Meteor.user();
+    if (user) {
+      return user.services.google.given_name;
     }
+    else {
+      return "user that's not logged in"
+    }
+  },
+  email: function(){
+    var user = Meteor.user();
+    if (user) {
+      return user.services.google.email;
+    }
+    else {
+      return "user that's not logged in"
+    }
+  },
+  currentUser: function() {
+    return Meteor.userId();
+  },
+  invites:function() {
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (profile) return profile.meetingInvitesReceived;
+  },
+  numIncoming:function() { // for badge
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (profile) return profile.meetingInvitesReceived.length;
+  },
+  outgoingMeetings:function() {
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (profile) return profile.meetingInvitesSent;
+  },
+  numOutgoing:function() { // for badge
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (profile) return profile.meetingInvitesSent.length;
+  },
+  final: function() {
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (profile) return profile.finalizedMeetings;
+  },
+  numFinalized:function() { // for badge
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (profile) return profile.finalizedMeetings.length;
+  },
+  additionalTime: function() {
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (profile) return profile.additionalBusyTimes;
+  },
+  userCalendars: function() {
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (profile) return Object.keys(profile.calendars);
+  },
+  earliestTime: function() {
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (profile) return profile.meetRange.earliest;
+    return "09:00";
+  },
+  latestTime: function() {
+    var profile = Meteor.users.findOne(Meteor.userId()).profile;
+    if (profile) return profile.meetRange.latest;
+    return "22:00";
+  }
 });
 
 Template.dashboard_page.onRendered( () => {
+  Meteor.subscribe('Meetings');
+  Meteor.subscribe('Temp');
+  Meteor.subscribe('Users');
+
   $( '#events-calendar' ).fullCalendar({
     scrollTime: "09:00:00",
     // display day view on mobile devices (based on user agents not screen size)

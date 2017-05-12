@@ -4,6 +4,14 @@ import Schemas from './schemas.js';
 const Meetings = new Mongo.Collection('meetings');
 export default Meetings; // Meetings object must be imported to access in other files
 
+if (Meteor.isServer) {
+  // This code only runs on the server
+  Meteor.publish('Meetings', function meetingsPublication() {
+    return Meetings.find();
+  });
+}
+
+
 Meetings.allow({
   insert() { return false; },
   update() { return false; },
