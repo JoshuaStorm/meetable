@@ -174,13 +174,15 @@ Template.dashboard_page.onRendered( () => {
     useCurrent: false,
     defaultDate: roundUp,
     minDate: roundUp,
+    ignoreReadonly: true // let user use datepicker without typing manually
   });
 
   $('#chooseWindowEnd').datetimepicker({
     format: 'ddd, MMM Do, h:mm a',
     useCurrent: false,
     defaultDate: moment(roundUp).add(2, "weeks"),
-    minDate: roundUp
+    minDate: roundUp,
+    ignoreReadonly: true // let user use datepicker without typing manually
   });
 
   // datetime-start and end are for busy times
@@ -188,11 +190,14 @@ Template.dashboard_page.onRendered( () => {
   $('#datetime-start').datetimepicker({
     format: 'ddd, MMM Do, h:mm a',
     minDate: moment().startOf("hour"),
+    ignoreReadonly: true // let user use datepicker without typing manually
+
   });
 
   $('#datetime-end').datetimepicker({
     format: 'ddd, MMM Do, h:mm a',
     minDate: moment().startOf("hour"),
+    ignoreReadonly: true // let user use datepicker without typing manually
   });
 
   var earliest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest;
@@ -210,12 +215,14 @@ Template.dashboard_page.onRendered( () => {
 
   $('#no-meetings-before').datetimepicker({
     format: 'h:mm a',
-    defaultDate: moment(earliest, "hh:mm")
+    defaultDate: moment(earliest, "hh:mm"),
+    ignoreReadonly: true // let user use datepicker without typing manually
   });
 
   $('#no-meetings-after').datetimepicker({
     format: 'h:mm a',
-    defaultDate: moment(latest, "hh:mm")
+    defaultDate: moment(latest, "hh:mm"),
+    ignoreReadonly: true // let user use datepicker without typing manually
   });
 });
 
