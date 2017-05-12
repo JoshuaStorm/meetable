@@ -39,29 +39,29 @@ Template.dashboard_page.helpers({
     currentUser: function() {
       return Meteor.userId();
     },
-    invites:function() {
+    invites: function() {
       var user = Meteor.users.findOne(Meteor.userId());
       if (user && user.profile) return user.profile.meetingInvitesReceived;
     },
-    numIncoming:function() { // for badge
+    numIncoming: function() { // for badge
       var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.meetingInvitesReceived.length;
+      if (user && user.profile && user.profile.meetingInvitesReceived) return user.profile.meetingInvitesReceived.length;
     },
-    outgoingMeetings:function() {
+    outgoingMeetings: function() {
       var user = Meteor.users.findOne(Meteor.userId());
       if (user && user.profile) return user.profile.meetingInvitesSent;
     },
-    numOutgoing:function() { // for badge
+    numOutgoing: function() { // for badge
       var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.meetingInvitesSent.length;
+      if (user && user.profile && user.profile.meetingInvitesSent) return user.profile.meetingInvitesSent.length;
     },
     final: function() {
       var user = Meteor.users.findOne(Meteor.userId());
       if (user && user.profile) return user.profile.finalizedMeetings;
     },
-    numFinalized:function() { // for badge
+    numFinalized: function() { // for badge
       var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.finalizedMeetings.length;
+      if (user && user.profile && user.profile.finalizedMeetings) return user.profile.finalizedMeetings.length;
     },
     additionalTime: function() {
       var user = Meteor.users.findOne(Meteor.userId());
@@ -69,16 +69,16 @@ Template.dashboard_page.helpers({
     },
     userCalendars: function() {
       var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return Object.keys(user.profile.calendars);
+      if (user && user.profile && user.profile.calendars) return Object.keys(user.profile.calendars);
     },
     earliestTime: function() {
       var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.meetRange.earliest;
+      if (user && user.profile && user.profile.meetRange) return user.profile.meetRange.earliest;
       return "09:00";
     },
     latestTime: function() {
       var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.meetRange.latest;
+      if (user && user.profile && user.profile.meetRange) return user.profile.meetRange.latest;
       return "22:00";
     }
 });
@@ -236,27 +236,24 @@ Template.dashboard_page.onRendered( () => {
     minDate: moment().startOf("hour"),
   });
 
-  var earliest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest;
+  var meetRange = Meteor.users.findOne(Meteor.userId()).profile.meetRange
   // if the latest string is not found in DB or it is an empty string
-  if (!earliest || 0 === earliest.length) {
-    console.log("Missing value for no meetings before. setting it to 00:00");
-    earliest = "00:00";
-  }
-  var latest = Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest;
-  //if the latest string is not found in DB or it is an empty string
-  if (!latest || 0 === latest.length) {
-    console.log( 'Missing value for no meetings after. setting it to 00:00');
-    latest = "00:00";
+  if (!meetRange || !meetRange.earliest || !meetRange.latest) {
+    console.log("Missing value for no meetings before. setting it to 09:00-22:00");
+    meetRange = {
+      earliest: '09:00',
+      latest: '22:00'
+    }
   }
 
   $('#no-meetings-before').datetimepicker({
     format: 'h:mm a',
-    defaultDate: moment(earliest, "hh:mm")
+    defaultDate: moment(meetRange.earliest, "hh:mm")
   });
 
   $('#no-meetings-after').datetimepicker({
     format: 'h:mm a',
-    defaultDate: moment(latest, "hh:mm")
+    defaultDate: moment(meetRange.latest, "hh:mm")
   });
 });
 
