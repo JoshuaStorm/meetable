@@ -1,8 +1,12 @@
 # Meetable
 
-## [Check out the app here!](https://meetable-us.herokuapp.com/)
+## Check out the app! https://meetable-us.herokuapp.com/
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
+
+## May 11, 2017 (David)
+- Disabled keyboard input on datepickers to prevent malicious users from abusing vulnerabilities
+- Format dates and date ranges more nicely using Moment.js and Twix packages
 
 ## May 11, 2017 (Josh)
 - Make possible event times selectable from the visual calendar.
@@ -22,6 +26,13 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Fix waitOns that should ahve been subscriptions.
 - Last second bug fixes for the presentation... Oops
 
+## May 8, 2017 (David)
+- Fix error handling and throwing on bad input for "no meetings before/after"
+
+## May 8, 2017 (David)
+- Make Meetable logo on dashboard unclickable for UX reasons
+- Fix error and success checking on Additional Busy Times and other datepickers
+
 ## May 7, 2017 (Casey)
 - Light UI changes: centering the logo on login page, narrowing down the containers for instruction labels, adding 10px padding to the top of dashboard for breathing room between nav bar and content
 - Changes to date formatting from ISO code to natural language throughout the app (i.e. May 5, 2018 5:15pm)
@@ -34,6 +45,10 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
     - add labels to be above the fields
 - for mobile display, change the calendar default display to be in 'day', not 'week'
 - add warning Bert Alert if 'Create a Meeting' fails
+
+## May 6, 2017 (David)
+- Add labels and example data placeholders to all forms to make our website more HTML standard compliant and improve UX
+- Change calendar display on mobile devices so it defaults to agenda day view
 
 ## May 5, 2017 (David)
 - Major overhaul to login page
