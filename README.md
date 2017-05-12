@@ -2,6 +2,12 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## May 11, 2017 (Josh)
+- Make possible event times selectable from the visual calendar.
+- Move code from calling upon routing to on rendering
+- Fix meet range backend.
+- Small bug fixes
+
 ## May 11, 2017 (Casey)
 - Finalizing and merging PRs for:
     - showing Scheduling Window Range on all outgoing and incoming invites (David)
