@@ -85,9 +85,12 @@ Template.dashboard_page.helpers({
 
 Template.dashboard_page.onRendered( () => {
   $( '#events-calendar' ).fullCalendar({
+    // Called whenever an event is clicked on the calendar.
     eventClick: function(data, event, view) {
+      // Check if the event clicked has an ID corresponding to a meeting duration block
       var regex = /^.*AVAILABLE$/;
       if (data.calendarId && data.calendarId.match(regex)) {
+        // If it does, reformat data to pass in as a selected final time.
         var meetingId = data.calendarId.split('-')[0];
         var selectedBlock = {
           'startTime': data.start.toDate(),
@@ -549,11 +552,13 @@ Template.selector.events({
    'submit form': function(event){
       event.preventDefault();
       var radioValue = event.target.myForm.value;
+      var availableId = this.toString() + '-AVAILABLE';
       Meteor.call('selectFinalTime', this.toString(), radioValue, function(error, result) {
         if (error) {
           console.log("selectFinalTime: " + error);
         } else {
           addFinalizedEvent();
+          $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
         }
       });
     },
