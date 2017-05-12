@@ -363,7 +363,7 @@ Meteor.methods({
     else index++;
 
     if (index >= (available.length / 5)) index--;
-    
+
     saveSuggestedMeetingTimes(meetingId, available, index);
   },
 });
@@ -648,24 +648,24 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
   var trueEnd = new Date();
   // Go back and ahead an extra day just to be safe (saves more annoying handling)
   current.setTime(windowStart.getTime() - MILLISECONDS_IN_DAY);
-  trueEnd.setTime(windowEnd.getTime() + MILLISECONDS_IN_DAY);
+  trueEnd.setTime(windowEnd.getTime() + 2 * MILLISECONDS_IN_DAY);
 
   var busyTimes = [];
   while (current < trueEnd) {
     var start = new Date(current);
     var end = new Date(current);
-
+    // Need special handling for the weird circumstance of 8pm-7pm stuff.
+    // Ie. don't skip to next date if latest < earliest
+    if (latestHour > earliestHour || latestHour === earliestHour && latestMin > earliestMin) {
+      end.setTime(current.getTime() + MILLISECONDS_IN_DAY);
+    }
     start.setHours(latestHour);
     start.setMinutes(latestMin);
     start.setTime(start.getTime() + offsetMillisec - serverOffset)
 
-    // start = new Date(start.getYear(), start.getMonth(), start.getDay(), latestHour, latestMin);
-
-    end.setTime(current.getTime() + MILLISECONDS_IN_DAY);
     end.setHours(earliestHour);
     end.setMinutes(earliestMin);
     end.setTime(end.getTime() + offsetMillisec - serverOffset);
-    // end = new Date(end.getYear(), end.getMonth(), end.getDay(), earliestHour, earliestMin);
 
     busyTimes.push({
       'start': start,
