@@ -85,6 +85,21 @@ Template.dashboard_page.helpers({
 
 Template.dashboard_page.onRendered( () => {
   $( '#events-calendar' ).fullCalendar({
+    eventClick: function(data, event, view) {
+      var regex = /^.*AVAILABLE$/;
+      if (data.calendarId && data.calendarId.match(regex)) {
+        var meetingId = data.calendarId.split('-')[0];
+        var selectedBlock = {
+          'startTime': data.start.toDate(),
+          'endTime': data.end.toDate()
+        };
+        Meteor.call('calendarSelectFinalTime', meetingId, selectedBlock, function(error, result) {
+          if (error) console.log('calendarSelectFinalTime: ' + error);
+          $( '#events-calendar' ).fullCalendar('removeEventSource', data.calendarId);
+          addFinalizedEvent();
+        });
+      }
+  	},
     scrollTime: "09:00:00",
     // display day view on mobile devices (based on user agents not screen size)
     defaultView: window.mobilecheck() ? "agendaDay" : "agendaWeek",
@@ -96,10 +111,10 @@ Template.dashboard_page.onRendered( () => {
   });
 
   // Hacky fix but seems to work. The purpose this is that whenever the window resizes,
-  // we resize the 'contentHeight' of the full calendar (which is the part below the 
+  // we resize the 'contentHeight' of the full calendar (which is the part below the
   // toolbar). We set its height to the height of the dashboardRightCol - 80, where 80
   // is a bit more than the height of the toolbar. But if the window is larger than 525 pixels,
-  // the toolbar spreads out and is only 50 pixels. This seems to produxe the desired effect 
+  // the toolbar spreads out and is only 50 pixels. This seems to produxe the desired effect
   $(document).ready(function() {
     $(window).resize(function() {
       if ($('#events-calendar').width() > 525){
@@ -384,19 +399,24 @@ Template.additional.events({
 
 Template.invite.helpers({
   inviteType: function() {
-    var thisMeeting = Meetings.findOne(this.toString());
-    // iterate through all meeting participants to find index in array for the current user
-    // start with index 1 because you can skip the first participant ( creator)
     Meteor.call('readyToFinalize', this.toString(), function(error, result) {
-      if (error) {
-        console.log("readyToFinalize: " + error);
-      }
+      if (error) console.log("readyToFinalize: " + error);
     });
+    var thisMeeting = Meetings.findOne(this.toString());
+    var availableId = this.toString() + '-AVAILABLE';
+
     // an incoming meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a two person meeting
-    if (thisMeeting.readyToFinalize && thisMeeting.participants.length === 2) {
+    if (thisMeeting.readyToFinalize && !thisMeeting.isFinalized && thisMeeting.participants.length === 2) {
       Template.instance().currentInviteType.set('readyToFinalize');
-    }
-    else {
+
+      // Visualize the available times to select from
+      Meteor.call('getFullCalendarAvailable', this.toString(), function(error, result) {
+        if (error) console.log("getFullCalendarAvailable: " + error);
+
+        $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: result });
+      });
+    } else {
       Template.instance().currentInviteType.set('incoming');
     }
     return Template.instance().currentInviteType.get();
@@ -502,26 +522,26 @@ Template.notSelector.helpers({
 
 Template.selector.helpers({
   inviterName() {
-      return Meetings.findOne(this.toString()).participants[0].email;
-    },
+    return Meetings.findOne(this.toString()).participants[0].email;
+  },
   meetingTitle() {
-      return Meetings.findOne(this.toString()).title;
-    },
+    return Meetings.findOne(this.toString()).title;
+  },
   meetingDuration() {
-      var length = Meetings.findOne(this.toString()).duration;
-      var hour = Math.floor(length / (1000 * 60 * 60));
-      var minute = (length / (1000 * 60)) % 60;
-      return hour + "hr " + minute + "min";
-    },
+    var length = Meetings.findOne(this.toString()).duration;
+    var hour = Math.floor(length / (1000 * 60 * 60));
+    var minute = (length / (1000 * 60)) % 60;
+    return hour + "hr " + minute + "min";
+  },
   suggestedTimes() {
     return Meetings.findOne(this.toString()).suggestedMeetingTimes;
   },
   suggestedRange() {
-      return moment(this.startTime).twix(moment(this.endTime)).format({
-        showDayOfWeek: true,
-        weekdayFormat: "ddd,",
-        meridiemFormat: "a",
-      });
+    return moment(this.startTime).twix(moment(this.endTime)).format({
+      showDayOfWeek: true,
+      weekdayFormat: "ddd,",
+      meridiemFormat: "a",
+    });
   }
 });
 
@@ -533,23 +553,16 @@ Template.selector.events({
         if (error) {
           console.log("selectFinalTime: " + error);
         } else {
-          Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
-          Meteor.call("getFullCalendarFinalized", function(error, result) {
-            if (error) console.log(error);
-            $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
-            $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
-          });
-
-          Meteor.call('updateMeetableTimes', function(error, result) {
-            if (error) console.log('updateBusyTimes: ' + error);
-          });
+          addFinalizedEvent();
         }
       });
     },
     'click #cancelInvite': function(event){
       event.preventDefault();
+      var availableId = this.toString() + '-AVAILABLE';
       Meteor.call('setNotReadyToFinalize', this.toString(), function(error, result) {
         if (error) console.log(error);
+        $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
       });
     },
     'click #deleteMeeting': function(e) {
@@ -586,9 +599,16 @@ Template.outgoing.helpers({
   },
   readyToFinalize() {
     var readyOutgoing = false;
+    var availableId = this.toString() + '-AVAILABLE';
     // an outgoing meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a group meeting
-    if (Meetings.findOne(this.toString()).readyToFinalize && Meetings.findOne(this.toString()).participants.length > 2)
-    {
+    if (Meetings.findOne(this.toString()).readyToFinalize && Meetings.findOne(this.toString()).participants.length > 2) {
+      // Visualize the available times to select from
+      Meteor.call('getFullCalendarAvailable', this.toString(), function(error, result) {
+        if (error) console.log("getFullCalendarAvailable: " + error);
+
+        $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: result });
+      });
       readyOutgoing = true;
     }
     return readyOutgoing;
@@ -648,13 +668,7 @@ Template.outgoingFinalize.events({
         if (error) {
           console.log("selectFinaltime: " + error);
         } else {
-          Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
-          Meteor.call("getFullCalendarFinalized", function(error, result) {
-            if (error) console.log(error);
-            $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
-            $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
-          });
-
+          addFinalizedEvent();
         }
       });
     },
@@ -759,6 +773,20 @@ Template.finalizedMeeting.events({
      });
   }
 });
+
+
+function addFinalizedEvent() {
+  Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
+  Meteor.call('getFullCalendarFinalized', function(error, result) {
+    if (error) console.log(error);
+    $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
+    $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
+  });
+
+  Meteor.call('updateMeetableTimes', function(error, result) {
+    if (error) console.log('updateBusyTimes: ' + error);
+  });
+}
 
 // Return true if this browser is using a mobile user agent
 // used primarily for changing default full calendar view
