@@ -363,7 +363,7 @@ Meteor.methods({
     else index++;
 
     if (index >= (available.length / 5)) index--;
-    
+
     saveSuggestedMeetingTimes(meetingId, available, index);
   },
 });
@@ -441,7 +441,7 @@ function sendInvitationEmail(inviterEmail, inviteeEmail, title) {
             "Schedule your meeting now with Meetable. Forget filling out when you're available by hand, " +
             "Meetable compares your free time from your Google Calendar so you just have to pick one time that " +
             "you already know works for everyone!\n\n" +
-            "Join now! https://www.meetable.us\n\n\n" +
+            "Join now! https://meetable-us.herokuapp.com/\n\n\n" +
             "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
   Meteor.call("sendEmail", inviteeEmail, "do-not-reply@becker.codes", subject, text);
 }
@@ -450,7 +450,7 @@ function sendInvitationEmail(inviterEmail, inviteeEmail, title) {
 function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
   var subject = inviterEmail + " wants to meet with you! Login to Meetable to schedule it now!";
   var text = inviterEmail + " wants to meet with you for a meeting \"" + title + "\"\n" +
-            "Login to schedule it now! https://www.meetable.us\n\n\n" +
+            "Login to schedule it now! https://meetable-us.herokuapp.com/\n\n\n" +
             "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
   Meteor.call("sendEmail", inviteeEmail, "do-not-reply@becker.codes", subject, text);
 }
@@ -459,7 +459,7 @@ function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
 function sendDeclinedEmail(inviterEmail, inviteeEmail, title) {
   var subject = inviteeEmail + " declined your meeting invitation.";
   var text = inviteeEmail + " declined your meeting invitation for \"" + title + "\"\n" +
-            "Perhaps another time! https://www.meetable.us\n\n\n" +
+            "Perhaps another time! https://meetable-us.herokuapp.com/\n\n\n" +
             "You are receiving this email because you tried to schedule a meeting with " + inviteeEmail +
             " on Meetable, but they chose not to accept your invitation.";
   Meteor.call("sendEmail", inviterEmail, "do-not-reply@becker.codes", subject, text);
