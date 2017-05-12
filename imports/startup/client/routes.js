@@ -85,6 +85,9 @@ loggedIn.route('/dashboard', {
           $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
         }
       });
+      Meteor.call('updateMeetableTimes', function(error, result) {
+        if (error) console.log('updateMeetableTimes: ' + error);
+      });
     });
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
   },
