@@ -127,6 +127,11 @@ Schemas.Meetings = new SimpleSchema({
         type: Array,
         optional: true
     },
+    suggestedRangeIndex: {
+      type: Number,
+      label: "The index corresponding to the suggested times being presented from duration available blocks",
+      optional: true
+    },
     "suggestedMeetingTimes.$": {
         type: Object
     },

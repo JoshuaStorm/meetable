@@ -19,10 +19,12 @@ Meteor.methods({
         return;
       }
 
+      // Don't give back events that have been added to gCal
+      var addToCal = true;
       for (var j = 0; j < thisMeeting.participants.length; j++) {
         var thisParticipant = thisMeeting.participants[j];
         // Do not include events added to GCal to avoid presenting them twice to user
-        if (thisParticipant.id === this.userId && thisParticipant.addedToGCal) continue;
+        if (thisParticipant.id === this.userId && thisParticipant.addedToGCal) addToCal = false;
       }
 
       var thisEvent = {
@@ -31,7 +33,7 @@ Meteor.methods({
         end:   thisMeeting.selectedBlock.endTime,
         color: "#b30000"
       };
-      events.push(thisEvent);
+      if (addToCal) events.push(thisEvent);
     }
     return events;
   },
