@@ -167,7 +167,7 @@ Meteor.methods({
         }
         // Events that are "transparent" are set to "available" (ie. shouldn't be considered for our busy times)
         if (thisGCalEvent.hasOwnProperty('transparency') && thisGCalEvent.transparency === "transparent") {
-          thisFullCalEvent.color = '#00ba3e'; // Green
+          thisFullCalEvent.color = '#00cc99';
           availableEvents.push(thisFullCalEvent);
         } else {
           busyEvents.push(thisFullCalEvent);
