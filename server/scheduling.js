@@ -23,13 +23,13 @@ Meteor.methods({
     // Initializes participants array and sets the first participant as the creator
     // This participants array will then go in the participants slot of this meeting collection
     var participants = [{
-        id: this.userId,
-        email: thisUserEmail,
-        accepted: true, // creator automatically accepts event??
-        selector: false, // creator is  not always the one who picks the final date
-        creator: true,
-        addedToGCal: false
-      }];
+      id: this.userId,
+      email: thisUserEmail,
+      accepted: true, // creator automatically accepts event??
+      selector: false, // creator is  not always the one who picks the final date
+      creator: true,
+      addedToGCal: false
+    }];
 
     // Add the rest of the participants
     addInvitedParticipants(thisUserEmail, participants, invitedEmails, title);
@@ -59,7 +59,7 @@ Meteor.methods({
     // CREATE THE MEETINGS COLLECTION using information above.
     // MeetingId = unique meeting id to be associated with each user in meeting
     var meetingId = Meetings.insert({
-      title: title, //TODO: pass this as a parameter to createMeeting
+      title: title,
       isFinalized: false,
       availableTimes: availableTimes,
       participants: participants,
@@ -425,7 +425,7 @@ function addInvitedParticipants(currentUserEmail, participants, invitedEmails, e
       // TODO: why is name missing sometimes?
       // check if a user with this email exists,and if it does, use their personal info
       var user = Meteor.users.findOne({"services.google.email": invitedEmails[i]});
-      if (user !== undefined) {
+      if (user) {
         newParticipant.id = user._id;
         // Send an email to the user letting them now they have a new meeting invite
         Meteor.call('sendNewMeetingEmail', participants[0].email, newParticipant.email, emailTitle);
@@ -738,7 +738,7 @@ function checkMeetingReadyToFinalize(meetingId) {
     if (currUser.creator) creatorEmail = currUser.email;
   }
 
-  if (finalized) {
+  if (finalized && !thisMeeting.readyToFinalize) {
     Meetings.update(meetingId, {
       $set: { 'readyToFinalize': true }
     });
