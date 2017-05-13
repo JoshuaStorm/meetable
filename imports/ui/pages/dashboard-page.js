@@ -310,10 +310,15 @@ Template.dashboard_page.events({
       // TODO: Prompt user when they pass a non-email?
       var trimmed = emails[i].trim()
       if (trimmed === Meteor.users.findOne(Meteor.userId()).services.google.email) {
-        Bert.alert( 'Cannot schedule meeting with yourself', 'danger', 'growl-bottom-left' );
+        Bert.alert( 'Cannot schedule meeting with yourself. Please try again', 'danger', 'growl-bottom-left' );
         return;
       }
-      if (trimmed.match(regex) && !alreadyInvited[trimmed]) {
+
+      if (!trimmed.match(regex)) {
+        Bert.alert( 'Invalid email. Please try again', 'danger', 'growl-bottom-left' );
+        return;
+      }
+      else if (!alreadyInvited[trimmed]) {
         cleanEmails.push(trimmed);
         alreadyInvited[trimmed] = true;
       }
@@ -321,7 +326,7 @@ Template.dashboard_page.events({
 
     Meteor.call('createMeeting', title, cleanEmails, length, windowStart, windowEnd, function(error, result) {
       if (error) {
-        Bert.alert( 'Meeting invite could not be sent.', 'danger', 'growl-bottom-left' );
+        Bert.alert( 'Meeting invite could not be sent. Please try again', 'danger', 'growl-bottom-left' );
         console.log("createMeeting: " + error);
       } else{
         var resetTitle = document.getElementById('meetingTitle').value ="";
@@ -387,7 +392,7 @@ Template.dashboard_page.events({
     let beforeTime = moment($('#no-meetings-before').data("DateTimePicker").date().format());
     let afterTime = moment($('#no-meetings-after').data("DateTimePicker").date().format());
 
-    //Set the date of the before and after time to same arbitrary date in the past so 
+    //Set the date of the before and after time to same arbitrary date in the past so
     //when comparing the two only the hours and minutes are considered.
     beforeTime.set({'year': 1997, 'month': 7, 'date': 1});
     afterTime.set({'year': 1997, 'month': 7, 'date': 1});
