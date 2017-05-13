@@ -10,6 +10,10 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Disabled keyboard input on datepickers to prevent malicious users from abusing vulnerabilities
 - Format dates and date ranges more nicely using Moment.js and Twix packages
 
+## May 11, 2017 (Shayan)
+- Small bug fix with start before/after times whichw as sending up Bert-alerts when it shouldn't have been.
+- Reviewed and merged PRs
+
 ## May 11, 2017 (Josh)
 - Make possible event times selectable from the visual calendar.
 - Move code from calling upon routing to on rendering
@@ -27,6 +31,10 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Fix an issue where we were redirecting to ROOT then back to ROOT/dashboard_page upon refresh
 - Fix waitOns that should ahve been subscriptions.
 - Last second bug fixes for the presentation... Oops
+
+## May 8, 2017 (Shayan)
+- Started work on constant vertical height. Slightly more complicated than expected.
+- Pushed tentative version to github
 
 ## May 8, 2017 (David)
 - Fix error handling and throwing on bad input for "no meetings before/after"
@@ -52,6 +60,10 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Add labels and example data placeholders to all forms to make our website more HTML standard compliant and improve UX
 - Change calendar display on mobile devices so it defaults to agenda day view
 
+## May 5, 2017 (Shayan)
+- Converted everything from hours to minutes, both on backend and front end.
+- Removed ability for users to type in decimals into the length field.
+
 ## May 5, 2017 (David)
 - Major overhaul to login page
 
@@ -68,6 +80,15 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 
 ## May 4, 2017 (Group Meeting)
 - David - display dates in a better way, sanitize inputs, make mobile devices see only "day" view in fullCalendar, login page
+
+## May 3, 2017 (Shayan)
+- Added functionality for start/before after a certain time.
+- Decided to implement this using busyTimes, and added a function for recurring busy times in case we want to add that feature in the future
+
+## May 2, 2017 (Shayan)
+- Discovered huge bug in `findOverlap`. Previously was calculated by determing whether an available time fits within another available time. However this doesn't consider the case where two avaialble times are overlapping.
+- Fixed aforementioned bug
+- This fix causes some duplicate meeting times. Pushed proposed fix that should work. Replicating duplicates is a bit hard, will monitor tests to look out for this.
 
 ## May 1, 2017 (David)
 - Finally fixed the issue where we weren't automatically refreshing access tokens when possible
@@ -87,6 +108,14 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 ## April 29, 2017 (Josh)
 - Stop considering events labeled as "available" (or as gCal confusingly calls it, "transparent") as busy times in our calculations. Still show them on the displayed calendar as a different color.
 
+## April 28, 2017 (Shayan)
+- Made dates and how they're displayed on additional times a nice readable format
+- Autopopulated times on additional busy times to reduce user time inputting numbers
+
+## April 27, 2017 (Shayan)
+- Finished UI of additional busy times
+- Added delete/add buttons so there is a way to remove additional times 
+
 ## April 28, 2017 (David)
 - Switched to new Google API client to make logging in work on all browsers and mobile
 - Made navbar display properly on small devices
@@ -95,6 +124,11 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Finished adding gCal events to user calendars.
 - Handle full day events.
 - Work on handling "transparent" events, pretty much events marked as "Available"
+
+## April 27, 2017 (Shayan)
+- Added additional busy times.
+- The backend works and is tested. 
+- Started working on the front end so I can push a complete product.
 
 ## April 27, 2017 (Josh)
 - Started adding gCal events to users calendars if they click a button (UI by Casey though).
@@ -111,6 +145,11 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Prioritization orders - extra unavailability times, group meetings, filter calendars, fix login on mobile, consider checking if people are available within a specific time within the window (are you meetable for dinner this week?)
 - David bugfixes (Refresh the access token when necessary), sanitize inputs
 - Casey - Prompt user if they want to add finalized event to their calendar #139
+
+## April 26, 2017 (Shayan)
+- Found some major bugs upon reading some of scheduling codes. Decided to modularize everything and add comments to increase legibility and make sure we're not missing anything.
+- Realized that we aren't actually running the findOverlap code when we a user clicks accept. This means that the times being displayed before were just the available times of one person.
+- Added code that ran findOverlap when users clicked accept.
 
 ## April 25, 2017 (Josh)
 - Show finalized events on the client side calendar.
@@ -154,7 +193,7 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - connected front end to database for all three tabs: 'incoming', 'outgoing', 'finalized'
 - began work on acceptInvite() function, but stuck on how to modify a database value from the client side. 
 
-## April 17, 2017
+## April 17, 2017 (Shayan)
 - Finished rewriting `findBusyTimes`. Tried to account for all corner cases by reducing everything to one format.
 - Finished writing `findOverlap`. Seems to be working but I can't be sure. Will test more extensively.
 
