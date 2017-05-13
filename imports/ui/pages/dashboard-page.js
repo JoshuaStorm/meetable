@@ -314,6 +314,12 @@ Template.dashboard_page.events({
       else console.log("Non-email passed in; removed from invitees list.")
     }
 
+    // Email Bert alert should take precedence over duration bert alert, so check duration now
+    if (length < 10) {
+      Bert.alert( 'A meeting must be at least 10 minutes long.', 'danger', 'growl-bottom-left' );
+      return;
+    }
+
     // TODO: add fields to set the window of time to schedule the time
     // currently using 24 hours after time button was pressed
     Meteor.call('createMeeting', title, emails, length, windowStart, windowEnd, function(error, result) {
@@ -384,7 +390,7 @@ Template.dashboard_page.events({
     let beforeTime = moment($('#no-meetings-before').data("DateTimePicker").date().format());
     let afterTime = moment($('#no-meetings-after').data("DateTimePicker").date().format());
 
-    //Set the date of the before and after time to same arbitrary date in the past so 
+    //Set the date of the before and after time to same arbitrary date in the past so
     //when comparing the two only the hours and minutes are considered.
     beforeTime.set({'year': 1997, 'month': 7, 'date': 1});
     afterTime.set({'year': 1997, 'month': 7, 'date': 1});
