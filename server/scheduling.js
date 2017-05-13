@@ -307,6 +307,45 @@ Meteor.methods({
 
     }
   },
+
+  // Same as above, but selected off the visual calendar
+  // Not exactly great abstraction that bot these need to exist, but we're running out of time.
+  calendarSelectFinalTime: function(meetingId, selectedBlock) {
+    var thisMeeting = Meetings.findOne(meetingId);
+
+    Meetings.update({_id:meetingId},{
+      $set: {
+        'selectedBlock' : selectedBlock,
+        'isFinalized' : true
+      }
+    });
+
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
+      thisId = thisMeeting.participants[i].id
+      user = Meteor.users.findOne(thisId);
+      // Add this meeting to each participant's finalizedMeetings
+      finalized = user.profile.finalizedMeetings;
+
+      if (finalized === undefined) {
+        Meteor.users.update(thisId, {
+          $set: { "profile.finalizedMeetings": [meetingId] }
+        });
+      } else {
+        Meteor.users.update(thisId, {
+          $addToSet: { "profile.finalizedMeetings": meetingId }
+        });
+      }
+      // Remove it from their received and sent
+      Meteor.users.update(thisId, {
+        $pull: { "profile.meetingInvitesReceived": meetingId }
+      });
+      Meteor.users.update(thisId, {
+        $pull: { "profile.meetingInvitesSent": meetingId }
+      });
+      user = Meteor.users.findOne(thisId);
+    }
+  },
+
   readyToFinalize: function(meetingId) {
     return checkMeetingReadyToFinalize(meetingId);
   },
@@ -622,24 +661,24 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
   var trueEnd = new Date();
   // Go back and ahead an extra day just to be safe (saves more annoying handling)
   current.setTime(windowStart.getTime() - MILLISECONDS_IN_DAY);
-  trueEnd.setTime(windowEnd.getTime() + MILLISECONDS_IN_DAY);
+  trueEnd.setTime(windowEnd.getTime() + 2 * MILLISECONDS_IN_DAY);
 
   var busyTimes = [];
   while (current < trueEnd) {
     var start = new Date(current);
     var end = new Date(current);
-
+    // Need special handling for the weird circumstance of 8pm-7pm stuff.
+    // Ie. don't skip to next date if latest < earliest
+    if (latestHour > earliestHour || latestHour === earliestHour && latestMin > earliestMin) {
+      end.setTime(current.getTime() + MILLISECONDS_IN_DAY);
+    }
     start.setHours(latestHour);
     start.setMinutes(latestMin);
     start.setTime(start.getTime() + offsetMillisec - serverOffset)
 
-    // start = new Date(start.getYear(), start.getMonth(), start.getDay(), latestHour, latestMin);
-
-    end.setTime(current.getTime() + MILLISECONDS_IN_DAY);
     end.setHours(earliestHour);
     end.setMinutes(earliestMin);
     end.setTime(end.getTime() + offsetMillisec - serverOffset);
-    // end = new Date(end.getYear(), end.getMonth(), end.getDay(), earliestHour, earliestMin);
 
     busyTimes.push({
       'start': start,
@@ -659,6 +698,7 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
 function findOverlap(otherAvailableTimes, userAvailableTimes) {
   // hold available times that work for all users
   var availableTimes = [];
+  var startTimesSeen = {};
 
   // each availableTimes array has a start time and end time, both in unix
   // First double for loop finds the searches for slots of length otherAvailableTimes in user availabeTimes
@@ -675,16 +715,22 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
           startTime: otherStart,
           endTime: otherEnd
         };
-        // This if statement says "if availableTimes does not contain an availableTime with the current availableTime startTime,
-        // add the current availableTime". Basically if this availableTime is not a duplicate.
-        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
+
+        if (!startTimesSeen[availableTime.startTime]) {
+          availableTimes.push(availableTime);
+          startTimesSeen[availableTime.startTime] = true;
+        }
       }
       else if ((otherStart.getTime() >= userStart.getTime() && otherStart.getTime() <= userEnd.getTime()) && otherEnd.getTime() >= userEnd.getTime()) {
         var availableTime = {
           startTime: otherStart,
           endTime: userEnd
         };
-        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
+
+        if (!startTimesSeen[availableTime.startTime]) {
+          availableTimes.push(availableTime);
+          startTimesSeen[availableTime.startTime] = true;
+        }
       }
     }
   }
@@ -702,14 +748,20 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
           startTime: userStart,
           endTime: userEnd
         };
-        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
+        if (!startTimesSeen[availableTime.startTime]) {
+          availableTimes.push(availableTime);
+          startTimesSeen[availableTime.startTime] = true;
+        }
       }
       else if ((userStart.getTime() >= otherStart.getTime() && userStart.getTime() <= otherEnd.getTime()) && userEnd.getTime() >= otherEnd.getTime()) {
         var availableTime = {
           startTime: userStart,
           endTime: otherEnd
         };
-        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
+        if (!startTimesSeen[availableTime.startTime]) {
+          availableTimes.push(availableTime);
+          startTimesSeen[availableTime.startTime] = true;
+        }
       }
     }
   }
@@ -722,7 +774,7 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
 // TODO: change this metric for group meetings?
 // return and set flag for whether the meeting has been finalized
 function checkMeetingReadyToFinalize(meetingId) {
-  var thisMeeting = Meetings.findOne({_id:meetingId});
+  var thisMeeting = Meetings.findOne(meetingId);
   // Meeting may be deleted
   if (!thisMeeting) return false;
 
