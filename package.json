@@ -13,6 +13,6 @@
     "moment": "^2.18.1",
     "moment-range": "^3.0.3",
     "simpl-schema": "^0.2.3",
-    "twix": "^1.1.4"
+    "twix": "^1.1.5"
   }
 }

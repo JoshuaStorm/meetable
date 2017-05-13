@@ -19,10 +19,12 @@ Meteor.methods({
         return;
       }
 
+      // Don't give back events that have been added to gCal
+      var addToCal = true;
       for (var j = 0; j < thisMeeting.participants.length; j++) {
         var thisParticipant = thisMeeting.participants[j];
         // Do not include events added to GCal to avoid presenting them twice to user
-        if (thisParticipant.id === this.userId && thisParticipant.addedToGCal) continue;
+        if (thisParticipant.id === this.userId && thisParticipant.addedToGCal) addToCal = false;
       }
 
       var thisEvent = {
@@ -31,7 +33,7 @@ Meteor.methods({
         end:   thisMeeting.selectedBlock.endTime,
         color: "#b30000"
       };
-      events.push(thisEvent);
+      if (addToCal) events.push(thisEvent);
     }
     return events;
   },
@@ -139,5 +141,28 @@ Meteor.methods({
     for (i = 0; i < meetingIdsToDelete.length; i++) {
       Meteor.call('deleteMeeting', meetingIdsToDelete[i]);
     }
+  },
+
+  // Get the available duration long blocks in the full calendar format for this meeting
+  getFullCalendarAvailable: function(meetingId) {
+    var meeting = Meetings.findOne(meetingId);
+    // Can only get available if meeting is ready to finalize
+    if (!meeting.readyToFinalize) return [];
+    var events = meeting.durationLongAvailableTimes;
+
+    var thisId = meetingId + '-AVAILABLE';
+    var fullCalEvents = [];
+    for (var i = 0; i < events.length; i++) {
+      var thisEvent = events[i];
+      var thisFullCalEvent = {
+        'title': meeting.title,
+        'start': thisEvent.startTime,
+        'end': thisEvent.endTime,
+        'calendarId': thisId,
+        'color': '#00ba3e'
+      };
+      fullCalEvents.push(thisFullCalEvent);
+    }
+    return fullCalEvents;
   }
 });

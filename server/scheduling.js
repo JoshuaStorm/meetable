@@ -1,6 +1,7 @@
 // File for our server functions for scheduling OUR meetings/events. (as opposed to Google events)
 import Meetings from '/collections/meetings.js';
 import Temp from '/collections/temp.js';
+import moment from 'moment';
 
 Meteor.methods({
 
@@ -177,7 +178,7 @@ Meteor.methods({
       if (currUser.id === userId) { // current user found
         var setModifier = {};
         setModifier['participants.' + i + '.accepted'] = true;
-        Meetings.update({_id:meetingId}, {$set:setModifier});
+        Meetings.update(meetingId, {$set:setModifier});
         break;
       }
     }
@@ -185,9 +186,7 @@ Meteor.methods({
     // Find overlap between this user and the availableTimes and insert in collection
     var busyTimes = findUserBusyTimes(this.userId, thisMeeting.windowStart, thisMeeting.windowEnd);
     Meteor.users.upsert(this.userId, {
-      $set: {
-        "profile.busyTimes": busyTimes
-      }
+      $set: { "profile.busyTimes": busyTimes }
     });
     var loggedInUserAvailableTimes = findUserAvailableTimes(busyTimes, thisMeeting.windowStart, thisMeeting.windowEnd);
     var availableTimes = findOverlap(thisMeeting.availableTimes, loggedInUserAvailableTimes);
@@ -263,7 +262,7 @@ Meteor.methods({
   selectFinalTime: function(meetingId, formValue) {
     var index = parseInt(formValue);
 
-    var thisMeeting = Meetings.findOne({_id:meetingId});
+    var thisMeeting = Meetings.findOne(meetingId);
     var selectedTime = {
       "startTime" : thisMeeting.suggestedMeetingTimes[index].startTime,
       "endTime" : thisMeeting.suggestedMeetingTimes[index].endTime
@@ -301,6 +300,45 @@ Meteor.methods({
       user = Meteor.users.findOne(thisId);
     }
   },
+
+  // Same as above, but selected off the visual calendar
+  // Not exactly great abstraction that bot these need to exist, but we're running out of time.
+  calendarSelectFinalTime: function(meetingId, selectedBlock) {
+    var thisMeeting = Meetings.findOne(meetingId);
+
+    Meetings.update({_id:meetingId},{
+      $set: {
+        'selectedBlock' : selectedBlock,
+        'isFinalized' : true
+      }
+    });
+
+    for (var i = 0; i < thisMeeting.participants.length; i++) {
+      thisId = thisMeeting.participants[i].id
+      user = Meteor.users.findOne(thisId);
+      // Add this meeting to each participant's finalizedMeetings
+      finalized = user.profile.finalizedMeetings;
+
+      if (finalized === undefined) {
+        Meteor.users.update(thisId, {
+          $set: { "profile.finalizedMeetings": [meetingId] }
+        });
+      } else {
+        Meteor.users.update(thisId, {
+          $addToSet: { "profile.finalizedMeetings": meetingId }
+        });
+      }
+      // Remove it from their received and sent
+      Meteor.users.update(thisId, {
+        $pull: { "profile.meetingInvitesReceived": meetingId }
+      });
+      Meteor.users.update(thisId, {
+        $pull: { "profile.meetingInvitesSent": meetingId }
+      });
+      user = Meteor.users.findOne(thisId);
+    }
+  },
+
   readyToFinalize: function(meetingId) {
     return checkMeetingReadyToFinalize(meetingId);
   },
@@ -338,6 +376,34 @@ Meteor.methods({
     for (i = 0; i < sentIds.length; i++) {
       updateBusyTimes(sentIds[i]);
     }
+  },
+
+  // Flip to the next page of duration long blocks available, set as suggested times
+  getPrevSuggestedTimes: function(meetingId) {
+    var meeting = Meetings.findOne(meetingId);
+    var available = meeting.durationLongAvailableTimes;
+    var index = meeting.suggestedRangeIndex;
+
+    if (!index) index = 0;
+    else index--;
+
+    if (index < 0) index = 0;
+
+    saveSuggestedMeetingTimes(meetingId, available, index);
+  },
+
+  // Flip to the next page of duration long blocks available, set as suggested times
+  getNextSuggestedTimes: function(meetingId) {
+    var meeting = Meetings.findOne(meetingId);
+    var available = meeting.durationLongAvailableTimes;
+    var index = meeting.suggestedRangeIndex;
+
+    if (!index) index = 1;
+    else index++;
+
+    if (index >= (available.length / 5)) index--;
+
+    saveSuggestedMeetingTimes(meetingId, available, index);
   },
 });
 
@@ -414,7 +480,7 @@ function sendInvitationEmail(inviterEmail, inviteeEmail, title) {
             "Schedule your meeting now with Meetable. Forget filling out when you're available by hand, " +
             "Meetable compares your free time from your Google Calendar so you just have to pick one time that " +
             "you already know works for everyone!\n\n" +
-            "Join now! https://www.meetable.us\n\n\n" +
+            "Join now! https://meetable-us.herokuapp.com/\n\n\n" +
             "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
   Meteor.call("sendEmail", inviteeEmail, "do-not-reply@becker.codes", subject, text);
 }
@@ -423,7 +489,7 @@ function sendInvitationEmail(inviterEmail, inviteeEmail, title) {
 function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
   var subject = inviterEmail + " wants to meet with you! Login to Meetable to schedule it now!";
   var text = inviterEmail + " wants to meet with you for a meeting \"" + title + "\"\n" +
-            "Login to schedule it now! https://www.meetable.us\n\n\n" +
+            "Login to schedule it now! https://meetable-us.herokuapp.com/\n\n\n" +
             "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
   Meteor.call("sendEmail", inviteeEmail, "do-not-reply@becker.codes", subject, text);
 }
@@ -432,7 +498,7 @@ function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
 function sendDeclinedEmail(inviterEmail, inviteeEmail, title) {
   var subject = inviteeEmail + " declined your meeting invitation.";
   var text = inviteeEmail + " declined your meeting invitation for \"" + title + "\"\n" +
-            "Perhaps another time! https://www.meetable.us\n\n\n" +
+            "Perhaps another time! https://meetable-us.herokuapp.com/\n\n\n" +
             "You are receiving this email because you tried to schedule a meeting with " + inviteeEmail +
             " on Meetable, but they chose not to accept your invitation.";
   Meteor.call("sendEmail", inviterEmail, "do-not-reply@becker.codes", subject, text);
@@ -623,24 +689,24 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
   var trueEnd = new Date();
   // Go back and ahead an extra day just to be safe (saves more annoying handling)
   current.setTime(windowStart.getTime() - MILLISECONDS_IN_DAY);
-  trueEnd.setTime(windowEnd.getTime() + MILLISECONDS_IN_DAY);
+  trueEnd.setTime(windowEnd.getTime() + 2 * MILLISECONDS_IN_DAY);
 
   var busyTimes = [];
   while (current < trueEnd) {
     var start = new Date(current);
     var end = new Date(current);
-
+    // Need special handling for the weird circumstance of 8pm-7pm stuff.
+    // Ie. don't skip to next date if latest < earliest
+    if (latestHour > earliestHour || latestHour === earliestHour && latestMin > earliestMin) {
+      end.setTime(current.getTime() + MILLISECONDS_IN_DAY);
+    }
     start.setHours(latestHour);
     start.setMinutes(latestMin);
     start.setTime(start.getTime() + offsetMillisec - serverOffset)
 
-    // start = new Date(start.getYear(), start.getMonth(), start.getDay(), latestHour, latestMin);
-
-    end.setTime(current.getTime() + MILLISECONDS_IN_DAY);
     end.setHours(earliestHour);
     end.setMinutes(earliestMin);
     end.setTime(end.getTime() + offsetMillisec - serverOffset);
-    // end = new Date(end.getYear(), end.getMonth(), end.getDay(), earliestHour, earliestMin);
 
     busyTimes.push({
       'start': start,
@@ -660,6 +726,7 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
 function findOverlap(otherAvailableTimes, userAvailableTimes) {
   // hold available times that work for all users
   var availableTimes = [];
+  var startTimesSeen = {};
 
   // each availableTimes array has a start time and end time, both in unix
   // First double for loop finds the searches for slots of length otherAvailableTimes in user availabeTimes
@@ -676,16 +743,22 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
           startTime: otherStart,
           endTime: otherEnd
         };
-        // This if statement says "if availableTimes does not contain an availableTime with the current availableTime startTime,
-        // add the current availableTime". Basically if this availableTime is not a duplicate.
-        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
+
+        if (!startTimesSeen[availableTime.startTime]) {
+          availableTimes.push(availableTime);
+          startTimesSeen[availableTime.startTime] = true;
+        }
       }
       else if ((otherStart.getTime() >= userStart.getTime() && otherStart.getTime() <= userEnd.getTime()) && otherEnd.getTime() >= userEnd.getTime()) {
         var availableTime = {
           startTime: otherStart,
           endTime: userEnd
         };
-        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
+
+        if (!startTimesSeen[availableTime.startTime]) {
+          availableTimes.push(availableTime);
+          startTimesSeen[availableTime.startTime] = true;
+        }
       }
     }
   }
@@ -703,14 +776,20 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
           startTime: userStart,
           endTime: userEnd
         };
-        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
+        if (!startTimesSeen[availableTime.startTime]) {
+          availableTimes.push(availableTime);
+          startTimesSeen[availableTime.startTime] = true;
+        }
       }
       else if ((userStart.getTime() >= otherStart.getTime() && userStart.getTime() <= otherEnd.getTime()) && userEnd.getTime() >= otherEnd.getTime()) {
         var availableTime = {
           startTime: userStart,
           endTime: otherEnd
         };
-        if (availableTimes.filter(e => e.startTime === availableTime.startTime).length === 0) availableTimes.push(availableTime);
+        if (!startTimesSeen[availableTime.startTime]) {
+          availableTimes.push(availableTime);
+          startTimesSeen[availableTime.startTime] = true;
+        }
       }
     }
   }
@@ -723,7 +802,7 @@ function findOverlap(otherAvailableTimes, userAvailableTimes) {
 // TODO: change this metric for group meetings?
 // return and set flag for whether the meeting has been finalized
 function checkMeetingReadyToFinalize(meetingId) {
-  var thisMeeting = Meetings.findOne({_id:meetingId});
+  var thisMeeting = Meetings.findOne(meetingId);
   // Meeting may be deleted
   if (!thisMeeting) return false;
   var finalized = true;
@@ -781,23 +860,22 @@ function findDurationLongMeetingTimes(meetingId) {
   }
 
   Meetings.update(meetingId, {
-    $set: {
-      //"durationLongAvailableTimes" : [{"startTime": 2, "endTime": 2}]
-      "durationLongAvailableTimes" : durationLongBlocks
-    }
+    $set: { "durationLongAvailableTimes" : durationLongBlocks }
   });
 
-  saveSuggestedMeetingTimes(meetingId, durationLongBlocks);
+  saveSuggestedMeetingTimes(meetingId, durationLongBlocks, 0);
 
   return durationLongBlocks;
-
 }
 
 // save what we will present as meeting times to the user
 // currently the first 5 meeting times chronologically
-function saveSuggestedMeetingTimes(meetingId, durationLongBlocks) {
+function saveSuggestedMeetingTimes(meetingId, durationLongBlocks, range) {
   Meetings.update(meetingId, {
-      $set: { "suggestedMeetingTimes": durationLongBlocks.slice(0, 5) }
+    $set: { 'suggestedRangeIndex': range }
+  });
+  Meetings.update(meetingId, {
+    $set: { "suggestedMeetingTimes": durationLongBlocks.slice(range * 5, (range + 1) * 5) }
   });
 }
 
