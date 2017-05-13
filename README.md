@@ -136,6 +136,10 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 ## April 22, 2017 (Josh)
 - Set up Temp user collection so you can invite emails who do not have current accounts and all those invites will attach to their new account when they signup.
 
+## April 20, 2017 (Shayan)
+- Tested `findOverlap` more extensively and found even more bugs in `findBusyTimes`
+- Added a sort function in `findBusyTimes` to make sure we eliminate any corner cases still persisting.
+
 ## April 18, 2017 (Casey)
 - 'Incoming' tab: implement dynamic templates so that on clicking accept, the user will see the div change to reflect that
 - finalizing meetings: if a user is the selector, they can pick from radio buttons and finalize the meeting time; otherwise, displays a message saying to wait for meeting selector to choose time
@@ -150,6 +154,10 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - connected front end to database for all three tabs: 'incoming', 'outgoing', 'finalized'
 - began work on acceptInvite() function, but stuck on how to modify a database value from the client side. 
 
+## April 17, 2017
+- Finished rewriting `findBusyTimes`. Tried to account for all corner cases by reducing everything to one format.
+- Finished writing `findOverlap`. Seems to be working but I can't be sure. Will test more extensively.
+
 ## April 16, 2017 (Meeting)
 - Everyone gave updates on their work so far
 - Decided to move 'meetingInvitesReceived/Sent' and other information to go under the user 'profile', because we were having trouble pulling it from the client side
@@ -161,10 +169,13 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - Fix issues where we were saving in user collection, but we should have been doing user.profile (Meteor thing).
 - Switch from saving meetings on each users respective id in the users collection to just saving to the meetings collection and saving reference ids to the users collection.
 
+## April 16, 2017 (Shayan)
+- Finished `findAvailableTimes` and upon some testing discovered major bugs in `findBusyTimes`. Decided to rewrite entire function using different method.
+- Finished `findOverlap` using basic method as suggested by David. Would test to see if one available time fits within any other available times and if it does add it to an overlap array.
+
 ## April 16, 2017 (Casey)
 - Figured out how to connect from meetings collection in the database to our front-end using spacebars, under the 'invites' tab. 
 - For now, it just shows the inviter, duration, and title for all the meetings in the database. Still need to filter this so that it just displays the invites for the current user. 
-
 
 ## April 15, 2017 (David)
 - Updated Meetings collection schema again to further match what we decided in our Wiki page
@@ -176,6 +187,17 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 
 ## April 15, 2017 (Casey)
 - Merge UI update into the 'meetings' branch. The update adds three tabs, 'Schedule a Meeting', 'Invites', 'Meetings' which fold out upon being clicked. It also inlines the modal for scheduling a meeting.
+
+
+## April 15, 2017 (Shayan)
+- Finished `findBusyTimes`. There isn't really too many ways to test without finishing other functions. Tested with a few calendars non-extensively and it seems to work.
+- Started `findAvailableTimes` and `findOverlap`
+## April 14, 2017 (Shayan)
+- Started working on the basics of calendar overlap. Decided to split up functionality into 3 functions:
+- `findBusyTimes` would go through the current user's google calendar and return an array of all their avaiable busyTimes.
+- `findAvailableTimes` would inverse the array of busy times to find the times a single user is available.
+- `findOverlap` would take two available times arrays as input and find the overlap between the two.
+- Started working on findBusyTimes.
 
 ## April 14, 2017 (David)
 - Save the meeting document created in `createMeeting()` to the Meeting collection.
@@ -202,7 +224,7 @@ A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work 
 - decided to require Cindy to click a link before we pull her calendar, if we already had access to it
 - planned strategy to finish prototype by Friday
 
-## April 8, 2017 (David)
+## April 8, 2017 (David and Shayan)
 - Set up bare bones of `Meeting` collection schema
 - Working on function to create a Meeting object; stuck on issue with MomentJS objects being invalid. May want to avoid using MomentJS but there is an elegant range interation function that should be able to help us find all possible meeting times given a range of times, so it would be nice..
 - Added packages: moment-range, momentjs, simple-schema, collections2-core
