@@ -64,6 +64,12 @@ Meteor.methods({
     var participants = meeting.participants;
     // Remove from each user in this meeting
     for (var i = 0; i < participants.length; i++) {
+      // If this wasn't deleted by the creator, inform the creator it was deleted via email
+      if (participants[i].creator && participants[i].id !== this.userId) {
+        var deleterEmail = Meteor.users.findOne(this.userId).services.google.email;
+        Meteor.call('sendDeletedEmail', participants[i].email, deleterEmail, meeting.title);
+      }
+      
       // The user isn't temp
       if (participants[i].id) {
         Meteor.users.update(participants[i].id, {
@@ -81,7 +87,6 @@ Meteor.methods({
           $pull: { 'meetingInvitesReceived': meetingId }
         });
       }
-
     }
     // Remove the event itself
     Meetings.remove(meetingId);
