@@ -136,10 +136,7 @@ Template.dashboard_page.onRendered( () => {
           }
         }
         Meteor.call('updateEventsInDB', function(error, result) {
-          if (error) {
-            console.log("Why does this guy error so often?");
-            console.log('updateEventsInDB: ' + error);
-          }
+          if (error) console.log('updateEventsInDB: ' + error);
         });
       });
     });
@@ -779,7 +776,6 @@ Template.outgoing.helpers({
         Meteor.call('getFullCalendarAvailable', this.toString(), function(error, result) {
           if (error) console.log("getFullCalendarAvailable: " + error);
 
-          console.log(result);
           $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
           $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: result });
         });
