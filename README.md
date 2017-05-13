@@ -6,6 +6,9 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## May 13, 2017 (Casey)
+- identified and fixed issue where on outgoing meetings we weren't displaying any of the participants, turns out we used the wrong name for the handlebars function
+
 ## May 11, 2017 (David)
 - Disabled keyboard input on datepickers to prevent malicious users from abusing vulnerabilities
 - Format dates and date ranges more nicely using Moment.js and Twix packages
