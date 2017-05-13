@@ -18,69 +18,66 @@ Date.prototype.toDateInputValue = (function() {
 /////////////////////////////////////////////
 
 Template.dashboard_page.helpers({
-    firstName: function(){
-      var user = Meteor.user();
-      if (user) {
-        return user.services.google.given_name;
-      }
-      else {
-        return "user that's not logged in"
-      }
-    },
-    email: function(){
-      var user = Meteor.user();
-      if (user) {
-        return user.services.google.email;
-      }
-      else {
-        return "user that's not logged in"
-      }
-    },
-    currentUser: function() {
-      return Meteor.userId();
-    },
-    invites: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.meetingInvitesReceived;
-    },
-    numIncoming: function() { // for badge
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile && user.profile.meetingInvitesReceived) return user.profile.meetingInvitesReceived.length;
-    },
-    outgoingMeetings: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.meetingInvitesSent;
-    },
-    numOutgoing: function() { // for badge
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile && user.profile.meetingInvitesSent) return user.profile.meetingInvitesSent.length;
-    },
-    final: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.finalizedMeetings;
-    },
-    numFinalized: function() { // for badge
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile && user.profile.finalizedMeetings) return user.profile.finalizedMeetings.length;
-    },
-    additionalTime: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.additionalBusyTimes;
-    },
-    userCalendars: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile && user.profile.calendars) return Object.keys(user.profile.calendars);
-    },
-    earliestTime: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile && user.profile.meetRange) return user.profile.meetRange.earliest;
-      return "09:00";
-    },
-    latestTime: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile && user.profile.meetRange) return user.profile.meetRange.latest;
-      return "22:00";
+  firstName: function(){
+    var user = Meteor.user();
+    if (user && user.services && user.services.google) {
+      return user.services.google.given_name;
+    } else {
+      return "user that's not logged in"
     }
+  },
+  email: function(){
+    var user = Meteor.user();
+    if (user && user.services && user.services.google) {
+      return user.services.google.email;
+    } else {
+      return "user that's not logged in"
+    }
+  },
+  currentUser: function() {
+    return Meteor.userId();
+  },
+  invites: function() {
+    var user = Meteor.users.findOne(Meteor.userId());
+    if (user && user.profile) return user.profile.meetingInvitesReceived;
+  },
+  numIncoming: function() { // for badge
+    var user = Meteor.users.findOne(Meteor.userId());
+    if (user && user.profile && user.profile.meetingInvitesReceived) return user.profile.meetingInvitesReceived.length;
+  },
+  outgoingMeetings: function() {
+    var user = Meteor.users.findOne(Meteor.userId());
+    if (user && user.profile) return user.profile.meetingInvitesSent;
+  },
+  numOutgoing: function() { // for badge
+    var user = Meteor.users.findOne(Meteor.userId());
+    if (user && user.profile && user.profile.meetingInvitesSent) return user.profile.meetingInvitesSent.length;
+  },
+  final: function() {
+    var user = Meteor.users.findOne(Meteor.userId());
+    if (user && user.profile) return user.profile.finalizedMeetings;
+  },
+  numFinalized: function() { // for badge
+    var user = Meteor.users.findOne(Meteor.userId());
+    if (user && user.profile && user.profile.finalizedMeetings) return user.profile.finalizedMeetings.length;
+  },
+  additionalTime: function() {
+    var user = Meteor.users.findOne(Meteor.userId());
+    if (user && user.profile) return user.profile.additionalBusyTimes;
+  },
+  userCalendars: function() {
+    var user = Meteor.users.findOne(Meteor.userId());
+    if (user && user.profile && user.profile.calendars) return Object.keys(user.profile.calendars);
+  },
+  earliestTime: function() {
+    var user = Meteor.users.findOne(Meteor.userId());
+    if (user && user.profile && user.profile.meetRange) return user.profile.meetRange.earliest;
+    return "09:00";
+  },
+  latestTime: function() {
+    var user = Meteor.users.findOne(Meteor.userId());
+    if (user && user.profile && user.profile.meetRange) return user.profile.meetRange.latest;
+    return "22:00";
   },
   currentUser: function() {
     return Meteor.userId();
@@ -131,7 +128,6 @@ Template.dashboard_page.helpers({
 
 Template.dashboard_page.onRendered( () => {
   Meteor.subscribe('Meetings');
-  Meteor.subscribe('Temp');
   Meteor.subscribe('Users');
 
   $( '#events-calendar' ).fullCalendar({

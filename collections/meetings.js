@@ -5,9 +5,11 @@ const Meetings = new Mongo.Collection('meetings');
 export default Meetings; // Meetings object must be imported to access in other files
 
 if (Meteor.isServer) {
-  // This code only runs on the server
+  // Only publish meetings for which the user is apart of. Avoid leaking other users info.
   Meteor.publish('Meetings', function meetingsPublication() {
-    return Meetings.find();
+    var meetings = Meetings.find({ 'participants': { $elemMatch: {'id': this.userId} } });
+    console.log(meetings);
+    return meetings;
   });
 }
 

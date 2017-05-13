@@ -2,10 +2,9 @@
 const Schemas = {};
 export default Schemas;
 
-// Make users subscribe-able
+// Make the CURRENT user subscribe-able
 if (Meteor.isServer) {
-  // This code only runs on the server
   Meteor.publish('Users', function tempPublication() {
-    return Meteor.users.find();
+    return Meteor.users.find(this.userId);
   });
 }

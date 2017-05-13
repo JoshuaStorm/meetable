@@ -155,6 +155,7 @@ Meteor.methods({
     }
     return undefined;
   },
+  
   // Get the available duration long blocks in the full calendar format for this meeting
   getFullCalendarAvailable: function(meetingId) {
     var meeting = Meetings.findOne(meetingId);
