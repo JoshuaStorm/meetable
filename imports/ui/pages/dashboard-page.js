@@ -276,13 +276,13 @@ Template.dashboard_page.onRendered( () => {
 
   $('#no-meetings-before').datetimepicker({
     format: 'h:mm a',
-    defaultDate: moment(earliest, "hh:mm"),
+    defaultDate: moment(meetRange.earliest, "hh:mm"),
     ignoreReadonly: true // let user use datepicker without typing manually
   });
 
   $('#no-meetings-after').datetimepicker({
     format: 'h:mm a',
-    defaultDate: moment(latest, "hh:mm"),
+    defaultDate: moment(meetRange.latest, "hh:mm"),
     ignoreReadonly: true // let user use datepicker without typing manually
   });
 });
