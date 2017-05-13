@@ -304,7 +304,6 @@ Meteor.methods({
         var userEmail = Meteor.users.findOne(thisId).services.google.email;
         Meteor.call('sendFinalizedEmail', finalizerEmail, userEmail, thisMeeting.title, selectedTime);
       }
-
     }
   },
 
@@ -320,6 +319,7 @@ Meteor.methods({
       }
     });
 
+    var finalizerEmail = Meteor.users.findOne(this.userId).services.google.email;
     for (var i = 0; i < thisMeeting.participants.length; i++) {
       thisId = thisMeeting.participants[i].id
       user = Meteor.users.findOne(thisId);
@@ -343,6 +343,12 @@ Meteor.methods({
         $pull: { "profile.meetingInvitesSent": meetingId }
       });
       user = Meteor.users.findOne(thisId);
+
+      // Email everyone except the finalizer to let them know the event has been finalized
+      if (thisId !== this.userId) {
+        var userEmail = Meteor.users.findOne(thisId).services.google.email;
+        Meteor.call('sendFinalizedEmail', finalizerEmail, userEmail, thisMeeting.title, selectedBlock);
+      }
     }
   },
 
