@@ -384,7 +384,12 @@ Template.dashboard_page.events({
     let beforeTime = moment($('#no-meetings-before').data("DateTimePicker").date().format());
     let afterTime = moment($('#no-meetings-after').data("DateTimePicker").date().format());
 
-    if (!afterTime.isAfter(beforeTime)) {
+    //Set the date of the before and after time to same arbitrary date in the past so 
+    //when comparing the two only the hours and minutes are considered.
+    beforeTime.set({'year': 1997, 'month': 7, 'date': 1});
+    afterTime.set({'year': 1997, 'month': 7, 'date': 1});
+
+    if (afterTime.isSame(beforeTime)) {
       Bert.alert("You must have some time you're available. ", 'danger', 'fixed-bottom');
 
       return;
