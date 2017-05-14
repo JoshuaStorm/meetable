@@ -1,4 +1,6 @@
 // Add a method to send emails!
+import { Email } from 'meteor/email';
+
 Meteor.methods({
   sendEmail: function (to, from, subject, text) {
     check([to, from, subject, text], [String]);

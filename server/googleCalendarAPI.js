@@ -10,8 +10,8 @@ var auth = new googleAuth(); // used to authentication requests sent by gCalenda
 // Client secrets, etc. from David's (or Casey's?) Google Developer Console project
 
 var oauth2Client = new auth.OAuth2(
-  "940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com",
-  "mKa01x_C9W_MnlIuHVJRupb3"
+  Meteor.settings.private.oAuth.google.clientId,
+  Meteor.settings.private.oAuth.google.secret
 );
 
 // set auth for all Google requests; instead of doing it for each request function
@@ -36,8 +36,8 @@ Meteor.methods({
       const user = Meteor.users.findOne(this.userId);
       const googleService = Meteor.users.findOne(this.userId).services.google;
 
-      const clientId = "940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com";
-      const secret = "mKa01x_C9W_MnlIuHVJRupb3";
+      const clientId = Meteor.settings.private.oAuth.google.clientId;
+      const secret = Meteor.settings.private.oAuth.google.secret;
 
       // declare oauth2 client and set credentials
       const oauth2Client = new GoogleApis.auth.OAuth2(clientId, secret);
@@ -290,7 +290,7 @@ function getAccessToken(user) {
     };
   }
 
-  const oauth2Client = new GoogleApis.auth.OAuth2("940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com", "mKa01x_C9W_MnlIuHVJRupb3");
+  const oauth2Client = new GoogleApis.auth.OAuth2(Meteor.settings.private.oAuth.google.clientId, Meteor.settings.private.oAuth.google.secret);
   // set the Oauth2 client credentials from the user refresh token
   oauth2Client.setCredentials({
     refresh_token: user.services.google.refreshToken,
