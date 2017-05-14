@@ -62,14 +62,23 @@ Meteor.methods({
   deleteMeeting: function(meetingId) {
     var meeting = Meetings.findOne(meetingId);
     var participants = meeting.participants;
-    // Remove from each user in this meeting
+
+    // Get the hosts email
+    var hostEmail = "";
     for (var i = 0; i < participants.length; i++) {
+      if (participants[i].creator) hostEmail = participants[i].email;
+    }
+
+    // Remove from each user in this meeting
+    for (i = 0; i < participants.length; i++) {
       // If this wasn't deleted by the creator, inform the creator it was deleted via email
       if (participants[i].creator && participants[i].id !== this.userId) {
         var deleterEmail = Meteor.users.findOne(this.userId).services.google.email;
         Meteor.call('sendDeletedEmail', participants[i].email, deleterEmail, meeting.title);
+      } else if (participants[i].id !== this.userId) { // If this was deleted by the creator, inform everyone else
+        Meteor.call('sendDeletedGroupEmail', participants[i].email, hostEmail, meeting.title);
       }
-      
+
       // The user isn't temp
       if (participants[i].id) {
         Meteor.users.update(participants[i].id, {

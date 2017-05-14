@@ -61,6 +61,16 @@ Meteor.methods({
     Meteor.call("sendEmail", inviterEmail, "do-not-reply@becker.codes", subject, text);
   },
 
+  // Same as above, but text is assuming meeting got deleted by host
+  sendDeletedGroupEmail: function(invitedEmail, host, title) {
+    var subject = host + " deleted your meeting invitation.";
+    var text = host + " deleted your meeting invitation for \"" + title + "\" for one reason or another.\n" +
+              "Perhaps another time! https://meetable-us.herokuapp.com/\n\n\n" +
+              "You are receiving this email because " + host + " tried to schedule a meeting with you"
+              " on Meetable, but they deleted the invitation.";
+    Meteor.call("sendEmail", invitedEmail, "do-not-reply@becker.codes", subject, text);
+  },
+
   // Same as above, but text is to inform user that a group meeting is ready to finalize
   sendReadyToFinalizeEmail: function(inviterEmail, title) {
     var subject = "\"" + title + "\"" + " is ready to finalize!";
@@ -78,8 +88,8 @@ Meteor.methods({
     var subject = "Your meeting for " + "\"" + title + "\"" + " has been finalized!";
     var text ="Your meeting for \"" + title + "\" has been finalized!\n" +
               "It has been scheduled for " + start + "-" + end + ".\n\n https://meetable-us.herokuapp.com/\n\n\n" +
-              "You are receiving this email because you tried to schedule a group meeting" +
-              " on Meetable, and all of the invited users accepted your invite.";
+              "You are receiving this email because you tried to schedule a meeting" +
+              " on Meetable, and the time has been finalized.";
     Meteor.call("sendEmail", otherEmail, "do-not-reply@becker.codes", subject, text);
   },
 });
