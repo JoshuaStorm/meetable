@@ -277,13 +277,13 @@
         </div>
         <form>
         {{#if suggestedTimes}}
-                <div class="col-md-12">
-                <p>Please select a time for the meeting:</p>
+          <div class="col-md-12">
+          <p>Please select a time for the meeting:</p>
           {{#each suggestedTimes}}
             <div class="radio">
               <label>
                 <input type="radio" name="myForm" value="{{@index}}" checked="">
-                {{formattedStart}} - {{formattedEnd}}
+                {{suggestedRange}}
               </label>
             </div>
           {{/each}}
