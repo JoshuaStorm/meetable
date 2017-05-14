@@ -257,9 +257,11 @@
   <div class="row container-fluid">
     <div class="card invite-card">
       <div class="card-block invite-card-block">
-        <div class="col-md-12">
-          Waiting on <h4>{{inviterName}}</h4> to select a time for <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
-        </div>
+          <span class="label label-primary">Accepted, waiting for host to finalize time.</span>
+            <div class="col-md-12">
+              <h4>{{inviterName}}</h4> <p>invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})</p>
+              <p> Scheduling Window: <br> {{incomingWindowRange}}</p>
+            </div>
       </div>
     </div>
   </div>
