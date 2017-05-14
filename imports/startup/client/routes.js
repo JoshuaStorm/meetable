@@ -31,6 +31,8 @@ Accounts.onLogin(function () {
 });
 
 Blaze._allowJavascriptUrls();
+Accounts.loginServicesConfigured();
+
 public.route('/', {
   name: 'App.home',
   action: function(params) {
