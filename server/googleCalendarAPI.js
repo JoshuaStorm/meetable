@@ -19,6 +19,14 @@ GoogleApis.options({
   auth: oauth2Client
 });
 
+let Colors = {
+  busyGcalEvents: "#33658A",
+  availableGCalEvents: "#86BBD8",
+  suggestedTimes: "#1C7C54",
+  finalizedMeetings: "#F26419",
+  additionalBusyTimes: "#2F4858"
+};
+
 Meteor.methods({
 
   // Get auth info from the Meteor.users DB and setup oauth2Client to use it
@@ -154,7 +162,8 @@ Meteor.methods({
             start: thisGCalEvent.start.date,
             end: thisGCalEvent.end.date,
             timeZone: thisGCalEvent.start.timeZone,
-            calendarId: strippedDots
+            calendarId: strippedDots,
+            color: Colors.busyGcalEvents
           };
         } else if (thisGCalEvent.start.hasOwnProperty('dateTime')) {
           thisFullCalEvent = {
@@ -162,12 +171,14 @@ Meteor.methods({
             start: thisGCalEvent.start.dateTime,
             end: thisGCalEvent.end.dateTime,
             timeZone: thisGCalEvent.start.timeZone,
-            calendarId: strippedDots
+            calendarId: strippedDots,
+            color: Colors.busyGcalEvents
           };
         }
         // Events that are "transparent" are set to "available" (ie. shouldn't be considered for our busy times)
         if (thisGCalEvent.hasOwnProperty('transparency') && thisGCalEvent.transparency === "transparent") {
-          thisFullCalEvent.color = '#00cc99';
+          //thisFullCalEvent.color = '#00cc99';
+          thisFullCalEvent.color = Colors.availableGCalEvents;
           availableEvents.push(thisFullCalEvent);
         } else {
           busyEvents.push(thisFullCalEvent);

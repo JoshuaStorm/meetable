@@ -10,6 +10,7 @@ html, body {
 .navbar {
   /* make navbar and content touch */
   margin-bottom: 0px;
+  background-color: #33658A;
 }
 
 .invite-card {

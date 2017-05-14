@@ -3,6 +3,14 @@
 import Meetings from '/collections/meetings.js';
 import Temp from '/collections/temp.js';
 
+let colors = {
+  busyGcalEvents: "#33658A",
+  availableGCalEvents: "#86BBD8",
+  suggestedTimes: "#1C7C54",
+  finalizedMeetings: "#F26419",
+  additionalBusyTimes: "#2F4858"
+};
+
 Meteor.methods({
   // Return an array of the current users finalized events in the FullCalendar format
   // NOTE: This will NOT return the finalized meetings pushed to GCal.
@@ -31,7 +39,7 @@ Meteor.methods({
         title: thisMeeting.title,
         start: thisMeeting.selectedBlock.startTime,
         end:   thisMeeting.selectedBlock.endTime,
-        color: "#b30000"
+        color: colors.finalizedMeetings
       };
       if (addToCal) events.push(thisEvent);
     }
@@ -50,9 +58,10 @@ Meteor.methods({
         title: "User added busy time",
         start: additional.start,
         end: additional.end,
-        borderColor: "#b21503",
-        backgroundColor: "rgba(188, 183, 183, 0.5)",
-        textColor: "#000000",
+        color: colors.additionalBusyTimes,
+        // borderColor: "#b21503",
+        // backgroundColor: "rgba(188, 183, 183, 0.5)",
+        // textColor: "#000000",
       };
       events.push(thisEvent);
     }
@@ -159,7 +168,8 @@ Meteor.methods({
         'start': thisEvent.startTime,
         'end': thisEvent.endTime,
         'calendarId': thisId,
-        'color': '#00ba3e'
+        // 'color': '#00ba3e'
+        'color': colors.availableGCalEvents
       };
       fullCalEvents.push(thisFullCalEvent);
     }
