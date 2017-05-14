@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Email } from 'meteor/email';
 
 // Set SMTP server URL
-process.env.MAIL_URL = "smtp://apikey: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@smtp.sendgrid.net:587"; // TODO: Set port to 465 if it works
+process.env.MAIL_URL = "smtp://apikey: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@smtp.sendgrid.net:587"; // TODO: Set port to 465 if it works
 
 Meteor.startup(() => {
   // Add Google configuration entry

@@ -5,16 +5,19 @@ Meteor.methods({
     // Let other method calls from the same client start running,
     // without waiting for the email sending to complete.
     this.unblock();
-    console.log(" ------------------ PRETENDING TO EMAIL ------------------ ");
-    console.log(to);
-    console.log(subject);
-    console.log(text);
-    // Email.send({
-    //   to: to,
-    //   from: from,
-    //   subject: subject,
-    //   text: text
-    // });
+    try {
+      Email.send({
+        to: to,
+        from: from,
+        subject: subject,
+        text: text
+      });
+    } catch(e) {
+      console.log("Ran out of free emails with SendGrid. We have 100 free emails per day.");
+      console.log(to);
+      console.log(subject);
+      console.log(text);
+    }
   },
 
   // Send an invitation email to the inviteeEmail. THIS IS ONLY USED TO INVITED NEW USERS
