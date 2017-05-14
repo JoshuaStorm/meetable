@@ -18,69 +18,112 @@ Date.prototype.toDateInputValue = (function() {
 /////////////////////////////////////////////
 
 Template.dashboard_page.helpers({
-    firstName: function(){
-      var user = Meteor.user();
-      if (user) {
-        return user.services.google.given_name;
-      }
-      else {
-        return "user that's not logged in"
-      }
-    },
-    email: function(){
-      var user = Meteor.user();
-      if (user) {
-        return user.services.google.email;
-      }
-      else {
-        return "user that's not logged in"
-      }
-    },
-    currentUser: function() {
-      return Meteor.userId();
-    },
-    invites: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.meetingInvitesReceived;
-    },
-    numIncoming: function() { // for badge
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile && user.profile.meetingInvitesReceived) return user.profile.meetingInvitesReceived.length;
-    },
-    outgoingMeetings: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.meetingInvitesSent;
-    },
-    numOutgoing: function() { // for badge
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile && user.profile.meetingInvitesSent) return user.profile.meetingInvitesSent.length;
-    },
-    final: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.finalizedMeetings;
-    },
-    numFinalized: function() { // for badge
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile && user.profile.finalizedMeetings) return user.profile.finalizedMeetings.length;
-    },
-    additionalTime: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile) return user.profile.additionalBusyTimes;
-    },
-    userCalendars: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile && user.profile.calendars) return Object.keys(user.profile.calendars);
-    },
-    earliestTime: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile && user.profile.meetRange) return user.profile.meetRange.earliest;
-      return "09:00";
-    },
-    latestTime: function() {
-      var user = Meteor.users.findOne(Meteor.userId());
-      if (user && user.profile && user.profile.meetRange) return user.profile.meetRange.latest;
-      return "22:00";
+  firstName: function(){
+    var user = Meteor.user();
+    if (user && user.services) {
+      return user.services.google.given_name;
+    } else {
+      return "user that's not logged in"
     }
+  },
+  email: function(){
+    var user = Meteor.user();
+    if (user && user.services) {
+      return user.services.google.email;
+    } else {
+      return "user that's not logged in"
+    }
+  },
+  currentUser: function() {
+    return Meteor.userId();
+  },
+  invites: function() {
+    var user = Meteor.user();
+    if (user && user.profile) return user.profile.meetingInvitesReceived;
+  },
+  numIncoming: function() { // for badge
+    var user = Meteor.user();
+    if (user && user.profile && user.profile.meetingInvitesReceived) return user.profile.meetingInvitesReceived.length;
+  },
+  outgoingMeetings: function() {
+    var user = Meteor.user();
+    if (user && user.profile) return user.profile.meetingInvitesSent;
+  },
+  numOutgoing: function() { // for badge
+    var user = Meteor.user();
+    if (user && user.profile && user.profile.meetingInvitesSent) return user.profile.meetingInvitesSent.length;
+  },
+  final: function() {
+    var user = Meteor.user();
+    if (user && user.profile) return user.profile.finalizedMeetings;
+  },
+  numFinalized: function() { // for badge
+    var user = Meteor.user();
+    if (user && user.profile && user.profile.finalizedMeetings) return user.profile.finalizedMeetings.length;
+  },
+  additionalTime: function() {
+    var user = Meteor.user();
+    if (user && user.profile) return user.profile.additionalBusyTimes;
+  },
+  userCalendars: function() {
+    var user = Meteor.user();
+    if (user && user.profile && user.profile.calendars) return Object.keys(user.profile.calendars);
+  },
+  earliestTime: function() {
+    var user = Meteor.user();
+    if (user && user.profile && user.profile.meetRange) return user.profile.meetRange.earliest;
+    return "09:00";
+  },
+  latestTime: function() {
+    var user = Meteor.user();
+    if (user && user.profile && user.profile.meetRange) return user.profile.meetRange.latest;
+    return "22:00";
+  },
+  currentUser: function() {
+    return Meteor.userId();
+  },
+  invites:function() {
+    var user = Meteor.user();
+    if (user && user.profile) return user.profile.meetingInvitesReceived;
+  },
+  numIncoming:function() { // for badge
+    var user = Meteor.user();
+    if (user && user.profile && user.profile.meetingInvitesReceived) return user.profile.meetingInvitesReceived.length;
+  },
+  outgoingMeetings:function() {
+    var user = Meteor.user();
+    if (user && user.profile) return user.profile.meetingInvitesSent;
+  },
+  numOutgoing:function() { // for badge
+    var user = Meteor.user();
+    if (user && user.profile && user.profile.meetingInvitesSent) return user.profile.meetingInvitesSent.length;
+  },
+  final: function() {
+    var user = Meteor.user();
+    if (user && user.profile) return user.profile.finalizedMeetings;
+  },
+  numFinalized:function() { // for badge
+    var user = Meteor.user();
+    if (user && user.profile && user.profile.finalizedMeetings) return user.profile.finalizedMeetings.length;
+  },
+  additionalTime: function() {
+    var user = Meteor.user();
+    if (user && user.profile) return user.profile.additionalBusyTimes;
+  },
+  userCalendars: function() {
+    var user = Meteor.user();
+    if (user && user.profile && user.profile.calendars) return Object.keys(user.profile.calendars);
+  },
+  earliestTime: function() {
+    var user = Meteor.user();
+    if (user && user.profile && user.profile.meetRange) return user.profile.meetRange.earliest;
+    return "09:00";
+  },
+  latestTime: function() {
+    var user = Meteor.user();
+    if (user && user.profile && user.profile.meetRange) return user.profile.meetRange.latest;
+    return "22:00";
+  }
 });
 
 Template.dashboard_page.onRendered( () => {
@@ -136,10 +179,7 @@ Template.dashboard_page.onRendered( () => {
           }
         }
         Meteor.call('updateEventsInDB', function(error, result) {
-          if (error) {
-            console.log("Why does this guy error so often?");
-            console.log('updateEventsInDB: ' + error);
-          }
+          if (error) console.log('updateEventsInDB: ' + error);
         });
       });
     });
@@ -264,7 +304,7 @@ Template.dashboard_page.onRendered( () => {
     ignoreReadonly: true // let user use datepicker without typing manually
   });
 
-  var meetRange = Meteor.users.findOne(Meteor.userId()).profile.meetRange
+  var meetRange = Meteor.user().profile.meetRange
   // if the latest string is not found in DB or it is an empty string
   if (!meetRange || !meetRange.earliest || !meetRange.latest) {
     console.log("Missing value for no meetings before. setting it to 09:00-22:00");
@@ -324,7 +364,15 @@ Template.dashboard_page.events({
       }
     }
 
-    Meteor.call('createMeeting', title, cleanEmails, length, windowStart, windowEnd, function(error, result) {
+    // Email Bert alert should take precedence over duration bert alert, so check duration now
+    if (length < 15) {
+      Bert.alert( 'A meeting must be at least 15 minutes long.', 'danger', 'growl-bottom-left' );
+      return;
+    }
+
+    // TODO: add fields to set the window of time to schedule the time
+    // currently using 24 hours after time button was pressed
+    Meteor.call('createMeeting', title, emails, length, windowStart, windowEnd, function(error, result) {
       if (error) {
         Bert.alert( 'Meeting invite could not be sent. Please try again', 'danger', 'growl-bottom-left' );
         console.log("createMeeting: " + error);
@@ -394,6 +442,7 @@ Template.dashboard_page.events({
 
     //Set the date of the before and after time to same arbitrary date in the past so
     //when comparing the two only the hours and minutes are considered.
+    
     beforeTime.set({'year': 1997, 'month': 7, 'date': 1});
     afterTime.set({'year': 1997, 'month': 7, 'date': 1});
 
@@ -410,8 +459,8 @@ Template.dashboard_page.events({
         if (error) console.log('updateBusyTimes: ' + error);
         else {
           // reset datepickers to their (new) database values
-          let earliest = moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.earliest, "hh:mm")
-          let latest = moment(Meteor.users.findOne(Meteor.userId()).profile.meetRange.latest, "hh:mm");
+          let earliest = moment(Meteor.user().profile.meetRange.earliest, "hh:mm")
+          let latest = moment(Meteor.user().profile.meetRange.latest, "hh:mm");
           $('#no-meetings-before').data("DateTimePicker").date(earliest);
           $('#no-meetings-after').data("DateTimePicker").date(latest);
 
@@ -473,6 +522,7 @@ Template.invite.helpers({
     var availableId = this.toString() + '-AVAILABLE';
 
     // an incoming meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a two person meeting
+    // NOTE: Group meetings are in `outgoing`
     if (thisMeeting.readyToFinalize && !thisMeeting.isFinalized && thisMeeting.participants.length === 2) {
       Template.instance().currentInviteType.set('readyToFinalize');
 
@@ -608,6 +658,19 @@ Template.notSelector.helpers({
       return hour + "hr " + minute + "min";
     }
   },
+  incomingWindowRange() {
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.windowStart && meeting.windowEnd) {
+      let windowStart = Meetings.findOne(this.toString()).windowStart;
+      let windowEnd = Meetings.findOne(this.toString()).windowEnd;
+
+      return moment(windowStart).twix(moment(windowEnd)).format({
+        showDayOfWeek: true,
+        weekdayFormat: "ddd,",
+        meridiemFormat: "a",
+      });
+    }
+  }
 });
 
 Template.selector.helpers({
@@ -774,13 +837,23 @@ Template.outgoing.helpers({
   },
   readyToFinalize() {
     var meeting = Meetings.findOne(this.toString());
-    if (meeting) {
+    var availableId = this.toString() + '-AVAILABLE';
+
+    if (meeting && meeting.participants) {
       var readyOutgoing = false;
       // an outgoing meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a group meeting
-      if (Meetings.findOne(this.toString()).readyToFinalize && Meetings.findOne(this.toString()).participants.length > 2)
-      {
+      if (meeting.readyToFinalize && meeting.participants.length > 2) {
         readyOutgoing = true;
+
+        // Visualize the available times to select from
+        Meteor.call('getFullCalendarAvailable', this.toString(), function(error, result) {
+          if (error) console.log("getFullCalendarAvailable: " + error);
+
+          $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
+          $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: result });
+        });
       }
+
       return readyOutgoing;
     }
   },
@@ -806,7 +879,7 @@ Template.outgoing.events({
       if (error) console.log(error);
     });
   }
-})
+});
 
 Template.outgoingFinalize.helpers({
   inviterName() {
@@ -851,26 +924,58 @@ Template.outgoingFinalize.helpers({
       meridiemFormat: "a",
     });
   },
+  noPrevSuggested() {
+    var meeting = Meetings.findOne(this.toString());
+    var available = meeting.durationLongAvailableTimes;
+    var index = meeting.suggestedRangeIndex;
+    if ((index - 1) < 0) return true;
+    return false;
+  },
+  noNextSuggested() {
+    var meeting = Meetings.findOne(this.toString());
+    var available = meeting.durationLongAvailableTimes;
+    var index = meeting.suggestedRangeIndex;
+
+    if ((index + 1) >= (available.length / 5)) return true;
+    return false;
+  },
 });
 
 Template.outgoingFinalize.events({
   'submit form': function(event){
-      event.preventDefault();
-      var radioValue = event.target.myForm.value;
-      Meteor.call('selectFinalTime', this.toString(), radioValue, function(error, result) {
-        if (error) {
-          console.log("selectFinaltime: " + error);
-        } else {
-          addFinalizedEvent();
-        }
-      });
-    },
-    'click #deleteInvite': function(event) {
-      event.preventDefault();
-      Meteor.call('deleteMeeting', this.toString(), function(error, result) {
-        if (error) console.log(error);
-      });
-    }
+    event.preventDefault();
+    var radioValue = event.target.myForm.value;
+    Meteor.call('selectFinalTime', this.toString(), radioValue, function(error, result) {
+      if (error) {
+        console.log("selectFinaltime: " + error);
+      } else {
+        Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
+        Meteor.call("getFullCalendarFinalized", function(error, result) {
+          if (error) console.log(error);
+          $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
+          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
+        });
+      }
+    });
+  },
+  'click #deleteInvite': function(event) {
+    event.preventDefault();
+    Meteor.call('deleteMeeting', this.toString(), function(error, result) {
+      if (error) console.log(error);
+    });
+  },
+  'click #prevSuggestedTimes' :function(e) {
+    e.preventDefault();
+    Meteor.call('getPrevSuggestedTimes', this.toString(), function(error, result) {
+      if (error) console.log('getPrevSuggestedTimes: ' + error);
+    });
+  },
+  'click #nextSuggestedTimes' :function(e) {
+    e.preventDefault();
+    Meteor.call('getNextSuggestedTimes', this.toString(), function(error, result) {
+      if (error) console.log('getNextSuggestedTimes: ' + error);
+    });
+  },
 });
 
 Template.finalizedMeeting.helpers({
@@ -926,11 +1031,11 @@ Template.finalizedMeeting.helpers({
 
 Template.calendar.helpers({
   calendarTitle: function() {
-    var user = Meteor.users.findOne(Meteor.userId());
+    var user = Meteor.user();
     if (user && user.profile) return user.profile.calendars[this.toString()].title;
   },
   isChecked: function() {
-    var user = Meteor.users.findOne(Meteor.userId());
+    var user = Meteor.user();
     if (user && user.profile) return user.profile.calendars[this.toString()].considered;
   }
 });
@@ -946,8 +1051,8 @@ Template.calendar.events({
       $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
       if (result[id].considered) {
         // OKAY THIS IS INEFFICIENT BUT BETTER THAN PULLING FROM GCAL SO SUE ME
-        var busyEvents = Meteor.users.findOne(Meteor.userId()).profile.calendarEvents;
-        var availableEvents = Meteor.users.findOne(Meteor.userId()).profile.availableEvents;
+        var busyEvents = Meteor.user().profile.calendarEvents;
+        var availableEvents = Meteor.user().profile.availableEvents;
         var addedBusy = [];
         var addedAvailable = [];
 

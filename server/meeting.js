@@ -157,6 +157,19 @@ Meteor.methods({
     }
   },
 
+  // Get the meeting associated with the input id.
+  // ONLY return meeting if the current user is associated with the meeting in order to ensure users can't access arbitary meetings.
+  getMeeting: function(meetingId) {
+    var meeting = Meetings.findOne(meetingId);
+    if (!meeting || !meeting.participants) return undefined;
+
+    for (var i = 0; i < meeting.participants.length; i++) {
+      var user = meeting.participants[i];
+      if (user.id === this.userId) return meeting;
+    }
+    return undefined;
+  },
+  
   // Get the available duration long blocks in the full calendar format for this meeting
   getFullCalendarAvailable: function(meetingId) {
     var meeting = Meetings.findOne(meetingId);

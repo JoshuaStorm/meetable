@@ -29,7 +29,6 @@ email
 check
 useraccounts:flow-routing
 fullcalendar:fullcalendar
-autopublish
 aldeed:collection2-core
 aldeed:simple-schema@1.5.3
 session

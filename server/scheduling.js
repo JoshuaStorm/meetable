@@ -546,10 +546,12 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   var meetingTimes = getFinalizedMeetingTimes(userId);
   if (!meetingTimes) meetingTimes = [];
   var outsideMeetRange = getOutsideMeetRangeTimes(userId, windowStart, windowEnd);
+  var thePast = getBusyFromThenToNow(userId, windowStart);
 
   calendarTimes = calendarTimes.concat(meetingTimes);
   calendarTimes = calendarTimes.concat(additionalBusyTimes);
   calendarTimes = calendarTimes.concat(outsideMeetRange);
+  calendarTimes = calendarTimes.concat(thePast);
 
   // Sort the times based on startTime
   calendarTimes.sort(function(time1, time2) {
@@ -883,4 +885,13 @@ function formatAllDayEvents(userId, events) {
     }
   }
   return events;
+}
+
+// Get a busy block from the input 'then' to the current time. Return as an array for convenience in findUserBusyTimes
+function getBusyFromThenToNow(userId, then) {
+  var event = {
+    start: then,
+    end: new Date()
+  }
+  return [event];
 }
