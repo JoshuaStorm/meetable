@@ -3,6 +3,14 @@ import Schemas from './schemas.js';
 const Temp = new Mongo.Collection('temp');
 export default Temp; // Meetings object must be imported to access in other files
 
+if (Meteor.isServer) {
+  // This code only runs on the server
+  Meteor.publish('Temp', function tempPublication() {
+    return Temp.find();
+  });
+}
+
+
 Temp.allow({
   insert() { return false; },
   update() { return false; },
