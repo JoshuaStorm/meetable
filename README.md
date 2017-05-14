@@ -6,6 +6,14 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## May 13, 2017 (Josh)
+- Move private API keys to settings.json
+- Finalize changed colors.
+- Ensure backend inputs are sanitized.
+- Disallow very short (<15 mins) meetings to avoid visual slowdown.
+- Update email templates.
+- Get `deploy` ready for submission!
+
 ## May 13, 2017 (Casey)
 - identified and fixed issue where on outgoing meetings we weren't displaying any of the participants, turns out we used the wrong name for the handlebars function
 
