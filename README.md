@@ -8,3 +8,6 @@ Deployed website: https://meetable-us.herokuapp.com/
 - Casey Li
 - [David Melvin](https://github.com/davidmelvin)
 - Shayan Monshizadeh
+
+# Credits
+- favicon calendar icon made by [Freepik](http://www.flaticon.com) under the CC 3.0 License
