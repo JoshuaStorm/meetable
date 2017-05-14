@@ -8,13 +8,18 @@ Meteor.methods({
   // TODO: currently assumes meetings must be within 24 hours of clicking create meeting
   // invitedemails (array of strings): list of email addresses to invite
   // duration (float): length of the meeting in minutes
-  // windowStart (Moment.js object): earliest possible time to meet
-  // windowEnd (Moment.js object): latest possible time to meet
+  // windowStart (Date object): earliest possible time to meet
+  // windowEnd (Date object): latest possible time to meet
 
   // Creates the meeting document. This function is called when a person clicks save on the schedule tab.
   // The function then creates the unique meeting collection and associates each user in invitedEmails to
   // that collection. It also sets the creator of the meeting and who has accepted
   createMeeting: function(title, invitedEmails, duration, windowStart, windowEnd) {
+    check(title, String);
+    check(invitedEmails, [String]);
+    check(duration, Number);
+    check([windowStart, windowEnd], [Date]);
+
     var thisUserEmail = Meteor.users.findOne(this.userId).services.google.email;
 
     // If this is just the user being silly and trying to invite themselves to their own meeting, do nothing
@@ -171,6 +176,8 @@ Meteor.methods({
 
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
+    check([meetingId, userId], [String]);
+
     var thisMeeting = Meetings.findOne({_id:meetingId});
     // iterate through all meeting participants to find index in array for the current user
     for (var i = 0; i < thisMeeting.participants.length; i++) {
@@ -203,6 +210,8 @@ Meteor.methods({
 
   // Decline a meeting invitation
   declineInvite: function(meetingId, userId) {
+    check([meetingId, userId], [String]);
+
     var thisMeeting = Meetings.findOne({_id: meetingId});
     var participants = thisMeeting.participants;
 
@@ -244,7 +253,7 @@ Meteor.methods({
         }
       });
       // Kill this meeting in the meeting collection
-      Meetings.remove({_id:meetingId});
+      Meetings.remove(meetingId);
     }
     // Remove this from received meetings in decliner's collection
     Meteor.users.update(userId, {
@@ -260,8 +269,9 @@ Meteor.methods({
   // given a formValue that maps to an index into suggestedMeetingTimes
   // choose this as the final selected time and save that choice in the database
   selectFinalTime: function(meetingId, formValue) {
-    var index = parseInt(formValue);
+    check([meetingId, formValue], [String]);
 
+    var index = parseInt(formValue);
     var thisMeeting = Meetings.findOne(meetingId);
     var selectedTime = {
       "startTime" : thisMeeting.suggestedMeetingTimes[index].startTime,
@@ -310,8 +320,10 @@ Meteor.methods({
   // Same as above, but selected off the visual calendar
   // Not exactly great abstraction that bot these need to exist, but we're running out of time.
   calendarSelectFinalTime: function(meetingId, selectedBlock) {
-    var thisMeeting = Meetings.findOne(meetingId);
+    check(meetingId, String);
+    check(selectedBlock, { startTime: Date, endTime: Date});
 
+    var thisMeeting = Meetings.findOne(meetingId);
     Meetings.update({_id:meetingId},{
       $set: {
         'selectedBlock' : selectedBlock,
@@ -353,11 +365,14 @@ Meteor.methods({
   },
 
   readyToFinalize: function(meetingId) {
+    check(meetingId, String);
     return checkMeetingReadyToFinalize(meetingId);
   },
 
   // Set readyToFinalize to false, set the current users accepted to false
   setNotReadyToFinalize: function(meetingId) {
+    check(meetingId, String);
+
     var thisMeeting = Meetings.findOne(meetingId);
     var participants = thisMeeting.participants
     for (var i = 0; i < participants.length; i++) {
@@ -393,6 +408,8 @@ Meteor.methods({
 
   // Flip to the next page of duration long blocks available, set as suggested times
   getPrevSuggestedTimes: function(meetingId) {
+    check(meetingId, String);
+
     var meeting = Meetings.findOne(meetingId);
     var available = meeting.durationLongAvailableTimes;
     var index = meeting.suggestedRangeIndex;
@@ -407,6 +424,8 @@ Meteor.methods({
 
   // Flip to the next page of duration long blocks available, set as suggested times
   getNextSuggestedTimes: function(meetingId) {
+    check(meetingId, String);
+
     var meeting = Meetings.findOne(meetingId);
     var available = meeting.durationLongAvailableTimes;
     var index = meeting.suggestedRangeIndex;

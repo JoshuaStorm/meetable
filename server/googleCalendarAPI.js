@@ -20,8 +20,8 @@ GoogleApis.options({
 });
 
 let COLORS = {
-  busyGcalEvents:  "rgba(0, 150, 134, 1)",
-  availableGCalEvents:  "rgba(95, 194, 184, 1)",
+  busyGcalEvents: "rgba(0, 150, 134, 1)",
+  availableGCalEvents: "rgba(95, 194, 184, 1)",
   suggestedTimes: "rgba(34, 161, 0, 0.7)",
   finalizedMeetings: "rgba(241, 102, 0, 1)",
   additionalBusyTimes: "rgba(48, 92, 172, 1)"
@@ -94,6 +94,8 @@ Meteor.methods({
 
   // Flip the considered boolean of the given calendarId, return the updated calendars
   setCalendarConsideration: function(calendarId) {
+    check(calendarId, String);
+
     var user = Meteor.users.findOne(this.userId);
     var userCalendars = user.profile.calendars;
     if (!userCalendars) {
@@ -236,6 +238,8 @@ Meteor.methods({
   // start (Date): The start time for the event
   // end (Date): The end time for the event
   addGCalEvent: function(title, start, end) {
+    check(title, String);
+    check([start, end], [Date]);
     // make sure we have a working access token
     const user = Meteor.users.findOne(this.userId);
     const tokens = getAccessToken(user);
@@ -263,11 +267,6 @@ Meteor.methods({
     };
 
     wrappedPutEvent(params);
-  },
-
-  // Okay, actually I'll leave this function, it's useful for debugging
-  printFromDB: function() {
-    console.log(Meteor.users.findOne(this.userId).profile.calendarEvents);
   },
 });
 

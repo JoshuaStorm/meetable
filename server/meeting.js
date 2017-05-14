@@ -66,6 +66,8 @@ Meteor.methods({
   },
 
   deleteMeeting: function(meetingId) {
+    check(meetingId, String);
+
     var meeting = Meetings.findOne(meetingId);
     var participants = meeting.participants;
 
@@ -110,6 +112,8 @@ Meteor.methods({
   // Add the given meeting ID to the curren users calendar, mark it as added to GCal
   // meetingId (String): The meetingId
   addMeetingToUserCalendar: function(meetingId) {
+    check(meetingId, String);
+
     var thisMeeting = Meetings.findOne(meetingId);
     Meteor.call('addGCalEvent', thisMeeting.title, thisMeeting.selectedBlock.startTime, thisMeeting.selectedBlock.endTime);
     // Mark this as added to GCal for the current user in the participant array of this meeting
@@ -166,6 +170,8 @@ Meteor.methods({
   // Get the meeting associated with the input id.
   // ONLY return meeting if the current user is associated with the meeting in order to ensure users can't access arbitary meetings.
   getMeeting: function(meetingId) {
+    check(meetingId, String);
+
     var meeting = Meetings.findOne(meetingId);
     if (!meeting || !meeting.participants) return undefined;
 
@@ -175,9 +181,11 @@ Meteor.methods({
     }
     return undefined;
   },
-  
+
   // Get the available duration long blocks in the full calendar format for this meeting
   getFullCalendarAvailable: function(meetingId) {
+    check(meetingId, String);
+    
     var meeting = Meetings.findOne(meetingId);
     // Can only get available if meeting is ready to finalize
     if (!meeting.readyToFinalize) return [];
