@@ -3,4 +3,5 @@ node_modules/
 *.sublime-*sendgrid.env
 sendgrid.env
 settings.json
-*.sublime-*
+*.sublime-workspace
+*.sublime-project
