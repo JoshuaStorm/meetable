@@ -117,8 +117,8 @@ Meteor.methods({
     // TODO: Make this grab more if a user views beyond 4 weeks into the future.
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
-    var nextWeek = new Date();
-    nextWeek.setDate(nextWeek.getDate() + 28);
+    var twoMonths = new Date();
+    twoMonths.setDate(twoMonths.getDate() + 60);
 
     var idToBusyAvailable = {};
     for (var i = 0; i < calendarList.items.length; i++) {
@@ -135,6 +135,7 @@ Meteor.methods({
       var gCalEvents = wrappedGetEventList({
           'calendarId': calendarId,
           'timeMin': lastWeek.toISOString(),
+          'timeMax': twoMonths.toISOString(),
           'singleEvents': true,
           'orderBy': 'startTime'
       });
