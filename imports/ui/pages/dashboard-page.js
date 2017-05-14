@@ -432,7 +432,7 @@ Template.dashboard_page.events({
 
     //Set the date of the before and after time to same arbitrary date in the past so
     //when comparing the two only the hours and minutes are considered.
-    
+
     beforeTime.set({'year': 1997, 'month': 7, 'date': 1});
     afterTime.set({'year': 1997, 'month': 7, 'date': 1});
 
@@ -685,44 +685,6 @@ Template.selector.helpers({
     var meeting = Meetings.findOne(this.toString());
     if (meeting) return meeting.suggestedMeetingTimes;
   },
-  formattedStart() {
-    var startDate = new Date(this.startTime);
-    var pm = "AM";
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[startDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[startDate.getMonth()];
-    var date = startDate.getDate();
-    var year = startDate.getFullYear();
-    var hour = startDate.getHours();
-    if (hour > 12) {
-      hour = hour - 12;
-      pm = "PM";
-    }
-    if (hour < 10) hour = "0" + hour;
-    var min = startDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
-  },
-  formattedEnd() {
-    var endDate = new Date(this.endTime);
-    var pm = "AM";
-    var weekday = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    var day = weekday[endDate.getDay()];
-    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    var month = months[endDate.getMonth()];
-    var date = endDate.getDate();
-    var year = endDate.getFullYear();
-    var hour = endDate.getHours();
-    if (hour > 12) {
-      hour = hour - 12;
-      pm = "PM";
-    }
-    if (hour < 10) hour = "0" + hour;
-    var min = endDate.getMinutes();
-    if (min < 10) min = "0" + min;
-    return (day + " " + month + " " + date + ", " + year + " " + hour + ":" + min + " " + pm);
-  },
   noPrevSuggested() {
     var meeting = Meetings.findOne(this.toString());
     if (meeting) {
@@ -889,10 +851,10 @@ Template.outgoingFinalize.helpers({
       return hour + "hr " + minute + "min";
     }
   },
-  suggestedTimes:function() {
+  suggestedTimes() {
     var meeting = Meetings.findOne(this.toString());
     if (meeting) return meeting.suggestedMeetingTimes;
-    },
+  },
   participants() {
     var meeting = Meetings.findOne(this.toString());
     if (meeting && meeting.participants) {
