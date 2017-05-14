@@ -315,8 +315,8 @@ Template.dashboard_page.events({
     }
 
     // Email Bert alert should take precedence over duration bert alert, so check duration now
-    if (length < 10) {
-      Bert.alert( 'A meeting must be at least 10 minutes long.', 'danger', 'growl-bottom-left' );
+    if (length < 15) {
+      Bert.alert( 'A meeting must be at least 15 minutes long.', 'danger', 'growl-bottom-left' );
       return;
     }
 
