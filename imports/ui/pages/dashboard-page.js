@@ -798,7 +798,7 @@ Template.outgoing.events({
       if (error) console.log(error);
     });
   }
-})
+});
 
 Template.outgoingFinalize.helpers({
   inviterName() {
@@ -843,26 +843,58 @@ Template.outgoingFinalize.helpers({
       meridiemFormat: "a",
     });
   },
+  noPrevSuggested() {
+    var meeting = Meetings.findOne(this.toString());
+    var available = meeting.durationLongAvailableTimes;
+    var index = meeting.suggestedRangeIndex;
+    if ((index - 1) < 0) return true;
+    return false;
+  },
+  noNextSuggested() {
+    var meeting = Meetings.findOne(this.toString());
+    var available = meeting.durationLongAvailableTimes;
+    var index = meeting.suggestedRangeIndex;
+
+    if ((index + 1) >= (available.length / 5)) return true;
+    return false;
+  },
 });
 
 Template.outgoingFinalize.events({
   'submit form': function(event){
-      event.preventDefault();
-      var radioValue = event.target.myForm.value;
-      Meteor.call('selectFinalTime', this.toString(), radioValue, function(error, result) {
-        if (error) {
-          console.log("selectFinaltime: " + error);
-        } else {
-          addFinalizedEvent();
-        }
-      });
-    },
-    'click #deleteInvite': function(event) {
-      event.preventDefault();
-      Meteor.call('deleteMeeting', this.toString(), function(error, result) {
-        if (error) console.log(error);
-      });
-    }
+    event.preventDefault();
+    var radioValue = event.target.myForm.value;
+    Meteor.call('selectFinalTime', this.toString(), radioValue, function(error, result) {
+      if (error) {
+        console.log("selectFinaltime: " + error);
+      } else {
+        Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
+        Meteor.call("getFullCalendarFinalized", function(error, result) {
+          if (error) console.log(error);
+          $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
+          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
+        });
+      }
+    });
+  },
+  'click #deleteInvite': function(event) {
+    event.preventDefault();
+    Meteor.call('deleteMeeting', this.toString(), function(error, result) {
+      if (error) console.log(error);
+    });
+  },
+  'click #prevSuggestedTimes' :function(e) {
+    e.preventDefault();
+    Meteor.call('getPrevSuggestedTimes', this.toString(), function(error, result) {
+      if (error) console.log('getPrevSuggestedTimes: ' + error);
+    });
+  },
+  'click #nextSuggestedTimes' :function(e) {
+    e.preventDefault();
+    Meteor.call('getNextSuggestedTimes', this.toString(), function(error, result) {
+      if (error) console.log('getNextSuggestedTimes: ' + error);
+    });
+  },
 });
 
 Template.finalizedMeeting.helpers({
