@@ -600,6 +600,19 @@ Template.notSelector.helpers({
       return hour + "hr " + minute + "min";
     }
   },
+  incomingWindowRange() {
+    var meeting = Meetings.findOne(this.toString());
+    if (meeting && meeting.windowStart && meeting.windowEnd) {
+      let windowStart = Meetings.findOne(this.toString()).windowStart;
+      let windowEnd = Meetings.findOne(this.toString()).windowEnd;
+
+      return moment(windowStart).twix(moment(windowEnd)).format({
+        showDayOfWeek: true,
+        weekdayFormat: "ddd,",
+        meridiemFormat: "a",
+      });
+    }
+  }
 });
 
 Template.selector.helpers({
