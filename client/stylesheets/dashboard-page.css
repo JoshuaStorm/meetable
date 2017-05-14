@@ -10,11 +10,10 @@ html, body {
 .navbar {
   /* make navbar and content touch */
   margin-bottom: 0px;
-  background-color: #33658A;
 }
 
 .invite-card {
-  padding-bottom: 10px;  
+  padding-bottom: 10px;
   box-shadow: none;
   background-color: inherit;
   border-width: 5px;
@@ -33,10 +32,10 @@ hr {
 #dashboardLeftCol {
   /* show a vertical scroll bar on the left column */
   overflow: hidden;
-  overflow-y: auto; 
+  overflow-y: auto;
 
 }
-@media (max-width: 768px) { 
+@media (max-width: 768px) {
   #dashboardLeftCol, #dashboardRightCol {
   /* hacky way to set the height back to content height on small screens */
   height: auto;

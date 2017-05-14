@@ -3,12 +3,12 @@
 import Meetings from '/collections/meetings.js';
 import Temp from '/collections/temp.js';
 
-let colors = {
-  busyGcalEvents: "#33658A",
-  availableGCalEvents: "#86BBD8",
-  suggestedTimes: "#1C7C54",
-  finalizedMeetings: "#F26419",
-  additionalBusyTimes: "#2F4858"
+let COLORS = {
+  busyGcalEvents:  "rgba(0, 150, 134, 1)",
+  availableGCalEvents:  "rgba(95, 194, 184, 1)",
+  suggestedTimes: "rgba(34, 161, 0, 0.7)",
+  finalizedMeetings: "rgba(241, 102, 0, 1)",
+  additionalBusyTimes: "rgba(48, 92, 172, 1)"
 };
 
 Meteor.methods({
@@ -39,7 +39,7 @@ Meteor.methods({
         title: thisMeeting.title,
         start: thisMeeting.selectedBlock.startTime,
         end:   thisMeeting.selectedBlock.endTime,
-        color: colors.finalizedMeetings
+        color: COLORS.finalizedMeetings
       };
       if (addToCal) events.push(thisEvent);
     }
@@ -55,13 +55,10 @@ Meteor.methods({
       var additional = additionals[i];
 
       var thisEvent = {
-        title: "User added busy time",
+        title: "Extra Busy Time",
         start: additional.start,
         end: additional.end,
-        color: colors.additionalBusyTimes,
-        // borderColor: "#b21503",
-        // backgroundColor: "rgba(188, 183, 183, 0.5)",
-        // textColor: "#000000",
+        color: COLORS.additionalBusyTimes,
       };
       events.push(thisEvent);
     }
@@ -169,7 +166,7 @@ Meteor.methods({
         'end': thisEvent.endTime,
         'calendarId': thisId,
         // 'color': '#00ba3e'
-        'color': colors.availableGCalEvents
+        'color': COLORS.suggestedTimes
       };
       fullCalEvents.push(thisFullCalEvent);
     }
