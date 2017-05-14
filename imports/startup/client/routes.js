@@ -46,6 +46,10 @@ loggedIn.route('/dashboard', {
   action: function() {
     BlazeLayout.render('App_body', { main: 'dashboard_page' });
   },
+  subscriptions: function(params) {
+    this.register('Meetings', Meteor.subscribe('Meetings'));
+    this.register('Users', Meteor.subscribe('Users'));
+  }
 });
 
 public.route('/error', {

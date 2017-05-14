@@ -8,13 +8,18 @@ Meteor.methods({
   // TODO: currently assumes meetings must be within 24 hours of clicking create meeting
   // invitedemails (array of strings): list of email addresses to invite
   // duration (float): length of the meeting in minutes
-  // windowStart (Moment.js object): earliest possible time to meet
-  // windowEnd (Moment.js object): latest possible time to meet
+  // windowStart (Date object): earliest possible time to meet
+  // windowEnd (Date object): latest possible time to meet
 
   // Creates the meeting document. This function is called when a person clicks save on the schedule tab.
   // The function then creates the unique meeting collection and associates each user in invitedEmails to
   // that collection. It also sets the creator of the meeting and who has accepted
   createMeeting: function(title, invitedEmails, duration, windowStart, windowEnd) {
+    check(title, String);
+    check(invitedEmails, [String]);
+    check(duration, Number);
+    check([windowStart, windowEnd], [Date]);
+
     var thisUserEmail = Meteor.users.findOne(this.userId).services.google.email;
 
     // If this is just the user being silly and trying to invite themselves to their own meeting, do nothing
@@ -23,13 +28,13 @@ Meteor.methods({
     // Initializes participants array and sets the first participant as the creator
     // This participants array will then go in the participants slot of this meeting collection
     var participants = [{
-        id: this.userId,
-        email: thisUserEmail,
-        accepted: true, // creator automatically accepts event??
-        selector: false, // creator is  not always the one who picks the final date
-        creator: true,
-        addedToGCal: false
-      }];
+      id: this.userId,
+      email: thisUserEmail,
+      accepted: true, // creator automatically accepts event??
+      selector: false, // creator is  not always the one who picks the final date
+      creator: true,
+      addedToGCal: false
+    }];
 
     // Add the rest of the participants
     addInvitedParticipants(thisUserEmail, participants, invitedEmails, title);
@@ -59,7 +64,7 @@ Meteor.methods({
     // CREATE THE MEETINGS COLLECTION using information above.
     // MeetingId = unique meeting id to be associated with each user in meeting
     var meetingId = Meetings.insert({
-      title: title, //TODO: pass this as a parameter to createMeeting
+      title: title,
       isFinalized: false,
       availableTimes: availableTimes,
       participants: participants,
@@ -171,6 +176,8 @@ Meteor.methods({
 
   // accept a meeting invitation; change the participant's 'accepted' value to true
   acceptInvite: function(meetingId, userId) {
+    check([meetingId, userId], [String]);
+
     var thisMeeting = Meetings.findOne({_id:meetingId});
     // iterate through all meeting participants to find index in array for the current user
     for (var i = 0; i < thisMeeting.participants.length; i++) {
@@ -203,6 +210,8 @@ Meteor.methods({
 
   // Decline a meeting invitation
   declineInvite: function(meetingId, userId) {
+    check([meetingId, userId], [String]);
+
     var thisMeeting = Meetings.findOne({_id: meetingId});
     var participants = thisMeeting.participants;
 
@@ -244,7 +253,7 @@ Meteor.methods({
         }
       });
       // Kill this meeting in the meeting collection
-      Meetings.remove({_id:meetingId});
+      Meetings.remove(meetingId);
     }
     // Remove this from received meetings in decliner's collection
     Meteor.users.update(userId, {
@@ -253,33 +262,35 @@ Meteor.methods({
       }
     });
     // Email the inviter that they got ghosted hardcore
-    sendDeclinedEmail(meetingCreator.email, decliner.email, meetingTitle);
+    Meteor.call('sendDeclinedEmail', meetingCreator.email, decliner.email, meetingTitle);
   },
 
   // called on client's submission of select time form
   // given a formValue that maps to an index into suggestedMeetingTimes
   // choose this as the final selected time and save that choice in the database
   selectFinalTime: function(meetingId, formValue) {
-    var index = parseInt(formValue);
+    check([meetingId, formValue], [String]);
 
+    var index = parseInt(formValue);
     var thisMeeting = Meetings.findOne(meetingId);
     var selectedTime = {
       "startTime" : thisMeeting.suggestedMeetingTimes[index].startTime,
       "endTime" : thisMeeting.suggestedMeetingTimes[index].endTime
     };
 
-    Meetings.update({_id:meetingId},{
+    Meetings.update(meetingId, {
       $set: {
         "selectedBlock" : selectedTime,
         "isFinalized" : true
       }
     });
 
+    var finalizerEmail = Meteor.users.findOne(this.userId).services.google.email;
     for (var i = 0; i < thisMeeting.participants.length; i++) {
-      thisId = thisMeeting.participants[i].id
-      user = Meteor.users.findOne(thisId);
+      var thisId = thisMeeting.participants[i].id;
+      var user = Meteor.users.findOne(thisId);
       // Add this meeting to each participant's finalizedMeetings
-      finalized = user.profile.finalizedMeetings;
+      var finalized = user.profile.finalizedMeetings;
 
       if (finalized === undefined) {
         Meteor.users.update(thisId, {
@@ -297,15 +308,22 @@ Meteor.methods({
       Meteor.users.update(thisId, {
         $pull: { "profile.meetingInvitesSent": meetingId }
       });
-      user = Meteor.users.findOne(thisId);
+
+      // Email everyone except the finalizer to let them know the event has been finalized
+      if (thisId !== this.userId) {
+        var userEmail = Meteor.users.findOne(thisId).services.google.email;
+        Meteor.call('sendFinalizedEmail', finalizerEmail, userEmail, thisMeeting.title, selectedTime);
+      }
     }
   },
 
   // Same as above, but selected off the visual calendar
   // Not exactly great abstraction that bot these need to exist, but we're running out of time.
   calendarSelectFinalTime: function(meetingId, selectedBlock) {
-    var thisMeeting = Meetings.findOne(meetingId);
+    check(meetingId, String);
+    check(selectedBlock, { startTime: Date, endTime: Date});
 
+    var thisMeeting = Meetings.findOne(meetingId);
     Meetings.update({_id:meetingId},{
       $set: {
         'selectedBlock' : selectedBlock,
@@ -313,6 +331,7 @@ Meteor.methods({
       }
     });
 
+    var finalizerEmail = Meteor.users.findOne(this.userId).services.google.email;
     for (var i = 0; i < thisMeeting.participants.length; i++) {
       thisId = thisMeeting.participants[i].id
       user = Meteor.users.findOne(thisId);
@@ -336,15 +355,24 @@ Meteor.methods({
         $pull: { "profile.meetingInvitesSent": meetingId }
       });
       user = Meteor.users.findOne(thisId);
+
+      // Email everyone except the finalizer to let them know the event has been finalized
+      if (thisId !== this.userId) {
+        var userEmail = Meteor.users.findOne(thisId).services.google.email;
+        Meteor.call('sendFinalizedEmail', finalizerEmail, userEmail, thisMeeting.title, selectedBlock);
+      }
     }
   },
 
   readyToFinalize: function(meetingId) {
+    check(meetingId, String);
     return checkMeetingReadyToFinalize(meetingId);
   },
 
   // Set readyToFinalize to false, set the current users accepted to false
   setNotReadyToFinalize: function(meetingId) {
+    check(meetingId, String);
+
     var thisMeeting = Meetings.findOne(meetingId);
     var participants = thisMeeting.participants
     for (var i = 0; i < participants.length; i++) {
@@ -380,6 +408,8 @@ Meteor.methods({
 
   // Flip to the next page of duration long blocks available, set as suggested times
   getPrevSuggestedTimes: function(meetingId) {
+    check(meetingId, String);
+
     var meeting = Meetings.findOne(meetingId);
     var available = meeting.durationLongAvailableTimes;
     var index = meeting.suggestedRangeIndex;
@@ -394,6 +424,8 @@ Meteor.methods({
 
   // Flip to the next page of duration long blocks available, set as suggested times
   getNextSuggestedTimes: function(meetingId) {
+    check(meetingId, String);
+
     var meeting = Meetings.findOne(meetingId);
     var available = meeting.durationLongAvailableTimes;
     var index = meeting.suggestedRangeIndex;
@@ -457,52 +489,19 @@ function addInvitedParticipants(currentUserEmail, participants, invitedEmails, e
       // TODO: why is name missing sometimes?
       // check if a user with this email exists,and if it does, use their personal info
       var user = Meteor.users.findOne({"services.google.email": invitedEmails[i]});
-      if (user !== undefined) {
+      if (user) {
         newParticipant.id = user._id;
         // Send an email to the user letting them now they have a new meeting invite
-        sendNewMeetingEmail(participants[0].email, newParticipant.email, emailTitle);
+        Meteor.call('sendNewMeetingEmail', participants[0].email, newParticipant.email, emailTitle);
       } else {
         // Otherwise send them a invitation email to join Meetable
-        sendInvitationEmail(participants[0].email, newParticipant.email, emailTitle);
+        Meteor.call('sendInvitationEmail', participants[0].email, newParticipant.email, emailTitle);
       }
       // add this newParticipant to the document
       participants.push(newParticipant);
     }
 }
 
-// Send an invitation email to the inviteeEmail. THIS IS ONLY USED TO INVITED NEW USERS
-// inviterEmail (emailString): The email address of the inviter TODO: Make this a name?
-// inviteeEmail (emailString): The email address of the person being invited
-// title (String): The event title in which a user is being invited.
-function sendInvitationEmail(inviterEmail, inviteeEmail, title) {
-  var subject = inviterEmail + " wants to meet with you! Join Meetable to schedule it now!";
-  var text = inviterEmail + " wants to meet with you for a meeting \"" + title + "\"\n\n" +
-            "Schedule your meeting now with Meetable. Forget filling out when you're available by hand, " +
-            "Meetable compares your free time from your Google Calendar so you just have to pick one time that " +
-            "you already know works for everyone!\n\n" +
-            "Join now! https://meetable-us.herokuapp.com/\n\n\n" +
-            "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
-  Meteor.call("sendEmail", inviteeEmail, "do-not-reply@becker.codes", subject, text);
-}
-
-// Same as above, but text is assuming user already has account... Not the best modularity but whatevs
-function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
-  var subject = inviterEmail + " wants to meet with you! Login to Meetable to schedule it now!";
-  var text = inviterEmail + " wants to meet with you for a meeting \"" + title + "\"\n" +
-            "Login to schedule it now! https://meetable-us.herokuapp.com/\n\n\n" +
-            "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
-  Meteor.call("sendEmail", inviteeEmail, "do-not-reply@becker.codes", subject, text);
-}
-
-// Same as above, but text is assuming user got denied hardcore
-function sendDeclinedEmail(inviterEmail, inviteeEmail, title) {
-  var subject = inviteeEmail + " declined your meeting invitation.";
-  var text = inviteeEmail + " declined your meeting invitation for \"" + title + "\"\n" +
-            "Perhaps another time! https://meetable-us.herokuapp.com/\n\n\n" +
-            "You are receiving this email because you tried to schedule a meeting with " + inviteeEmail +
-            " on Meetable, but they chose not to accept your invitation.";
-  Meteor.call("sendEmail", inviterEmail, "do-not-reply@becker.codes", subject, text);
-}
 
 // Update a tempUser of the given email with the given meetingId.
 // Create new tempUser if necessary
@@ -566,10 +565,12 @@ function findUserBusyTimes(userId, windowStart, windowEnd) {
   var meetingTimes = getFinalizedMeetingTimes(userId);
   if (!meetingTimes) meetingTimes = [];
   var outsideMeetRange = getOutsideMeetRangeTimes(userId, windowStart, windowEnd);
+  var thePast = getBusyFromThenToNow(userId, windowStart);
 
   calendarTimes = calendarTimes.concat(meetingTimes);
   calendarTimes = calendarTimes.concat(additionalBusyTimes);
   calendarTimes = calendarTimes.concat(outsideMeetRange);
+  calendarTimes = calendarTimes.concat(thePast);
 
   // Sort the times based on startTime
   calendarTimes.sort(function(time1, time2) {
@@ -687,24 +688,24 @@ function getOutsideMeetRangeTimes(userId, windowStart, windowEnd) {
   var trueEnd = new Date();
   // Go back and ahead an extra day just to be safe (saves more annoying handling)
   current.setTime(windowStart.getTime() - MILLISECONDS_IN_DAY);
-  trueEnd.setTime(windowEnd.getTime() + MILLISECONDS_IN_DAY);
+  trueEnd.setTime(windowEnd.getTime() + 2 * MILLISECONDS_IN_DAY);
 
   var busyTimes = [];
   while (current < trueEnd) {
     var start = new Date(current);
     var end = new Date(current);
-
+    // Need special handling for the weird circumstance of 8pm-7pm stuff.
+    // Ie. don't skip to next date if latest < earliest
+    if (latestHour > earliestHour || latestHour === earliestHour && latestMin > earliestMin) {
+      end.setTime(current.getTime() + MILLISECONDS_IN_DAY);
+    }
     start.setHours(latestHour);
     start.setMinutes(latestMin);
     start.setTime(start.getTime() + offsetMillisec - serverOffset)
 
-    // start = new Date(start.getYear(), start.getMonth(), start.getDay(), latestHour, latestMin);
-
-    end.setTime(current.getTime() + MILLISECONDS_IN_DAY);
     end.setHours(earliestHour);
     end.setMinutes(earliestMin);
     end.setTime(end.getTime() + offsetMillisec - serverOffset);
-    // end = new Date(end.getYear(), end.getMonth(), end.getDay(), earliestHour, earliestMin);
 
     busyTimes.push({
       'start': start,
@@ -803,7 +804,9 @@ function checkMeetingReadyToFinalize(meetingId) {
   var thisMeeting = Meetings.findOne(meetingId);
   // Meeting may be deleted
   if (!thisMeeting) return false;
+
   var finalized = true;
+  var creatorEmail = "";
   // iterate through all meeting participants and check if all have accepted
   for (var i = 0; i < thisMeeting.participants.length; i++) {
     var currUser = thisMeeting.participants[i];
@@ -811,12 +814,16 @@ function checkMeetingReadyToFinalize(meetingId) {
       finalized = false;
       break;
     }
+    if (currUser.creator) creatorEmail = currUser.email;
   }
 
-  if (finalized) {
-    Meetings.update(meetingId, { // Now set the values again
+  if (finalized && !thisMeeting.readyToFinalize) {
+    Meetings.update(meetingId, {
       $set: { 'readyToFinalize': true }
     });
+
+    // If this is a group meeting, send an email to the creator to let them know its ready to finalize
+    if (thisMeeting.participants.length > 2) Meteor.call('sendReadyToFinalizeEmail', creatorEmail, thisMeeting.title);
   }
   return finalized;
 }
@@ -897,4 +904,13 @@ function formatAllDayEvents(userId, events) {
     }
   }
   return events;
+}
+
+// Get a busy block from the input 'then' to the current time. Return as an array for convenience in findUserBusyTimes
+function getBusyFromThenToNow(userId, then) {
+  var event = {
+    start: then,
+    end: new Date()
+  }
+  return [event];
 }

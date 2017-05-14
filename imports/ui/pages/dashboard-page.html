@@ -59,7 +59,7 @@
                   <div class="form-group">
                     <div class="col-md-10 col-md-offset-2">
                       <button type="button" class="btn btn-default" id="cancelCreateMeeting">Cancel</button>
-                      <button type="save" class="btn btn-primary" id="save">Save</button>
+                      <button type="save" class="btn btn-primary" id="save">Submit</button>
                     </div>
                   </div>
                 </fieldset>
@@ -192,7 +192,7 @@
                       <input id="no-meetings-after" class="set-end-date form-control" type="text" readonly/>
                     </div>
                   </div>
-                  <button type = "button" class="btn btn-primary" id = "submit-no-meetings-times">Submit</button>
+                  <button type = "button" class="btn btn-primary" id = "submit-no-meetings-times">Save</button>
                 </form>
               </div>
             </div>
@@ -257,9 +257,11 @@
   <div class="row container-fluid">
     <div class="card invite-card">
       <div class="card-block invite-card-block">
-        <div class="col-md-12">
-          Waiting on <h4>{{inviterName}}</h4> to select a time for <b>{{meetingTitle}}</b> (Event Duration: {{meetingDuration}})
-        </div>
+          <span class="label label-primary">Accepted, waiting for host to finalize time.</span>
+            <div class="col-md-12">
+              <h4>{{inviterName}}</h4> <p>invites you to <b>{{meetingTitle}}</b> ({{meetingDuration}})</p>
+              <p> Scheduling Window: <br> {{incomingWindowRange}}</p>
+            </div>
       </div>
     </div>
   </div>
@@ -275,13 +277,13 @@
         </div>
         <form>
         {{#if suggestedTimes}}
-                <div class="col-md-12">
-                <p>Please select a time for the meeting:</p>
+          <div class="col-md-12">
+          <p>Please select a time for the meeting:</p>
           {{#each suggestedTimes}}
             <div class="radio">
               <label>
                 <input type="radio" name="myForm" value="{{@index}}" checked="">
-                {{formattedStart}} - {{formattedEnd}}
+                {{suggestedRange}}
               </label>
             </div>
           {{/each}}
@@ -372,7 +374,7 @@
           <div class="col-md-12">
             <span class="label label-primary">Ready to finalize</span>
             <h4><b>{{meetingTitle}}</b></h4> ({{meetingDuration}})
-            <p>Participants: {{meetingParticipants}}
+            <p>Participants: {{participants}}
             <br/> Please select a time for the meeting:</p>
             <form>
               {{#each suggestedTimes}}
@@ -407,7 +409,7 @@
                 {{/if}}
               </div>
               <div class="pull-right">
-                <button type="cancel" class="btn" id="deleteInvite">Cancel</button>
+                <button type="cancel" class="btn" id="deleteInvite">Delete</button>
                 <button type="submit" class="btn btn-primary">Submit</button>
               </div>
             </form>

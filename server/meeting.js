@@ -3,6 +3,14 @@
 import Meetings from '/collections/meetings.js';
 import Temp from '/collections/temp.js';
 
+let COLORS = {
+  busyGcalEvents:  "rgba(0, 150, 134, 1)",
+  availableGCalEvents:  "rgba(95, 194, 184, 1)",
+  suggestedTimes: "rgba(34, 161, 0, 0.7)",
+  finalizedMeetings: "rgba(241, 102, 0, 1)",
+  additionalBusyTimes: "rgba(48, 92, 172, 1)"
+};
+
 Meteor.methods({
   // Return an array of the current users finalized events in the FullCalendar format
   // NOTE: This will NOT return the finalized meetings pushed to GCal.
@@ -31,7 +39,7 @@ Meteor.methods({
         title: thisMeeting.title,
         start: thisMeeting.selectedBlock.startTime,
         end:   thisMeeting.selectedBlock.endTime,
-        color: "#b30000"
+        color: COLORS.finalizedMeetings
       };
       if (addToCal) events.push(thisEvent);
     }
@@ -47,12 +55,10 @@ Meteor.methods({
       var additional = additionals[i];
 
       var thisEvent = {
-        title: "User added busy time",
+        title: "Extra Busy Time",
         start: additional.start,
         end: additional.end,
-        borderColor: "#b21503",
-        backgroundColor: "rgba(188, 183, 183, 0.5)",
-        textColor: "#000000",
+        color: COLORS.additionalBusyTimes,
       };
       events.push(thisEvent);
     }
@@ -60,10 +66,27 @@ Meteor.methods({
   },
 
   deleteMeeting: function(meetingId) {
+    check(meetingId, String);
+
     var meeting = Meetings.findOne(meetingId);
     var participants = meeting.participants;
-    // Remove from each user in this meeting
+
+    // Get the hosts email
+    var hostEmail = "";
     for (var i = 0; i < participants.length; i++) {
+      if (participants[i].creator) hostEmail = participants[i].email;
+    }
+
+    // Remove from each user in this meeting
+    for (i = 0; i < participants.length; i++) {
+      // If this wasn't deleted by the creator, inform the creator it was deleted via email
+      if (participants[i].creator && participants[i].id !== this.userId) {
+        var deleterEmail = Meteor.users.findOne(this.userId).services.google.email;
+        Meteor.call('sendDeletedEmail', participants[i].email, deleterEmail, meeting.title);
+      } else if (participants[i].id !== this.userId) { // If this was deleted by the creator, inform everyone else
+        Meteor.call('sendDeletedGroupEmail', participants[i].email, hostEmail, meeting.title);
+      }
+
       // The user isn't temp
       if (participants[i].id) {
         Meteor.users.update(participants[i].id, {
@@ -81,7 +104,6 @@ Meteor.methods({
           $pull: { 'meetingInvitesReceived': meetingId }
         });
       }
-
     }
     // Remove the event itself
     Meetings.remove(meetingId);
@@ -90,6 +112,8 @@ Meteor.methods({
   // Add the given meeting ID to the curren users calendar, mark it as added to GCal
   // meetingId (String): The meetingId
   addMeetingToUserCalendar: function(meetingId) {
+    check(meetingId, String);
+
     var thisMeeting = Meetings.findOne(meetingId);
     Meteor.call('addGCalEvent', thisMeeting.title, thisMeeting.selectedBlock.startTime, thisMeeting.selectedBlock.endTime);
     // Mark this as added to GCal for the current user in the participant array of this meeting
@@ -143,8 +167,25 @@ Meteor.methods({
     }
   },
 
+  // Get the meeting associated with the input id.
+  // ONLY return meeting if the current user is associated with the meeting in order to ensure users can't access arbitary meetings.
+  getMeeting: function(meetingId) {
+    check(meetingId, String);
+
+    var meeting = Meetings.findOne(meetingId);
+    if (!meeting || !meeting.participants) return undefined;
+
+    for (var i = 0; i < meeting.participants.length; i++) {
+      var user = meeting.participants[i];
+      if (user.id === this.userId) return meeting;
+    }
+    return undefined;
+  },
+
   // Get the available duration long blocks in the full calendar format for this meeting
   getFullCalendarAvailable: function(meetingId) {
+    check(meetingId, String);
+    
     var meeting = Meetings.findOne(meetingId);
     // Can only get available if meeting is ready to finalize
     if (!meeting.readyToFinalize) return [];
@@ -159,7 +200,8 @@ Meteor.methods({
         'start': thisEvent.startTime,
         'end': thisEvent.endTime,
         'calendarId': thisId,
-        'color': '#00ba3e'
+        // 'color': '#00ba3e'
+        'color': COLORS.suggestedTimes
       };
       fullCalEvents.push(thisFullCalEvent);
     }

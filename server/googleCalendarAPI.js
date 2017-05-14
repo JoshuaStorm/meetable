@@ -10,14 +10,22 @@ var auth = new googleAuth(); // used to authentication requests sent by gCalenda
 // Client secrets, etc. from David's (or Casey's?) Google Developer Console project
 
 var oauth2Client = new auth.OAuth2(
-  "940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com",
-  "mKa01x_C9W_MnlIuHVJRupb3"
+  Meteor.settings.private.oAuth.google.clientId,
+  Meteor.settings.private.oAuth.google.secret
 );
 
 // set auth for all Google requests; instead of doing it for each request function
 GoogleApis.options({
   auth: oauth2Client
 });
+
+let COLORS = {
+  busyGcalEvents: "rgba(0, 150, 134, 1)",
+  availableGCalEvents: "rgba(95, 194, 184, 1)",
+  suggestedTimes: "rgba(34, 161, 0, 0.7)",
+  finalizedMeetings: "rgba(241, 102, 0, 1)",
+  additionalBusyTimes: "rgba(48, 92, 172, 1)"
+};
 
 Meteor.methods({
 
@@ -28,8 +36,8 @@ Meteor.methods({
       const user = Meteor.users.findOne(this.userId);
       const googleService = Meteor.users.findOne(this.userId).services.google;
 
-      const clientId = "940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com";
-      const secret = "mKa01x_C9W_MnlIuHVJRupb3";
+      const clientId = Meteor.settings.private.oAuth.google.clientId;
+      const secret = Meteor.settings.private.oAuth.google.secret;
 
       // declare oauth2 client and set credentials
       const oauth2Client = new GoogleApis.auth.OAuth2(clientId, secret);
@@ -86,6 +94,8 @@ Meteor.methods({
 
   // Flip the considered boolean of the given calendarId, return the updated calendars
   setCalendarConsideration: function(calendarId) {
+    check(calendarId, String);
+
     var user = Meteor.users.findOne(this.userId);
     var userCalendars = user.profile.calendars;
     if (!userCalendars) {
@@ -117,8 +127,8 @@ Meteor.methods({
     // TODO: Make this grab more if a user views beyond 4 weeks into the future.
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - 7);
-    var nextWeek = new Date();
-    nextWeek.setDate(nextWeek.getDate() + 28);
+    var twoMonths = new Date();
+    twoMonths.setDate(twoMonths.getDate() + 60);
 
     var idToBusyAvailable = {};
     for (var i = 0; i < calendarList.items.length; i++) {
@@ -135,7 +145,7 @@ Meteor.methods({
       var gCalEvents = wrappedGetEventList({
           'calendarId': calendarId,
           'timeMin': lastWeek.toISOString(),
-          'timeMax': nextWeek.toISOString(),
+          'timeMax': twoMonths.toISOString(),
           'singleEvents': true,
           'orderBy': 'startTime'
       });
@@ -154,7 +164,8 @@ Meteor.methods({
             start: thisGCalEvent.start.date,
             end: thisGCalEvent.end.date,
             timeZone: thisGCalEvent.start.timeZone,
-            calendarId: strippedDots
+            calendarId: strippedDots,
+            color: COLORS.busyGcalEvents
           };
         } else if (thisGCalEvent.start.hasOwnProperty('dateTime')) {
           thisFullCalEvent = {
@@ -162,12 +173,14 @@ Meteor.methods({
             start: thisGCalEvent.start.dateTime,
             end: thisGCalEvent.end.dateTime,
             timeZone: thisGCalEvent.start.timeZone,
-            calendarId: strippedDots
+            calendarId: strippedDots,
+            color: COLORS.busyGcalEvents
           };
         }
         // Events that are "transparent" are set to "available" (ie. shouldn't be considered for our busy times)
         if (thisGCalEvent.hasOwnProperty('transparency') && thisGCalEvent.transparency === "transparent") {
-          thisFullCalEvent.color = '#00cc99';
+          //thisFullCalEvent.color = '#00cc99';
+          thisFullCalEvent.color = COLORS.availableGCalEvents;
           availableEvents.push(thisFullCalEvent);
         } else {
           busyEvents.push(thisFullCalEvent);
@@ -225,6 +238,8 @@ Meteor.methods({
   // start (Date): The start time for the event
   // end (Date): The end time for the event
   addGCalEvent: function(title, start, end) {
+    check(title, String);
+    check([start, end], [Date]);
     // make sure we have a working access token
     const user = Meteor.users.findOne(this.userId);
     const tokens = getAccessToken(user);
@@ -253,11 +268,6 @@ Meteor.methods({
 
     wrappedPutEvent(params);
   },
-
-  // Okay, actually I'll leave this function, it's useful for debugging
-  printFromDB: function() {
-    console.log(Meteor.users.findOne(this.userId).profile.calendarEvents);
-  },
 });
 
 // source: http://stackoverflow.com/questions/32764769/meteor-accounts-google-token-expires
@@ -280,7 +290,7 @@ function getAccessToken(user) {
     };
   }
 
-  const oauth2Client = new GoogleApis.auth.OAuth2("940955231388-9d1gt4nnsftrnn4su8l1jkr4d27cooeo.apps.googleusercontent.com", "mKa01x_C9W_MnlIuHVJRupb3");
+  const oauth2Client = new GoogleApis.auth.OAuth2(Meteor.settings.private.oAuth.google.clientId, Meteor.settings.private.oAuth.google.secret);
   // set the Oauth2 client credentials from the user refresh token
   oauth2Client.setCredentials({
     refresh_token: user.services.google.refreshToken,
