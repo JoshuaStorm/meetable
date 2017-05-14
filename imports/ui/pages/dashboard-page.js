@@ -135,13 +135,15 @@ Template.dashboard_page.onRendered( () => {
       if (data.calendarId && data.calendarId.match(regex)) {
         // If it does, reformat data to pass in as a selected final time.
         var meetingId = data.calendarId.split('-')[0];
+        var eventsId = data.calendarId;
+
         var selectedBlock = {
           'startTime': data.start.toDate(),
           'endTime': data.end.toDate()
         };
         Meteor.call('calendarSelectFinalTime', meetingId, selectedBlock, function(error, result) {
           if (error) console.log('calendarSelectFinalTime: ' + error);
-          $( '#events-calendar' ).fullCalendar('removeEventSource', data.calendarId);
+          $( '#events-calendar' ).fullCalendar('removeEventSource', eventsId);
           addFinalizedEvent();
         });
       }
@@ -728,12 +730,10 @@ Template.selector.events({
       var radioValue = event.target.myForm.value;
       var availableId = this.toString() + '-AVAILABLE';
       Meteor.call('selectFinalTime', this.toString(), radioValue, function(error, result) {
-        if (error) {
-          console.log("selectFinalTime: " + error);
-        } else {
-          addFinalizedEvent();
-          $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
-        }
+        if (error) console.log("selectFinalTime: " + error);
+
+        $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
+        addFinalizedEvent();
       });
     },
     'click #cancelInvite': function(event){
@@ -802,7 +802,7 @@ Template.outgoing.helpers({
     if (meeting && meeting.participants) {
       var readyOutgoing = false;
       // an outgoing meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a group meeting
-      if (meeting.readyToFinalize && meeting.participants.length > 2) {
+      if (meeting.readyToFinalize && !meeting.isFinalized && meeting.participants.length > 2) {
         readyOutgoing = true;
 
         // Visualize the available times to select from
@@ -902,26 +902,29 @@ Template.outgoingFinalize.helpers({
 });
 
 Template.outgoingFinalize.events({
-  'submit form': function(event){
+  'submit form': function(event) {
     event.preventDefault();
     var radioValue = event.target.myForm.value;
+    var availableId = this.toString() + '-AVAILABLE';
     Meteor.call('selectFinalTime', this.toString(), radioValue, function(error, result) {
-      if (error) {
-        console.log("selectFinaltime: " + error);
-      } else {
-        Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
-        Meteor.call("getFullCalendarFinalized", function(error, result) {
-          if (error) console.log(error);
-          $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
-          $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
-        });
-      }
+      if (error) console.log("selectFinaltime: " + error);
+      Bert.alert( 'Success! Meeting finalized.', 'success', 'growl-bottom-left', 'fa-calendar-check-o' );
+      Meteor.call("getFullCalendarFinalized", function(error, result) {
+        if (error) console.log(error);
+        $( '#events-calendar' ).fullCalendar('removeEventSource', 'finalized');
+        $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'finalized', events: result });
+      });
+      $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
+      addFinalizedEvent();
     });
   },
   'click #deleteInvite': function(event) {
     event.preventDefault();
+
+    var availableId = this.toString() + '-AVAILABLE';
     Meteor.call('deleteMeeting', this.toString(), function(error, result) {
       if (error) console.log(error);
+      $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
     });
   },
   'click #prevSuggestedTimes' :function(e) {
