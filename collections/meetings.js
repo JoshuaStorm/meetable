@@ -8,7 +8,6 @@ if (Meteor.isServer) {
   // Only publish meetings for which the user is apart of. Avoid leaking other users info.
   Meteor.publish('Meetings', function meetingsPublication() {
     var meetings = Meetings.find({ 'participants': { $elemMatch: {'id': this.userId} } });
-    console.log(meetings);
     return meetings;
   });
 }
