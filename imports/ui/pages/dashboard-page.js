@@ -307,7 +307,6 @@ Template.dashboard_page.onRendered( () => {
   var meetRange = Meteor.user().profile.meetRange
   // if the latest string is not found in DB or it is an empty string
   if (!meetRange || !meetRange.earliest || !meetRange.latest) {
-    console.log("Missing value for no meetings before. setting it to 09:00-22:00");
     meetRange = {
       earliest: '09:00',
       latest: '22:00'
@@ -334,7 +333,7 @@ Template.dashboard_page.events({
     var title = $('#meetingTitle').val();
     // TODO: User dynamic fields instead of just comma separating emails
     var emails = $('#meetingInvitee').val().split(",");
-    var length = $('#meetingLength').val();
+    var length = parseInt($('#meetingLength').val());
 
     // get Date objects from the datepickers
     let windowStart = $('#chooseWindowStart').data("DateTimePicker").date().toDate();
@@ -496,7 +495,6 @@ Template.additional.events({
         $( '#events-calendar' ).fullCalendar('removeEventSource', 'additional');
         $( '#events-calendar' ).fullCalendar('addEventSource', { id: 'additional', events: result });
       });
-      console.log("Updating");
       Meteor.call('updateMeetableTimes', function(error, result) {
         if (error) console.log('updateBusyTimes: ' + error);
       });
