@@ -179,10 +179,7 @@ Template.dashboard_page.onRendered( () => {
           }
         }
         Meteor.call('updateEventsInDB', function(error, result) {
-          if (error) {
-            console.log("Why does this guy error so often?");
-            console.log('updateEventsInDB: ' + error);
-          }
+          if (error) console.log('updateEventsInDB: ' + error);
         });
       });
     });
@@ -435,6 +432,7 @@ Template.dashboard_page.events({
 
     //Set the date of the before and after time to same arbitrary date in the past so
     //when comparing the two only the hours and minutes are considered.
+    
     beforeTime.set({'year': 1997, 'month': 7, 'date': 1});
     afterTime.set({'year': 1997, 'month': 7, 'date': 1});
 
@@ -514,6 +512,7 @@ Template.invite.helpers({
     var availableId = this.toString() + '-AVAILABLE';
 
     // an incoming meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a two person meeting
+    // NOTE: Group meetings are in `outgoing`
     if (thisMeeting.readyToFinalize && !thisMeeting.isFinalized && thisMeeting.participants.length === 2) {
       Template.instance().currentInviteType.set('readyToFinalize');
 
@@ -815,13 +814,23 @@ Template.outgoing.helpers({
   },
   readyToFinalize() {
     var meeting = Meetings.findOne(this.toString());
-    if (meeting) {
+    var availableId = this.toString() + '-AVAILABLE';
+
+    if (meeting && meeting.participants) {
       var readyOutgoing = false;
       // an outgoing meeting is only ready to finalize if the flag 'readytoFinalize' is set to true AND this meeting is a group meeting
-      if (Meetings.findOne(this.toString()).readyToFinalize && Meetings.findOne(this.toString()).participants.length > 2)
-      {
+      if (meeting.readyToFinalize && meeting.participants.length > 2) {
         readyOutgoing = true;
+
+        // Visualize the available times to select from
+        Meteor.call('getFullCalendarAvailable', this.toString(), function(error, result) {
+          if (error) console.log("getFullCalendarAvailable: " + error);
+
+          $( '#events-calendar' ).fullCalendar('removeEventSource', availableId);
+          $( '#events-calendar' ).fullCalendar('addEventSource', { id: availableId, events: result });
+        });
       }
+
       return readyOutgoing;
     }
   },
