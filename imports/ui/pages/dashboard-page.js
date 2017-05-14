@@ -344,14 +344,24 @@ Template.dashboard_page.events({
     // ReGex check email field. This is the 99.9% working email ReGex
     var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     var cleanEmails = [];
+    // If the same email is input twice, only add one to clean emails
+    var alreadyInvited = {};
     for (var i = 0; i < emails.length; i++) {
       // TODO: Prompt user when they pass a non-email?
-      if (emails[i].trim() === Meteor.user().services.google.email) {
-        Bert.alert( 'Cannot schedule meeting with yourself', 'danger', 'growl-bottom-left' );
+      var trimmed = emails[i].trim()
+      if (trimmed === Meteor.users.findOne(Meteor.userId()).services.google.email) {
+        Bert.alert( 'Cannot schedule meeting with yourself. Please try again', 'danger', 'growl-bottom-left' );
         return;
       }
-      if (emails[i].trim().match(regex)) cleanEmails.push(emails[i].trim());
-      else console.log("Non-email passed in; removed from invitees list.")
+
+      if (!trimmed.match(regex)) {
+        Bert.alert( 'Invalid email. Please try again', 'danger', 'growl-bottom-left' );
+        return;
+      }
+      else if (!alreadyInvited[trimmed]) {
+        cleanEmails.push(trimmed);
+        alreadyInvited[trimmed] = true;
+      }
     }
 
     // Email Bert alert should take precedence over duration bert alert, so check duration now
@@ -364,7 +374,7 @@ Template.dashboard_page.events({
     // currently using 24 hours after time button was pressed
     Meteor.call('createMeeting', title, emails, length, windowStart, windowEnd, function(error, result) {
       if (error) {
-        Bert.alert( 'Meeting invite could not be sent.', 'danger', 'growl-bottom-left' );
+        Bert.alert( 'Meeting invite could not be sent. Please try again', 'danger', 'growl-bottom-left' );
         console.log("createMeeting: " + error);
       } else{
         var resetTitle = document.getElementById('meetingTitle').value ="";

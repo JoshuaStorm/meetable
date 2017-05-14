@@ -23,13 +23,13 @@ Meteor.methods({
     // Initializes participants array and sets the first participant as the creator
     // This participants array will then go in the participants slot of this meeting collection
     var participants = [{
-        id: this.userId,
-        email: thisUserEmail,
-        accepted: true, // creator automatically accepts event??
-        selector: false, // creator is  not always the one who picks the final date
-        creator: true,
-        addedToGCal: false
-      }];
+      id: this.userId,
+      email: thisUserEmail,
+      accepted: true, // creator automatically accepts event??
+      selector: false, // creator is  not always the one who picks the final date
+      creator: true,
+      addedToGCal: false
+    }];
 
     // Add the rest of the participants
     addInvitedParticipants(thisUserEmail, participants, invitedEmails, title);
@@ -59,7 +59,7 @@ Meteor.methods({
     // CREATE THE MEETINGS COLLECTION using information above.
     // MeetingId = unique meeting id to be associated with each user in meeting
     var meetingId = Meetings.insert({
-      title: title, //TODO: pass this as a parameter to createMeeting
+      title: title,
       isFinalized: false,
       availableTimes: availableTimes,
       participants: participants,
@@ -253,7 +253,7 @@ Meteor.methods({
       }
     });
     // Email the inviter that they got ghosted hardcore
-    sendDeclinedEmail(meetingCreator.email, decliner.email, meetingTitle);
+    Meteor.call('sendDeclinedEmail', meetingCreator.email, decliner.email, meetingTitle);
   },
 
   // called on client's submission of select time form
@@ -268,18 +268,19 @@ Meteor.methods({
       "endTime" : thisMeeting.suggestedMeetingTimes[index].endTime
     };
 
-    Meetings.update({_id:meetingId},{
+    Meetings.update(meetingId, {
       $set: {
         "selectedBlock" : selectedTime,
         "isFinalized" : true
       }
     });
 
+    var finalizerEmail = Meteor.users.findOne(this.userId).services.google.email;
     for (var i = 0; i < thisMeeting.participants.length; i++) {
-      thisId = thisMeeting.participants[i].id
-      user = Meteor.users.findOne(thisId);
+      var thisId = thisMeeting.participants[i].id;
+      var user = Meteor.users.findOne(thisId);
       // Add this meeting to each participant's finalizedMeetings
-      finalized = user.profile.finalizedMeetings;
+      var finalized = user.profile.finalizedMeetings;
 
       if (finalized === undefined) {
         Meteor.users.update(thisId, {
@@ -297,7 +298,12 @@ Meteor.methods({
       Meteor.users.update(thisId, {
         $pull: { "profile.meetingInvitesSent": meetingId }
       });
-      user = Meteor.users.findOne(thisId);
+
+      // Email everyone except the finalizer to let them know the event has been finalized
+      if (thisId !== this.userId) {
+        var userEmail = Meteor.users.findOne(thisId).services.google.email;
+        Meteor.call('sendFinalizedEmail', finalizerEmail, userEmail, thisMeeting.title, selectedTime);
+      }
     }
   },
 
@@ -313,6 +319,7 @@ Meteor.methods({
       }
     });
 
+    var finalizerEmail = Meteor.users.findOne(this.userId).services.google.email;
     for (var i = 0; i < thisMeeting.participants.length; i++) {
       thisId = thisMeeting.participants[i].id
       user = Meteor.users.findOne(thisId);
@@ -336,6 +343,12 @@ Meteor.methods({
         $pull: { "profile.meetingInvitesSent": meetingId }
       });
       user = Meteor.users.findOne(thisId);
+
+      // Email everyone except the finalizer to let them know the event has been finalized
+      if (thisId !== this.userId) {
+        var userEmail = Meteor.users.findOne(thisId).services.google.email;
+        Meteor.call('sendFinalizedEmail', finalizerEmail, userEmail, thisMeeting.title, selectedBlock);
+      }
     }
   },
 
@@ -457,52 +470,19 @@ function addInvitedParticipants(currentUserEmail, participants, invitedEmails, e
       // TODO: why is name missing sometimes?
       // check if a user with this email exists,and if it does, use their personal info
       var user = Meteor.users.findOne({"services.google.email": invitedEmails[i]});
-      if (user !== undefined) {
+      if (user) {
         newParticipant.id = user._id;
         // Send an email to the user letting them now they have a new meeting invite
-        sendNewMeetingEmail(participants[0].email, newParticipant.email, emailTitle);
+        Meteor.call('sendNewMeetingEmail', participants[0].email, newParticipant.email, emailTitle);
       } else {
         // Otherwise send them a invitation email to join Meetable
-        sendInvitationEmail(participants[0].email, newParticipant.email, emailTitle);
+        Meteor.call('sendInvitationEmail', participants[0].email, newParticipant.email, emailTitle);
       }
       // add this newParticipant to the document
       participants.push(newParticipant);
     }
 }
 
-// Send an invitation email to the inviteeEmail. THIS IS ONLY USED TO INVITED NEW USERS
-// inviterEmail (emailString): The email address of the inviter TODO: Make this a name?
-// inviteeEmail (emailString): The email address of the person being invited
-// title (String): The event title in which a user is being invited.
-function sendInvitationEmail(inviterEmail, inviteeEmail, title) {
-  var subject = inviterEmail + " wants to meet with you! Join Meetable to schedule it now!";
-  var text = inviterEmail + " wants to meet with you for a meeting \"" + title + "\"\n\n" +
-            "Schedule your meeting now with Meetable. Forget filling out when you're available by hand, " +
-            "Meetable compares your free time from your Google Calendar so you just have to pick one time that " +
-            "you already know works for everyone!\n\n" +
-            "Join now! https://meetable-us.herokuapp.com/\n\n\n" +
-            "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
-  Meteor.call("sendEmail", inviteeEmail, "do-not-reply@becker.codes", subject, text);
-}
-
-// Same as above, but text is assuming user already has account... Not the best modularity but whatevs
-function sendNewMeetingEmail(inviterEmail, inviteeEmail, title) {
-  var subject = inviterEmail + " wants to meet with you! Login to Meetable to schedule it now!";
-  var text = inviterEmail + " wants to meet with you for a meeting \"" + title + "\"\n" +
-            "Login to schedule it now! https://meetable-us.herokuapp.com/\n\n\n" +
-            "You are receiving this email because " + inviterEmail + " tried to invite you to Meetable.";
-  Meteor.call("sendEmail", inviteeEmail, "do-not-reply@becker.codes", subject, text);
-}
-
-// Same as above, but text is assuming user got denied hardcore
-function sendDeclinedEmail(inviterEmail, inviteeEmail, title) {
-  var subject = inviteeEmail + " declined your meeting invitation.";
-  var text = inviteeEmail + " declined your meeting invitation for \"" + title + "\"\n" +
-            "Perhaps another time! https://meetable-us.herokuapp.com/\n\n\n" +
-            "You are receiving this email because you tried to schedule a meeting with " + inviteeEmail +
-            " on Meetable, but they chose not to accept your invitation.";
-  Meteor.call("sendEmail", inviterEmail, "do-not-reply@becker.codes", subject, text);
-}
 
 // Update a tempUser of the given email with the given meetingId.
 // Create new tempUser if necessary
@@ -805,7 +785,9 @@ function checkMeetingReadyToFinalize(meetingId) {
   var thisMeeting = Meetings.findOne(meetingId);
   // Meeting may be deleted
   if (!thisMeeting) return false;
+
   var finalized = true;
+  var creatorEmail = "";
   // iterate through all meeting participants and check if all have accepted
   for (var i = 0; i < thisMeeting.participants.length; i++) {
     var currUser = thisMeeting.participants[i];
@@ -813,12 +795,16 @@ function checkMeetingReadyToFinalize(meetingId) {
       finalized = false;
       break;
     }
+    if (currUser.creator) creatorEmail = currUser.email;
   }
 
-  if (finalized) {
-    Meetings.update(meetingId, { // Now set the values again
+  if (finalized && !thisMeeting.readyToFinalize) {
+    Meetings.update(meetingId, {
       $set: { 'readyToFinalize': true }
     });
+
+    // If this is a group meeting, send an email to the creator to let them know its ready to finalize
+    if (thisMeeting.participants.length > 2) Meteor.call('sendReadyToFinalizeEmail', creatorEmail, thisMeeting.title);
   }
   return finalized;
 }
