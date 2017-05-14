@@ -6,6 +6,9 @@
 
 A lightweight, no-fuss meeting scheduler. Calendar importing saves you the work of cross referencing your calendar with everyone elses, or inputting it by hand.
 
+## May 14, 2017 (David)
+- Design and add favicon to site
+
 ## May 13, 2017 (Josh)
 - Move private API keys to settings.json
 - Finalize changed colors.
